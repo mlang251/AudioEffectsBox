@@ -8,6 +8,7 @@ Created on Sun Nov  6 16:50:53 2016
 #there are a lot of different python-osc modules...I used pyosc
 #https://github.com/ptone/pyosc
 #pip install pyosc
+#also, I'm using python2.7 ... don't try to run this with python3.5
 
 import OSC
 c = OSC.OSCClient()
