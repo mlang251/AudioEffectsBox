@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 20.0, 79.0, 858.0, 586.0 ],
+		"rect" : [ 34.0, 79.0, 858.0, 586.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,19 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-3",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 216.0, 9.5, 527.0, 33.0 ],
+					"style" : "",
+					"text" : "NOTE: to use osc-route you need to add the path to the externals. On the top menu, click on options -> file preferences and then add the path to the externals i uploaded to our git folder"
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-32",
 					"linecount" : 6,
