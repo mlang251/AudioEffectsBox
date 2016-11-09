@@ -17,11 +17,6 @@
 
 
 import os, sys, inspect
-src_dir = os.path.dirname(inspect.getfile(inspect.currentframe()))
-print src_dir
-lib_dir = os.path.abspath(os.path.join(src_dir, '../Leap_Motion_SDK_Windows_2.3.1\LeapDeveloperKit_2.3.1+31549_win\LeapSDK\lib'))
-print lib_dir
-sys.path.insert(0, lib_dir)
 import Leap
 
 def main():
