@@ -6,17 +6,21 @@
 
 
 
-
-
-
 from sys import version_info
-if version_info >= (2, 6, 0):
+if version_info >= (2, 6, 0):    
     def swig_import_helper():
         from os.path import dirname
-        import imp, os
+        import imp, sys, os
         fp = None
+        folderName = None
+        
+        if sys.maxsize <= 2**32:
+            folderName = "x86"
+        else:
+            folderName = "x64"
+        
         try:
-            LeapPythonDir = os.path.join(dirname(__file__), "x86")
+            LeapPythonDir = os.path.join(dirname(__file__), folderName)
             fp, pathname, description = imp.find_module('LeapPython', [LeapPythonDir])
         except ImportError:
             import LeapPython
