@@ -20,8 +20,16 @@ class SampleListener(Leap.Listener):
 
 
     def on_frame(self, controller):
-        print "Frame available"
-        
+        frame = controller.frame()
+        #print frame.current_frames_per_second
+                
+        if not frame.hands.is_empty:                # Only run this if there is a hand present
+            hand = frame.hands[0]                   # Track the first hand available
+            palmPosition = hand.palm_position       # Get center of palm coordinates
+            pinchStrength = hand.pinch_strength     # pinchStrength is a number ranging from 0 - 1
+    
+            if pinchStrength > 0.5:
+                print str(int(palmPosition.x)) + " " + str(int(palmPosition.y)) + " " + str(int(palmPosition.z)) 
 
 def main():
     # Create a sample listener and controller
