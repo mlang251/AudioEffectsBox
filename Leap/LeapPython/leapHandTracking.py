@@ -34,6 +34,7 @@ class SampleListener(Leap.Listener):
             palmPosition = hand.palm_position       # Get center of palm coordinates
             pinchStrength = hand.pinch_strength     # pinchStrength is a number ranging from 0 - 1
     
+            # If user is pinching, print the xyz coordinates and output them with an OSC socket
             if pinchStrength > 0.5:
                 print str(int(palmPosition.x)) + " " + str(int(palmPosition.y)) + " " + str(int(palmPosition.z)) 
                 
