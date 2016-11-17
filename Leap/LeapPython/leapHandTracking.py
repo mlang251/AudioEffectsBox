@@ -1,18 +1,20 @@
 # ___How to make this file work___ #
 
-# Install the Leap sofware
-# pip install pyosc
+# Download the Leap SDK at https://developer.leapmotion.com/v2
+# Install the Leap sofware (the installer can be found in the unzipped SDK folder)
+# Use pip and run pip install pyosc from the command line (if you don't know how to do this scream "HELP!")
 # Use with Python 2.7 ONLY!!!
-# Make sure in the directory where this file is located, you have the following:
-#        Leap.py
-#        Leap.pyc (the compiled Python file)
-#        \x86 folder with Leap library files
-#        \x64 folder with Leap library files
+# In the unzipped Leap SDK copy the entire 'lib' folder, paste it in the same directory as this script (leapHandTracking.py)
 
 
 
-import sys, Leap
-import OSC
+import os, sys, inspect
+src_dir = os.path.abspath(os.path.dirname(inspect.getfile(inspect.currentframe())))
+arch_dir = 'lib\\x64' if sys.maxsize > 2**32 else 'lib\\x86'
+sys.path.insert(0, os.path.join(src_dir, 'lib'))
+sys.path.insert(0, os.path.join(src_dir, arch_dir))
+
+import Leap, OSC
 c = OSC.OSCClient()
 c.connect(('127.0.0.1', 57120)) 
 
