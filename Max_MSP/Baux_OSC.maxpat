@@ -38,6 +38,23 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"bgcolor" : [ 0.322969, 0.31519, 0.325025, 0.0 ],
+					"bubble" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-6",
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 905.399963, 508.566711, 259.0, 25.0 ],
+					"style" : "",
+					"text" : "7. TURN ON & BE AMAZED (hopefully)",
+					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"bubble" : 1,
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
@@ -46,9 +63,9 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1366.000122, 7.033333, 207.333252, 54.0 ],
+					"patching_rect" : [ 1366.000122, 7.033333, 212.0, 54.0 ],
 					"style" : "",
-					"text" : "6. DRAG AUDIO FILES FROM GITHUB TO HERE. THEN PLAY A TRACK",
+					"text" : "6. DRAG AUDIO FILES FROM GITHUB DIRECTLY TO HERE. THEN PLAY A TRACK",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
 				}
 
@@ -63,7 +80,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 347.400024, 108.20002, 348.0, 54.0 ],
+					"patching_rect" : [ 347.400024, 97.033325, 348.0, 54.0 ],
 					"style" : "",
 					"text" : "2. SET NMAX VALUE (example 200, the z coordinate should be close to this value, this will raise the gain aka you will hear the effect) ",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
@@ -76,13 +93,13 @@
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
 					"id" : "obj-87",
-					"linecount" : 3,
+					"linecount" : 4,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 365.400024, 43.999992, 297.0, 54.0 ],
+					"patching_rect" : [ 359.400024, 5.699999, 352.0, 69.0 ],
 					"style" : "",
-					"text" : "1. TO USE OSC ROUTE: go to options -> file preferences -> add the path to OSC externals in the github folder",
+					"text" : "1. TO USE OSC ROUTE: go to options -> file preferences -> add the path to OSC externals in the github folder (you only need to do this once. not every time you open max)",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
 				}
 
