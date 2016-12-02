@@ -1,22 +1,6 @@
 """
-___How to make this file work___ 
-
--Use pip and run pip install pyosc from the command line (if you don't know how to do this scream "HELP!")
--Use with Python 2.7 ONLY!!!
-
-On Mac:
-- install homebrew (just google install homebrew)
-- run brew install python (for staying up to date with packages, like python, brew is the way to go)
-- make sure /usr/local/bin is first in $PATH 
-- cd to lib/Mac/lib
-- run: (tells leap library to use homebrew python instead of system python) 
-
-install_name_tool -change /Library/Frameworks/Python.framework/Versions/2.7/Python \
-/usr/local/Cellar/python/2.7.12_2/Frameworks/Python.framework/Versions/2.7/lib/libpython2.7.dylib \
-LeapPython.so
-
-- Refer to bottom of https://developer.leapmotion.com/documentation/python/devguide/Project_Setup.html 
-  if not working. Check /usr/local/Cellary/python check the version to use in the above command (like 2.7.12_2 above)
+main.py will connect to a Leap motion and send hand coordinate 
+data over OSC to a remote server.
 """
 
 # Add platform specific Leap library to python path
@@ -31,16 +15,11 @@ elif sys.platform == "win32":
 else:
     print "Leap is not supported on this platform."
 
-# Import Leap library, osc and leap listener class
+# Import Leap library and activity listener 
 import Leap
-import OSC  
 from ActivityListener import ActivityListener
 
 def main():
-    # Create OSC connection
-    c = OSC.OSCClient()
-    c.connect(('127.0.0.1', 57120)) 
-
     # Create listener and controller objects
     listener = ActivityListener()
     controller = Leap.Controller()
