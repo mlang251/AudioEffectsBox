@@ -1,0 +1,13 @@
+I downloaded the external OSC files (which is the core of using it) at:
+https://github.com/CNMAT/CNMAT-odot/releases/tag/v1.0.9rc9-mmjss2015
+
+Then, the tutorials were downloaded from here:
+http://cnmat.berkeley.edu/patch/4029
+
+^^This includes lessons plans and TONS of examples of how to use OSC
+
+
+Finally, here is a good site that explains the fundamentals of OSC:
+http://music.arts.uci.edu/dobrian/Music215W11/examples.htm
+
+
