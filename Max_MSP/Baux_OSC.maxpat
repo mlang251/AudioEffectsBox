@@ -124,39 +124,6 @@
 			}
 , 			{
 				"box" : 				{
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-75",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1504.000244, 98.199982, 192.666504, 25.0 ],
-					"style" : "",
-					"text" : "5. SET THIS TO RAW",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgcolor" : [ 0.322969, 0.31519, 0.325025, 0.0 ],
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-62",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1313.000244, 339.133423, 192.666504, 25.0 ],
-					"style" : "",
-					"text" : "4. SET THIS TO FILTERED",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-126",
 					"maxclass" : "message",
 					"numinlets" : 2,
@@ -416,6 +383,7 @@
 			}
 , 			{
 				"box" : 				{
+<<<<<<< Updated upstream
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
 					"id" : "obj-37",
@@ -431,6 +399,8 @@
 			}
 , 			{
 				"box" : 				{
+=======
+>>>>>>> Stashed changes
 					"id" : "obj-39",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
@@ -716,8 +686,8 @@
 					"id" : "obj-72",
 					"maxclass" : "newobj",
 					"numinlets" : 6,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
+					"numoutlets" : 4,
+					"outlettype" : [ "signal", "signal", "signal", "signal" ],
 					"patching_rect" : [ 1384.666748, 300.733337, 121.0, 22.0 ],
 					"style" : "",
 					"text" : "rev3~ 100 85 3000 5"
@@ -1185,6 +1155,7 @@
 								"filekind" : "audiofile",
 								"loop" : 0,
 								"content_state" : 								{
+<<<<<<< Updated upstream
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
@@ -1200,6 +1171,23 @@
 									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
 									"originaltempo" : [ 120.0 ]
+=======
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+>>>>>>> Stashed changes
 								}
 
 							}
@@ -1208,6 +1196,7 @@
 								"filekind" : "audiofile",
 								"loop" : 0,
 								"content_state" : 								{
+<<<<<<< Updated upstream
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
@@ -1223,6 +1212,23 @@
 									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
 									"originaltempo" : [ 120.0 ]
+=======
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+>>>>>>> Stashed changes
 								}
 
 							}
@@ -1232,6 +1238,7 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+<<<<<<< Updated upstream
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
@@ -1247,6 +1254,23 @@
 									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
 									"originaltempo" : [ 120.0 ]
+=======
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+>>>>>>> Stashed changes
 								}
 
 							}
@@ -1256,6 +1280,7 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+<<<<<<< Updated upstream
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
@@ -1271,6 +1296,23 @@
 									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
 									"originaltempo" : [ 120.0 ]
+=======
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+>>>>>>> Stashed changes
 								}
 
 							}
@@ -2210,6 +2252,7 @@
 					"destination" : [ "obj-39", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+<<<<<<< Updated upstream
 					"source" : [ "obj-37", 0 ]
 				}
 
@@ -2229,6 +2272,9 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-37", 0 ]
+=======
+					"source" : [ "obj-38", 0 ]
+>>>>>>> Stashed changes
 				}
 
 			}
@@ -2306,7 +2352,20 @@
 			}
 , 			{
 				"patchline" : 				{
+<<<<<<< Updated upstream
 					"destination" : [ "obj-37", 0 ],
+=======
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-44", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-39", 0 ],
+>>>>>>> Stashed changes
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-45", 0 ]
@@ -2800,6 +2859,12 @@
 , 			{
 				"name" : "OSC-route.mxo",
 				"type" : "iLaX"
+			}
+, 			{
+				"name" : "rev3~.maxpat",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP",
+				"type" : "JSON",
+				"implicit" : 1
 			}
  ],
 		"autosave" : 0
