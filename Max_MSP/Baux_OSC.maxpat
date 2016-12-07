@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 3,
-			"revision" : 0,
-			"architecture" : "x86",
+			"minor" : 2,
+			"revision" : 3,
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ -52.0, 85.0, 981.0, 617.0 ],
+		"rect" : [ 34.0, 77.0, 1468.0, 713.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,15 +38,53 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-87",
+					"maxclass" : "ezadc~",
+					"numinlets" : 1,
+					"numoutlets" : 2,
+					"outlettype" : [ "signal", "signal" ],
+					"patching_rect" : [ 1100.670044, 459.329987, 45.0, 45.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-75",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 186.599945, 281.333344, 41.0, 22.0 ],
+					"style" : "",
+					"text" : "+ 300"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-62",
+					"maxclass" : "newobj",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "int" ],
+					"patching_rect" : [ 127.433311, 285.033325, 41.0, 22.0 ],
+					"style" : "",
+					"text" : "+ 300"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"id" : "obj-37",
-					"linecount" : 5,
+					"linecount" : 2,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 261.0, 195.866669, 50.0, 76.0 ],
+					"patching_rect" : [ 261.0, 195.866669, 80.833344, 36.0 ],
 					"style" : "",
-					"text" : "/Coordinates 133 179 170"
+					"text" : "/Coordinates -44 201 -46"
 				}
 
 			}
@@ -60,7 +98,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1384.666748, 10.033333, 212.0, 54.0 ],
+					"patching_rect" : [ 1384.666748, 10.033333, 212.0, 55.0 ],
 					"style" : "",
 					"text" : "6. DRAG AUDIO FILES FROM GITHUB DIRECTLY TO HERE. THEN PLAY A TRACK",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
@@ -184,7 +222,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 347.400024, 97.033325, 348.0, 54.0 ],
+					"patching_rect" : [ 347.400024, 97.033325, 348.0, 55.0 ],
 					"style" : "",
 					"text" : "2. SET NMAX VALUE (example 200, the z coordinate should be close to this value, this will raise the gain aka you will hear the effect) ",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
@@ -200,7 +238,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 203.299973, 316.066681, 56.333336, 22.0 ],
 					"style" : "",
-					"text" : "195"
+					"text" : "550"
 				}
 
 			}
@@ -213,7 +251,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 146.666672, 316.066681, 55.5, 22.0 ],
 					"style" : "",
-					"text" : "133."
+					"text" : "402"
 				}
 
 			}
@@ -226,7 +264,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.666656, 316.066681, 55.266651, 22.0 ],
 					"style" : "",
-					"text" : "0."
+					"text" : "360"
 				}
 
 			}
@@ -427,11 +465,11 @@
 					"id" : "obj-39",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 3,
-					"outlettype" : [ "float", "float", "float" ],
+					"numoutlets" : 4,
+					"outlettype" : [ "int", "int", "int", "int" ],
 					"patching_rect" : [ 82.633301, 137.0, 89.0, 22.0 ],
 					"style" : "",
-					"text" : "unpack 0. 0. 0."
+					"text" : "unpack 0 0 0 0"
 				}
 
 			}
@@ -457,7 +495,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 292.833344, 13.199999, 61.0, 54.0 ],
+					"patching_rect" : [ 292.833344, 13.199999, 61.0, 62.0 ],
 					"style" : "",
 					"text" : "Set\nmax coord value"
 				}
@@ -472,7 +510,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1577.333374, 21.533325, 85.0, 66.0 ],
+					"patching_rect" : [ 1577.333374, 21.533325, 85.0, 75.0 ],
 					"style" : "",
 					"text" : "Slider for Reverb Level (Still Experimenting)"
 				}
@@ -861,7 +899,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 300.400024, 126.0, 42.0 ],
+					"patching_rect" : [ 399.399994, 300.400024, 126.0, 48.0 ],
 					"style" : "",
 					"text" : "Int 8 added to 0-127 input for 20kHz range)"
 				}
@@ -888,7 +926,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 251.733307, 126.0, 42.0 ],
+					"patching_rect" : [ 399.399994, 251.733307, 127.0, 48.0 ],
 					"style" : "",
 					"text" : "MTOF smoothly scales int to midi note freqs."
 				}
@@ -1024,7 +1062,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 395.866669, 94.0, 54.0 ],
+					"patching_rect" : [ 399.399994, 395.866669, 82.0, 62.0 ],
 					"style" : "",
 					"text" : "sorting. fixing, and packing 3db freqs"
 				}
@@ -1171,7 +1209,7 @@
 			}
 , 			{
 				"box" : 				{
-					"clipheight" : 33.499996,
+					"clipheight" : 26.599997,
 					"data" : 					{
 						"clips" : [ 							{
 								"filename" : "C:\\Users\\Jack\\Documents\\AudioEffectsBox\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Throne - BMTH.mp3",
@@ -1179,44 +1217,69 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+									"originallength" : [ 0.0, "ticks" ],
 									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"formantcorrection" : [ 0 ],
 									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
+									"originaltempo" : [ 120.0 ],
+									"quality" : [ "basic" ],
+									"pitchcorrection" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"speed" : [ 1.0 ],
-									"originaltempo" : [ 120.0 ],
-									"play" : [ 0 ],
-									"mode" : [ "basic" ],
-									"pitchcorrection" : [ 0 ],
+									"play" : [ 0 ]
+								}
+
+							}
+, 							{
+								"filename" : "C:\\Users\\mlang\\Documents\\capstone\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Robot Rock - Daft Punk.mp3",
+								"filekind" : "audiofile",
+								"selection" : [ 0.0, 1.0 ],
+								"loop" : 0,
+								"content_state" : 								{
 									"originallength" : [ 0.0, "ticks" ],
-									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
 									"timestretch" : [ 0 ],
-									"originallengthms" : [ 0.0 ]
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"originaltempo" : [ 120.0 ],
+									"quality" : [ "basic" ],
+									"pitchcorrection" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"speed" : [ 1.0 ],
+									"play" : [ 0 ]
 								}
 
 							}
 , 							{
 								"filename" : "/Users/vsuha/Desktop/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks/Robot Rock - Daft Punk.mp3",
 								"filekind" : "audiofile",
+								"selection" : [ 0.0, 1.0 ],
 								"loop" : 1,
 								"content_state" : 								{
+									"originallength" : [ 0.0, "ticks" ],
 									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"formantcorrection" : [ 0 ],
 									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
+									"originaltempo" : [ 120.0 ],
+									"quality" : [ "basic" ],
+									"pitchcorrection" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"speed" : [ 1.0 ],
-									"originaltempo" : [ 120.0 ],
-									"play" : [ 0 ],
-									"mode" : [ "basic" ],
-									"pitchcorrection" : [ 0 ],
-									"originallength" : [ 0.0, "ticks" ],
-									"quality" : [ "basic" ],
-									"timestretch" : [ 0 ],
-									"originallengthms" : [ 0.0 ]
+									"play" : [ 0 ]
 								}
 
 							}
@@ -1226,21 +1289,21 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+									"originallength" : [ 0.0, "ticks" ],
 									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"formantcorrection" : [ 0 ],
 									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
+									"originaltempo" : [ 120.0 ],
+									"quality" : [ "basic" ],
+									"pitchcorrection" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"speed" : [ 1.0 ],
-									"originaltempo" : [ 120.0 ],
-									"play" : [ 0 ],
-									"mode" : [ "basic" ],
-									"pitchcorrection" : [ 0 ],
-									"originallength" : [ 0.0, "ticks" ],
-									"quality" : [ "basic" ],
-									"timestretch" : [ 0 ],
-									"originallengthms" : [ 0.0 ]
+									"play" : [ 0 ]
 								}
 
 							}
@@ -1250,21 +1313,21 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+									"originallength" : [ 0.0, "ticks" ],
 									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"formantcorrection" : [ 0 ],
 									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
+									"originaltempo" : [ 120.0 ],
+									"quality" : [ "basic" ],
+									"pitchcorrection" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"speed" : [ 1.0 ],
-									"originaltempo" : [ 120.0 ],
-									"play" : [ 0 ],
-									"mode" : [ "basic" ],
-									"pitchcorrection" : [ 0 ],
-									"originallength" : [ 0.0, "ticks" ],
-									"quality" : [ "basic" ],
-									"timestretch" : [ 0 ],
-									"originallengthms" : [ 0.0 ]
+									"play" : [ 0 ]
 								}
 
 							}
@@ -1318,7 +1381,7 @@
 					"maxclass" : "ezdac~",
 					"numinlets" : 2,
 					"numoutlets" : 0,
-					"patching_rect" : [ 857.399963, 499.066711, 44.0, 44.0 ],
+					"patching_rect" : [ 857.399963, 502.066711, 44.0, 44.0 ],
 					"prototypename" : "helpfile",
 					"style" : ""
 				}
@@ -1361,7 +1424,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 748.200012, 22.533333, 99.0, 30.0 ],
+					"patching_rect" : [ 748.200012, 22.533333, 99.0, 34.0 ],
 					"style" : "",
 					"text" : "Implementing filter"
 				}
@@ -1546,7 +1609,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 386.399994, 642.999939, 103.0, 30.0 ],
+					"patching_rect" : [ 386.399994, 642.999939, 103.0, 34.0 ],
 					"style" : "",
 					"text" : "z maps to midband gain"
 				}
@@ -1561,7 +1624,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 201.200027, 87.0, 42.0 ],
+					"patching_rect" : [ 399.399994, 201.200027, 87.0, 48.0 ],
 					"style" : "",
 					"text" : "y maps to Higher 3db frequency."
 				}
@@ -1576,7 +1639,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 164.866669, 126.0, 30.0 ],
+					"patching_rect" : [ 399.399994, 164.866669, 126.0, 34.0 ],
 					"style" : "",
 					"text" : "x maps to lower 3db frequency."
 				}
@@ -1704,9 +1767,9 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 136.133301, 614.666626, 99.666664, 22.0 ],
+					"patching_rect" : [ 136.133301, 614.666626, 109.666664, 22.0 ],
 					"style" : "",
-					"text" : "0. 0.665 0.975"
+					"text" : "1.8 0. 0."
 				}
 
 			}
@@ -1732,7 +1795,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 249.733307, 99.0, 54.0 ],
+					"patching_rect" : [ 18.333324, 249.733307, 99.0, 62.0 ],
 					"style" : "",
 					"text" : "Packing & Sending Normalized Coord Array"
 				}
@@ -1747,7 +1810,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 22.833324, 579.333313, 90.0, 78.0 ],
+					"patching_rect" : [ 22.833324, 579.333313, 72.0, 89.0 ],
 					"style" : "",
 					"text" : "Scaling normalized values to 128 levels of resolution"
 				}
@@ -1762,7 +1825,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 168.866669, 67.666664, 42.0 ],
+					"patching_rect" : [ 18.333324, 168.866669, 67.666664, 48.0 ],
 					"style" : "",
 					"text" : "RAw 3d position Values"
 				}
@@ -1828,7 +1891,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 26.533333, 51.0, 30.0 ],
+					"patching_rect" : [ 18.333324, 26.533333, 51.0, 34.0 ],
 					"style" : "",
 					"text" : "OSC Feed"
 				}
@@ -2213,7 +2276,7 @@
 					"destination" : [ "obj-2", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-39", 0 ]
+					"source" : [ "obj-39", 1 ]
 				}
 
 			}
@@ -2222,7 +2285,7 @@
 					"destination" : [ "obj-3", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-39", 1 ]
+					"source" : [ "obj-39", 2 ]
 				}
 
 			}
@@ -2231,7 +2294,7 @@
 					"destination" : [ "obj-5", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-39", 2 ]
+					"source" : [ "obj-39", 3 ]
 				}
 
 			}
@@ -2408,7 +2471,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-119", 1 ],
+					"destination" : [ "obj-75", 1 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-57", 0 ]
@@ -2417,7 +2480,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-119", 0 ],
+					"destination" : [ "obj-75", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-57", 0 ]
@@ -2457,6 +2520,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-61", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-90", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-62", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-90", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-62", 0 ]
 				}
 
 			}
@@ -2547,6 +2628,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-74", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-119", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-75", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-119", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-75", 0 ]
 				}
 
 			}
@@ -2678,7 +2777,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-90", 1 ],
+					"destination" : [ "obj-62", 1 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-9", 0 ]
@@ -2687,7 +2786,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-90", 0 ],
+					"destination" : [ "obj-62", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-9", 0 ]
@@ -2805,13 +2904,13 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "Robot Rock - Daft Punk.mp3",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
+				"bootpath" : "~/capstone/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
 				"type" : "Mp3 ",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "rev3~.maxpat",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
+				"bootpath" : "~/capstone/AudioEffectsBox/Max_MSP",
 				"type" : "JSON",
 				"implicit" : 1
 			}
