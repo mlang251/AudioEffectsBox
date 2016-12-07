@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 0,
-			"architecture" : "x86",
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 79.0, 895.0, 683.0 ],
+		"rect" : [ 42.0, 85.0, 1298.0, 617.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -38,6 +38,125 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-37",
+					"maxclass" : "message",
+					"numinlets" : 2,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 261.0, 195.866669, 50.0, 22.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bubble" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-110",
+					"linecount" : 3,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1384.666748, 10.033333, 212.0, 55.0 ],
+					"style" : "",
+					"text" : "6. DRAG AUDIO FILES FROM GITHUB DIRECTLY TO HERE. THEN PLAY A TRACK",
+					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-77",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1212.666748, 289.200043, 38.0, 22.0 ],
+					"style" : "",
+					"text" : "r kick"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-61",
+					"maxclass" : "newobj",
+					"numinlets" : 0,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1391.0, 44.366669, 38.0, 22.0 ],
+					"style" : "",
+					"text" : "r kick"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-59",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 1329.0, 431.333282, 40.0, 22.0 ],
+					"style" : "",
+					"text" : "s kick"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-7",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 1329.0, 403.866669, 72.0, 22.0 ],
+					"style" : "",
+					"text" : "loadmess 1"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-44",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 753.449951, 88.533333, 117.0, 22.0 ],
+					"style" : "",
+					"text" : "loadmess bandpass"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-38",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 127.433311, 97.033325, 125.0, 22.0 ],
+					"style" : "",
+					"text" : "loadmess 60 180 195"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-8",
+					"maxclass" : "newobj",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "" ],
+					"patching_rect" : [ 203.299973, 26.533333, 85.0, 22.0 ],
+					"style" : "",
+					"text" : "loadmess 200"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"bgcolor" : [ 0.322969, 0.31519, 0.325025, 0.0 ],
 					"bubble" : 1,
 					"fontname" : "Arial",
@@ -58,99 +177,14 @@
 					"bubble" : 1,
 					"fontname" : "Arial",
 					"fontsize" : 13.0,
-					"id" : "obj-110",
-					"linecount" : 3,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1366.000122, 7.033333, 212.0, 54.0 ],
-					"style" : "",
-					"text" : "6. DRAG AUDIO FILES FROM GITHUB DIRECTLY TO HERE. THEN PLAY A TRACK",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
 					"id" : "obj-93",
 					"linecount" : 3,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 347.400024, 97.033325, 348.0, 54.0 ],
+					"patching_rect" : [ 347.400024, 97.033325, 348.0, 55.0 ],
 					"style" : "",
 					"text" : "2. SET NMAX VALUE (example 200, the z coordinate should be close to this value, this will raise the gain aka you will hear the effect) ",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-87",
-					"linecount" : 4,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 359.400024, 5.699999, 352.0, 69.0 ],
-					"style" : "",
-					"text" : "1. TO USE OSC ROUTE: go to options -> file preferences -> add the path to OSC externals in the github folder (you only need to do this once. not every time you open max)",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgcolor" : [ 0.87451, 0.886275, 0.690196, 0.0 ],
-					"bubble" : 1,
-					"bubbleside" : 0,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-77",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 966.899963, 146.866669, 192.666504, 40.0 ],
-					"style" : "",
-					"text" : "3. SET THIS TO BANDPASS",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-75",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1504.000244, 98.199982, 192.666504, 25.0 ],
-					"style" : "",
-					"text" : "5. SET THIS TO RAW",
-					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"bgcolor" : [ 0.322969, 0.31519, 0.325025, 0.0 ],
-					"bubble" : 1,
-					"fontname" : "Arial",
-					"fontsize" : 13.0,
-					"id" : "obj-62",
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 1313.000244, 339.133423, 192.666504, 25.0 ],
-					"style" : "",
-					"text" : "4. SET THIS TO FILTERED",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
 				}
 
@@ -190,35 +224,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.666656, 316.066681, 55.266651, 22.0 ],
 					"style" : "",
-					"text" : "66."
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-7",
-					"maxclass" : "message",
-					"numinlets" : 2,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 146.666672, 105.333344, 114.0, 22.0 ],
-					"style" : "",
-					"text" : "66 180 195"
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"fontface" : 0,
-					"fontname" : "ADAM.CG PRO",
-					"id" : "obj-111",
-					"linecount" : 7,
-					"maxclass" : "comment",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 748.200012, 63.866657, 99.0, 90.0 ],
-					"style" : "",
-					"text" : "ImpORTANT: Set response to bandpass. I'll figure out how to initialize it to that soon"
+					"text" : "60."
 				}
 
 			}
@@ -416,27 +422,12 @@
 			}
 , 			{
 				"box" : 				{
-					"fontname" : "Arial",
-					"fontsize" : 12.0,
-					"id" : "obj-37",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 2,
-					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 99.333328, 66.333328, 132.0, 22.0 ],
-					"style" : "",
-					"text" : "osc-route /Coordinates"
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"id" : "obj-39",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 3,
 					"outlettype" : [ "float", "float", "float" ],
-					"patching_rect" : [ 99.333328, 139.666672, 89.0, 22.0 ],
+					"patching_rect" : [ 82.633301, 137.0, 89.0, 22.0 ],
 					"style" : "",
 					"text" : "unpack 0. 0. 0."
 				}
@@ -449,7 +440,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 99.333328, 29.199999, 106.0, 22.0 ],
+					"patching_rect" : [ 82.633301, 26.533333, 106.0, 22.0 ],
 					"style" : "",
 					"text" : "udpreceive 57120"
 				}
@@ -718,7 +709,7 @@
 					"numinlets" : 6,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 1384.666748, 300.733337, 121.0, 22.0 ],
+					"patching_rect" : [ 1384.666748, 300.400024, 121.0, 22.0 ],
 					"style" : "",
 					"text" : "rev3~ 100 85 3000 5"
 				}
@@ -1003,7 +994,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 899.399902, 54.066673, 77.099937, 22.0 ],
+					"patching_rect" : [ 753.449951, 59.066673, 77.099937, 22.0 ],
 					"style" : "",
 					"text" : "r 3dbfreqs"
 				}
@@ -1155,7 +1146,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 877.399963, 22.533333, 230.0, 23.0 ],
+					"patching_rect" : [ 877.399963, 63.666664, 230.0, 23.0 ],
 					"style" : ""
 				}
 
@@ -1181,96 +1172,98 @@
 					"clipheight" : 33.499996,
 					"data" : 					{
 						"clips" : [ 							{
-								"filename" : "C:\\Users\\Jack\\Documents\\Max 7\\Projects\\Throne - BMTH.mp3",
-								"filekind" : "audiofile",
-								"loop" : 0,
-								"content_state" : 								{
-									"formantcorrection" : [ 0 ],
-									"formant" : [ 1.0 ],
-									"play" : [ 0 ],
-									"quality" : [ "basic" ],
-									"followglobaltempo" : [ 0 ],
-									"timestretch" : [ 0 ],
-									"speed" : [ 1.0 ],
-									"pitchcorrection" : [ 0 ],
-									"originallengthms" : [ 0.0 ],
-									"mode" : [ "basic" ],
-									"originallength" : [ 0.0, "ticks" ],
-									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"slurtime" : [ 0.0 ],
-									"originaltempo" : [ 120.0 ]
-								}
-
-							}
-, 							{
-								"filename" : "/Users/vsuha/Desktop/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks/Robot Rock - Daft Punk.mp3",
-								"filekind" : "audiofile",
-								"loop" : 0,
-								"content_state" : 								{
-									"formantcorrection" : [ 0 ],
-									"formant" : [ 1.0 ],
-									"play" : [ 0 ],
-									"quality" : [ "basic" ],
-									"followglobaltempo" : [ 0 ],
-									"timestretch" : [ 0 ],
-									"speed" : [ 1.0 ],
-									"pitchcorrection" : [ 0 ],
-									"originallengthms" : [ 0.0 ],
-									"mode" : [ "basic" ],
-									"originallength" : [ 0.0, "ticks" ],
-									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"slurtime" : [ 0.0 ],
-									"originaltempo" : [ 120.0 ]
-								}
-
-							}
-, 							{
-								"filename" : "C:\\Users\\Jack\\Documents\\Max 7\\Projects\\Clean - Big Data.mp3",
+								"filename" : "C:\\Users\\Jack\\Documents\\AudioEffectsBox\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Throne - BMTH.mp3",
 								"filekind" : "audiofile",
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
-									"quality" : [ "basic" ],
-									"followglobaltempo" : [ 0 ],
-									"timestretch" : [ 0 ],
-									"speed" : [ 1.0 ],
-									"pitchcorrection" : [ 0 ],
-									"originallengthms" : [ 0.0 ],
 									"mode" : [ "basic" ],
-									"originallength" : [ 0.0, "ticks" ],
-									"basictuning" : [ 440 ],
-									"pitchshift" : [ 1.0 ],
-									"slurtime" : [ 0.0 ],
-									"originaltempo" : [ 120.0 ]
+									"originallength" : [ 0.0, "ticks" ]
 								}
 
 							}
 , 							{
-								"filename" : "C:\\Users\\Jack\\Documents\\Max 7\\Projects\\Danger Wildman - TDWP.mp3",
+								"filename" : "C:\\Users\\Jack\\Documents\\AudioEffectsBox\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Robot Rock - Daft Punk.mp3",
 								"filekind" : "audiofile",
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 0,
 								"content_state" : 								{
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
 									"formantcorrection" : [ 0 ],
 									"formant" : [ 1.0 ],
 									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+								}
+
+							}
+, 							{
+								"filename" : "C:\\Users\\Jack\\Documents\\AudioEffectsBox\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Clean - Big Data.mp3",
+								"filekind" : "audiofile",
+								"selection" : [ 0.0, 1.0 ],
+								"loop" : 0,
+								"content_state" : 								{
 									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
 									"followglobaltempo" : [ 0 ],
 									"timestretch" : [ 0 ],
-									"speed" : [ 1.0 ],
-									"pitchcorrection" : [ 0 ],
-									"originallengthms" : [ 0.0 ],
-									"mode" : [ "basic" ],
-									"originallength" : [ 0.0, "ticks" ],
-									"basictuning" : [ 440 ],
 									"pitchshift" : [ 1.0 ],
 									"slurtime" : [ 0.0 ],
-									"originaltempo" : [ 120.0 ]
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
+								}
+
+							}
+, 							{
+								"filename" : "C:\\Users\\Jack\\Documents\\AudioEffectsBox\\AudioEffectsBox\\Max_MSP\\baux3dbFreqs\\tracks\\Danger Wildman - TDWP.mp3",
+								"filekind" : "audiofile",
+								"selection" : [ 0.0, 1.0 ],
+								"loop" : 0,
+								"content_state" : 								{
+									"quality" : [ "basic" ],
+									"basictuning" : [ 440 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
+									"pitchshift" : [ 1.0 ],
+									"slurtime" : [ 0.0 ],
+									"speed" : [ 1.0 ],
+									"originaltempo" : [ 120.0 ],
+									"pitchcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"formantcorrection" : [ 0 ],
+									"formant" : [ 1.0 ],
+									"play" : [ 0 ],
+									"mode" : [ "basic" ],
+									"originallength" : [ 0.0, "ticks" ]
 								}
 
 							}
@@ -1385,7 +1378,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 877.399963, 87.533333, 231.0, 23.0 ],
+					"patching_rect" : [ 877.399963, 87.533333, 230.0, 23.0 ],
 					"style" : ""
 				}
 
@@ -1712,7 +1705,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 136.133301, 614.666626, 99.666664, 22.0 ],
 					"style" : "",
-					"text" : "0.33 0.9 0.975"
+					"text" : "0.3 0.9 0.975"
 				}
 
 			}
@@ -1859,7 +1852,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 203.299973, 178.866669, 24.0, 22.0 ],
+					"patching_rect" : [ 186.599945, 176.199997, 24.0, 22.0 ],
 					"style" : "",
 					"text" : "s z"
 				}
@@ -1871,7 +1864,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 164.633301, 178.866669, 24.0, 22.0 ],
+					"patching_rect" : [ 147.933273, 176.199997, 24.0, 22.0 ],
 					"style" : "",
 					"text" : "s y"
 				}
@@ -1883,7 +1876,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 127.433311, 178.866669, 24.0, 22.0 ],
+					"patching_rect" : [ 110.733284, 176.199997, 24.0, 22.0 ],
 					"style" : "",
 					"text" : "s x"
 				}
@@ -2210,25 +2203,7 @@
 					"destination" : [ "obj-39", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-37", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-7", 1 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-37", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-7", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-37", 0 ]
+					"source" : [ "obj-38", 0 ]
 				}
 
 			}
@@ -2306,7 +2281,34 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-1", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-44", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-37", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-45", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-37", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-45", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-39", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-45", 0 ]
@@ -2468,6 +2470,15 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-102", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-61", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-30", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2495,7 +2506,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-39", 0 ],
+					"destination" : [ "obj-59", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-7", 0 ]
@@ -2562,6 +2573,24 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-76", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-65", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-77", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-63", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-8", 0 ]
 				}
 
 			}
@@ -2792,14 +2821,28 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "Robot Rock - Daft Punk.mp3",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
+				"name" : "Throne - BMTH.mp3",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
 				"type" : "Mp3 ",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "OSC-route.mxo",
-				"type" : "iLaX"
+				"name" : "Robot Rock - Daft Punk.mp3",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
+				"type" : "Mp3 ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Clean - Big Data.mp3",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
+				"type" : "Mp3 ",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Danger Wildman - TDWP.mp3",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP/baux3dbFreqs/tracks",
+				"type" : "Mp3 ",
+				"implicit" : 1
 			}
  ],
 		"autosave" : 0
