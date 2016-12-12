@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 3,
+			"minor" : 3,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 77.0, 1468.0, 713.0 ],
+		"rect" : [ 42.0, 85.0, 1468.0, 713.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -199,14 +199,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-37",
-					"linecount" : 4,
+					"linecount" : 5,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 261.0, 195.866669, 51.0, 64.0 ],
+					"patching_rect" : [ 261.0, 195.866669, 51.0, 77.0 ],
 					"style" : "",
-					"text" : "/Coordinates 0.095 0. 0."
+					"text" : "/Coordinates 0.427 0. 0.876"
 				}
 
 			}
@@ -294,9 +294,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 203.299973, 26.533333, 85.0, 22.0 ],
+					"patching_rect" : [ 203.299973, 26.533333, 72.0, 22.0 ],
 					"style" : "",
-					"text" : "loadmess 200"
+					"text" : "loadmess 1"
 				}
 
 			}
@@ -369,7 +369,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.666656, 316.066681, 55.266651, 22.0 ],
 					"style" : "",
-					"text" : "0.095"
+					"text" : "0.427"
 				}
 
 			}
@@ -1737,7 +1737,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 136.133301, 614.666626, 99.666664, 22.0 ],
 					"style" : "",
-					"text" : "0.095 0. 1."
+					"text" : "0.427 0. 1."
 				}
 
 			}
@@ -2899,7 +2899,7 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "rev3~.maxpat",
-				"bootpath" : "~/capstone/AudioEffectsBox/Max_MSP",
+				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
 				"type" : "JSON",
 				"implicit" : 1
 			}
