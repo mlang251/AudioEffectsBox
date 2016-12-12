@@ -4,7 +4,7 @@ data over OSC to a remote server.
 """
 
 # Add platform specific Leap library to python path
-import sys, os, inspect
+import sys, os, inspect, time
 if sys.platform == "darwin":
     sys.path.insert(0, 'lib/Mac/lib')
 elif sys.platform == "win32":
@@ -28,6 +28,7 @@ def main():
     # You must have the Allow Background Apps setting checked in the Leap Settings 
     controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
     print "Requesting background frames"
+    time.sleep(1.0)
     if controller.is_policy_set(Leap.Controller.POLICY_BACKGROUND_FRAMES):
         print "Background frames policy in effect"
 
