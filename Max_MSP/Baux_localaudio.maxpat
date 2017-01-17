@@ -3,13 +3,13 @@
 		"fileversion" : 1,
 		"appversion" : 		{
 			"major" : 7,
-			"minor" : 2,
-			"revision" : 3,
-			"architecture" : "x64",
+			"minor" : 3,
+			"revision" : 0,
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 26.0, 85.0, 1468.0, 713.0 ],
+		"rect" : [ 34.0, 79.0, 1212.0, 683.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -43,7 +43,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1143.833496, 144.0, 43.0, 34.0 ],
+					"patching_rect" : [ 1143.833496, 144.0, 43.0, 33.0 ],
 					"style" : "",
 					"text" : "Open track"
 				}
@@ -56,7 +56,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1143.833496, 31.033333, 61.0, 34.0 ],
+					"patching_rect" : [ 1143.833496, 31.033333, 61.0, 33.0 ],
 					"style" : "",
 					"text" : "Press dis 4 jamz"
 				}
@@ -172,7 +172,7 @@
 						"followglobaltempo" : 0,
 						"formantcorrection" : 0,
 						"mode" : "basic",
-						"originallength" : [ 275050.57616, "ticks" ],
+						"originallength" : [ 275050.59375, "ticks" ],
 						"originaltempo" : 120.000008,
 						"pitchcorrection" : 0,
 						"quality" : "basic",
@@ -199,14 +199,14 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-37",
-					"linecount" : 5,
+					"linecount" : 4,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 261.0, 195.866669, 51.0, 77.0 ],
+					"patching_rect" : [ 261.0, 195.866669, 51.0, 62.0 ],
 					"style" : "",
-					"text" : "/Coordinates 0.427 0. 0.876"
+					"text" : "/Coordinates 0.111 0. 0.264"
 				}
 
 			}
@@ -314,7 +314,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 347.400024, 97.033325, 348.0, 55.0 ],
+					"patching_rect" : [ 347.400024, 97.033325, 348.0, 54.0 ],
 					"style" : "",
 					"text" : "2. SET NMAX VALUE (example 200, the z coordinate should be close to this value, this will raise the gain aka you will hear the effect) ",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
@@ -343,7 +343,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 146.666672, 316.066681, 55.5, 22.0 ],
 					"style" : "",
-					"text" : "195."
+					"text" : "0."
 				}
 
 			}
@@ -356,7 +356,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 90.666656, 316.066681, 55.266651, 22.0 ],
 					"style" : "",
-					"text" : "180."
+					"text" : "0.111"
 				}
 
 			}
@@ -587,7 +587,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 292.833344, 13.199999, 61.0, 62.0 ],
+					"patching_rect" : [ 292.833344, 13.199999, 61.0, 54.0 ],
 					"style" : "",
 					"text" : "Set\nmax coord value"
 				}
@@ -965,7 +965,7 @@
 					"patching_rect" : [ 1212.666748, 314.833344, 20.0, 89.0 ],
 					"size" : 3,
 					"style" : "",
-					"value" : 1
+					"value" : 0
 				}
 
 			}
@@ -991,7 +991,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 300.400024, 126.0, 48.0 ],
+					"patching_rect" : [ 399.399994, 300.400024, 126.0, 42.0 ],
 					"style" : "",
 					"text" : "Int 8 added to 0-127 input for 20kHz range)"
 				}
@@ -1018,7 +1018,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 251.733307, 127.0, 48.0 ],
+					"patching_rect" : [ 399.399994, 251.733307, 127.0, 42.0 ],
 					"style" : "",
 					"text" : "MTOF smoothly scales int to midi note freqs."
 				}
@@ -1154,7 +1154,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 395.866669, 82.0, 62.0 ],
+					"patching_rect" : [ 399.399994, 395.866669, 84.0, 54.0 ],
 					"style" : "",
 					"text" : "sorting. fixing, and packing 3db freqs"
 				}
@@ -1379,7 +1379,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 748.200012, 22.533333, 99.0, 34.0 ],
+					"patching_rect" : [ 748.200012, 22.533333, 99.0, 30.0 ],
 					"style" : "",
 					"text" : "Implementing filter"
 				}
@@ -1564,7 +1564,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 386.399994, 642.999939, 103.0, 34.0 ],
+					"patching_rect" : [ 386.399994, 642.999939, 103.0, 30.0 ],
 					"style" : "",
 					"text" : "z maps to midband gain"
 				}
@@ -1579,7 +1579,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 201.200027, 87.0, 48.0 ],
+					"patching_rect" : [ 399.399994, 201.200027, 87.0, 42.0 ],
 					"style" : "",
 					"text" : "y maps to Higher 3db frequency."
 				}
@@ -1594,7 +1594,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 399.399994, 164.866669, 126.0, 34.0 ],
+					"patching_rect" : [ 399.399994, 164.866669, 126.0, 30.0 ],
 					"style" : "",
 					"text" : "x maps to lower 3db frequency."
 				}
@@ -1724,7 +1724,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 136.133301, 614.666626, 99.666664, 22.0 ],
 					"style" : "",
-					"text" : "180. 195. 0."
+					"text" : "0.111 0. 1."
 				}
 
 			}
@@ -1750,7 +1750,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 249.733307, 99.0, 62.0 ],
+					"patching_rect" : [ 18.333324, 249.733307, 99.0, 54.0 ],
 					"style" : "",
 					"text" : "Packing & Sending Normalized Coord Array"
 				}
@@ -1765,7 +1765,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 22.833324, 579.333313, 72.0, 89.0 ],
+					"patching_rect" : [ 22.833324, 579.333313, 84.0, 78.0 ],
 					"style" : "",
 					"text" : "Scaling normalized values to 128 levels of resolution"
 				}
@@ -1780,7 +1780,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 168.866669, 67.666664, 48.0 ],
+					"patching_rect" : [ 18.333324, 168.866669, 67.666664, 42.0 ],
 					"style" : "",
 					"text" : "RAw 3d position Values"
 				}
@@ -1846,7 +1846,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 18.333324, 26.533333, 51.0, 34.0 ],
+					"patching_rect" : [ 18.333324, 26.533333, 51.0, 30.0 ],
 					"style" : "",
 					"text" : "OSC Feed"
 				}
@@ -2534,6 +2534,24 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-126", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-63", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-126", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-63", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-30", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -2877,7 +2895,7 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "rev3~.maxpat",
-				"bootpath" : "~/capstone/AudioEffectsBox/Max_MSP",
+				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
 				"type" : "JSON",
 				"implicit" : 1
 			}
