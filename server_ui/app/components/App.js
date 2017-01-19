@@ -29,7 +29,7 @@ class App extends React.Component {
 
     submitForm(e) {
         e.preventDefault();
-        //Send this.state.value to server
+        this.socket.emit('route', this.state.value);
         this.setState({value: ''});
     }
 
