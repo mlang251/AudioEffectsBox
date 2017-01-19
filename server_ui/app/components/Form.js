@@ -4,8 +4,9 @@ const Form = props => (
     <form onSubmit = {props.handleSubmit}>
     <label>Enter Routing
     <input type = "text"
-    placeholder = "eg 2 4 3 1"
-    onChange = {props.handleChange} /></label>
+           placeholder = "eg 2 4 3 1"
+           value = {props.value}
+           onChange = {props.handleChange} /></label>
     <button>Route</button>
     </form>
 );

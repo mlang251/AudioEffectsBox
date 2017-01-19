@@ -1,6 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
-import From from './Form';
+import Form from './Form';
 
 
 
@@ -35,7 +35,8 @@ class App extends React.Component {
 
     render() {
         return <Form handleSubmit = {this.submitForm}
-        handleChange = {this.handleInput} />;
+                     handleChange = {this.handleInput}
+                     value = {this.state.value} />;
     }
 }
 
