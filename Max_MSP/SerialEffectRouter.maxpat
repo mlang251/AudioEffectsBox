@@ -4,12 +4,12 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 3,
-			"revision" : 1,
+			"revision" : 0,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 77.0, 1468.0, 713.0 ],
+		"rect" : [ 34.0, 77.0, 1298.0, 617.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -1656,21 +1656,21 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 1,
 								"content_state" : 								{
-									"originallengthms" : [ 0.0 ],
 									"followglobaltempo" : [ 0 ],
-									"pitchshift" : [ 1.0 ],
-									"slurtime" : [ 0.0 ],
+									"timestretch" : [ 0 ],
 									"quality" : [ "basic" ],
-									"play" : [ 0 ],
-									"pitchcorrection" : [ 0 ],
-									"formantcorrection" : [ 0 ],
-									"originallength" : [ 0.0, "ticks" ],
-									"formant" : [ 1.0 ],
-									"basictuning" : [ 440 ],
-									"originaltempo" : [ 120.0 ],
-									"mode" : [ "basic" ],
 									"speed" : [ 1.0 ],
-									"timestretch" : [ 0 ]
+									"originaltempo" : [ 120.0 ],
+									"formant" : [ 1.0 ],
+									"formantcorrection" : [ 0 ],
+									"originallengthms" : [ 0.0 ],
+									"basictuning" : [ 440 ],
+									"pitchcorrection" : [ 0 ],
+									"slurtime" : [ 0.0 ],
+									"mode" : [ "basic" ],
+									"pitchshift" : [ 1.0 ],
+									"play" : [ 0 ],
+									"originallength" : [ 0.0, "ticks" ]
 								}
 
 							}
@@ -3185,17 +3185,17 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-116" : [ "live.gain~[4]", "live.gain~", 0 ],
-			"obj-130" : [ "live.gain~[5]", "live.gain~", 0 ],
-			"obj-60" : [ "live.gain~[1]", "live.gain~", 0 ],
 			"obj-102" : [ "live.gain~[3]", "live.gain~", 0 ],
+			"obj-130" : [ "live.gain~[5]", "live.gain~", 0 ],
+			"obj-74" : [ "live.gain~[2]", "live.gain~", 0 ],
+			"obj-116" : [ "live.gain~[4]", "live.gain~", 0 ],
 			"obj-59" : [ "live.gain~", "live.gain~", 0 ],
-			"obj-74" : [ "live.gain~[2]", "live.gain~", 0 ]
+			"obj-60" : [ "live.gain~[1]", "live.gain~", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
 				"name" : "EffectReorder7.js",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
