@@ -20,4 +20,5 @@ npm install
     - You can stop the server any time by hitting Ctrl^C twice
 
 ```npm run start```
+
 5. After the UI is bundled and the server is started, navigate to [http://localhost:3000](http://localhost:3000)
