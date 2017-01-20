@@ -2,24 +2,25 @@ import React from 'react';
 import io from 'socket.io-client';
 import Form from './Form';
 
-
-
-//Did not test this
-
-
-
 class App extends React.Component {
     constructor() {
         super();
         this.state = {
-            value: ''
+            value: '',
+            message: ''
         }
         this.handleInput = this.handleInput.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.handleMessage = this.handleMessage.bind(this);
     }
 
     componentWillMount() {
         this.socket = io('http://localhost:3000');
+        this.socket.on('message', this.handleMessage);
+    }
+
+    handleMessage(message) {
+        this.setState({message: message});
     }
 
     handleInput(e) {
@@ -34,9 +35,14 @@ class App extends React.Component {
     }
 
     render() {
-        return <Form handleSubmit = {this.submitForm}
-                     handleChange = {this.handleInput}
-                     value = {this.state.value} />;
+        return (
+            <div>
+                <Form handleSubmit = {this.submitForm}
+                      handleChange = {this.handleInput}
+                      value = {this.state.value} />
+                <p>Message: {this.state.message}</p>
+            </div>
+        );
     }
 }
 
