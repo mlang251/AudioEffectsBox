@@ -1,6 +1,7 @@
 import React from 'react';
 import io from 'socket.io-client';
 import Form from './Form';
+import SignalChain from './SignalChain';
 
 class App extends React.Component {
     constructor() {
@@ -49,6 +50,7 @@ class App extends React.Component {
                       handleChange = {this.handleInput}
                       value = {this.state.value} />
                 <p>Message: {this.state.message}</p>
+                <SignalChain />
             </div>
         );
     }
