@@ -1,7 +1,7 @@
 const express = require('express');
 const osc = require('osc');
 const dgram = require('dgram');
-const spawn = require('child_process').spawn;
+const PythonShell = require('python-shell');
 
 
 
@@ -20,21 +20,20 @@ let server = app.listen(3000, () => {
 
 //Run the Leap Python code as a child process of the server
 //Create event listeners to collect the hand tracking data and log messages to console
-const leap = spawn("python ..\\Leap\\main.py", {
-    shell: true,
-    detached: true
+
+const leap = new PythonShell('../Leap/main.py');
+let stringData = undefined;
+
+leap.on('message', data => {
+    stringData = data.toString();
+    console.log(stringData);
 });
 
-leap.stdout.on('data', data => {
-    console.log(`data: ${data}`);
-});
-
-leap.stderr.on('data', (data) => {
-    console.log(`Leap process error: ${data}`);
-});
-
-leap.on('close', (code) => {
-    console.log(`Leap process exited with code ${code}`);
+leap.end(err => {
+    if (err) {
+        throw err;
+    }
+    console.log('Leap process ended');
 });
 
 
