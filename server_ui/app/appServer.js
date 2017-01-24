@@ -57,7 +57,6 @@ io.on('connection', socket => {
     udpSend.open();
 
     socket.on('route', data => {
-        const message = data;
         udpSend.send({
             address: "/route",
             args: data

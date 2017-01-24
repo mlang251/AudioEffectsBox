@@ -28,9 +28,17 @@ class App extends React.Component {
         this.setState({value: value});
     }
 
+    parseMessage(messageStr) {
+        const strArray = messageStr.split(' ');
+        return strArray.map(value => {
+            return Number(value);
+        });
+    }
+
     submitForm(e) {
         e.preventDefault();
-        this.socket.emit('route', this.state.value);
+        const message = this.parseMessage(this.state.value);
+        this.socket.emit('route', message);
         this.setState({value: ''});
     }
 
