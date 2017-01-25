@@ -1,4 +1,5 @@
 import React from 'react';
+import Radium from 'radium';
 
 const Form = props => (
     <form onSubmit = {props.handleSubmit}>
@@ -6,9 +7,17 @@ const Form = props => (
         <input type = "text"
                placeholder = "eg 2 4 3 1"
                value = {props.value}
-               onChange = {props.handleChange} /></label>
+               onChange = {props.handleChange}
+               style = {styles.input} /></label>
         <button>Route</button>
     </form>
 );
 
-export default Form;
+const styles = {
+    input: {
+        paddingLeft: 5,
+        paddingRight: 5
+    }
+}
+
+export default Radium(Form);
