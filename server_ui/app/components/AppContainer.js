@@ -54,7 +54,7 @@ class AppContainer extends React.Component {
         const effectsArray = this.state.effects;
         effectsArray.push(newEffect);
         this.setState({effects: effectsArray});
-        this.socket.emit('route', this.enumerateEffects(this.state.effects));
+        this.socket.emit('route', this.enumerateEffects(effectsArray));
     }
 
     render() {
