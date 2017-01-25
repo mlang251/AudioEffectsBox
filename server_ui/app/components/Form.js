@@ -15,8 +15,8 @@ const Form = props => (
 
 const styles = {
     input: {
-        paddingLeft: 5,
-        paddingRight: 5
+        marginLeft: 5,
+        marginRight: 5
     }
 }
 

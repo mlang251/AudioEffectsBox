@@ -7,11 +7,13 @@ class AppContainer extends React.Component {
         super();
         this.state = {
             value: '',
-            message: ''
+            message: '',
+            effects: []
         }
         this.handleInput = this.handleInput.bind(this);
         this.submitForm = this.submitForm.bind(this);
         this.handleMessage = this.handleMessage.bind(this);
+        this.addEffectToChain = this.addEffectToChain.bind(this);
     }
 
     componentWillMount() {
@@ -28,13 +30,6 @@ class AppContainer extends React.Component {
         this.setState({value: value});
     }
 
-    parseMessage(messageStr) {
-        const strArray = messageStr.split(' ');
-        return strArray.map(value => {
-            return Number(value);
-        });
-    }
-
     submitForm(e) {
         e.preventDefault();
         const message = this.parseMessage(this.state.value);
@@ -42,12 +37,35 @@ class AppContainer extends React.Component {
         this.setState({value: ''});
     }
 
+    enumerateEffects(effectsArray) {
+        let effectNumbers = [];
+        this.state.effects.forEach(effect => {
+            effectNumbers.push(effect.number);
+        });
+        return effectNumbers;
+    }
+
+    addEffectToChain(effectType) {
+        const number = effectType == 'distortion' ? 1 : effectType == 'bandpass' ? 2 : 3
+        const newEffect = {
+            type: effectType,
+            number: number
+        };
+        const effectsArray = this.state.effects;
+        effectsArray.push(newEffect);
+        this.setState({effects: effectsArray});
+        this.socket.emit('route', this.enumerateEffects(this.state.effects));
+    }
+
     render() {
         return (
             <App submitForm = {this.submitForm}
                  handleInput = {this.handleInput}
                  value = {this.state.value}
-                 message = {this.state.message} />
+                 message = {this.state.message}
+                 handleClick = {this.addEffectToChain}>
+                {this.state.effects}
+            </App>
         );
     }
 }

@@ -61,7 +61,7 @@ io.on('connection', socket => {
             address: "/route",
             args: data
         }, udpSend.options.remoteAddress, udpSend.options.remotePort);
-        console.log(`Effects route: ${data} type: ${typeof data}`);
+        console.log(`Effects route: ${data}`);
     });
 
     socket.on('disconnect', () => {
