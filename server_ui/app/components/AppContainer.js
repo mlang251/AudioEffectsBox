@@ -1,7 +1,5 @@
 import React from 'react';
 import io from 'socket.io-client';
-import Form from './Form';
-import SignalChain from './SignalChain';
 import App from './App';
 
 class AppContainer extends React.Component {

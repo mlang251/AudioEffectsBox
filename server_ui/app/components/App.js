@@ -1,5 +1,4 @@
 import React from 'react';
-import io from 'socket.io-client';
 import Form from './Form';
 import SignalChain from './SignalChain';
 
@@ -13,7 +12,7 @@ const App = props => (
                 <p>Message: {props.message}</p>
                 <SignalChain />
             </div>
-            <div className = 'col-sm-8'>
+            <div className = 'col-sm-4'>
                 //TODO: Add sidebar for choosing effects
             </div>
         </div>
