@@ -1,5 +1,4 @@
 import React from 'react';
-import Form from './Form';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
 
@@ -7,10 +6,7 @@ const App = props => (
     <div className = 'container-fluid'>
         <div className = 'row'>
             <div className = 'col-sm-10'>
-                <Form handleSubmit = {props.submitForm}
-                      handleChange = {props.handleInput}
-                      value = {props.value} />
-                <p>Message: {props.message}</p>
+                <p>Received message on port 57120: {props.message}</p>
                 <SignalChain>{props.children}</SignalChain>
             </div>
             <div className = 'col-sm-2'>

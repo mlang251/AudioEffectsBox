@@ -6,12 +6,9 @@ class AppContainer extends React.Component {
     constructor() {
         super();
         this.state = {
-            value: '',
             message: '',
             effects: []
         }
-        this.handleInput = this.handleInput.bind(this);
-        this.submitForm = this.submitForm.bind(this);
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
     }
@@ -23,18 +20,6 @@ class AppContainer extends React.Component {
 
     handleMessage(message) {
         this.setState({message: message});
-    }
-
-    handleInput(e) {
-        const value = e.target.value;
-        this.setState({value: value});
-    }
-
-    submitForm(e) {
-        e.preventDefault();
-        const message = this.parseMessage(this.state.value);
-        this.socket.emit('route', message);
-        this.setState({value: ''});
     }
 
     enumerateEffects(effectsArray) {
@@ -59,10 +44,7 @@ class AppContainer extends React.Component {
 
     render() {
         return (
-            <App submitForm = {this.submitForm}
-                 handleInput = {this.handleInput}
-                 value = {this.state.value}
-                 message = {this.state.message}
+            <App message = {this.state.message}
                  handleClick = {this.addEffectToChain}>
                 {this.state.effects}
             </App>
