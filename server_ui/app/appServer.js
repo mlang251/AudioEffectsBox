@@ -5,7 +5,6 @@ const io = require('socket.io')();
 
 
 
-
 //Instantiate the server
 let app = express();
 app.use(express.static(__dirname + '/public'));
