@@ -16,22 +16,25 @@ class ActivityListener(Listener):
     def on_frame(self, controller):
         """on_frame() is called whenever a new frame of data is available. Sends hand coordinates using OSC."""
         frame = controller.frame()
-        #print frame.current_frames_per_second
+        interaction_box = frame.interaction_box
         
         if not frame.hands.is_empty:                # Only run this if there is a hand present
             hand = frame.hands[0]                   # Track the first hand available
             palm_position = hand.palm_position      # Get center of palm coordinates
+            
             pinch_strength = hand.pinch_strength    # pinch_strength is a number ranging from 0 - 1
     
             # If user is pinching, print the xyz coordinates and output them with an OSC socket
             if pinch_strength > 0.5:
-                print str(int(palm_position.x)) + " " + str(int(palm_position.y)) + " " + str(int(palm_position.z)) 
+                normalized = interaction_box.normalize_point(palm_position, True)
+
+                print str(round(normalized.x, 3)) + " " + str(round(normalized.y, 3)) + " " + str(round(normalized.z, 3)) 
                 
                 # Use OSC to send xyz coordiantes and have max seperate by space
                 self.oscmsg = OSC.OSCMessage()
                 self.oscmsg.setAddress("/Coordinates")
-                self.oscmsg += int(palm_position.x)
-                self.oscmsg += int(palm_position.y)
-                self.oscmsg += int(palm_position.z)
+                self.oscmsg += round(normalized.x, 3)
+                self.oscmsg += round(normalized.y, 3)
+                self.oscmsg += round(normalized.z, 3)
                 self.data_client.send(self.oscmsg)
 
