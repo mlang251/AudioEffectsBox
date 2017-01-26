@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 77.0, 1298.0, 617.0 ],
+		"rect" : [ 42.0, 85.0, 1298.0, 617.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -948,21 +948,21 @@
 								"selection" : [ 0.0, 1.0 ],
 								"loop" : 1,
 								"content_state" : 								{
-									"followglobaltempo" : [ 0 ],
-									"timestretch" : [ 0 ],
-									"quality" : [ "basic" ],
-									"speed" : [ 1.0 ],
-									"originaltempo" : [ 120.0 ],
-									"formant" : [ 1.0 ],
 									"formantcorrection" : [ 0 ],
-									"originallengthms" : [ 0.0 ],
+									"formant" : [ 1.0 ],
 									"basictuning" : [ 440 ],
 									"pitchcorrection" : [ 0 ],
-									"slurtime" : [ 0.0 ],
-									"mode" : [ "basic" ],
+									"quality" : [ "basic" ],
+									"speed" : [ 1.0 ],
+									"originallength" : [ 0.0, "ticks" ],
+									"originallengthms" : [ 0.0 ],
+									"followglobaltempo" : [ 0 ],
+									"timestretch" : [ 0 ],
 									"pitchshift" : [ 1.0 ],
 									"play" : [ 0 ],
-									"originallength" : [ 0.0, "ticks" ]
+									"originaltempo" : [ 120.0 ],
+									"slurtime" : [ 0.0 ],
+									"mode" : [ "basic" ]
 								}
 
 							}
@@ -1614,12 +1614,12 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-102" : [ "live.gain~[3]", "live.gain~", 0 ],
 			"obj-130" : [ "live.gain~[5]", "live.gain~", 0 ],
-			"obj-74" : [ "live.gain~[2]", "live.gain~", 0 ],
 			"obj-116" : [ "live.gain~[4]", "live.gain~", 0 ],
 			"obj-59" : [ "live.gain~", "live.gain~", 0 ],
-			"obj-60" : [ "live.gain~[1]", "live.gain~", 0 ]
+			"obj-60" : [ "live.gain~[1]", "live.gain~", 0 ],
+			"obj-102" : [ "live.gain~[3]", "live.gain~", 0 ],
+			"obj-74" : [ "live.gain~[2]", "live.gain~", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
