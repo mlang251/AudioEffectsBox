@@ -1,6 +1,7 @@
 const express = require('express');
 const osc = require('osc');
 const dgram = require('dgram');
+const io = require('socket.io')();
 
 
 
@@ -18,7 +19,6 @@ let server = app.listen(3000, () => {
 
 
 //Create the Server <--> UI web socket
-let io = require('socket.io')();
 io.attach(server);
 
 
