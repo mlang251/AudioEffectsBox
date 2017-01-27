@@ -1,3 +1,7 @@
+This is the server and UI for the [Audio Effects Box capstone project](https://github.com/vsuha/AudioEffectsBox/tree/master).
+
+This is a continuous work in progress and new functionality/UI designs will be added over time.
+
 In order to run the server and use the UI:
 
 
