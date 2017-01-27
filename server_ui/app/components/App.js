@@ -1,9 +1,12 @@
 import React from 'react';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
+import AppBar from 'material-ui/AppBar';
+
 
 const App = props => (
     <div className = 'container-fluid'>
+        <AppBar title = "Audio Expression Box" />
         <div className = 'row'>
             <div className = 'col-sm-10'>
                 <p>Received message on port 57120: {props.message}</p>
