@@ -30,21 +30,30 @@ const udpSend = new osc.UDPPort({
     remotePort: 7000
 });
 
-
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
-const client = dgram.createSocket('udp4');
+const maxChannel = dgram.createSocket('udp4');
 
-client.on("message", (msg, rinfo) => {
+maxChannel.on("message", (msg, rinfo) => {
     msg = msg.toString();
-    console.log(`received message: ${msg}`);
+    console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
 });
 
-client.bind(57120);
+maxChannel.bind(57120);
 
 
+//Create the Leap --> Server UDP socket
+const leapChannel = dgram.createSocket('udp4');
+
+leapChannel.on("message", (msg, rinfo) => {
+    msg = msg.toString();
+    console.log(`received message from leap: ${msg}`);
+    //TO DO: save the data and pass to the parameters
+});
+
+leapChannel.bind(8000);
 
 
 //Handle all Server <--> UI communication through socket.io events
