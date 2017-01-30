@@ -21,39 +21,57 @@ let server = app.listen(3000, () => {
 io.attach(server);
 
 
+
 //Create the Server --> MaxMSP UDP socket
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 //Send messages to Max on port 7000
-const udpSend = new osc.UDPPort({
-    remoteAddress: "127.0.0.1",
-    remotePort: 7000
-});
+
+class localOscPort extends osc.UDPPort {
+    constructor(port, address) {
+      super({
+          remoteAddress: "127.0.0.1",
+          remotePort: port
+      })
+      this.address = `/${address}`;
+    }
+    sendData(data) {
+      this.send({
+          address: this.address,
+          args: data
+      }, this.options.remoteAddress, this.options.remotePort);
+      console.log(`Effects route: ${data}`);
+    };
+};
+
+const serverToMaxChannel = {
+    routeEffects: new localOscPort(7000)
+};
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
-const maxChannel = dgram.createSocket('udp4');
+const maxToServerChannel = dgram.createSocket('udp4');
 
-maxChannel.on("message", (msg, rinfo) => {
+maxToServerChannel.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
 });
 
-maxChannel.bind(57120);
+maxToServerChannel.bind(57120);
 
 
 //Create the Leap --> Server UDP socket
-const leapChannel = dgram.createSocket('udp4');
+const leapToServerChannel = dgram.createSocket('udp4');
 
-leapChannel.on("message", (msg, rinfo) => {
+leapToServerChannel.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from leap: ${msg}`);
     //TO DO: save the data and pass to the parameters
 });
 
-leapChannel.bind(8000);
+leapToServerChannel.bind(8000);
 
 
 //Handle all Server <--> UI communication through socket.io events
@@ -62,15 +80,9 @@ leapChannel.bind(8000);
 //Other events are fired by the UI when certain interactions take place
 io.on('connection', socket => {
     console.log('User connected');
-    udpSend.open();
+    serverToMaxChannel.routeEffects.open();
 
-    socket.on('route', data => {
-        udpSend.send({
-            address: "/route",
-            args: data
-        }, udpSend.options.remoteAddress, udpSend.options.remotePort);
-        console.log(`Effects route: ${data}`);
-    });
+    socket.on('route', data => serverToMaxChannel.routeEffects.sendData(data));
 
     socket.on('disconnect', () => {
         console.log('User disconnected') ;
