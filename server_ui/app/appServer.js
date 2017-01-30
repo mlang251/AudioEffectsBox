@@ -1,8 +1,7 @@
 const express = require('express');
-const osc = require('osc');
 const dgram = require('dgram');
 const io = require('socket.io')();
-
+const localOscPort = require('./serverDependencies/ports');
 
 
 //Instantiate the server
@@ -26,26 +25,8 @@ io.attach(server);
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 //Send messages to Max on port 7000
-
-class localOscPort extends osc.UDPPort {
-    constructor(port, address) {
-      super({
-          remoteAddress: "127.0.0.1",
-          remotePort: port
-      })
-      this.address = `/${address}`;
-    }
-    sendData(data) {
-      this.send({
-          address: this.address,
-          args: data
-      }, this.options.remoteAddress, this.options.remotePort);
-      console.log(`Effects route: ${data}`);
-    };
-};
-
 const serverToMaxChannel = {
-    routeEffects: new localOscPort(7000)
+    routeEffects: new localOscPort(7000, "route")
 };
 
 //Create the Max --> Server UDP socket
