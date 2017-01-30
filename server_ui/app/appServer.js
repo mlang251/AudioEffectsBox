@@ -1,7 +1,8 @@
 const express = require('express');
-const dgram = require('dgram');
 const io = require('socket.io')();
-const localOscPort = require('./serverDependencies/ports');
+const oscLocalUdpPort = require('./serverDependencies/ports').oscLocalUdpPort;
+const maxReceptionPort = require('./serverDependencies/ports').maxReceptionPort;
+const leapReceptionPort = require('./serverDependencies/ports').leapReceptionPort;
 
 
 //Instantiate the server
@@ -14,45 +15,44 @@ let server = app.listen(3000, () => {
 });
 
 
-
-
 //Create the Server <--> UI web socket
 io.attach(server);
 
 
-
-//Create the Server --> MaxMSP UDP socket
+//Create the Server --> MaxMSP UDP channel (multiple ports)
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 //Send messages to Max on port 7000
 const serverToMaxChannel = {
-    routeEffects: new localOscPort(7000, "route")
+    routeEffects: new oscLocalUdpPort(7000, "route")
 };
+
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
-const maxToServerChannel = dgram.createSocket('udp4');
+const maxToServerChannel = {
+  maxMessage: new maxReceptionPort(57120)
+};
 
-maxToServerChannel.on("message", (msg, rinfo) => {
+maxToServerChannel.maxMessage.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
 });
 
-maxToServerChannel.bind(57120);
-
 
 //Create the Leap --> Server UDP socket
-const leapToServerChannel = dgram.createSocket('udp4');
+const leapToServerChannel = {
+    coordinates: new leapReceptionPort(8000)
+}
 
-leapToServerChannel.on("message", (msg, rinfo) => {
+leapToServerChannel.coordinates.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from leap: ${msg}`);
     //TO DO: save the data and pass to the parameters
 });
 
-leapToServerChannel.bind(8000);
 
 
 //Handle all Server <--> UI communication through socket.io events
