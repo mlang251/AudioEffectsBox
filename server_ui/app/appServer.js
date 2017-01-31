@@ -1,6 +1,6 @@
 const express = require('express');
 const io = require('socket.io')();
-const oscLocalUdpPort = require('./serverDependencies/ports').oscLocalUdpPort;
+const oscUdpPort = require('./serverDependencies/ports').oscUdpPort;
 const dgramUdpPort = require('./serverDependencies/ports').dgramUdpPort;
 
 //Instantiate the server
@@ -17,13 +17,14 @@ let server = app.listen(3000, () => {
 io.attach(server);
 
 
-//Create the Server --> MaxMSP UDP channel (multiple ports)
+//Create the Server --> MaxMSP UDP socket
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
-//Send messages to Max on port 7000
 const serverToMaxChannel = {
-    routeEffects: new oscLocalUdpPort(7000, "route"),
-    parameters: new oscLocalUdpPort(7001, "params")
+    portRouteEffects: new oscUdpPort(7000, "route"),
+    portParameters: new oscUdpPort(7010, "params"),
+    //paramValues: {} TO DO: This can be the variable to holds all of the param values. This can be the 'data' that portParameters sends. It will be set by the result of portStaticParamValues (values specified in ui), portCoordParamPairs (specified in ui) and currentCoord (from leap).
+    portAudioInputChoice: new oscUdpPort(7020, "audioIn")
 };
 
 
@@ -31,10 +32,11 @@ const serverToMaxChannel = {
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
 const maxToServerChannel = {
-  portMaxMessage: new dgramUdpPort(11500)
+  portAudioInputOptions: new dgramUdpPort(11000),
+  //portCoordParamPairs: new dgramUdpPort(11010) TO DO: Have user select what parameters to put on which axis and send to server HERE
+  //portStaticParamValues: new dgramUdpPort(11020) TO DO: Have ui send in an object with key value pairs for all parameters' statically set values HERE
 };
-
-maxToServerChannel.portMaxMessage.on("message", (msg, rinfo) => {
+maxToServerChannel.portAudioInputOptions.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
@@ -46,18 +48,15 @@ const leapToServerChannel = {
     portCoord: new dgramUdpPort(8000),
     currentCoord: [0, 0, 0]
 }
-
-//serverToMaxChannel.parameters.open();
-
 leapToServerChannel.portCoord.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from leap: ${msg}`);
     leapToServerChannel.currentCoord = msg.split(" ");
-    //serverToMaxChannel.parameters.open();
-    //serverToMaxChannel.parameters.sendData(leapToServerChannel.currentCoord);
-    //TO DO: save the data and pass to the parameters
-});
 
+    serverToMaxChannel.portParameters.open();
+    serverToMaxChannel.portParameters.sendData(leapToServerChannel.currentCoord);
+    //TO DO: Use the currentCoord array to set the appropriate parameters (in paramValues) instead of directly sending coords to max.
+});
 
 
 //Handle all Server <--> UI communication through socket.io events
@@ -66,9 +65,10 @@ leapToServerChannel.portCoord.on("message", (msg, rinfo) => {
 //Other events are fired by the UI when certain interactions take place
 io.on('connection', socket => {
     console.log('User connected');
-    serverToMaxChannel.routeEffects.open();
 
-    socket.on('route', data => serverToMaxChannel.routeEffects.sendData(data));
+    serverToMaxChannel.portRouteEffects.open();
+
+    socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(data));
 
     socket.on('disconnect', () => {
         console.log('User disconnected') ;

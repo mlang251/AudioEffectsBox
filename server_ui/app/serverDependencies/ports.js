@@ -3,9 +3,10 @@ const dgram = require('dgram');
 
 var exports = {};
 
-class oscLocalUdpPort extends osc.UDPPort {
+class oscUdpPort extends osc.UDPPort {
     constructor(port, address) {
       super({
+          localPort: port + 1,
           remoteAddress: "127.0.0.1",
           remotePort: port
       })
@@ -22,12 +23,12 @@ class oscLocalUdpPort extends osc.UDPPort {
 
 class dgramUdpPort extends dgram.Socket {
     constructor(port) {
-      super(dgram.createSocket({ type: 'udp4', reuseAddr: true }))
+      super(dgram.createSocket('udp4'))
       this.bind(port);
     }
 }
 
-exports.oscLocalUdpPort = oscLocalUdpPort;
+exports.oscUdpPort = oscUdpPort;
 exports.dgramUdpPort = dgramUdpPort;
 
 module.exports = exports;
