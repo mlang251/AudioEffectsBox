@@ -22,25 +22,12 @@ class oscLocalUdpPort extends osc.UDPPort {
 
 class dgramUdpPort extends dgram.Socket {
     constructor(port) {
-      super(dgram.createSocket('udp4'))
+      super(dgram.createSocket({ type: 'udp4', reuseAddr: true }))
       this.bind(port);
     }
 }
 
-class leapReceptionPort extends dgramUdpPort {
-    constructor(port) {
-      super(port)
-    }
-}
-
-class maxReceptionPort extends dgramUdpPort {
-    constructor(port) {
-      super(port)
-    }
-}
-
 exports.oscLocalUdpPort = oscLocalUdpPort;
-exports.leapReceptionPort = leapReceptionPort;
-exports.maxReceptionPort = maxReceptionPort;
+exports.dgramUdpPort = dgramUdpPort;
 
 module.exports = exports;

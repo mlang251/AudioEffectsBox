@@ -1,9 +1,7 @@
 const express = require('express');
 const io = require('socket.io')();
 const oscLocalUdpPort = require('./serverDependencies/ports').oscLocalUdpPort;
-const maxReceptionPort = require('./serverDependencies/ports').maxReceptionPort;
-const leapReceptionPort = require('./serverDependencies/ports').leapReceptionPort;
-
+const dgramUdpPort = require('./serverDependencies/ports').dgramUdpPort;
 
 //Instantiate the server
 let app = express();
@@ -24,7 +22,8 @@ io.attach(server);
 //because Max udpreceive object expects OSC formatted messages
 //Send messages to Max on port 7000
 const serverToMaxChannel = {
-    routeEffects: new oscLocalUdpPort(7000, "route")
+    routeEffects: new oscLocalUdpPort(7000, "route"),
+    parameters: new oscLocalUdpPort(7001, "params")
 };
 
 
@@ -32,10 +31,10 @@ const serverToMaxChannel = {
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
 const maxToServerChannel = {
-  maxMessage: new maxReceptionPort(57120)
+  portMaxMessage: new dgramUdpPort(11500)
 };
 
-maxToServerChannel.maxMessage.on("message", (msg, rinfo) => {
+maxToServerChannel.portMaxMessage.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
@@ -44,12 +43,18 @@ maxToServerChannel.maxMessage.on("message", (msg, rinfo) => {
 
 //Create the Leap --> Server UDP socket
 const leapToServerChannel = {
-    coordinates: new leapReceptionPort(8000)
+    portCoord: new dgramUdpPort(8000),
+    currentCoord: [0, 0, 0]
 }
 
-leapToServerChannel.coordinates.on("message", (msg, rinfo) => {
+//serverToMaxChannel.parameters.open();
+
+leapToServerChannel.portCoord.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from leap: ${msg}`);
+    leapToServerChannel.currentCoord = msg.split(" ");
+    //serverToMaxChannel.parameters.open();
+    //serverToMaxChannel.parameters.sendData(leapToServerChannel.currentCoord);
     //TO DO: save the data and pass to the parameters
 });
 
