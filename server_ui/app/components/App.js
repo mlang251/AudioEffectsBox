@@ -5,24 +5,26 @@ import AppBar from 'material-ui/AppBar';
 
 
 const App = props => (
-    <div className = 'container-fluid'>
+    <div>
         <AppBar title = "Audio Expression Box" />
-        <div className = 'row'>
-            <div className = 'col-sm-10'>
-                <p>Received message on port 57120: {props.message}</p>
-                <SignalChain>{props.children}</SignalChain>
-            </div>
-            <div className = 'col-sm-2'>
-                <h3>Effects</h3>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('distortion')}>Add Distortion</button>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('bandpass')}>Add Bandpass</button>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('reverb')}>Add Reverb</button>
+        <div className = 'container-fluid'>
+            <div className = 'row'>
+                <div className = 'col-sm-10'>
+                    <p>Received message on port 57120: {props.message}</p>
+                    <SignalChain>{props.children}</SignalChain>
+                </div>
+                <div className = 'col-sm-2'>
+                    <h3>Effects</h3>
+                    <button type = 'button'
+                            style = {styles.button}
+                            onClick = {() => props.handleClick('distortion')}>Add Distortion</button>
+                    <button type = 'button'
+                            style = {styles.button}
+                            onClick = {() => props.handleClick('bandpass')}>Add Bandpass</button>
+                    <button type = 'button'
+                            style = {styles.button}
+                            onClick = {() => props.handleClick('reverb')}>Add Reverb</button>
+                </div>
             </div>
         </div>
     </div>
