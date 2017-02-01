@@ -32,7 +32,7 @@ const udpSend = new osc.UDPPort({
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
-//because Max cannot send OSC formatted data which is was osc.UDPPort requires
+//because Max cannot send OSC formatted data which is what osc.UDPPort requires
 const maxChannel = dgram.createSocket('udp4');
 
 maxChannel.on("message", (msg, rinfo) => {
