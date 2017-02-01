@@ -14,7 +14,7 @@ class ActivityListener(Listener):
         print "Leap to Server connection established, sending data."
 
     def on_frame(self, controller):
-        """on_frame() is called whenever a new frame of data is available. Sends hand coordinates using OSC."""
+        """on_frame() is called whenever a new frame of data is available. Sends hand coordinates using UDP."""
         frame = controller.frame()
         interaction_box = frame.interaction_box
 

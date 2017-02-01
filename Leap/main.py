@@ -20,6 +20,7 @@ import Leap
 from ActivityListener import ActivityListener
 
 def main():
+    """ Main Leap control. """
     # Create listener and controller objects
     sys.stdout.write("Starting Leap")
     listener = ActivityListener()
@@ -48,5 +49,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
