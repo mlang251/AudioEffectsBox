@@ -9,7 +9,7 @@ class oscUdpPort extends osc.UDPPort {
             localPort: null,
             remoteAddress: "127.0.0.1",
             remotePort: port
-        })
+        });
         this.address = `/${address}`;
         this.open();
     }

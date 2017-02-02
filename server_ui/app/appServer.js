@@ -17,20 +17,22 @@ let server = app.listen(3000, () => {
 io.attach(server);
 
 
-//Create the Server --> MaxMSP UDP socket
+//Create the Server --> MaxMSP UDP sockets
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 const serverToMaxChannel = {
-    portRouteEffects: new oscUdpPort(7000, "route"),
-    portParameters: new oscUdpPort(7010, "params"),
-    portAudioInputChoice: new oscUdpPort(7020, "audioIn")
+    portRouteEffects: new oscUdpPort(7000, "route"),        //For setting up the audio signal flow in Max
+    portParameters: new oscUdpPort(7010, "params"),         //For sending parameter values to Max
+    portAudioInputChoice: new oscUdpPort(7020, "audioIn"),  //For choosing the audio driver for input
+    portLeapCoords: new oscUdpPort(7030, "coords"),         //For sending the Leap coordinates
+    portXYZMap: new oscUdpPort(7040, "xyzMap")              //For assigning x, y, and z to specific effect parameters
 };
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
 const maxToServerChannel = {
-  portAudioInputOptions: new dgramUdpPort(11000),
+  portAudioInputOptions: new dgramUdpPort(11000)
 };
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
@@ -69,7 +71,7 @@ io.on('connection', socket => {
 
     socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(data));
     socket.on('xyzMap', data => {
-        //see xyzMap.js for example data
+        serverToMaxChannel.portRouteEffects.send(data);
     });
     socket.on('disconnect', () => {
         console.log('User disconnected') ;
