@@ -25,7 +25,6 @@ const serverToMaxChannel = {
     portParameters: new oscUdpPort(7010, "params"),
     portAudioInputChoice: new oscUdpPort(7020, "audioIn")
 };
-serverToMaxChannel.portRouteEffects.open();
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
@@ -45,7 +44,6 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 const leapToServerChannel = {
     portCoord: new dgramUdpPort(8000),
     currentCoord: []
-    x = params.reverb;
 }
 
 leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
