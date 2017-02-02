@@ -21,10 +21,10 @@ class oscUdpPort extends osc.UDPPort {
     };
 }
 
-class dgramUdpPort extends dgram.Socket {
+class dgramUdpPort {
     constructor(port) {
-      super(dgram.createSocket('udp4'))
-      this.bind(port);
+      this.socket = dgram.createSocket('udp4');
+      this.socket.bind(port)
     }
 }
 
