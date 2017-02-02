@@ -2,4 +2,6 @@
 *.project
 *.pydevproject
 *.DS_Store
-server_ui
+node_modules
+public
+
