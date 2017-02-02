@@ -71,10 +71,7 @@ io.on('connection', socket => {
 
     socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(data));
     socket.on('xyzMap', data => {
-        xyzMap = new XYZMap(x,y,z)
-         for (prop in data) {
-
-         }
+        //see xyzMap.js for example data
     });
     socket.on('disconnect', () => {
         console.log('User disconnected') ;
