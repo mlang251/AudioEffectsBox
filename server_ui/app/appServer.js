@@ -40,10 +40,12 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 });
 
 
+
 //Create the Leap --> Server UDP socket
 const leapToServerChannel = {
     portCoord: new dgramUdpPort(8000),
     currentCoord: []
+    x = params.reverb;
 }
 
 leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
@@ -53,9 +55,11 @@ leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
     stringArray.forEach((coord, i) => {
         leapToServerChannel.currentCoord[i] = Number(coord);
     });
-
+    //TO DO: convert leap data to JSON with parameter name and value pairs
     //TO DO: set selected parameters to currentCoord values, and send over portParameters
 });
+
+
 
 
 //Handle all Server <--> UI communication through socket.io events
@@ -66,7 +70,12 @@ io.on('connection', socket => {
     console.log('User connected');
 
     socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(data));
+    socket.on('xyzMap', data => {
+        xyzMap = new XYZMap(x,y,z)
+         for (prop in data) {
 
+         }
+    });
     socket.on('disconnect', () => {
         console.log('User disconnected') ;
     });
