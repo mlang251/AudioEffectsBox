@@ -3,6 +3,7 @@ const dgram = require('dgram');
 
 var exports = {};
 
+//TODO: Make this class more robust, allow it to set up sending and receiving ports. Constructor should take an object of ports
 class OscUdpPort extends osc.UDPPort {
     constructor(port, address) {
         super({
