@@ -25,7 +25,7 @@ class OscUdpPort extends osc.UDPPort {
     }
 
     onReady() {
-        console.log(`Port opened for address: ${this.address}`);
+        console.log(`OSC UDP port ${this.options.localPort ? this.options.localPort : this.options.remotePort} opened for address: ${this.address}`);
     }
 
 }
@@ -33,7 +33,12 @@ class OscUdpPort extends osc.UDPPort {
 class DgramUdpPort {
     constructor(port) {
         this.socket = dgram.createSocket('udp4');
-        this.socket.bind(port)
+        this.socket.bind(port);
+        this.socket.on('listening', () => this.onListening(port));
+    }
+
+    onListening(port) {
+        console.log(`Dgram UDP port ${port} opened`);
     }
 }
 

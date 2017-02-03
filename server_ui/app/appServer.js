@@ -28,6 +28,18 @@ const serverToMaxChannel = {
     portXYZMap: new OscUdpPort({remotePort: 7040, address: "xyzMap"})              //For assigning x, y, and z to specific effect parameters
 };
 
+//Create the Leap --> Server OSC socket
+const leapToServerChannel = new OscUdpPort({localPort: 8000});
+
+leapToServerChannel.on("message", msg => {
+    const data = msg.args;
+    console.log(`received message from leap: ${data}`);
+    serverToMaxChannel.portLeapCoords.sendData(data);
+});
+
+
+
+
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
@@ -38,17 +50,6 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     io.emit('message', msg);
-});
-
-
-
-//Create the Leap --> Server OSC socket
-const leapToServerChannel = new OscUdpPort({localPort: 8000});
-
-leapToServerChannel.on("message", msg => {
-    const data = msg.args;
-    console.log(`received message from leap: ${data}`);
-    serverToMaxChannel.portLeapCoords.sendData(data);
 });
 
 
