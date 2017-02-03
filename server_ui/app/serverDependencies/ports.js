@@ -12,15 +12,22 @@ class OscUdpPort extends osc.UDPPort {
             remotePort: config.remotePort ? config.remotePort : null
         });
         this.address = config.address ? `/${config.address}` : '/unknown';
+        this.on('ready', this.onReady);
         this.open();
     }
+
     sendData(data) {
         this.send({
             address: this.address,
             args: data
         }, this.options.remoteAddress, this.options.remotePort);
         console.log(`Data sent over ${this.address} port: ${data}`);
-    };
+    }
+
+    onReady() {
+        console.log(`Port opened for address: ${this.address}`);
+    }
+
 }
 
 class DgramUdpPort {

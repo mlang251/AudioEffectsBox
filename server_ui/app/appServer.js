@@ -46,13 +46,8 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 const leapToServerChannel = new OscUdpPort({localPort: 8000});
 
 //TODO: Redo this callback to use the OscUdpPort class syntax and send data to Max
-leapToServerChannel.on("message", (msg, rinfo) => {
-    msg = msg.toString();
-    console.log(`received message from leap: ${msg}`);
-    const stringArray = msg.split(" ");
-    stringArray.forEach((coord, i) => {
-        leapToServerChannel.currentCoord[i] = Number(coord);
-    });
+leapToServerChannel.on("message", msg => {
+    console.log(`received message from leap: ${msg.args}`);
 });
 
 
