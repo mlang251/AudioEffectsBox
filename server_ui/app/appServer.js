@@ -1,7 +1,7 @@
 const express = require('express');
 const io = require('socket.io')();
-const oscUdpPort = require('./serverDependencies/ports').oscUdpPort;
-const dgramUdpPort = require('./serverDependencies/ports').dgramUdpPort;
+const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
+const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 
 //Instantiate the server
 let app = express();
@@ -21,18 +21,18 @@ io.attach(server);
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 const serverToMaxChannel = {
-    portRouteEffects: new oscUdpPort(7000, "route"),        //For setting up the audio signal flow in Max
-    portParameters: new oscUdpPort(7010, "params"),         //For sending parameter values to Max
-    portAudioInputChoice: new oscUdpPort(7020, "audioIn"),  //For choosing the audio driver for input
-    portLeapCoords: new oscUdpPort(7030, "coords"),         //For sending the Leap coordinates
-    portXYZMap: new oscUdpPort(7040, "xyzMap")              //For assigning x, y, and z to specific effect parameters
+    portRouteEffects: new OscUdpPort(7000, "route"),        //For setting up the audio signal flow in Max
+    portParameters: new OscUdpPort(7010, "params"),         //For sending parameter values to Max
+    portAudioInputChoice: new OscUdpPort(7020, "audioIn"),  //For choosing the audio driver for input
+    portLeapCoords: new OscUdpPort(7030, "coords"),         //For sending the Leap coordinates
+    portXYZMap: new OscUdpPort(7040, "xyzMap")              //For assigning x, y, and z to specific effect parameters
 };
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
 const maxToServerChannel = {
-  portAudioInputOptions: new dgramUdpPort(11000)
+  portAudioInputOptions: new DgramUdpPort(11000)
 };
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
@@ -42,11 +42,8 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 
 
 
-//Create the Leap --> Server UDP socket
-const leapToServerChannel = {
-    portCoord: new dgramUdpPort(8000),
-    currentCoord: []
-}
+//Create the Leap --> Server OSC socket
+const leapToServerChannel = new OscUdpPort(8000);
 
 leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
