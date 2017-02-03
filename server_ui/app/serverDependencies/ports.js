@@ -3,15 +3,15 @@ const dgram = require('dgram');
 
 var exports = {};
 
-//TODO: Make this class more robust, allow it to set up sending and receiving ports. Constructor should take an object of ports
 class OscUdpPort extends osc.UDPPort {
-    constructor(port, address) {
+    constructor(config) {
         super({
-            localPort: null,
+            localAddress: "127.0.0.1",
+            localPort: config.localPort ? config.localPort : null,
             remoteAddress: "127.0.0.1",
-            remotePort: port
+            remotePort: config.remotePort ? config.remotePort : null
         });
-        this.address = `/${address}`;
+        this.address = config.address ? `/${config.address}` : '/unknown';
         this.open();
     }
     sendData(data) {
