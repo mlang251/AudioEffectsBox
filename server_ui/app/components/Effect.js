@@ -20,7 +20,7 @@ const renderParams = effectObject => {
 }
 
 const Effect = props => {
-    const effect = JSON.parse(effects[props.type]);
+    const effect = JSON.parse(effects)[props.type];
     const params = renderParams(effect);
     return (
         <div>
