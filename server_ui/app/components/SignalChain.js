@@ -4,9 +4,14 @@ import Effect from './Effect';
 
 const generateEffects = effectsArray => {
     return effectsArray.map((effect, i) => {
+        //parameterValues will only work if there is one of each effect
+        //TODO: need to assign each effect a unique ID upon creation, use this for routing messages too
         return (
-            <Effect type = {effect.type}
-                    key = {i} />
+            <Effect
+                key = {i}
+                type = {effect.type}
+                parameterValues = {props.parameterValues[effect.type]}
+                onParameterChange = {props.onParameterChange} />
         );
     });
 }

@@ -11,7 +11,9 @@ const App = props => (
             <div className = 'row'>
                 <div className = 'col-sm-10'>
                     <p>Received message on port 57120: {props.message}</p>
-                    <SignalChain>{props.children}</SignalChain>
+                    <SignalChain
+                        onParameterChange = {props.onParameterChange}
+                        parameterValues = {props.parameterValues}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
                     <Sidebar handleClick = {props.handleClick} />

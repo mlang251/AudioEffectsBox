@@ -13,7 +13,11 @@ const renderParams = effectObject => {
             <div key = {i}
                  style = {styles.paramDiv}>
                 <p style = {styles.paramTitle}>{name}</p>
-                <Parameter type = {type} />
+                <Parameter
+                    type = {type}
+                    info = {{effectName: effect.name, paramName: name}}
+                    value = {props.parameterValues[name]}
+                    onParameterChangeChange = {props.onParameterChange} />
             </div>
         );
     }
