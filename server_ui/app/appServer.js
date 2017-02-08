@@ -66,6 +66,10 @@ io.on('connection', socket => {
     socket.on('xyzMap', data => {
         serverToMaxChannel.portRouteEffects.send(data);
     });
+    socket.on('updateParam', data => {
+        //TODO: this data is not being formatted correctly
+//        serverToMaxChannel.portParameters.send(JSON.stringify(data));
+    });
     socket.on('disconnect', () => {
         console.log('User disconnected') ;
     });

@@ -2,8 +2,9 @@ import React from 'react';
 import Radium from 'radium';
 import Effect from './Effect';
 
-const generateEffects = effectsArray => {
-    return effectsArray.map((effect, i) => {
+const SignalChain = props => {
+    const effectsArray = props.children;
+    const effects = effectsArray.map((effect, i) => {
         //parameterValues will only work if there is one of each effect
         //TODO: need to assign each effect a unique ID upon creation, use this for routing messages too
         return (
@@ -14,10 +15,6 @@ const generateEffects = effectsArray => {
                 onParameterChange = {props.onParameterChange} />
         );
     });
-}
-
-const SignalChain = props => {
-    const effects = generateEffects(props.children);
     return (
         <div id = 'signalChain' style = {styles.div}>
             {effects}

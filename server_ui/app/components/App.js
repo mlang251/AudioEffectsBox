@@ -16,7 +16,7 @@ const App = props => (
                         parameterValues = {props.parameterValues}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
-                    <Sidebar handleClick = {props.handleClick} />
+                    <Sidebar handleClick = {props.addEffectToChain} />
                 </div>
             </div>
         </div>

@@ -2,27 +2,36 @@ import React from 'react';
 import Radium from 'radium';
 import Draggable from 'react-draggable';
 
-const handleDrag = (data, info, callback) => {
-    const info = ...info;
-    info.paramValue = data.y;
-    callback(info);
-}
+class Parameter extends React.Component {
+    constructor() {
+        super();
+    }
 
-const Parameter = props => {
-    return (
-        <div style = {styles.div}>
-            <div style = {styles.faderContainerDiv}>
-                <div style = {styles.slotDiv}></div>
-                <Draggable
-                    axis = 'y'
-                    bounds = {{left: 0, top: 0, right: 0, bottom: 85}}
-                    position = {{x: 0, y: props.value}}
-                    onDrag = {(e, data) => {handleDrag(data, props.info, props.onParameterChange)}}>
-                    <div style = {styles.faderDiv}></div>
-                </Draggable>
+    handleDrag(data, info) {
+        const value =                               //Make sure the value is within the bounds of the draggable area
+            data.y < 0 ? 0                          //Normalize it on a scale of 0-1
+            : data.y > styles.slotDiv.height ? 1
+            : data.y/styles.slotDiv.height
+        info.paramValue = value;
+        this.props.onParameterChange(info);
+    }
+
+    render() {
+        return (
+            <div style = {styles.div}>
+                <div style = {styles.faderContainerDiv}>
+                    <div style = {styles.slotDiv}></div>
+                    <Draggable
+                        axis = 'y'
+                        bounds = 'parent'
+                        position = {{x: 0, y: this.props.value*styles.slotDiv.height}}
+                        onDrag = {(e, data) => {this.handleDrag(data, this.props.info)}}>
+                        <div style = {styles.faderDiv}></div>
+                    </Draggable>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 const styles = {
