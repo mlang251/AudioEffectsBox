@@ -8,10 +8,11 @@ class Parameter extends React.Component {
     }
 
     handleDrag(data, info) {
-        const value =                               //Make sure the value is within the bounds of the draggable area
+        let value =                               //Make sure the value is within the bounds of the draggable area
             data.y < 0 ? 0                          //Normalize it on a scale of 0-1
             : data.y > styles.slotDiv.height ? 1
             : data.y/styles.slotDiv.height
+        value = Math.round(value * 1000)/1000;
         info.paramValue = value;
         this.props.onParameterChange(info);
     }

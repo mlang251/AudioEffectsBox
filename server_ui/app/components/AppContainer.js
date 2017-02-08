@@ -28,15 +28,14 @@ class AppContainer extends React.Component {
     }
 
     enumerateEffects(effectsArray) {
-        let effectNumbers = [];
+        let effectIDs = [];
         this.state.effects.forEach(effect => {
-            effectNumbers.push(effect.number);
+            effectIDs.push(effect.ID);
         });
-        return effectNumbers;
+        return effectIDs;
     }
 
     addEffectToChain(effectType) {
-        //TODO: This is untested
         const usableIDs = effects.effects[effectType].IDs;
         for (let i = 0; i < usableIDs.length; i++) {
             if (this.state.usedIDs.indexOf(usableIDs[i]) != -1) {
@@ -47,7 +46,9 @@ class AppContainer extends React.Component {
                 const usedIDs = this.state.usedIDs;
                 const thisID = usableIDs[i];
                 usedIDs.push(thisID);
-                //TODO: sort usedIDs
+                usedIDs.sort((a,b) => {
+                    return a - b;
+                });
                 this.setState({usedIDs: usedIDs});
 
                 const newEffect = {
@@ -57,8 +58,7 @@ class AppContainer extends React.Component {
                 const effectsArray = this.state.effects;
                 effectsArray.push(newEffect);
                 this.setState({effects: effectsArray});
-                //TODO: enumerateEffects may not work anymore. Go over data format for routing effects
-//                this.socket.emit('route', this.enumerateEffects(effectsArray));
+                this.socket.emit('route', this.enumerateEffects(effectsArray));
                 break;
             }
         }
