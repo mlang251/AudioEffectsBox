@@ -39,7 +39,7 @@ class AppContainer extends React.Component {
         //TODO: This is untested
         const usableIDs = effects.effects[effectType].IDs;
         for (let i = 0; i < usableIDs.length; i++) {
-            if (this.state.usedIDs.indexOf(usableIDs[i])) {
+            if (this.state.usedIDs.indexOf(usableIDs[i]) != -1) {
                 if (i == usableIDs.length - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
@@ -58,7 +58,7 @@ class AppContainer extends React.Component {
                 effectsArray.push(newEffect);
                 this.setState({effects: effectsArray});
                 //TODO: enumerateEffects may not work anymore. Go over data format for routing effects
-                this.socket.emit('route', this.enumerateEffects(effectsArray));
+//                this.socket.emit('route', this.enumerateEffects(effectsArray));
                 break;
             }
         }
@@ -66,8 +66,8 @@ class AppContainer extends React.Component {
 
     updateParameter(info) {
         const parameterValues = this.state.parameterValues;
-        const {effectName, paramName, paramValue} = info;
-        parameterValues[effectName.toLowerCase()][paramName] = paramValue;
+        const {effectID, paramName, paramValue} = info;
+        parameterValues[effectID][paramName] = paramValue;
         this.setState({parameterValues: parameterValues});
         this.socket.emit('updateParam', info);
     }

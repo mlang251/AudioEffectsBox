@@ -5,13 +5,12 @@ import Effect from './Effect';
 const SignalChain = props => {
     const effectsArray = props.children;
     const effects = effectsArray.map((effect, i) => {
-        //parameterValues will only work if there is one of each effect
-        //TODO: need to assign each effect a unique ID upon creation, use this for routing messages too
         return (
             <Effect
-                key = {i}
+                key = {effect.ID}
+                ID = {effect.ID}
                 type = {effect.type}
-                parameterValues = {props.parameterValues[effect.type]}
+                parameterValues = {props.parameterValues[effect.ID]}
                 onParameterChange = {props.onParameterChange} />
         );
     });

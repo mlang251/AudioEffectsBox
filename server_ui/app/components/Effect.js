@@ -8,17 +8,17 @@ const Effect = props => {
     const [parameterList, parameters] = [effect.parameterList, effect.parameters];
     let params = [];
     for (let i = 0; i < parameterList.length; i++) {
-        const name = parameterList[i];
-        const type = parameters[parameterList[i]];
+        const paramName = parameterList[i];
+        const paramType = parameters[parameterList[i]];
         params.push(
             <div
                 key = {i}
                 style = {styles.paramDiv}>
-                <p style = {styles.paramTitle}>{name}</p>
+                <p style = {styles.paramTitle}>{paramName}</p>
                 <Parameter
-                    type = {type}
-                    info = {{effectName: effect.name, paramName: name}}
-                    value = {props.parameterValues[name]}
+                    type = {paramType}
+                    info = {{effectID: props.ID,  paramName: paramName}}
+                    value = {props.parameterValues[paramName]}
                     onParameterChange = {props.onParameterChange} />
             </div>
         );

@@ -9,7 +9,7 @@ const Sidebar = props => {
         buttonArray.push(
             <button
                 type = 'button'
-                key = {effect}
+                key = {effectName}
                 style = {styles.button}
                 onClick = {() => props.handleClick(effectName.toLowerCase())}>Add {effectName}</button>
         );

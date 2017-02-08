@@ -4,7 +4,7 @@
         "reverb": {
             "type": "reverb",
             "name": "Reverb",
-            "IDs": [001, 002, 003],
+            "IDs": ["001", "002", "003"],
             "parameterList": ["Liveness", "Crossover", "Damping"],
             "parameters": {
                 "Liveness": "fader",
