@@ -28,6 +28,7 @@ class AppContainer extends React.Component {
     }
 
     enumerateEffects(effectsArray) {
+        //TODO: go over data structure for effects routing messages sent to Max
         let effectIDs = [];
         this.state.effects.forEach(effect => {
             effectIDs.push(effect.ID);
