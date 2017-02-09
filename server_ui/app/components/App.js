@@ -2,37 +2,25 @@ import React from 'react';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-
+import Sidebar from './Sidebar';
 
 const App = props => (
-    <div className = 'container-fluid'>
+    <div>
         <AppBar title = "Audio Expression Box" />
-        <div className = 'row'>
-            <div className = 'col-sm-10'>
-                <p>Received message on port 57120: {props.message}</p>
-                <SignalChain>{props.children}</SignalChain>
-            </div>
-            <div className = 'col-sm-2'>
-                <h3>Effects</h3>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('distortion')}>Add Distortion</button>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('bandpass')}>Add Bandpass</button>
-                <button type = 'button'
-                        style = {styles.button}
-                        onClick = {() => props.handleClick('reverb')}>Add Reverb</button>
+        <div className = 'container-fluid'>
+            <div className = 'row'>
+                <div className = 'col-sm-10'>
+                    <p>Received message on port 57120: {props.message}</p>
+                    <SignalChain
+                        onParameterChange = {props.onParameterChange}
+                        parameterValues = {props.parameterValues}>{props.children}</SignalChain>
+                </div>
+                <div className = 'col-sm-2'>
+                    <Sidebar handleClick = {props.addEffectToChain} />
+                </div>
             </div>
         </div>
     </div>
 );
-
-const styles = {
-    button: {
-        display: 'block',
-        marginBottom: 10
-    }
-}
 
 export default Radium(App);

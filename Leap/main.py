@@ -1,5 +1,5 @@
 """
-main.py will connect to a Leap motion and send hand coordinate
+main.py will connect to a Leap motion and send hand coordinate 
 data over OSC to a remote server.
 """
 
@@ -15,18 +15,17 @@ elif sys.platform == "win32":
 else:
     print "Leap is not supported on this platform."
 
-# Import Leap library and activity listener
+# Import Leap library and activity listener 
 import Leap
 from ActivityListener import ActivityListener
 
 def main():
     # Create listener and controller objects
-    sys.stdout.write("Starting Leap")
     listener = ActivityListener()
     controller = Leap.Controller()
-
+    
     # Request to receive tracking data when running in the background
-    # You must have the Allow Background Apps setting checked in the Leap Settings
+    # You must have the Allow Background Apps setting checked in the Leap Settings 
     controller.set_policy(Leap.Controller.POLICY_BACKGROUND_FRAMES)
     print "Requesting background frames"
     time.sleep(1.0)
@@ -49,4 +48,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-
+    

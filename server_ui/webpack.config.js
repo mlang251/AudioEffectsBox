@@ -1,10 +1,12 @@
 var HTMLWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+
 var HTMLWebpackPluginConfig = new HTMLWebpackPlugin({
     template: __dirname + '/app/index.html',
     filename: 'index.html',
     inject: 'body'
 });
+
 var UglifyJSPluginConfig = new webpack.optimize.UglifyJsPlugin({
     compress: {
         warnings: false
@@ -14,6 +16,7 @@ var UglifyJSPluginConfig = new webpack.optimize.UglifyJsPlugin({
     }
 });
 
+
 module.exports = {
     entry: ['babel-polyfill', __dirname + '/app/index.js'],
     module: {
@@ -22,6 +25,10 @@ module.exports = {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
+            },
+            {
+                test: /\.json$/,
+                loader: 'json-loader'
             }
         ]
     },
