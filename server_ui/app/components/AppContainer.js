@@ -28,7 +28,6 @@ class AppContainer extends React.Component {
     }
 
     createRoutes(effectsArray) {
-        //TODO: go over data structure for effects routing messages sent to Max
         let routeObj = {};
         for (let i = 0; i < effectsArray.length; i++) {
             console.log(`before loop i = ${i}`);
