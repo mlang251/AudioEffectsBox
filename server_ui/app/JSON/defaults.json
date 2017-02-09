@@ -1,15 +1,15 @@
 {
-    "001": {
+    "reverb1": {
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
     },
-    "002": {
+    "reverb2": {
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
     },
-    "003": {
+    "reverb3": {
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0

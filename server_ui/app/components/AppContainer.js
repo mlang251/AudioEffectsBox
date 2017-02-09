@@ -27,13 +27,21 @@ class AppContainer extends React.Component {
         this.setState({message: message});
     }
 
-    enumerateEffects(effectsArray) {
+    createRoutes(effectsArray) {
         //TODO: go over data structure for effects routing messages sent to Max
-        let effectIDs = [];
-        this.state.effects.forEach(effect => {
-            effectIDs.push(effect.ID);
-        });
-        return effectIDs;
+        let routeObj = {};
+        for (let i = 0; i < effectsArray.length; i++) {
+            console.log(`before loop i = ${i}`);
+            if (i == 0) {
+                routeObj.input = effectsArray[i].ID;
+            }
+            if (effectsArray[i+1]) {
+                routeObj[effectsArray[i].ID] = effectsArray[i+1].ID
+            } else {
+                routeObj[effectsArray[i].ID] = "output"
+            }
+        }
+        return routeObj;
     }
 
     addEffectToChain(effectType) {
@@ -59,7 +67,7 @@ class AppContainer extends React.Component {
                 const effectsArray = this.state.effects;
                 effectsArray.push(newEffect);
                 this.setState({effects: effectsArray});
-                this.socket.emit('route', this.enumerateEffects(effectsArray));
+                this.socket.emit('route', this.createRoutes(effectsArray));
                 break;
             }
         }
