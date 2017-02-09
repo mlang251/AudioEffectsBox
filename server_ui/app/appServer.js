@@ -1,7 +1,7 @@
 const express = require('express');
 const io = require('socket.io')();
-const oscUdpPort = require('./serverDependencies/ports').oscUdpPort;
-const dgramUdpPort = require('./serverDependencies/ports').dgramUdpPort;
+const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
+const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 
 //Instantiate the server
 let app = express();
@@ -17,21 +17,34 @@ let server = app.listen(3000, () => {
 io.attach(server);
 
 
-//Create the Server --> MaxMSP UDP socket
+//Create the Server --> MaxMSP UDP sockets
 //Need to send data to Max using the node osc package
 //because Max udpreceive object expects OSC formatted messages
 const serverToMaxChannel = {
-    portRouteEffects: new oscUdpPort(7000, "route"),
-    portParameters: new oscUdpPort(7010, "params"),
-    portAudioInputChoice: new oscUdpPort(7020, "audioIn")
+    portRouteEffects: new OscUdpPort({remotePort: 7000, address: "route"}),        //For setting up the audio signal flow in Max
+    portParameters: new OscUdpPort({remotePort: 7010, address: "params"}),         //For sending parameter values to Max
+    portAudioInputChoice: new OscUdpPort({remotePort: 7020, address: "audioIn"}),  //For choosing the audio driver for input
+    portLeapCoords: new OscUdpPort({remotePort: 7030, address: "coords"}),         //For sending the Leap coordinates
+    portXYZMap: new OscUdpPort({remotePort: 7040, address: "xyzMap"})              //For assigning x, y, and z to specific effect parameters
 };
-serverToMaxChannel.portRouteEffects.open();
+
+//Create the Leap --> Server OSC socket
+const leapToServerChannel = new OscUdpPort({localPort: 8000});
+
+leapToServerChannel.on("message", msg => {
+    const data = msg.args;
+    console.log(`received message from leap: ${data}`);
+    serverToMaxChannel.portLeapCoords.sendData(data);
+});
+
+
+
 
 //Create the Max --> Server UDP socket
 //Need to use the Node dgram library to receive messages from Max
 //because Max cannot send OSC formatted data which is was osc.UDPPort requires
 const maxToServerChannel = {
-  portAudioInputOptions: new dgramUdpPort(11000),
+  portAudioInputOptions: new DgramUdpPort(11000)
 };
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
@@ -40,22 +53,6 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 });
 
 
-//Create the Leap --> Server UDP socket
-const leapToServerChannel = {
-    portCoord: new dgramUdpPort(8000),
-    currentCoord: []
-}
-
-leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
-    msg = msg.toString();
-    console.log(`received message from leap: ${msg}`);
-    const stringArray = msg.split(" ");
-    stringArray.forEach((coord, i) => {
-        leapToServerChannel.currentCoord[i] = Number(coord);
-    });
-
-    //TO DO: set selected parameters to currentCoord values, and send over portParameters
-});
 
 
 //Handle all Server <--> UI communication through socket.io events
@@ -65,7 +62,9 @@ leapToServerChannel.portCoord.socket.on("message", (msg, rinfo) => {
 io.on('connection', socket => {
     console.log('User connected');
 
-    socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(data));
+    socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
+    socket.on('xyzMap', data => serverToMaxChannel.portRouteEffects.sendData(data));
+    socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
 
     socket.on('disconnect', () => {
         console.log('User disconnected') ;

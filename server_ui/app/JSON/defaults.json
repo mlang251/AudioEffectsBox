@@ -1,0 +1,17 @@
+{
+    "reverb1": {
+        "Liveness": 0,
+        "Crossover": 0,
+        "Damping": 0
+    },
+    "reverb2": {
+        "Liveness": 0,
+        "Crossover": 0,
+        "Damping": 0
+    },
+    "reverb3": {
+        "Liveness": 0,
+        "Crossover": 0,
+        "Damping": 0
+    }
+}

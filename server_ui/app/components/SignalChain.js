@@ -1,20 +1,19 @@
 import React from 'react';
 import Radium from 'radium';
-
-const generateEffects = effectsArray => {
-    return effectsArray.map((effect, i) => {
-        return (
-            <div className = 'effect'
-                 key = {i}
-                 style = {styles.divEffects}>
-                {effect.type}
-            </div>
-        );
-    });
-}
+import Effect from './Effect';
 
 const SignalChain = props => {
-    const effects = generateEffects(props.children);
+    const effectsArray = props.children;
+    const effects = effectsArray.map((effect, i) => {
+        return (
+            <Effect
+                key = {effect.ID}
+                ID = {effect.ID}
+                type = {effect.type}
+                parameterValues = {props.parameterValues[effect.ID]}
+                onParameterChange = {props.onParameterChange} />
+        );
+    });
     return (
         <div id = 'signalChain' style = {styles.div}>
             {effects}
@@ -32,13 +31,5 @@ const styles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
-    },
-    divEffects: {
-        display: 'inline-block',
-        height: 100,
-        width: 100,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#F00'
     }
 }

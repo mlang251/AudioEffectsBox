@@ -1,0 +1,16 @@
+{
+    "list": ["Reverb"],
+    "effects": {
+        "reverb": {
+            "type": "reverb",
+            "name": "Reverb",
+            "IDs": ["reverb1", "reverb2", "reverb3"],
+            "parameterList": ["Liveness", "Crossover", "Damping"],
+            "parameters": {
+                "Liveness": "fader",
+                "Crossover": "fader",
+                "Damping": "fader"
+            }
+        }
+    }
+}
