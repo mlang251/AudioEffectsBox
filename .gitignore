@@ -2,5 +2,10 @@
 *.project
 *.pydevproject
 *.DS_Store
+<<<<<<< HEAD
 node_modules
 public
+=======
+server_ui
+node_modules
+>>>>>>> ea08925299df46b1d838e449956dcca377593ebf

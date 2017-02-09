@@ -1,5 +1,4 @@
-# UDP and Leap library imports
-import socket
+import OSC
 from Leap import Listener
 
 class ActivityListener(Listener):
@@ -15,9 +14,9 @@ class ActivityListener(Listener):
         Establishes a connection to a remote server using UDP.
 
         """
-        self.server_address = ('localhost', 8000)
-        self.server_sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        print "Leap to Server connection established, sending data."
+        self.data_client = OSC.OSCClient()
+        self.data_client.connect(('127.0.0.1', 8000))
+        print "Connected"
 
     def on_frame(self, controller):
         """
@@ -34,10 +33,9 @@ class ActivityListener(Listener):
 
         # If user is pinching, send xyz palm coordinates to server
         if frame.hands[0].pinch_strength > 0.5:
-            self.send_palm_position(palm_position, self.server_address,
-                                    self.server_sock)
+            self.send_palm_position(palm_position)
 
-    def send_palm_position(self, palm_position, server_address, server_socket):
+    def send_palm_position(self, palm_position):
         """
         Sends Leap hand position coordinates to the AudioEffectsBox server
         using OSC.
@@ -56,8 +54,13 @@ class ActivityListener(Listener):
                        str(round(palm_position.z, 3)))
         print coordinates
 
-        # Send coordinate information over UDP
-        #server_sock.sendto(coordinates.encode(), server_address)
+        # Use OSC to send xyz coordiantes and have max seperate by space
+        self.oscmsg = OSC.OSCMessage()
+        self.oscmsg.setAddress("/Coordinates")
+        self.oscmsg += round(normalized.x, 3)
+        self.oscmsg += round(normalized.y, 3)
+        self.oscmsg += round(normalized.z, 3)
+        self.data_client.send(self.oscmsg)
 
     def get_palm_position(self, frame, interaction_box):
         """
@@ -89,7 +92,7 @@ class ActivityListener(Listener):
         # If there is no hand, it may have left the interaction box for a
         # moment and new data will have to be smoothened
         else:
-            return self.smooth_palm_data(...)
+            return normalized_palm #self.smooth_palm_data(...)
 
     def smooth_palm_data(self, frame):
         """
