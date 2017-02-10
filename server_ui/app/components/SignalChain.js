@@ -11,7 +11,9 @@ const SignalChain = props => {
                 ID = {effect.ID}
                 type = {effect.type}
                 parameterValues = {props.parameterValues[effect.ID]}
-                onParameterChange = {props.onParameterChange} />
+                onParameterChange = {props.onParameterChange}
+                isMapping = {props.isMapping}
+                mapToParameter = {props.mapToParameter} />
         );
     });
     return (

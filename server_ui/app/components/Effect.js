@@ -19,7 +19,9 @@ const Effect = props => {
                     type = {paramType}
                     info = {{effectID: props.ID,  paramName: paramName}}
                     value = {props.parameterValues[paramName]}
-                    onParameterChange = {props.onParameterChange} />
+                    onParameterChange = {props.onParameterChange}
+                    isMapping = {props.isMapping}
+                    mapToParameter = {props.mapToParameter} />
             </div>
         );
     }

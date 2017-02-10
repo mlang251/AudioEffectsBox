@@ -11,11 +11,17 @@ class AppContainer extends React.Component {
             message: '',
             effects: [],
             usedIDs: [],
-            parameterValues: presets
+            parameterValues: presets,
+            mapping: {
+                isMapping: false,
+                axis: ''
+            }
         }
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
-        this.updateParameter = this.updateParameter.bind(this);
+        this.updateParameterValue = this.updateParameterValue.bind(this);
+        this.toggleMapping = this.toggleMapping.bind(this);
+        this.mapToParameter = this.mapToParameter.bind(this);
     }
 
     componentWillMount() {
@@ -72,12 +78,50 @@ class AppContainer extends React.Component {
         }
     }
 
-    updateParameter(info) {
+    toggleMapping(axisName) {
+        this.setState({
+            mapping: {
+                isMapping: true,
+                axis: axisName
+            }
+        });
+    }
+
+    updateParameterValue(info) {
         const parameterValues = this.state.parameterValues;
         const {effectID, paramName, paramValue} = info;
         parameterValues[effectID][paramName] = paramValue;
         this.setState({parameterValues: parameterValues});
         this.socket.emit('updateParam', info);
+    }
+
+    mapToParameter(paramInfo) {
+        const {effectID, paramName} = paramInfo;
+        const axisName = this.state.mapping.axis;
+        const axesList = ['x', 'y', 'z'];
+        let xyzAssignment = '';
+
+        //TODO: This should not iterate through axesList, it should iterate through the parameters of the effectID
+        axesList.forEach((curAxis, i) => {
+            if (curAxis != axisName) {
+                xyzAssignment = xyzAssignment.concat('n');
+            } else {
+                xyzAssignment = xyzAssignment.concat(`${curAxis}`);
+            }
+            if (i < axesList.length - 1) {
+                xyzAssignment = xyzAssignment.concat(' ');
+            }
+        });
+
+        const xyzMapping = {};
+        xyzMapping[effectID] = xyzAssignment;
+        this.socket.emit('xyzMap', xyzMapping);
+        this.setState({
+            mapping: {
+                isMapping: false,
+                axis: ''
+            }
+        });
     }
 
     render() {
@@ -86,7 +130,10 @@ class AppContainer extends React.Component {
                 message = {this.state.message}
                 addEffectToChain = {this.addEffectToChain}
                 parameterValues = {this.state.parameterValues}
-                onParameterChange = {this.updateParameter}>
+                onParameterChange = {this.updateParameterValue}
+                isMapping = {this.state.mapping.isMapping}
+                toggleMapping = {this.toggleMapping}
+                mapToParameter = {this.mapToParameter}>
                 {this.state.effects}
             </App>
         );

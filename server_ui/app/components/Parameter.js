@@ -5,10 +5,11 @@ import Draggable from 'react-draggable';
 class Parameter extends React.Component {
     constructor() {
         super();
+        this.handleMappingClick = this.handleMappingClick.bind(this);
     }
 
     handleDrag(data, info) {
-        let value =                               //Make sure the value is within the bounds of the draggable area
+        let value =                                 //Make sure the value is within the bounds of the draggable area
             data.y < 0 ? 0                          //Normalize it on a scale of 0-1
             : data.y > styles.slotDiv.height ? 1
             : data.y/styles.slotDiv.height
@@ -17,15 +18,27 @@ class Parameter extends React.Component {
         this.props.onParameterChange(info);
     }
 
+    handleMappingClick(props) {
+        if (!this.props.isMapping) {
+            return false;
+        } else {
+            this.props.mapToParameter(this.props.info);
+        }
+    }
+
     render() {
+        //TODO: when mapping, style the 2nd level div to glow blue
         return (
             <div style = {styles.div}>
-                <div style = {styles.faderContainerDiv}>
+                <div
+                    style = {styles.faderContainerDiv}
+                    onClick = {() => this.handleMappingClick()}>
                     <div style = {styles.slotDiv}></div>
                     <Draggable
                         axis = 'y'
                         bounds = 'parent'
-                        position = {{x: 0, y: this.props.value*styles.slotDiv.height}}
+                        disabled = {this.props.isMapping}
+                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
                         onDrag = {(e, data) => {this.handleDrag(data, this.props.info)}}>
                         <div style = {styles.faderDiv}></div>
                     </Draggable>
