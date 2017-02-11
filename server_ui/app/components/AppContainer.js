@@ -14,7 +14,21 @@ class AppContainer extends React.Component {
             parameterValues: presets,
             mapping: {
                 isMapping: false,
-                axis: ''
+                currentAxis: ''
+            },
+            xyzMap: {
+                x: {
+                    effectID: '',
+                    param: ''
+                },
+                y: {
+                    effectID: '',
+                    param: ''
+                },
+                z: {
+                    effectID: '',
+                    param: ''
+                }
             }
         }
         this.handleMessage = this.handleMessage.bind(this);
@@ -36,7 +50,6 @@ class AppContainer extends React.Component {
     createRoutes(effectsArray) {
         let routeObj = {};
         for (let i = 0; i < effectsArray.length; i++) {
-            console.log(`before loop i = ${i}`);
             if (i == 0) {
                 routeObj.input = effectsArray[i].ID;
             }
@@ -82,7 +95,7 @@ class AppContainer extends React.Component {
         this.setState({
             mapping: {
                 isMapping: true,
-                axis: axisName
+                currentAxis: axisName
             }
         });
     }
@@ -97,30 +110,25 @@ class AppContainer extends React.Component {
 
     mapToParameter(paramInfo) {
         const {effectID, paramName} = paramInfo;
-        const axisName = this.state.mapping.axis;
-        const axesList = ['x', 'y', 'z'];
-        let xyzAssignment = '';
+        const axisName = this.state.mapping.currentAxis;
+        let xyzMap = this.state.xyzMap;
 
-        //TODO: This should not iterate through axesList, it should iterate through the parameters of the effectID
-        axesList.forEach((curAxis, i) => {
-            if (curAxis != axisName) {
-                xyzAssignment = xyzAssignment.concat('n');
-            } else {
-                xyzAssignment = xyzAssignment.concat(`${curAxis}`);
-            }
-            if (i < axesList.length - 1) {
-                xyzAssignment = xyzAssignment.concat(' ');
-            }
-        });
+        xyzMap[axisName].effectID = effectID;
+        xyzMap[axisName].param = paramName;
 
-        const xyzMapping = {};
-        xyzMapping[effectID] = xyzAssignment;
-        this.socket.emit('xyzMap', xyzMapping);
+        const mappingData = {};
+        mappingData[axisName] = {
+            effectID: effectID,
+            param: paramName
+        };
+
+        this.socket.emit('xyzMap', mappingData);
         this.setState({
             mapping: {
                 isMapping: false,
                 axis: ''
-            }
+            },
+            xyzMap: xyzMap
         });
     }
 

@@ -27,11 +27,14 @@ class Parameter extends React.Component {
     }
 
     render() {
-        //TODO: when mapping, style the 2nd level div to glow blue
+        const divStyle =
+            this.props.isMapping ?
+            Object.assign(styles.faderContainerDiv, styles.isMapping) :
+            Object.assign(styles.faderContainerDiv, styles.isNotMapping)
         return (
             <div style = {styles.div}>
                 <div
-                    style = {styles.faderContainerDiv}
+                    style = {divStyle}
                     onClick = {() => this.handleMappingClick()}>
                     <div style = {styles.slotDiv}></div>
                     <Draggable
@@ -54,6 +57,16 @@ const styles = {
         width: 50,
         position: 'relative',
         display: 'inline-block'
+    },
+    isMapping: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'blue'
+    },
+    isNotMapping: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#FFF'
     },
     faderContainerDiv: {
         height: 100,
