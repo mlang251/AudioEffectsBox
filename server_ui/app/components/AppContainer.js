@@ -117,9 +117,9 @@ class AppContainer extends React.Component {
         xyzMap[axisName].param = paramName;
 
         const mappingData = {};
-        mappingData[axisName] = {
-            effectID: effectID,
-            param: paramName
+        mappingData[effectID] = {
+            param: paramName,
+            axis: axisName
         };
 
         this.socket.emit('xyzMap', mappingData);
