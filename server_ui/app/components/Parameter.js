@@ -11,14 +11,14 @@ const Parameter = props => {
         <div style = {styles.div}>
             <div
                 style = {divStyle}
-                onClick = {() => props.handleMappingClick(props.isMapping, props.info, styles.slotDiv.height)}>
+                onClick = {() => props.handleMappingClick(props.isMapping, props.info)}>
                 <div style = {styles.slotDiv}></div>
                 <Draggable
                     axis = 'y'
                     bounds = 'parent'
                     disabled = {props.isMapping}
                     position = {{x: 0, y: props.value * styles.slotDiv.height}}
-                    onDrag = {(e, data) => {props.handleDrag(data, props.info)}}>
+                    onDrag = {(e, data) => {props.handleDrag(data, props.info, styles.slotDiv.height)}}>
                     <div style = {styles.faderDiv}></div>
                 </Draggable>
             </div>
