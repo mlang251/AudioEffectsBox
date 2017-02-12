@@ -7,13 +7,33 @@ const Effect = props => {
     const effect = effects.effects[props.type];
     const [parameterList, parameters] = [effect.parameterList, effect.parameters];
     let params = [];
+    let xyzMapArray = [];
+    for (let coord in props.xyzMap) {
+        if (props.xyzMap[coord].effectID == props.ID) {
+            xyzMapArray.push({
+                param: props.xyzMap[coord].param,
+                coord: coord
+            });
+        }
+    }
+
     for (let i = 0; i < parameterList.length; i++) {
         const paramName = parameterList[i];
         const paramType = parameters[parameterList[i]];
+        const axes = ['x', 'y', 'z'];
+        var xyzMap = undefined;
+        for (let i = 0; i < xyzMapArray.length; i++) {
+            if (xyzMapArray[i].param == paramName) {
+                xyzMap = xyzMapArray[i].coord;
+            }
+        }
         params.push(
             <div
                 key = {i}
                 style = {styles.paramDiv}>
+                <div style = {styles.xyzMapDiv}>
+                    <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
+                </div>
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
@@ -46,12 +66,22 @@ const styles = {
         paddingRight: 5,
         paddingLeft: 5
     },
+    xyzMapDiv: {
+        display: 'inline-block',
+        height: 30,
+        width: '100%'
+    },
     effectTitle: {
         textAlign: 'center'
     },
     paramTitle: {
         textAlign: 'center',
         fontSize: '0.8em'
+    },
+    xyzMap: {
+        textAlign: 'center',
+        padding: 0,
+        margin: 0
     }
 }
 

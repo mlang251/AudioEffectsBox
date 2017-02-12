@@ -158,7 +158,8 @@ class AppContainer extends React.Component {
                 onParameterChange = {this.updateParameterValue}
                 isMapping = {this.state.mapping.isMapping}
                 toggleMapping = {this.toggleMapping}
-                mapToParameter = {this.mapToParameter}>
+                mapToParameter = {this.mapToParameter}
+                xyzMap = {this.state.xyzMap}>
                 {this.state.effects}
             </App>
         );
