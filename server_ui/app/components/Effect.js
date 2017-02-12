@@ -1,7 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 import effects from '../JSON/effects.json';
-import Parameter from './Parameter';
+import ParameterContainer from './ParameterContainer';
 
 const Effect = props => {
     const effect = effects.effects[props.type];
@@ -15,7 +15,7 @@ const Effect = props => {
                 key = {i}
                 style = {styles.paramDiv}>
                 <p style = {styles.paramTitle}>{paramName}</p>
-                <Parameter
+                <ParameterContainer
                     type = {paramType}
                     info = {{effectID: props.ID,  paramName: paramName}}
                     value = {props.parameterValues[paramName]}
@@ -25,6 +25,7 @@ const Effect = props => {
             </div>
         );
     }
+
     return (
         <div style = {styles.effectDiv}>
             <p style = {styles.effectTitle}>{effect.name}</p>

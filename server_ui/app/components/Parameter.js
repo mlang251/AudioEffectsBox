@@ -2,53 +2,28 @@ import React from 'react';
 import Radium from 'radium';
 import Draggable from 'react-draggable';
 
-class Parameter extends React.Component {
-    constructor() {
-        super();
-        this.handleMappingClick = this.handleMappingClick.bind(this);
-    }
-
-    handleDrag(data, info) {
-        let value =                                 //Make sure the value is within the bounds of the draggable area
-            data.y < 0 ? 0                          //Normalize it on a scale of 0-1
-            : data.y > styles.slotDiv.height ? 1
-            : data.y/styles.slotDiv.height
-        value = Math.round(value * 1000)/1000;
-        info.paramValue = value;
-        this.props.onParameterChange(info);
-    }
-
-    handleMappingClick(props) {
-        if (!this.props.isMapping) {
-            return false;
-        } else {
-            this.props.mapToParameter(this.props.info);
-        }
-    }
-
-    render() {
-        const divStyle =
-            this.props.isMapping ?
-            Object.assign(styles.faderContainerDiv, styles.isMapping) :
-            Object.assign(styles.faderContainerDiv, styles.isNotMapping)
-        return (
-            <div style = {styles.div}>
-                <div
-                    style = {divStyle}
-                    onClick = {() => this.handleMappingClick()}>
-                    <div style = {styles.slotDiv}></div>
-                    <Draggable
-                        axis = 'y'
-                        bounds = 'parent'
-                        disabled = {this.props.isMapping}
-                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
-                        onDrag = {(e, data) => {this.handleDrag(data, this.props.info)}}>
-                        <div style = {styles.faderDiv}></div>
-                    </Draggable>
-                </div>
+const Parameter = props => {
+    const divStyle =
+        props.isMapping ?
+        Object.assign(styles.faderContainerDiv, styles.isMapping) :
+        Object.assign(styles.faderContainerDiv, styles.isNotMapping);
+    return (
+        <div style = {styles.div}>
+            <div
+                style = {divStyle}
+                onClick = {() => props.handleMappingClick(props.isMapping, props.info, styles.slotDiv.height)}>
+                <div style = {styles.slotDiv}></div>
+                <Draggable
+                    axis = 'y'
+                    bounds = 'parent'
+                    disabled = {props.isMapping}
+                    position = {{x: 0, y: props.value * styles.slotDiv.height}}
+                    onDrag = {(e, data) => {props.handleDrag(data, props.info)}}>
+                    <div style = {styles.faderDiv}></div>
+                </Draggable>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 const styles = {
