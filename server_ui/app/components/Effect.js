@@ -10,7 +10,7 @@ const renderParams = effectObject => {
         const name = parameterList[i];
         const type = parameters[parameterList[i]];
         parameterArray.push(
-            <div>
+            <div key = {i}>
                 <p>{name}</p>
                 <Parameter type = {type} />
             </div>
@@ -20,14 +20,24 @@ const renderParams = effectObject => {
 }
 
 const Effect = props => {
-    const effect = JSON.parse(effects)[props.type];
+    const effect = effects.effects[props.type];
     const params = renderParams(effect);
     return (
-        <div>
+        <div style = {styles.div}>
             <p>{effect.name}</p>
             {params}
         </div>
     );
+}
+
+const styles = {
+    div: {
+        display: 'inline-block',
+        width: 200,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#F00'
+    }
 }
 
 export default Radium(Effect);

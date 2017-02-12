@@ -1,14 +1,12 @@
 import React from 'react';
 import Radium from 'radium';
+import Effect from './Effect';
 
 const generateEffects = effectsArray => {
     return effectsArray.map((effect, i) => {
         return (
-            <div className = 'effect'
-                 key = {i}
-                 style = {styles.divEffects}>
-                {effect.type}
-            </div>
+            <Effect type = {effect.type}
+                    key = {i} />
         );
     });
 }
@@ -32,13 +30,5 @@ const styles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
-    },
-    divEffects: {
-        display: 'inline-block',
-        height: 100,
-        width: 100,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#F00'
     }
 }

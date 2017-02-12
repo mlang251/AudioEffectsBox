@@ -2,7 +2,7 @@ import React from 'react';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-
+import Sidebar from './Sidebar';
 
 const App = props => (
     <div>
@@ -14,27 +14,11 @@ const App = props => (
                     <SignalChain>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
-                    <h3>Effects</h3>
-                    <button type = 'button'
-                            style = {styles.button}
-                            onClick = {() => props.handleClick('distortion')}>Add Distortion</button>
-                    <button type = 'button'
-                            style = {styles.button}
-                            onClick = {() => props.handleClick('bandpass')}>Add Bandpass</button>
-                    <button type = 'button'
-                            style = {styles.button}
-                            onClick = {() => props.handleClick('reverb')}>Add Reverb</button>
+                    <Sidebar handleClick = {props.handleClick} />
                 </div>
             </div>
         </div>
     </div>
 );
-
-const styles = {
-    button: {
-        display: 'block',
-        marginBottom: 10
-    }
-}
 
 export default Radium(App);

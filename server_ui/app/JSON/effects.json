@@ -1,11 +1,14 @@
 {
-    "reverb" : {
-        "name" : "Reverb",
-        "parameterList" : ["Liveness", "Crossover", "Damping"],
-        "parameters" : {
-            "Liveness" : "fader",
-            "Crossover": "fader",
-            "Damping": "fader"
+    "list": ["Reverb"],
+    "effects": {
+        "reverb": {
+            "name": "Reverb",
+            "parameterList": ["Liveness", "Crossover", "Damping"],
+            "parameters": {
+                "Liveness": "fader",
+                "Crossover": "fader",
+                "Damping": "fader"
+            }
         }
     }
 }
