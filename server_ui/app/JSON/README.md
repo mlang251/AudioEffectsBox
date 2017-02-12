@@ -1,6 +1,6 @@
 **Read these instructions when updating the Max patch. When effects are added or changed, the effects.json and defaults.json files need to be modified to reflect these changes**
 
-###effects.json
+### effects.json
 **This file describes which effects are available in the Max patch so that the UI can render them properly**
 
 Adding new effects to this file will not break the UI, as long as you follow the structure
@@ -43,7 +43,7 @@ Description of effects.json data structure from top to bottom, keep in mind capi
             - Each parameter (first letter capitalized) gets a parameter type (lowercase). For now, only faders are possible but in the future, knobs and buttons might be available
 
 
-###defaults.json
+### defaults.json
 **This file gives the default values for each parameter so that when an effect with a unique ID is rendered, the parameters start at a predicatable value. This also serves as a template for creating presets in the future.**
 
 Adding new effects to this file will not break the UI, as long as you follow the structure
