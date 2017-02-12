@@ -131,6 +131,15 @@ class AppContainer extends React.Component {
         const axisName = this.state.mapping.currentAxis;
         let xyzMap = this.state.xyzMap;
 
+        if (xyzMap[axisName].effectID) {
+            const clearMapping = {};
+            clearMapping[effectID]= {
+                param: xyzMap[axisName].param,
+                axis: 'n'
+            }
+            this.socket.emit('xyzMap', clearMapping);
+        }
+
         xyzMap[axisName].effectID = effectID;
         xyzMap[axisName].param = paramName;
 
