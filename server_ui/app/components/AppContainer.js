@@ -50,6 +50,7 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapData(data) {
+        console.log(data);
         const coords = ['x', 'y', 'z'];
         const xyzMap = this.state.xyzMap;
         data.forEach((coord, i) => {
