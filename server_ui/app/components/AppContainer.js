@@ -11,27 +11,62 @@ class AppContainer extends React.Component {
             message: '',
             effects: [],
             usedIDs: [],
-            parameterValues: presets
+            parameterValues: presets,
+            mapping: {
+                isMapping: false,
+                currentAxis: ''
+            },
+            xyzMap: {
+                x: {
+                    effectID: undefined,
+                    param: undefined
+                },
+                y: {
+                    effectID: undefined,
+                    param: undefined
+                },
+                z: {
+                    effectID: undefined,
+                    param: undefined
+                }
+            }
         }
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
-        this.updateParameter = this.updateParameter.bind(this);
+        this.updateParameterValue = this.updateParameterValue.bind(this);
+        this.toggleMapping = this.toggleMapping.bind(this);
+        this.mapToParameter = this.mapToParameter.bind(this);
+        this.receiveLeapData = this.receiveLeapData.bind(this);
     }
 
     componentWillMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
+        this.socket.on('leapData', this.receiveLeapData);
     }
 
     handleMessage(message) {
         this.setState({message: message});
     }
 
+    receiveLeapData(data) {
+        const coords = ['x', 'y', 'z'];
+        const xyzMap = this.state.xyzMap;
+        data.forEach((coord, i) => {
+            const curAxisMap = xyzMap[coords[i]];
+            if (curAxisMap.effectID) {
+                this.updateParameterValue({
+                    effectID: curAxisMap.effectID,
+                    paramName: curAxisMap.param,
+                    paramValue: coord
+                });
+            }
+        });
+    }
+
     createRoutes(effectsArray) {
-        //TODO: go over data structure for effects routing messages sent to Max
         let routeObj = {};
         for (let i = 0; i < effectsArray.length; i++) {
-            console.log(`before loop i = ${i}`);
             if (i == 0) {
                 routeObj.input = effectsArray[i].ID;
             }
@@ -73,12 +108,45 @@ class AppContainer extends React.Component {
         }
     }
 
-    updateParameter(info) {
+    toggleMapping(axisName) {
+        this.setState({
+            mapping: {
+                isMapping: true,
+                currentAxis: axisName
+            }
+        });
+    }
+
+    updateParameterValue(info) {
         const parameterValues = this.state.parameterValues;
         const {effectID, paramName, paramValue} = info;
         parameterValues[effectID][paramName] = paramValue;
         this.setState({parameterValues: parameterValues});
         this.socket.emit('updateParam', info);
+    }
+
+    mapToParameter(paramInfo) {
+        const {effectID, paramName} = paramInfo;
+        const axisName = this.state.mapping.currentAxis;
+        let xyzMap = this.state.xyzMap;
+
+        xyzMap[axisName].effectID = effectID;
+        xyzMap[axisName].param = paramName;
+
+        const mappingData = {};
+        mappingData[effectID] = {
+            param: paramName,
+            axis: axisName
+        };
+
+        this.socket.emit('xyzMap', mappingData);
+        this.setState({
+            mapping: {
+                isMapping: false,
+                axis: ''
+            },
+            xyzMap: xyzMap
+        });
     }
 
     render() {
@@ -87,7 +155,11 @@ class AppContainer extends React.Component {
                 message = {this.state.message}
                 addEffectToChain = {this.addEffectToChain}
                 parameterValues = {this.state.parameterValues}
-                onParameterChange = {this.updateParameter}>
+                onParameterChange = {this.updateParameterValue}
+                isMapping = {this.state.mapping.isMapping}
+                toggleMapping = {this.toggleMapping}
+                mapToParameter = {this.mapToParameter}
+                xyzMap = {this.state.xyzMap}>
                 {this.state.effects}
             </App>
         );

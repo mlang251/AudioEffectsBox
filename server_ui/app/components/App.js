@@ -13,10 +13,15 @@ const App = props => (
                     <p>Received message on port 57120: {props.message}</p>
                     <SignalChain
                         onParameterChange = {props.onParameterChange}
-                        parameterValues = {props.parameterValues}>{props.children}</SignalChain>
+                        parameterValues = {props.parameterValues}
+                        isMapping = {props.isMapping}
+                        mapToParameter = {props.mapToParameter}
+                        xyzMap = {props.xyzMap}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
-                    <Sidebar handleClick = {props.addEffectToChain} />
+                    <Sidebar
+                        handleEffectButtonClick = {props.addEffectToChain}
+                        handleAxisButtonClick = {props.toggleMapping} />
                 </div>
             </div>
         </div>
