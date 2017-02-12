@@ -57,9 +57,13 @@ const Effect = props => {
 const styles = {
     effectDiv: {
         display: 'inline-block',
-        borderWidth: 1,
+        borderWidth: 2,
         borderStyle: 'solid',
-        borderColor: '#F00'
+        borderColor: '#333',
+        boxShadow: 'inset 0 0 5px #AAA',
+        borderRadius: 5,
+        paddingLeft: 20,
+        paddingRight: 20,
     },
     paramDiv: {
         display: 'inline-block',
