@@ -64,7 +64,7 @@ io.on('connection', socket => {
     console.log('User connected');
 
     socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
-    socket.on('xyzMap', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
+    socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
     socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
 
     socket.on('disconnect', () => {
