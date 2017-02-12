@@ -140,10 +140,16 @@ class AppContainer extends React.Component {
             this.socket.emit('xyzMap', clearMapping);
         }
 
+        for (let axis in xyzMap) {
+            if (xyzMap[axis].effectID == effectID && xyzMap[axis].param == paramName) {
+                xyzMap[axis].effectID = undefined;
+                xyzMap[axis].param = undefined;
+            }
+        }
+
         xyzMap[axisName].effectID = effectID;
         xyzMap[axisName].param = paramName;
 
-        //TODO: If an axis is mapped to a parameter, and you try to map a different axis to it, there is a bug
         const mappingData = {};
         mappingData[effectID] = {
             param: paramName,
