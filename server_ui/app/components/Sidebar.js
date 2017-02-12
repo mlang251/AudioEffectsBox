@@ -4,20 +4,37 @@ import effects from '../JSON/effects.json';
 
 const Sidebar = props => {
     const effectsList = effects.list;
-    let buttonArray = [];
+    const axesList = ['x', 'y', 'z'];
+
+    let effectsArray = [];
+    let axesArray = [];
+
     effectsList.forEach(effectName => {
-        buttonArray.push(
+        effectsArray.push(
             <button
                 type = 'button'
                 key = {effectName}
                 style = {styles.button}
-                onClick = {() => props.handleClick(effectName.toLowerCase())}>Add {effectName}</button>
+                onClick = {() => props.handleEffectButtonClick(effectName.toLowerCase())}>Add {effectName}</button>
         );
     });
+
+    axesList.forEach(axisName => {
+        axesArray.push(
+            <button
+                type = 'button'
+                key = {axisName}
+                style = {styles.button}
+                onClick = {() => props.handleAxisButtonClick(axisName)}>Map {axisName.toUpperCase()}</button>
+        );
+    });
+
     return (
         <div>
+            <h3>Motion Tracking</h3>
+            {axesArray}
             <h3>Effects</h3>
-            {buttonArray}
+            {effectsArray}
         </div>
     );
 }
