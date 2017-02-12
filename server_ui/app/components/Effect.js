@@ -50,6 +50,9 @@ const Effect = props => {
         <div style = {styles.effectDiv}>
             <p style = {styles.effectTitle}>{effect.name}</p>
             {params}
+            <button
+                type = 'button'
+                onClick = {() => props.handleCloseButtonClick(props.ID)}>X</button>
         </div>
     );
 }

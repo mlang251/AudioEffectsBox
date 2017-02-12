@@ -14,7 +14,8 @@ const SignalChain = props => {
                 onParameterChange = {props.onParameterChange}
                 isMapping = {props.isMapping}
                 mapToParameter = {props.mapToParameter}
-                xyzMap = {props.xyzMap} />
+                xyzMap = {props.xyzMap}
+                handleCloseButtonClick = {props.removeEffect} />
         );
     });
     return (

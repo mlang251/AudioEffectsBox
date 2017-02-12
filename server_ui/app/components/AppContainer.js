@@ -37,12 +37,14 @@ class AppContainer extends React.Component {
         this.toggleMapping = this.toggleMapping.bind(this);
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
+        this.removeEffect = this.removeEffect.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
+        this.socket.emit('route', {input: 'output'});
     }
 
     handleMessage(message) {
@@ -66,7 +68,7 @@ class AppContainer extends React.Component {
     }
 
     createRoutes(effectsArray) {
-        let routeObj = {};
+        let routeObj = {input: 'output'};
         for (let i = 0; i < effectsArray.length; i++) {
             if (i == 0) {
                 routeObj.input = effectsArray[i].ID;
@@ -107,6 +109,22 @@ class AppContainer extends React.Component {
                 break;
             }
         }
+    }
+
+    removeEffect(effectID) {
+        let effects = this.state.effects;
+        let usedIDs = this.state.usedIDs;
+        for (let i = 0; i < effects.length; i++) {
+            if (effects[i].ID == effectID) {
+                effects.splice(i, 1);
+                usedIDs.splice(usedIDs.indexOf(effectID), 1);
+                this.socket.emit('route', this.createRoutes(effects));
+            }
+        }
+        this.setState({
+            effects: effects,
+            usedIDs: usedIDs
+        });
     }
 
     toggleMapping(axisName) {
@@ -176,7 +194,8 @@ class AppContainer extends React.Component {
                 isMapping = {this.state.mapping.isMapping}
                 toggleMapping = {this.toggleMapping}
                 mapToParameter = {this.mapToParameter}
-                xyzMap = {this.state.xyzMap}>
+                xyzMap = {this.state.xyzMap}
+                removeEffect = {this.removeEffect}>
                 {this.state.effects}
             </App>
         );
