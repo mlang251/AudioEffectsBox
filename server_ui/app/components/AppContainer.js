@@ -1,5 +1,6 @@
 import React from 'react';
 import io from 'socket.io-client';
+import Immutable from 'immutable';
 import App from './App';
 import effects from '../JSON/effects.json';
 import presets from '../JSON/defaults.json';
