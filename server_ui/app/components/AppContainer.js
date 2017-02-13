@@ -134,8 +134,8 @@ class AppContainer extends React.Component {
         xyzMap[axisName].effectID = effectID;
         xyzMap[axisName].param = paramName;
 
-        const mappingData = {};
-        mappingData[effectID] = {
+        const mappingData = {
+            effectID: effectID,
             param: paramName,
             axis: axisName
         };
