@@ -11,8 +11,8 @@ class AppContainer extends React.Component {
         this.state = {
             message: '',
             effects: [],
-            usedIDs: [],
-            parameterValues: defaults,
+            usedIDs: Immutable.List(),
+            parameterValues: Immutable.Map(defaults),   //TODO: Turn this entire set into a nested Immutable
             mapping: Immutable.Map({
                 isMapping: false,
                 currentAxis: ''
@@ -86,18 +86,15 @@ class AppContainer extends React.Component {
     addEffectToChain(effectType) {
         const usableIDs = effects.effects[effectType].IDs;
         for (let i = 0; i < usableIDs.length; i++) {
-            if (this.state.usedIDs.indexOf(usableIDs[i]) != -1) {
+            if (this.state.usedIDs.includes(usableIDs[i])) {
                 if (i == usableIDs.length - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
             } else {
-                const usedIDs = this.state.usedIDs;
                 const thisID = usableIDs[i];
-                usedIDs.push(thisID);
-                usedIDs.sort((a,b) => {
-                    return a - b;
-                });
-                this.setState({usedIDs: usedIDs});
+                this.setState(({usedIDs}) => ({
+                    usedIDs: usedIDs.push(thisID).sort()
+                }));
 
                 const newEffect = {
                     type: effectType,
@@ -114,18 +111,16 @@ class AppContainer extends React.Component {
 
     removeEffect(effectID) {
         let effects = this.state.effects;
-        let usedIDs = this.state.usedIDs;
         for (let i = 0; i < effects.length; i++) {
             if (effects[i].ID == effectID) {
                 effects.splice(i, 1);
-                usedIDs.splice(usedIDs.indexOf(effectID), 1);
+                this.setState(({effects, usedIDs}) => ({
+                    effects: effects,
+                    usedIDs: usedIDs.delete(usedIDs.indexOf(effectID))
+                }));
                 this.socket.emit('route', this.createRoutes(effects));
             }
         }
-        this.setState({
-            effects: effects,
-            usedIDs: usedIDs
-        });
     }
 
     toggleMapping(axisName) {
@@ -135,10 +130,12 @@ class AppContainer extends React.Component {
     }
 
     updateParameterValue(info) {
-        const parameterValues = this.state.parameterValues;
         const {effectID, paramName, paramValue} = info;
-        parameterValues[effectID][paramName] = paramValue;
-        this.setState({parameterValues: parameterValues});
+        this.setState(({parameterValues}) => ({
+            parameterValues: parameterValues.update(effectID, map => {
+                return Object.assign({}, map, {[paramName]: paramValue})
+            })
+        }));
         this.socket.emit('updateParam', info);
     }
 
