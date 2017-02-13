@@ -13,5 +13,20 @@
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
+    },
+    "filter1": {
+        "Gain": 0,
+        "Cf": 0,
+        "Q": 0
+    },
+    "filter2": {
+        "Gains": 0,
+        "Cf": 0,
+        "Q": 0
+    },
+    "filter3": {
+        "Gain": 0,
+        "Cf": 0,
+        "Q": 0
     }
 }
