@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import Immutable from 'immutable';
 import App from './App';
 import effects from '../JSON/effects.json';
-import presets from '../JSON/defaults.json';
+import defaults from '../JSON/defaults.json';
 
 class AppContainer extends React.Component {
     constructor() {
@@ -12,11 +12,11 @@ class AppContainer extends React.Component {
             message: '',
             effects: [],
             usedIDs: [],
-            parameterValues: presets,
-            mapping: {
+            parameterValues: defaults,
+            mapping: Immutable.Map({
                 isMapping: false,
                 currentAxis: ''
-            },
+            }),
             xyzMap: {
                 x: {
                     effectID: undefined,
@@ -129,12 +129,9 @@ class AppContainer extends React.Component {
     }
 
     toggleMapping(axisName) {
-        this.setState({
-            mapping: {
-                isMapping: true,
-                currentAxis: axisName
-            }
-        });
+        this.setState(({mapping}) => ({
+            mapping: mapping.update('isMapping', value => true).update('currentAxis', value => axisName)
+        }));
     }
 
     updateParameterValue(info) {
@@ -147,7 +144,7 @@ class AppContainer extends React.Component {
 
     mapToParameter(paramInfo) {
         const {effectID, paramName} = paramInfo;
-        const axisName = this.state.mapping.currentAxis;
+        const axisName = this.state.mapping.get('currentAxis');
         let xyzMap = this.state.xyzMap;
 
         if (xyzMap[axisName].effectID) {
@@ -176,13 +173,10 @@ class AppContainer extends React.Component {
         };
 
         this.socket.emit('xyzMap', mappingData);
-        this.setState({
-            mapping: {
-                isMapping: false,
-                axis: ''
-            },
+        this.setState(({mapping}) => ({
+            mapping: mapping.update('isMapping', value => false).update('axis', value => ''),
             xyzMap: xyzMap
-        });
+        }));
     }
 
     render() {
@@ -192,7 +186,7 @@ class AppContainer extends React.Component {
                 addEffectToChain = {this.addEffectToChain}
                 parameterValues = {this.state.parameterValues}
                 onParameterChange = {this.updateParameterValue}
-                isMapping = {this.state.mapping.isMapping}
+                isMapping = {this.state.mapping.get('isMapping')}
                 toggleMapping = {this.toggleMapping}
                 mapToParameter = {this.mapToParameter}
                 xyzMap = {this.state.xyzMap}
