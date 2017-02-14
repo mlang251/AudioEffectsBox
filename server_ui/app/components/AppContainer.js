@@ -121,7 +121,7 @@ class AppContainer extends React.Component {
         const {effectID, paramName, paramValue} = info;
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.update(effectID, map => {
-                return Object.assign({}, map, {[paramName]: paramValue})
+                return Object.assign({}, map, {[paramName]: paramValue})        //TODO: when defaults is fully Immutable, update this line
             })
         }));
         this.socket.emit('updateParam', info);
