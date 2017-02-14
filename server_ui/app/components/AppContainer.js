@@ -111,9 +111,9 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
-    toggleMapping(axisName) {
+    toggleMapping(axisName = false) {
         this.setState(({mapping}) => ({
-            mapping: mapping.update('isMapping', value => true).update('currentAxis', value => axisName)
+            mapping: mapping.update('isMapping', value => !mapping.get('isMapping')).update('currentAxis', value => axisName ? axisName : '')
         }));
     }
 
@@ -157,8 +157,8 @@ class AppContainer extends React.Component {
             }
         });
 
-        this.setState(({mapping, xyzMap}) => ({
-            mapping: mapping.update('isMapping', value => false).update('axis', value => ''),
+        this.toggleMapping();
+        this.setState(({xyzMap}) => ({
             xyzMap: xyzMap.mergeDeep(xyzMapMutable.asImmutable())
         }));
     }
