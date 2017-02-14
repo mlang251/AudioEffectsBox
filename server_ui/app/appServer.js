@@ -35,6 +35,7 @@ leapToServerChannel.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
+    io.emit('leapData', data);
 });
 
 

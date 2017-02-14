@@ -18,16 +18,16 @@ class AppContainer extends React.Component {
             },
             xyzMap: {
                 x: {
-                    effectID: '',
-                    param: ''
+                    effectID: undefined,
+                    param: undefined
                 },
                 y: {
-                    effectID: '',
-                    param: ''
+                    effectID: undefined,
+                    param: undefined
                 },
                 z: {
-                    effectID: '',
-                    param: ''
+                    effectID: undefined,
+                    param: undefined
                 }
             }
         }
@@ -36,15 +36,32 @@ class AppContainer extends React.Component {
         this.updateParameterValue = this.updateParameterValue.bind(this);
         this.toggleMapping = this.toggleMapping.bind(this);
         this.mapToParameter = this.mapToParameter.bind(this);
+        this.receiveLeapData = this.receiveLeapData.bind(this);
     }
 
     componentWillMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
+        this.socket.on('leapData', this.receiveLeapData);
     }
 
     handleMessage(message) {
         this.setState({message: message});
+    }
+
+    receiveLeapData(data) {
+        const coords = ['x', 'y', 'z'];
+        const xyzMap = this.state.xyzMap;
+        data.forEach((coord, i) => {
+            const curAxisMap = xyzMap[coords[i]];
+            if (curAxisMap.effectID) {
+                this.updateParameterValue({
+                    effectID: curAxisMap.effectID,
+                    paramName: curAxisMap.param,
+                    paramValue: coord
+                });
+            }
+        });
     }
 
     createRoutes(effectsArray) {
