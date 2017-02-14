@@ -2,7 +2,7 @@ import React from 'react';
 import io from 'socket.io-client';
 import Immutable from 'immutable';
 import App from './App';
-import effects from '../JSON/effects.json';
+import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
 
 class AppContainer extends React.Component {
@@ -30,8 +30,9 @@ class AppContainer extends React.Component {
                     effectID: undefined,
                     param: undefined
                 })
-            })
+            })            
         }
+        this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
         this.updateParameterValue = this.updateParameterValue.bind(this);
@@ -78,26 +79,25 @@ class AppContainer extends React.Component {
     }
 
     addEffectToChain(effectType) {
-        const usableIDs = effects.effects[effectType].IDs;
-        for (let i = 0; i < usableIDs.length; i++) {
-            if (this.state.usedIDs.includes(usableIDs[i])) {
-                if (i == usableIDs.length - 1) {
+        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
+        usableIDs.forEach((curID, index) => {
+            if (this.state.usedIDs.includes(curID)) {
+                if (index == usableIDs.size - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
             } else {
-                const thisID = usableIDs[i];
                 const newEffectsArray = this.state.effects.push(Immutable.Map({
                     type: effectType,
-                    ID: thisID
+                    ID: curID
                 }));
                 this.setState(({usedIDs, effects}) => ({
-                    usedIDs: usedIDs.push(thisID).sort(),
+                    usedIDs: usedIDs.push(curID).sort(),
                     effects: newEffectsArray
                 }));
                 this.createRoutes(newEffectsArray);
-                break;
+                return false;
             }
-        }
+        });
     }
 
     removeEffect(effectID) {
@@ -117,12 +117,12 @@ class AppContainer extends React.Component {
         }));
     }
 
-    updateParameterValue(info) {
-        const {effectID, paramName, paramValue} = info.toJS();
+    updateParameterValue(paramInfo) {
+        const {effectID, paramName, paramValue} = paramInfo.toJS();
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.socket.emit('updateParam', info.toJS());
+        this.socket.emit('updateParam', paramInfo.toJS());
     }
 
     mapToParameter(paramInfo) {
