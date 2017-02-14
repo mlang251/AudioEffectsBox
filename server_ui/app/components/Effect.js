@@ -8,20 +8,20 @@ const Effect = props => {
     const [parameterList, parameters] = [effect.parameterList, effect.parameters];
     let params = [];
     let xyzMapArray = [];
-    for (let coord in props.xyzMap) {
-        if (props.xyzMap[coord].effectID == props.ID) {
+    props.xyzMap.forEach((axisInfo, axis) => {
+        if (axisInfo.get('effectID') == props.ID) {
             xyzMapArray.push({
-                param: props.xyzMap[coord].param,
-                coord: coord
+                param: axisInfo.get('param'),
+                coord: axis
             });
         }
-    }
+    });
 
     for (let i = 0; i < parameterList.length; i++) {
         const paramName = parameterList[i];
         const paramType = parameters[parameterList[i]];
         const axes = ['x', 'y', 'z'];
-        var xyzMap = undefined;
+        let xyzMap = undefined;
         for (let i = 0; i < xyzMapArray.length; i++) {
             if (xyzMapArray[i].param == paramName) {
                 xyzMap = xyzMapArray[i].coord;

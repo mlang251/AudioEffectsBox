@@ -12,25 +12,25 @@ class AppContainer extends React.Component {
             message: '',
             effects: [],
             usedIDs: Immutable.List(),
-            parameterValues: Immutable.Map(defaults),   //TODO: Turn this entire set into a nested Immutable
+            parameterValues: Immutable.Map(defaults),   //TODO: Turn this entire set into a nested Immutable use fromJS()
             mapping: Immutable.Map({
                 isMapping: false,
                 currentAxis: ''
             }),
-            xyzMap: {
-                x: {
+            xyzMap: Immutable.Map({
+                x: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                },
-                y: {
+                }),
+                y: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                },
-                z: {
+                }),
+                z: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                }
-            }
+                })
+            })
         }
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
@@ -53,15 +53,13 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapData(data) {
-        console.log(data);
         const coords = ['x', 'y', 'z'];
-        const xyzMap = this.state.xyzMap;
         data.forEach((coord, i) => {
-            const curAxisMap = xyzMap[coords[i]];
-            if (curAxisMap.effectID) {
+            const {effectID, param} = this.state.xyzMap.get(coords[i]).toJS();
+            if (effectID) {
                 this.updateParameterValue({
-                    effectID: curAxisMap.effectID,
-                    paramName: curAxisMap.param,
+                    effectID: effectID,
+                    paramName: param,
                     paramValue: coord
                 });
             }
@@ -142,37 +140,38 @@ class AppContainer extends React.Component {
     mapToParameter(paramInfo) {
         const {effectID, paramName} = paramInfo;
         const axisName = this.state.mapping.get('currentAxis');
-        let xyzMap = this.state.xyzMap;
-
-        if (xyzMap[axisName].effectID) {
-            const clearMapping = {};
-            clearMapping[effectID]= {
-                param: xyzMap[axisName].param,
-                axis: 'n'
-            }
-            this.socket.emit('xyzMap', clearMapping);
+        let xyzMapMutable = this.state.xyzMap.asMutable();
+        
+        if (xyzMapMutable.getIn([axisName, 'effectID'])) {
+            const {effectID, param} = xyzMapMutable.get(axisName).toJS();
+            this.socket.emit('xyzMap', {
+                [effectID]: {
+                    param: param,
+                    axis: 'n'
+                }
+            });
         }
 
-        for (let axis in xyzMap) {
-            if (xyzMap[axis].effectID == effectID && xyzMap[axis].param == paramName) {
-                xyzMap[axis].effectID = undefined;
-                xyzMap[axis].param = undefined;
+        xyzMapMutable.map((axisInfo, axis) => {
+            if (axisInfo.get('effectID') == effectID && axisInfo.get('param') == paramName) {
+                xyzMapMutable.updateIn([axis, 'effectID'], value => undefined);
+                xyzMapMutable.updateIn([axis, 'param'], value => undefined);
             }
-        }
+        });
 
-        xyzMap[axisName].effectID = effectID;
-        xyzMap[axisName].param = paramName;
+        xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
+        xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
-        const mappingData = {};
-        mappingData[effectID] = {
-            param: paramName,
-            axis: axisName
-        };
+        this.socket.emit('xyzMap', {
+            [effectID]: {
+                param: paramName,
+                axis: axisName
+            }
+        });
 
-        this.socket.emit('xyzMap', mappingData);
-        this.setState(({mapping}) => ({
+        this.setState(({mapping, xyzMap}) => ({
             mapping: mapping.update('isMapping', value => false).update('axis', value => ''),
-            xyzMap: xyzMap
+            xyzMap: xyzMap.mergeDeep(xyzMapMutable.asImmutable())
         }));
     }
 
