@@ -2,7 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import Parameter from './Parameter';
 
-class ParameterContainer extends React.Component {
+class ParameterContainer extends React.PureComponent {
     constructor() {
         super();
         this.handleMappingClick = this.handleMappingClick.bind(this);

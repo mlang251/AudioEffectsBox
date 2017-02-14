@@ -2,28 +2,34 @@ import React from 'react';
 import Radium from 'radium';
 import Effect from './Effect';
 
-const SignalChain = props => {
-    const effects = props.children.map((effect, index) => {
-        const {ID, type} = effect.toJS();
+class SignalChain extends React.PureComponent {
+    constructor() {
+        super();
+    }
+
+    render() {
+        const effects = this.props.children.map((effect, index) => {
+            const {ID, type} = effect.toJS();
+            return (
+                <Effect
+                    key = {ID}
+                    ID = {ID}
+                    type = {type}
+                    parameterValues = {this.props.parameterValues.get(ID)}
+                    onParameterChange = {this.props.onParameterChange}
+                    isMapping = {this.props.isMapping}
+                    mapToParameter = {this.props.mapToParameter}
+                    xyzMap = {this.props.xyzMap}
+                    handleCloseButtonClick = {this.props.removeEffect} />
+            );
+        });
         return (
-            <Effect
-                key = {ID}
-                ID = {ID}
-                type = {type}
-                parameterValues = {props.parameterValues.get(ID)}
-                onParameterChange = {props.onParameterChange}
-                isMapping = {props.isMapping}
-                mapToParameter = {props.mapToParameter}
-                xyzMap = {props.xyzMap}
-                handleCloseButtonClick = {props.removeEffect} />
-        );
-    });
-    return (
-        <div id = 'signalChain' style = {styles.div}>
-            {effects}
-        </div>
-    )
-};
+            <div id = 'signalChain' style = {styles.div}>
+                {effects}
+            </div>
+        )
+    }
+}
 
 export default Radium(SignalChain);
 
