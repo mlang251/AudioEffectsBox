@@ -57,11 +57,11 @@ class AppContainer extends React.Component {
         data.forEach((coord, i) => {
             const {effectID, param} = this.state.xyzMap.get(coords[i]).toJS();
             if (effectID) {
-                this.updateParameterValue({
+                this.updateParameterValue(Immutable.Map({
                     effectID: effectID,
                     paramName: param,
                     paramValue: coord
-                });
+                }));
             }
         });
     }
@@ -118,15 +118,15 @@ class AppContainer extends React.Component {
     }
 
     updateParameterValue(info) {
-        const {effectID, paramName, paramValue} = info;
+        const {effectID, paramName, paramValue} = info.toJS();
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.socket.emit('updateParam', info);
+        this.socket.emit('updateParam', info.toJS());
     }
 
     mapToParameter(paramInfo) {
-        const {effectID, paramName} = paramInfo;
+        const {effectID, paramName} = paramInfo.toJS();
         const axisName = this.state.mapping.get('currentAxis');
         let xyzMapMutable = this.state.xyzMap.asMutable();
 

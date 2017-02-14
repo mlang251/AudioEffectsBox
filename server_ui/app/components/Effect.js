@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 import ParameterContainer from './ParameterContainer';
 
@@ -37,7 +38,7 @@ const Effect = props => {
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
-                    info = {{effectID: props.ID,  paramName: paramName}}
+                    info = {Immutable.Map({effectID: props.ID,  paramName: paramName})}
                     value = {props.parameterValues.get(paramName)}
                     onParameterChange = {props.onParameterChange}
                     isMapping = {props.isMapping}
