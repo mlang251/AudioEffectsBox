@@ -3,14 +3,14 @@ import Radium from 'radium';
 import Effect from './Effect';
 
 const SignalChain = props => {
-    const effectsArray = props.children;
-    const effects = effectsArray.map((effect, i) => {
+    const effects = props.children.map((effect, index) => {
+        const {ID, type} = effect.toJS();
         return (
             <Effect
-                key = {effect.ID}
-                ID = {effect.ID}
-                type = {effect.type}
-                parameterValues = {props.parameterValues.get(effect.ID)}
+                key = {ID}
+                ID = {ID}
+                type = {type}
+                parameterValues = {props.parameterValues.get(ID)}
                 onParameterChange = {props.onParameterChange}
                 isMapping = {props.isMapping}
                 mapToParameter = {props.mapToParameter}

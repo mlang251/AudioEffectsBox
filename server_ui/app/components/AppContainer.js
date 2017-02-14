@@ -10,7 +10,7 @@ class AppContainer extends React.Component {
         super();
         this.state = {
             message: '',
-            effects: [],
+            effects: Immutable.List(),
             usedIDs: Immutable.List(),
             parameterValues: Immutable.Map(defaults),   //TODO: Turn this entire set into a nested Immutable use fromJS()
             mapping: Immutable.Map({
@@ -68,17 +68,13 @@ class AppContainer extends React.Component {
 
     createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
-        for (let i = 0; i < effectsArray.length; i++) {
-            if (i == 0) {
-                routeObj.input = effectsArray[i].ID;
+        effectsArray.forEach((effect, index) => {
+            if (index == 0) {
+                routeObj.input = effect.get('ID');
             }
-            if (effectsArray[i+1]) {
-                routeObj[effectsArray[i].ID] = effectsArray[i+1].ID
-            } else {
-                routeObj[effectsArray[i].ID] = "output"
-            }
-        }
-        return routeObj;
+            routeObj[effect.get('ID')] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+        });
+        this.socket.emit('route', routeObj);
     }
 
     addEffectToChain(effectType) {
@@ -90,35 +86,29 @@ class AppContainer extends React.Component {
                 }
             } else {
                 const thisID = usableIDs[i];
-                this.setState(({usedIDs}) => ({
-                    usedIDs: usedIDs.push(thisID).sort()
-                }));
-
-                const newEffect = {
+                const newEffectsArray = this.state.effects.push(Immutable.Map({
                     type: effectType,
                     ID: thisID
-                };
-                const effectsArray = this.state.effects;
-                effectsArray.push(newEffect);
-                this.setState({effects: effectsArray});
-                this.socket.emit('route', this.createRoutes(effectsArray));
+                }));
+                this.setState(({usedIDs, effects}) => ({
+                    usedIDs: usedIDs.push(thisID).sort(),
+                    effects: newEffectsArray
+                }));
+                this.createRoutes(newEffectsArray);   //TODO: perform this with Immutables
                 break;
             }
         }
     }
 
     removeEffect(effectID) {
-        let effects = this.state.effects;
-        for (let i = 0; i < effects.length; i++) {
-            if (effects[i].ID == effectID) {
-                effects.splice(i, 1);
-                this.setState(({effects, usedIDs}) => ({
-                    effects: effects,
-                    usedIDs: usedIDs.delete(usedIDs.indexOf(effectID))
-                }));
-                this.socket.emit('route', this.createRoutes(effects));
-            }
-        }
+        const effectsFiltered = this.state.effects.filter((effect, index) => {
+            return effect.get('ID') != effectID;
+        });
+        this.setState(({usedIDs}) => ({
+            effects: effectsFiltered,
+            usedIDs: usedIDs.delete(usedIDs.indexOf(effectID))
+        }));
+        this.createRoutes(effectsFiltered);
     }
 
     toggleMapping(axisName) {
@@ -141,7 +131,7 @@ class AppContainer extends React.Component {
         const {effectID, paramName} = paramInfo;
         const axisName = this.state.mapping.get('currentAxis');
         let xyzMapMutable = this.state.xyzMap.asMutable();
-        
+
         if (xyzMapMutable.getIn([axisName, 'effectID'])) {
             const {effectID, param} = xyzMapMutable.get(axisName).toJS();
             this.socket.emit('xyzMap', {
