@@ -38,7 +38,7 @@ const Effect = props => {
                 <ParameterContainer
                     type = {paramType}
                     info = {{effectID: props.ID,  paramName: paramName}}
-                    value = {props.parameterValues[paramName]}
+                    value = {props.parameterValues.get(paramName)}
                     onParameterChange = {props.onParameterChange}
                     isMapping = {props.isMapping}
                     mapToParameter = {props.mapToParameter} />

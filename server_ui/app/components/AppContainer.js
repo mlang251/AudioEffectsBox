@@ -12,7 +12,7 @@ class AppContainer extends React.Component {
             message: '',
             effects: Immutable.List(),
             usedIDs: Immutable.List(),
-            parameterValues: Immutable.Map(defaults),   //TODO: Turn this entire set into a nested Immutable use fromJS()
+            parameterValues: Immutable.fromJS(defaults),
             mapping: Immutable.Map({
                 isMapping: false,
                 currentAxis: ''
@@ -120,9 +120,7 @@ class AppContainer extends React.Component {
     updateParameterValue(info) {
         const {effectID, paramName, paramValue} = info;
         this.setState(({parameterValues}) => ({
-            parameterValues: parameterValues.update(effectID, map => {
-                return Object.assign({}, map, {[paramName]: paramValue})        //TODO: when defaults is fully Immutable, update this line
-            })
+            parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
         this.socket.emit('updateParam', info);
     }
