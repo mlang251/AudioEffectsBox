@@ -94,7 +94,7 @@ class AppContainer extends React.Component {
                     usedIDs: usedIDs.push(thisID).sort(),
                     effects: newEffectsArray
                 }));
-                this.createRoutes(newEffectsArray);   //TODO: perform this with Immutables
+                this.createRoutes(newEffectsArray);
                 break;
             }
         }
