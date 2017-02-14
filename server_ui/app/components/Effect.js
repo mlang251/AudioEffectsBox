@@ -5,8 +5,8 @@ import effects from '../JSON/effects.json';
 import ParameterContainer from './ParameterContainer';
 
 const Effect = props => {
-    const effect = effects.effects[props.type];
-    const [parameterList, parameters] = [effect.parameterList, effect.parameters];
+    const effect = Immutable.fromJS(effects).getIn(['effects', props.type]);
+    const [parameterList, parameters] = [effect.get('parameterList'), effect.get('parameters')];
     let params = [];
     let xyzMapArray = [];
     props.xyzMap.forEach((axisInfo, axis) => {
@@ -18,9 +18,8 @@ const Effect = props => {
         }
     });
 
-    for (let i = 0; i < parameterList.length; i++) {
-        const paramName = parameterList[i];
-        const paramType = parameters[parameterList[i]];
+    parameterList.forEach((paramName, index) => {
+        const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
         for (let i = 0; i < xyzMapArray.length; i++) {
@@ -30,7 +29,7 @@ const Effect = props => {
         }
         params.push(
             <div
-                key = {i}
+                key = {index}
                 style = {styles.paramDiv}>
                 <div style = {styles.xyzMapDiv}>
                     <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
@@ -45,11 +44,11 @@ const Effect = props => {
                     mapToParameter = {props.mapToParameter} />
             </div>
         );
-    }
+    });
 
     return (
         <div style = {styles.effectDiv}>
-            <p style = {styles.effectTitle}>{effect.name}</p>
+            <p style = {styles.effectTitle}>{effect.get('name')}</p>
             {params}
             <button
                 type = 'button'
