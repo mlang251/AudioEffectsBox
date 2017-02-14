@@ -1,15 +1,16 @@
 import React from 'react';
 import Radium from 'radium';
+import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 
 const Sidebar = props => {
-    const effectsList = effects.list;
+    const effectsList = Immutable.fromJS(effects).get('list');
     const axesList = ['x', 'y', 'z'];
 
     let effectsArray = [];
     let axesArray = [];
 
-    effectsList.forEach(effectName => {
+    effectsList.forEach((effectName, index) => {
         effectsArray.push(
             <button
                 type = 'button'
