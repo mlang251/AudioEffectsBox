@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import App from './App';
 import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
+import Perf from 'react-addons-perf';
 
 class AppContainer extends React.Component {
     constructor() {
@@ -79,6 +80,7 @@ class AppContainer extends React.Component {
     }
 
     addEffectToChain(effectType) {
+        Perf.start()
         const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
         usableIDs.forEach((curID, index) => {
             if (this.state.usedIDs.includes(curID)) {
@@ -98,6 +100,9 @@ class AppContainer extends React.Component {
                 return false;
             }
         });
+        Perf.stop();
+        Perf.printInclusive();
+        Perf.printWasted();
     }
 
     removeEffect(effectID) {
