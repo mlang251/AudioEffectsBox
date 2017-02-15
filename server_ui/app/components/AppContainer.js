@@ -48,6 +48,7 @@ class AppContainer extends React.Component {
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
         this.socket.emit('route', {input: 'output'});
+        window.Perf = Perf;
     }
 
     handleMessage(message) {
@@ -80,7 +81,6 @@ class AppContainer extends React.Component {
     }
 
     addEffectToChain(effectType) {
-        Perf.start()
         const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
         usableIDs.forEach((curID, index) => {
             if (this.state.usedIDs.includes(curID)) {
@@ -100,9 +100,6 @@ class AppContainer extends React.Component {
                 return false;
             }
         });
-        Perf.stop();
-        Perf.printInclusive();
-        Perf.printWasted();
     }
 
     removeEffect(effectID) {
