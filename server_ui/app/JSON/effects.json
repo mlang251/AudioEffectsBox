@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb"],
+    "list": ["Reverb", "Filter"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -11,6 +11,17 @@
                 "Crossover": "fader",
                 "Damping": "fader"
             }
+        },
+        "filter": {
+          "type": "filter",
+          "name": "Filter",
+          "IDs": ["filter1", "filter2", "filter3"],
+          "parameterList": ["Gain", "Cf", "Q"],
+          "parameters": {
+              "Gain": "fader",
+              "Cf": "fader",
+              "Q": "fader"
+          }
         }
     }
 }

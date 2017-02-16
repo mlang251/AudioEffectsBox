@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 0,
-			"architecture" : "x86",
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 34.0, 79.0, 1212.0, 683.0 ],
+		"rect" : [ 42.0, 85.0, 783.0, 683.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -43,7 +43,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1143.833496, 144.0, 43.0, 33.0 ],
+					"patching_rect" : [ 1143.833496, 144.0, 43.0, 34.0 ],
 					"style" : "",
 					"text" : "Open track"
 				}
@@ -56,7 +56,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 1143.833496, 31.033333, 61.0, 33.0 ],
+					"patching_rect" : [ 1143.833496, 31.033333, 61.0, 34.0 ],
 					"style" : "",
 					"text" : "Press dis 4 jamz"
 				}
@@ -204,7 +204,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 261.0, 195.866669, 51.0, 62.0 ],
+					"patching_rect" : [ 261.0, 195.866669, 53.0, 64.0 ],
 					"style" : "",
 					"text" : "/Coordinates 0.111 0. 0.264"
 				}
@@ -314,7 +314,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 347.400024, 97.033325, 348.0, 54.0 ],
+					"patching_rect" : [ 347.400024, 97.033325, 348.0, 55.0 ],
 					"style" : "",
 					"text" : "2. SET NMAX VALUE (example 200, the z coordinate should be close to this value, this will raise the gain aka you will hear the effect) ",
 					"textcolor" : [ 0.784314, 0.145098, 0.023529, 1.0 ]
@@ -330,7 +330,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 203.299973, 316.066681, 56.333336, 22.0 ],
 					"style" : "",
-					"text" : "1."
+					"text" : "1"
 				}
 
 			}
@@ -965,7 +965,7 @@
 					"patching_rect" : [ 1212.666748, 314.833344, 20.0, 89.0 ],
 					"size" : 3,
 					"style" : "",
-					"value" : 0
+					"value" : 1
 				}
 
 			}
@@ -1724,7 +1724,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 136.133301, 614.666626, 99.666664, 22.0 ],
 					"style" : "",
-					"text" : "0.111 0. 1."
+					"text" : "0. 0. 1."
 				}
 
 			}
@@ -1765,7 +1765,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 22.833324, 579.333313, 84.0, 78.0 ],
+					"patching_rect" : [ 22.833324, 579.333313, 86.0, 78.0 ],
 					"style" : "",
 					"text" : "Scaling normalized values to 128 levels of resolution"
 				}
@@ -2895,7 +2895,7 @@
  ],
 		"dependency_cache" : [ 			{
 				"name" : "rev3~.maxpat",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
+				"bootpath" : "~/Documents/AudioEffectsBox/AudioEffectsBox/Max_MSP",
 				"type" : "JSON",
 				"implicit" : 1
 			}

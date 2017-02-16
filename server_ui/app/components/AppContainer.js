@@ -202,11 +202,10 @@ class AppContainer extends React.Component {
 
         if (xyzMapMutable.getIn([axisName, 'effectID'])) {
             const {effectID, param} = xyzMapMutable.get(axisName).toJS();
-            this.emit('xyzMap', {
-                [effectID]: {
-                    param: param,
-                    axis: 'n'
-                }
+            this.socket.emit('xyzMap', {
+                effectID: effectID,
+                param: param,
+                axis: 'n'
             });
         }
 
@@ -215,16 +214,16 @@ class AppContainer extends React.Component {
                 xyzMapMutable.updateIn([axis, 'effectID'], value => undefined);
                 xyzMapMutable.updateIn([axis, 'param'], value => undefined);
             }
+
         });
 
         xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
         xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
-        this.emit('xyzMap', {
-            [effectID]: {
-                param: paramName,
-                axis: axisName
-            }
+        this.socket.emit('xyzMap', {
+            effectID: effectID,
+            param: paramName,
+            axis: axisName
         });
 
         this.toggleMapping();
@@ -235,10 +234,9 @@ class AppContainer extends React.Component {
 
     removeMapping(axis, effectID, paramName) {
         this.emit('xyzMap', {
-            [effectID]: {
-                param: paramName,
-                axis: 'n'
-            }
+            effectID: effectID,
+            param: param,
+            axis: 'n'
         });
         this.setState(({xyzMap}) => ({
             xyzMap: xyzMap.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined)
