@@ -139,14 +139,8 @@ class AppContainer extends React.Component {
                     param: param,
                     axis: axisName
                 }
-            });
+            );
         }
-
-        const mappingData = {
-            effectID: effectID,
-            param: paramName,
-            axis: axisName
-        };
 
         xyzMapMutable.map((axisInfo, axis) => {
             if (axisInfo.get('effectID') == effectID && axisInfo.get('param') == paramName) {
