@@ -125,28 +125,28 @@ class AppContainer extends React.Component {
 
     //TODO: these two methods are almost exactly the same, combine them
     toggleBypass(effectID) {
-        let isBypassed;
-        let indexToUpdate;
-        const effectsRoute = Immutable.List().asMutable();
-        console.log(this.state.effects.toJS())
-        this.state.effects.forEach((effect, index) => {
-            if (effect.get('ID') != effectID) {
-                if (!effect.get('isBypassed')) {
-                    effectsRoute.push(effect);
+        if (!this.state.effects.find(effect => effect.get('isSoloing'))) {
+            let isBypassed;
+            let indexToUpdate;
+            const effectsRoute = Immutable.List().asMutable();
+            this.state.effects.forEach((effect, index) => {
+                if (effect.get('ID') != effectID) {
+                    if (!effect.get('isBypassed')) {
+                        effectsRoute.push(effect);
+                    }
+                } else {
+                    isBypassed = effect.get('isBypassed');
+                    indexToUpdate = index;
+                    if (isBypassed) {
+                        effectsRoute.push(effect);
+                    }
                 }
-            } else {
-                isBypassed = effect.get('isBypassed');
-                indexToUpdate = index;
-                if (isBypassed) {
-                    effectsRoute.push(effect);
-                }
-            }
-        });
-        console.log(effectsRoute.toJS())
-        this.createRoutes(effectsRoute.asImmutable());
-        this.setState(({effects}) => ({
-            effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
-        }));
+            });
+            this.createRoutes(effectsRoute.asImmutable());
+            this.setState(({effects}) => ({
+                effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
+            }));
+        }
     }
 
     toggleSolo(effectID) {
