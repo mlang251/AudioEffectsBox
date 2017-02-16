@@ -147,7 +147,8 @@ class AppContainer extends React.Component {
     toggleSolo(effectID) {
         let isSoloing;
         let indexToUpdate;
-        const effect = this.state.effects.forEach((effect, index) => {
+        let effectsUpdated = this.state.effects.asMutable();
+        effectsUpdated.forEach((effect, index) => {
             if (effect.get('ID') == effectID) {
                 isSoloing = effect.get('isSoloing');
                 indexToUpdate = index;
@@ -155,13 +156,24 @@ class AppContainer extends React.Component {
             }
         });
         if (!isSoloing) {
+            effectsUpdated.forEach((effect, index) => {
+                if (effect.get('ID') != effectID) {
+                    if (effect.get('isSoloing')) {
+                        effect.update('isSoloing', value => false)
+                    }
+                } else {
+                    effect.update('isSoloing', value => !isSoloing);
+                }
+            });
             this.createRoutes(Immutable.List([this.state.effects.get(indexToUpdate)]));
         } else {
+            effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
             this.createRoutes(this.state.effects);
         }
-        this.setState(({effects}) => ({
-            effects: effects.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing))
-        }));
+        console.log(effectsUpdated)
+        this.setState({
+            effects: effectsUpdated.asImmutable()
+        });
     }
 
     toggleMapping(axisName = false) {
