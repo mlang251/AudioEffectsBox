@@ -24,7 +24,8 @@ class SignalChain extends React.PureComponent {
                     xyzMap = {this.props.xyzMap}
                     handleCloseButtonClick = {this.props.removeEffect} 
                     handleBypassButtonClick = {this.props.toggleBypass} 
-                    handleSoloButtonClick = {this.props.toggleSolo} />
+                    handleSoloButtonClick = {this.props.toggleSolo} 
+                    handleRemoveMappingClick = {this.props.removeMapping} />
             );
         });
         return (

@@ -44,6 +44,7 @@ class AppContainer extends React.Component {
         this.toggleBypass = this.toggleBypass.bind(this);
         this.toggleSolo = this.toggleSolo.bind(this);
         this.emit = this.emit.bind(this);
+        this.removeMapping = this.removeMapping.bind(this);
     }
 
     componentDidMount() {
@@ -232,6 +233,18 @@ class AppContainer extends React.Component {
         }));
     }
 
+    removeMapping(axis, effectID, paramName) {
+        this.emit('xyzMap', {
+            [effectID]: {
+                param: paramName,
+                axis: 'n'
+            }
+        });
+        this.setState(({xyzMap}) => ({
+            xyzMap: xyzMap.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined)
+        }));
+    }
+
     render() {
         return (
             <App
@@ -245,7 +258,8 @@ class AppContainer extends React.Component {
                 xyzMap = {this.state.xyzMap}
                 removeEffect = {this.removeEffect}
                 toggleBypass = {this.toggleBypass}
-                toggleSolo = {this.toggleSolo}>
+                toggleSolo = {this.toggleSolo}
+                removeMapping = {this.removeMapping}>
                 {this.state.effects}
             </App>
         );

@@ -26,10 +26,21 @@ class Effect extends React.PureComponent {
         parameterList.forEach((paramName, index) => {
             const paramType = parameters.get(paramName);
             const axes = ['x', 'y', 'z'];
+            let mapToAxis = undefined;
             let xyzMap = undefined;
             for (let i = 0; i < xyzMapArray.length; i++) {
                 if (xyzMapArray[i].param == paramName) {
-                    xyzMap = xyzMapArray[i].coord;
+                    const thisAxis = xyzMapArray[i].coord;
+                    xyzMap = [
+                        <p 
+                            key = {`${this.props.ID}${thisAxis}`}
+                            style = {styles.xyzMap}>{thisAxis}</p>,
+                        <button 
+                            key = {`${this.props.ID}Remove${thisAxis}`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
+                            onClick = {() => this.props.handleRemoveMappingClick(thisAxis, this.props.ID, paramName)}>X</button>
+                    ];
                 }
             }
             params.push(
@@ -37,7 +48,7 @@ class Effect extends React.PureComponent {
                     key = {index}
                     style = {styles.paramDiv}>
                     <div style = {styles.xyzMapDiv}>
-                        <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
+                        {xyzMap}
                     </div>
                     <p style = {styles.paramTitle}>{paramName}</p>
                     <ParameterContainer
@@ -105,7 +116,6 @@ const styles = {
         paddingLeft: 5
     },
     xyzMapDiv: {
-        display: 'inline-block',
         height: 30,
         width: '100%'
     },
@@ -117,7 +127,7 @@ const styles = {
         fontSize: '0.8em'
     },
     xyzMap: {
-        textAlign: 'center',
+        display: 'inline-block',
         padding: 0,
         margin: 0
     },
@@ -138,6 +148,9 @@ const styles = {
     },
     bypassButton: {
 
+    },
+    removeMappingButton: {
+        display: 'inline-block'
     },
     closeButton: {
         backgroundColor: '#999'
