@@ -1,48 +1,54 @@
 import React from 'react';
 import io from 'socket.io-client';
+import Immutable from 'immutable';
 import App from './App';
-import effects from '../JSON/effects.json';
-import presets from '../JSON/defaults.json';
+import effectsJSON from '../JSON/effects.json';
+import defaults from '../JSON/defaults.json';
+import Perf from 'react-addons-perf';
 
 class AppContainer extends React.Component {
     constructor() {
         super();
         this.state = {
             message: '',
-            effects: [],
-            usedIDs: [],
-            parameterValues: presets,
-            mapping: {
+            effects: Immutable.List(),
+            usedIDs: Immutable.List(),
+            parameterValues: Immutable.fromJS(defaults),
+            mapping: Immutable.Map({
                 isMapping: false,
                 currentAxis: ''
-            },
-            xyzMap: {
-                x: {
+            }),
+            xyzMap: Immutable.Map({
+                x: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                },
-                y: {
+                }),
+                y: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                },
-                z: {
+                }),
+                z: Immutable.Map({
                     effectID: undefined,
                     param: undefined
-                }
-            }
+                })
+            })            
         }
+        this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
         this.updateParameterValue = this.updateParameterValue.bind(this);
         this.toggleMapping = this.toggleMapping.bind(this);
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
+        this.removeEffect = this.removeEffect.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
+        this.socket.emit('route', {input: 'output'});
+        window.Perf = Perf;
     }
 
     handleMessage(message) {
@@ -50,104 +56,113 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapData(data) {
-        console.log(data);
         const coords = ['x', 'y', 'z'];
-        const xyzMap = this.state.xyzMap;
         data.forEach((coord, i) => {
-            const curAxisMap = xyzMap[coords[i]];
-            if (curAxisMap.effectID) {
-                this.updateParameterValue({
-                    effectID: curAxisMap.effectID,
-                    paramName: curAxisMap.param,
+            const {effectID, param} = this.state.xyzMap.get(coords[i]).toJS();
+            if (effectID) {
+                this.updateParameterValue(Immutable.Map({
+                    effectID: effectID,
+                    paramName: param,
                     paramValue: coord
-                });
+                }));
             }
         });
     }
 
     createRoutes(effectsArray) {
-        let routeObj = {};
-        for (let i = 0; i < effectsArray.length; i++) {
-            if (i == 0) {
-                routeObj.input = effectsArray[i].ID;
+        let routeObj = {input: 'output'};
+        effectsArray.forEach((effect, index) => {
+            if (index == 0) {
+                routeObj.input = effect.get('ID');
             }
-            if (effectsArray[i+1]) {
-                routeObj[effectsArray[i].ID] = effectsArray[i+1].ID
-            } else {
-                routeObj[effectsArray[i].ID] = "output"
-            }
-        }
-        return routeObj;
+            routeObj[effect.get('ID')] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+        });
+        this.socket.emit('route', routeObj);
     }
 
     addEffectToChain(effectType) {
-        const usableIDs = effects.effects[effectType].IDs;
-        for (let i = 0; i < usableIDs.length; i++) {
-            if (this.state.usedIDs.indexOf(usableIDs[i]) != -1) {
-                if (i == usableIDs.length - 1) {
+        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
+        usableIDs.forEach((curID, index) => {
+            if (this.state.usedIDs.includes(curID)) {
+                if (index == usableIDs.size - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
             } else {
-                const usedIDs = this.state.usedIDs;
-                const thisID = usableIDs[i];
-                usedIDs.push(thisID);
-                usedIDs.sort((a,b) => {
-                    return a - b;
-                });
-                this.setState({usedIDs: usedIDs});
-
-                const newEffect = {
+                const newEffectsArray = this.state.effects.push(Immutable.Map({
                     type: effectType,
-                    ID: thisID
-                };
-                const effectsArray = this.state.effects;
-                effectsArray.push(newEffect);
-                this.setState({effects: effectsArray});
-                this.socket.emit('route', this.createRoutes(effectsArray));
-                break;
-            }
-        }
-    }
-
-    toggleMapping(axisName) {
-        this.setState({
-            mapping: {
-                isMapping: true,
-                currentAxis: axisName
+                    ID: curID
+                }));
+                this.setState(({usedIDs, effects}) => ({
+                    usedIDs: usedIDs.push(curID).sort(),
+                    effects: newEffectsArray
+                }));
+                this.createRoutes(newEffectsArray);
+                return false;
             }
         });
     }
 
-    updateParameterValue(info) {
-        const parameterValues = this.state.parameterValues;
-        const {effectID, paramName, paramValue} = info;
-        parameterValues[effectID][paramName] = paramValue;
-        this.setState({parameterValues: parameterValues});
-        this.socket.emit('updateParam', info);
+    removeEffect(effectID) {
+        const effectsFiltered = this.state.effects.filter((effect, index) => {
+            return effect.get('ID') != effectID;
+        });
+        this.setState(({usedIDs}) => ({
+            effects: effectsFiltered,
+            usedIDs: usedIDs.delete(usedIDs.indexOf(effectID))
+        }));
+        this.createRoutes(effectsFiltered);
+    }
+
+    toggleMapping(axisName = false) {
+        this.setState(({mapping}) => ({
+            mapping: mapping.update('isMapping', value => !mapping.get('isMapping')).update('currentAxis', value => axisName ? axisName : '')
+        }));
+    }
+
+    updateParameterValue(paramInfo) {
+        const {effectID, paramName, paramValue} = paramInfo.toJS();
+        this.setState(({parameterValues}) => ({
+            parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
+        }));
+        this.socket.emit('updateParam', paramInfo.toJS());
     }
 
     mapToParameter(paramInfo) {
-        const {effectID, paramName} = paramInfo;
-        const axisName = this.state.mapping.currentAxis;
-        let xyzMap = this.state.xyzMap;
+        const {effectID, paramName} = paramInfo.toJS();
+        const axisName = this.state.mapping.get('currentAxis');
+        let xyzMapMutable = this.state.xyzMap.asMutable();
 
-        xyzMap[axisName].effectID = effectID;
-        xyzMap[axisName].param = paramName;
+        if (xyzMapMutable.getIn([axisName, 'effectID'])) {
+            const {effectID, param} = xyzMapMutable.get(axisName).toJS();
+            this.socket.emit('xyzMap', {
+                [effectID]: {
+                    param: param,
+                    axis: 'n'
+                }
+            });
+        }
 
-        const mappingData = {};
-        mappingData[effectID] = {
-            param: paramName,
-            axis: axisName
-        };
-
-        this.socket.emit('xyzMap', mappingData);
-        this.setState({
-            mapping: {
-                isMapping: false,
-                axis: ''
-            },
-            xyzMap: xyzMap
+        xyzMapMutable.map((axisInfo, axis) => {
+            if (axisInfo.get('effectID') == effectID && axisInfo.get('param') == paramName) {
+                xyzMapMutable.updateIn([axis, 'effectID'], value => undefined);
+                xyzMapMutable.updateIn([axis, 'param'], value => undefined);
+            }
         });
+
+        xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
+        xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
+
+        this.socket.emit('xyzMap', {
+            [effectID]: {
+                param: paramName,
+                axis: axisName
+            }
+        });
+
+        this.toggleMapping();
+        this.setState(({xyzMap}) => ({
+            xyzMap: xyzMap.mergeDeep(xyzMapMutable.asImmutable())
+        }));
     }
 
     render() {
@@ -157,10 +172,11 @@ class AppContainer extends React.Component {
                 addEffectToChain = {this.addEffectToChain}
                 parameterValues = {this.state.parameterValues}
                 onParameterChange = {this.updateParameterValue}
-                isMapping = {this.state.mapping.isMapping}
+                isMapping = {this.state.mapping.get('isMapping')}
                 toggleMapping = {this.toggleMapping}
                 mapToParameter = {this.mapToParameter}
-                xyzMap = {this.state.xyzMap}>
+                xyzMap = {this.state.xyzMap}
+                removeEffect = {this.removeEffect}>
                 {this.state.effects}
             </App>
         );
