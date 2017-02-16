@@ -2,7 +2,7 @@ import React from 'react';
 import Radium from 'radium';
 import Parameter from './Parameter';
 
-class ParameterContainer extends React.Component {
+class ParameterContainer extends React.PureComponent {
     constructor() {
         super();
         this.handleMappingClick = this.handleMappingClick.bind(this);
@@ -15,8 +15,8 @@ class ParameterContainer extends React.Component {
             : data.y > max ? 1
             : data.y/max
         value = Math.round(value * 1000)/1000;
-        info.paramValue = value;
-        this.props.onParameterChange(info);
+        const updatedInfo = info.set('paramValue', value);
+        this.props.onParameterChange(updatedInfo);
     }
 
     handleMappingClick(isMapping, info) {

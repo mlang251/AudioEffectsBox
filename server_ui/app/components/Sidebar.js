@@ -1,42 +1,49 @@
 import React from 'react';
 import Radium from 'radium';
+import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 
-const Sidebar = props => {
-    const effectsList = effects.list;
-    const axesList = ['x', 'y', 'z'];
+class Sidebar extends React.PureComponent {
+    constructor() {
+        super();
+    }
 
-    let effectsArray = [];
-    let axesArray = [];
+    render() {
+        const effectsList = Immutable.fromJS(effects).get('list');
+        const axesList = ['x', 'y', 'z'];
 
-    effectsList.forEach(effectName => {
-        effectsArray.push(
-            <button
-                type = 'button'
-                key = {effectName}
-                style = {styles.button}
-                onClick = {() => props.handleEffectButtonClick(effectName.toLowerCase())}>Add {effectName}</button>
+        let effectsArray = [];
+        let axesArray = [];
+
+        effectsList.forEach((effectName, index) => {
+            effectsArray.push(
+                <button
+                    type = 'button'
+                    key = {effectName}
+                    style = {styles.button}
+                    onClick = {() => this.props.handleEffectButtonClick(effectName.toLowerCase())}>Add {effectName}</button>
+            );
+        });
+
+        axesList.forEach(axisName => {
+            axesArray.push(
+                <button
+                    type = 'button'
+                    key = {axisName}
+                    style = {styles.button}
+                    onClick = {() => this.props.handleAxisButtonClick(axisName)}>Map {axisName.toUpperCase()}</button>
+            );
+        });
+
+        return (
+            <div>
+                <h3>Motion Tracking</h3>
+                {axesArray}
+                <h3>Effects</h3>
+                {effectsArray}
+            </div>
         );
-    });
-
-    axesList.forEach(axisName => {
-        axesArray.push(
-            <button
-                type = 'button'
-                key = {axisName}
-                style = {styles.button}
-                onClick = {() => props.handleAxisButtonClick(axisName)}>Map {axisName.toUpperCase()}</button>
-        );
-    });
-
-    return (
-        <div>
-            <h3>Motion Tracking</h3>
-            {axesArray}
-            <h3>Effects</h3>
-            {effectsArray}
-        </div>
-    );
+    }
 }
 
 const styles = {

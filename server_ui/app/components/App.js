@@ -6,7 +6,9 @@ import Sidebar from './Sidebar';
 
 const App = props => (
     <div>
-        <AppBar title = "Audio Expression Box" />
+        <AppBar 
+            showMenuIconButton = {false}
+            title = "Audio Expression Box" />
         <div className = 'container-fluid'>
             <div className = 'row'>
                 <div className = 'col-sm-10'>
@@ -16,7 +18,8 @@ const App = props => (
                         parameterValues = {props.parameterValues}
                         isMapping = {props.isMapping}
                         mapToParameter = {props.mapToParameter}
-                        xyzMap = {props.xyzMap}>{props.children}</SignalChain>
+                        xyzMap = {props.xyzMap}
+                        removeEffect = {props.removeEffect}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
                     <Sidebar

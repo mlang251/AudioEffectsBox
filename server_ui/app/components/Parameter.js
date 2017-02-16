@@ -2,28 +2,34 @@ import React from 'react';
 import Radium from 'radium';
 import Draggable from 'react-draggable';
 
-const Parameter = props => {
-    const divStyle =
-        props.isMapping ?
-        Object.assign(styles.faderContainerDiv, styles.isMapping) :
-        Object.assign(styles.faderContainerDiv, styles.isNotMapping);
-    return (
-        <div style = {styles.div}>
-            <div
-                style = {divStyle}
-                onClick = {() => props.handleMappingClick(props.isMapping, props.info)}>
-                <div style = {styles.slotDiv}></div>
-                <Draggable
-                    axis = 'y'
-                    bounds = 'parent'
-                    disabled = {props.isMapping}
-                    position = {{x: 0, y: props.value * styles.slotDiv.height}}
-                    onDrag = {(e, data) => {props.handleDrag(data, props.info, styles.slotDiv.height)}}>
-                    <div style = {styles.faderDiv}></div>
-                </Draggable>
+class Parameter extends React.PureComponent {
+    constructor() {
+        super();
+    }
+
+    render() {
+        const divStyle =
+            this.props.isMapping ?
+            Object.assign(styles.faderContainerDiv, styles.isMapping) :
+            Object.assign(styles.faderContainerDiv, styles.isNotMapping);
+        return (
+            <div style = {styles.div}>
+                <div
+                    style = {divStyle}
+                    onClick = {() => this.props.handleMappingClick(this.props.isMapping, this.props.info)}>
+                    <div style = {styles.slotDiv}></div>
+                    <Draggable
+                        axis = 'y'
+                        bounds = 'parent'
+                        disabled = {this.props.isMapping}
+                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
+                        onDrag = {(e, data) => {this.props.handleDrag(data, this.props.info, styles.slotDiv.height)}}>
+                        <div style = {styles.faderDiv}></div>
+                    </Draggable>
+                </div>
             </div>
-        </div>
-    );
+        );
+    }
 }
 
 const styles = {
