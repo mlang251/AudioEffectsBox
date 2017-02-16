@@ -127,18 +127,23 @@ class AppContainer extends React.Component {
     toggleBypass(effectID) {
         let isBypassed;
         let indexToUpdate;
-        const effect = this.state.effects.forEach((effect, index) => {
-            if (effect.get('ID') == effectID) {
+        const effectsRoute = Immutable.List().asMutable();
+        console.log(this.state.effects.toJS())
+        this.state.effects.forEach((effect, index) => {
+            if (effect.get('ID') != effectID) {
+                if (!effect.get('isBypassed')) {
+                    effectsRoute.push(effect);
+                }
+            } else {
                 isBypassed = effect.get('isBypassed');
                 indexToUpdate = index;
-                return false;
+                if (isBypassed) {
+                    effectsRoute.push(effect);
+                }
             }
         });
-        if (!isBypassed) {
-            this.createRoutes(this.state.effects.delete(indexToUpdate));
-        } else {
-            this.createRoutes(this.state.effects);
-        }
+        console.log(effectsRoute.toJS())
+        this.createRoutes(effectsRoute.asImmutable());
         this.setState(({effects}) => ({
             effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
         }));
