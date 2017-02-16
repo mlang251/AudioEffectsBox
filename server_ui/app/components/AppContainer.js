@@ -159,10 +159,10 @@ class AppContainer extends React.Component {
             effectsUpdated.forEach((effect, index) => {
                 if (effect.get('ID') != effectID) {
                     if (effect.get('isSoloing')) {
-                        effect.update('isSoloing', value => false)
+                        effectsUpdated.update(index, effect => effect.update('isSoloing', value => false));
                     }
                 } else {
-                    effect.update('isSoloing', value => !isSoloing);
+                    effectsUpdated.update(index, effect => effect.update('isSoloing', value => !isSoloing));
                 }
             });
             this.createRoutes(Immutable.List([this.state.effects.get(indexToUpdate)]));
@@ -170,7 +170,6 @@ class AppContainer extends React.Component {
             effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
             this.createRoutes(this.state.effects);
         }
-        console.log(effectsUpdated)
         this.setState({
             effects: effectsUpdated.asImmutable()
         });
