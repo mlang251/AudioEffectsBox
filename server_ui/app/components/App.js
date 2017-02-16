@@ -19,7 +19,8 @@ const App = props => (
                         isMapping = {props.isMapping}
                         mapToParameter = {props.mapToParameter}
                         xyzMap = {props.xyzMap}
-                        removeEffect = {props.removeEffect}>{props.children}</SignalChain>
+                        removeEffect = {props.removeEffect}
+                        bypassEffect = {props.bypassEffect}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
                     <Sidebar

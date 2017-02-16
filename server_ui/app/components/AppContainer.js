@@ -41,14 +41,20 @@ class AppContainer extends React.Component {
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
+        this.bypassEffect = this.bypassEffect.bind(this);
+        this.emit = this.emit.bind(this);
     }
 
     componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.emit('route', {input: 'output'});
+        this.emit('route', {input: 'output'});
         window.Perf = Perf;
+    }
+
+    emit(eventName, data) {
+        this.socket.emit(eventName, data);
     }
 
     handleMessage(message) {
@@ -69,15 +75,18 @@ class AppContainer extends React.Component {
         });
     }
 
-    createRoutes(effectsArray) {
+    createRoutes(effectsArray, bypassID) {
         let routeObj = {input: 'output'};
         effectsArray.forEach((effect, index) => {
+            const ID = effect.get('ID');
             if (index == 0) {
-                routeObj.input = effect.get('ID');
+                routeObj.input = ID;
             }
-            routeObj[effect.get('ID')] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+            if (ID != bypassID) {
+                routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+            }
         });
-        this.socket.emit('route', routeObj);
+        this.emit('route', routeObj);
     }
 
     addEffectToChain(effectType) {
@@ -90,7 +99,8 @@ class AppContainer extends React.Component {
             } else {
                 const newEffectsArray = this.state.effects.push(Immutable.Map({
                     type: effectType,
-                    ID: curID
+                    ID: curID,
+                    isBypassed: false
                 }));
                 this.setState(({usedIDs, effects}) => ({
                     usedIDs: usedIDs.push(curID).sort(),
@@ -113,6 +123,19 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
+    toggleBypassEffect(effectID) {
+        const isBypassed = this.state.effects.getIn([effectID, 'isBypassed']);
+        if (!isBypassed) {
+            const effectsFiltered = this.state.effects.filter((effect, index) => {
+                return effect.get('ID') != effectID;
+            });
+        }
+        this.setState(({effects}) => ({
+            effects: effects.updateIn([effectID, 'isBypassed'], value => !isBypassed)
+        }));
+        this.createRoutes(effectsFiltered);
+    }
+
     toggleMapping(axisName = false) {
         this.setState(({mapping}) => ({
             mapping: mapping.update('isMapping', value => !mapping.get('isMapping')).update('currentAxis', value => axisName ? axisName : '')
@@ -124,7 +147,7 @@ class AppContainer extends React.Component {
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.socket.emit('updateParam', paramInfo.toJS());
+        this.emit('updateParam', paramInfo.toJS());
     }
 
     mapToParameter(paramInfo) {
@@ -134,7 +157,7 @@ class AppContainer extends React.Component {
 
         if (xyzMapMutable.getIn([axisName, 'effectID'])) {
             const {effectID, param} = xyzMapMutable.get(axisName).toJS();
-            this.socket.emit('xyzMap', {
+            this.emit('xyzMap', {
                 [effectID]: {
                     param: param,
                     axis: 'n'
@@ -152,7 +175,7 @@ class AppContainer extends React.Component {
         xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
         xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
-        this.socket.emit('xyzMap', {
+        this.emit('xyzMap', {
             [effectID]: {
                 param: paramName,
                 axis: axisName
@@ -176,7 +199,8 @@ class AppContainer extends React.Component {
                 toggleMapping = {this.toggleMapping}
                 mapToParameter = {this.mapToParameter}
                 xyzMap = {this.state.xyzMap}
-                removeEffect = {this.removeEffect}>
+                removeEffect = {this.removeEffect}
+                bypassEffect = {this.bypassEffect}>
                 {this.state.effects}
             </App>
         );

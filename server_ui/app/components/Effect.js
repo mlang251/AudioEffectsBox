@@ -57,6 +57,9 @@ class Effect extends React.PureComponent {
                 {params}
                 <button
                     type = 'button'
+                    onClick = {() => this.props.handleBypassButtonClick(this.props.ID)}>Bypass</button>
+                <button
+                    type = 'button'
                     onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
             </div>
         );
