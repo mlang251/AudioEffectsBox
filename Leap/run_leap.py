@@ -30,4 +30,4 @@ if __name__ == "__main__":
         print "Running..."
         controller.runloop()
     except KeyboardInterrupt:
-        raise
+        sys.exit(1)
