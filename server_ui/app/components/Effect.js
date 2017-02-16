@@ -1,57 +1,66 @@
 import React from 'react';
 import Radium from 'radium';
+import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 import ParameterContainer from './ParameterContainer';
 
-const Effect = props => {
-    const effect = effects.effects[props.type];
-    const [parameterList, parameters] = [effect.parameterList, effect.parameters];
-    let params = [];
-    let xyzMapArray = [];
-    for (let coord in props.xyzMap) {
-        if (props.xyzMap[coord].effectID == props.ID) {
-            xyzMapArray.push({
-                param: props.xyzMap[coord].param,
-                coord: coord
-            });
-        }
+class Effect extends React.PureComponent {
+    constructor() {
+        super();
     }
 
-    for (let i = 0; i < parameterList.length; i++) {
-        const paramName = parameterList[i];
-        const paramType = parameters[parameterList[i]];
-        const axes = ['x', 'y', 'z'];
-        var xyzMap = undefined;
-        for (let i = 0; i < xyzMapArray.length; i++) {
-            if (xyzMapArray[i].param == paramName) {
-                xyzMap = xyzMapArray[i].coord;
+    render() {
+        const effect = Immutable.fromJS(effects).getIn(['effects', this.props.type]);
+        const [parameterList, parameters] = [effect.get('parameterList'), effect.get('parameters')];
+        let params = [];
+        let xyzMapArray = [];
+        this.props.xyzMap.forEach((axisInfo, axis) => {
+            if (axisInfo.get('effectID') == this.props.ID) {
+                xyzMapArray.push({
+                    param: axisInfo.get('param'),
+                    coord: axis
+                });
             }
-        }
-        params.push(
-            <div
-                key = {i}
-                style = {styles.paramDiv}>
-                <div style = {styles.xyzMapDiv}>
-                    <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
+        });
+
+        parameterList.forEach((paramName, index) => {
+            const paramType = parameters.get(paramName);
+            const axes = ['x', 'y', 'z'];
+            let xyzMap = undefined;
+            for (let i = 0; i < xyzMapArray.length; i++) {
+                if (xyzMapArray[i].param == paramName) {
+                    xyzMap = xyzMapArray[i].coord;
+                }
+            }
+            params.push(
+                <div
+                    key = {index}
+                    style = {styles.paramDiv}>
+                    <div style = {styles.xyzMapDiv}>
+                        <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
+                    </div>
+                    <p style = {styles.paramTitle}>{paramName}</p>
+                    <ParameterContainer
+                        type = {paramType}
+                        info = {Immutable.Map({effectID: this.props.ID,  paramName: paramName})}
+                        value = {this.props.parameterValues.get(paramName)}
+                        onParameterChange = {this.props.onParameterChange}
+                        isMapping = {this.props.isMapping}
+                        mapToParameter = {this.props.mapToParameter} />
                 </div>
-                <p style = {styles.paramTitle}>{paramName}</p>
-                <ParameterContainer
-                    type = {paramType}
-                    info = {{effectID: props.ID,  paramName: paramName}}
-                    value = {props.parameterValues[paramName]}
-                    onParameterChange = {props.onParameterChange}
-                    isMapping = {props.isMapping}
-                    mapToParameter = {props.mapToParameter} />
+            );
+        });
+
+        return (
+            <div style = {styles.effectDiv}>
+                <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                {params}
+                <button
+                    type = 'button'
+                    onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
             </div>
         );
     }
-
-    return (
-        <div style = {styles.effectDiv}>
-            <p style = {styles.effectTitle}>{effect.name}</p>
-            {params}
-        </div>
-    );
 }
 
 const styles = {
