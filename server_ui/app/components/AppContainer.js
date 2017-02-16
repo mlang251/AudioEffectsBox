@@ -137,7 +137,7 @@ class AppContainer extends React.Component {
             this.socket.emit('xyzMap', {
                     effectID: effectID,
                     param: param,
-                    axis: axisName
+                    axis: 'n'
                 }
             );
         }
@@ -154,11 +154,11 @@ class AppContainer extends React.Component {
         xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
         this.socket.emit('xyzMap', {
-            [effectID]: {
+                effectID: effectID,
                 param: paramName,
                 axis: axisName
             }
-        });
+        );
 
         this.toggleMapping();
         this.setState(({xyzMap}) => ({
