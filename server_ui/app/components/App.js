@@ -10,9 +10,15 @@ const App = props => (
         <AppBar 
             showMenuIconButton = {false}
             title = "Audio Expression Box" />
-        <div className = 'container-fluid'>
-            <div className = 'row'>
-                <div className = 'col-sm-10'>
+        <div 
+            className = 'container-fluid'
+            style = {styles.container}>
+            <div 
+                className = 'row'
+                style = {styles.div}>
+                <div 
+                    className = 'col-sm-10'
+                    style = {styles.div}>
                     <p>Received message on port 57120: {props.message}</p>
                     <InteractionBox />
                     <SignalChain
@@ -36,5 +42,14 @@ const App = props => (
         </div>
     </div>
 );
+
+const styles = {
+    container: {
+        height: window.innerHeight - 64
+    },
+    div: {
+        height: '100%'
+    }
+}
 
 export default Radium(App);

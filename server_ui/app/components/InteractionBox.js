@@ -27,14 +27,16 @@ const styles = {
         position: 'relative',
         perspective: 1000,
         marginTop: 30,
-        marginBottom: 30
+        marginBottom: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
     cube: {
         width: '100%',
         height: '100%',
         position: 'absolute',
         transformStyle: 'preserve-3d',
-        transform: 'translateZ(-100px)'
+        transform: 'translateZ(-100px) rotateX(-20deg)'
     },
     figure: {
         margin: 0,

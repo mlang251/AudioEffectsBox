@@ -43,9 +43,11 @@ export default Radium(SignalChain);
 
 const styles = {
     div: {
-        display: 'inline-block',
-        height: 400,
-        width: '100%',
+        height: 250,
+        width: '90%',
+        left: '5%',
+        position: 'absolute',
+        bottom: 25,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
