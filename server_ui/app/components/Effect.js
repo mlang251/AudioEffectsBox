@@ -62,6 +62,27 @@ class Effect extends React.PureComponent {
             );
         });
 
+        let reorderButtonLeft;
+        let reorderButtonRight;
+        if (this.props.reorderButtonLeft) {
+            reorderButtonLeft = (
+                <button
+                    type = 'button'
+                    key = {`${this.props.ID}Left`}
+                    style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
+                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
+            );
+        }
+        if (this.props.reorderButtonRight) {
+            reorderButtonRight = (
+                <button
+                    type = 'button'
+                    key = {`${this.props.ID}Right`}
+                    style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
+                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
+            );
+        }
+        
         const bypassStyle = this.props.isBypassed ? 'isActive' : 'isNotActive';
         const soloStyle = this.props.isSoloing ? 'isActive' : 'isNotActive';
         return (
@@ -86,7 +107,9 @@ class Effect extends React.PureComponent {
                             onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
                     </div>
                 </div>
+                {reorderButtonLeft}
                 {params}
+                {reorderButtonRight}
             </div>
         );
     }
@@ -95,13 +118,14 @@ class Effect extends React.PureComponent {
 const styles = {
     effectDiv: {
         display: 'inline-block',
+        position: 'relative',
         borderWidth: 2,
         borderStyle: 'solid',
         borderColor: '#333',
         boxShadow: 'inset 0 0 5px #AAA',
         borderRadius: 5,
-        paddingLeft: 20,
-        paddingRight: 20,
+        paddingLeft: 40,
+        paddingRight: 40,
     },
     headerDiv: {
         paddingLeft: 15,
@@ -148,6 +172,17 @@ const styles = {
     },
     bypassButton: {
 
+    },
+    reorderButton: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(0, -50%)'
+    },
+    reorderButtonLeft: {
+        left: 3
+    },
+    reorderButtonRight: {
+        right: 3
     },
     removeMappingButton: {
         display: 'inline-block'

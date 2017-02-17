@@ -22,7 +22,8 @@ const App = props => (
                         removeEffect = {props.removeEffect}
                         toggleBypass = {props.toggleBypass}
                         toggleSolo = {props.toggleSolo}
-                        removeMapping = {props.removeMapping}>{props.children}</SignalChain>
+                        removeMapping = {props.removeMapping}
+                        reorderEffects = {props.reorderEffects}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
                     <Sidebar

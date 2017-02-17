@@ -45,6 +45,7 @@ class AppContainer extends React.Component {
         this.toggleSolo = this.toggleSolo.bind(this);
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
+        this.reorderEffects = this.reorderEffects.bind(this);
     }
 
     componentDidMount() {
@@ -243,6 +244,30 @@ class AppContainer extends React.Component {
         }));
     }
 
+    reorderEffects(effectID, direction) {
+        let effectsList;
+        if (direction == 'left') {
+            effectsList = this.state.effects.asMutable().reverse();
+        } else {
+            effectsList = this.state.effects.asMutable();
+        }
+        effectsList = effectsList.sort((effectA, effectB) => {
+            if (effectA.get('ID') == effectID) {
+                return 1;
+            } else {
+                return 0;
+            }
+        });
+        if (direction == 'left') {
+            effectsList = effectsList.reverse();
+        }
+        const effectsUpdated = effectsList.asImmutable();
+        this.createRoutes(effectsUpdated);
+        this.setState({
+            effects: effectsUpdated
+        });
+    }
+
     render() {
         return (
             <App
@@ -257,7 +282,8 @@ class AppContainer extends React.Component {
                 removeEffect = {this.removeEffect}
                 toggleBypass = {this.toggleBypass}
                 toggleSolo = {this.toggleSolo}
-                removeMapping = {this.removeMapping}>
+                removeMapping = {this.removeMapping}
+                reorderEffects = {this.reorderEffects}>
                 {this.state.effects}
             </App>
         );
