@@ -37,12 +37,17 @@ class LeapController(object):
 
     def connect(self):
         """
-        Initializes OSC connection.
+        Initializes OSC connections.
 
         """
-        # Setup OSC connection to local host port 8000
+        # OSC connection for sending Leap data
         self.data_client = OSC.OSCClient()
         self.data_client.connect(('127.0.0.1', 8000))
+
+        # OSC connection for sending errors
+        self.error_client = OSC.OSCClient()
+        self.error_client.connect(('127.0.0.1', 8010))
+
         print "Leap is connected to Server."
 
     def send_palm_position(self, palm_position):
@@ -64,14 +69,14 @@ class LeapController(object):
         #                str(round(palm_position.z, 3)))
         # print coordinates
 
-        Use OSC to send xyz coordiantes and have max seperate by space
+        # Use OSC to send xyz coordiantes and have max seperate by space
         try:
-            self.oscmsg = OSC.OSCMessage()
-            self.oscmsg.setAddress("/Coordinates")
-            self.oscmsg += round(palm_position.x, 3)
-            self.oscmsg += round(palm_position.y, 3)
-            self.oscmsg += round(palm_position.z, 3)
-            self.data_client.send(self.oscmsg)
+            coord_msg = OSC.OSCMessage()
+            coord_msg.setAddress("/Coordinates")
+            coord_msg += round(palm_position.x, 3)
+            coord_msg += round(palm_position.y, 3)
+            coord_msg += round(palm_position.z, 3)
+            self.data_client.send(coord_msg)
         except OSC.OSCClientError:
             print "Server is not running, stopping program."
             sys.exit(1)
@@ -96,6 +101,9 @@ class LeapController(object):
 
             # If a hand is present
             if not frame.hands.is_empty:
+                # Reset flag for tracking out of bounds error                      # TODO: Add pinching to start and stop tracking
+                self.sent_bound_error = False
+
                 # Get palm position of first available hand
                 palm_position = frame.hands[0].palm_position
 
@@ -105,9 +113,25 @@ class LeapController(object):
                 # Send coordinates to the server
                 self.send_palm_position(normalized_palm)
             else:
-                print "OUT OF BOUNDS"
+                if not self.send_bound_error:
+                    self.send_bound_error()
+                # print "OUT OF BOUNDS"
                 continue
                                                                                     # TODO: Add smoothing function
                                                                                     # Wait for new frame of hand data that is inside interaction box
                                                                                     # Calculate midpoint palm position between new frame
                                                                                     # and last good frame
+
+      def send_bound_error(self):
+          """
+          Send an error message reporting that the user's hand
+          is outside of the interaction box.
+
+          """
+          error_msg = OSC.OSCMessage()
+          error_msg.setAddress("/BoundError")
+          error_msg += True
+          self.error_client.send(error_msg)
+
+          # Set flag for error message sent
+          self.sent_bound_error = True
