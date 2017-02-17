@@ -235,7 +235,7 @@ class AppContainer extends React.Component {
     removeMapping(axis, effectID, paramName) {
         this.emit('xyzMap', {
             effectID: effectID,
-            param: param,
+            param: paramName,
             axis: 'n'
         });
         this.setState(({xyzMap}) => ({
