@@ -1,4 +1,5 @@
 import React from 'react';
+import InteractionBox from './InteractionBox';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
@@ -13,6 +14,7 @@ const App = props => (
             <div className = 'row'>
                 <div className = 'col-sm-10'>
                     <p>Received message on port 57120: {props.message}</p>
+                    <InteractionBox />
                     <SignalChain
                         onParameterChange = {props.onParameterChange}
                         parameterValues = {props.parameterValues}
