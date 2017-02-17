@@ -41,14 +41,22 @@ class AppContainer extends React.Component {
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
+        this.toggleBypass = this.toggleBypass.bind(this);
+        this.toggleSolo = this.toggleSolo.bind(this);
+        this.emit = this.emit.bind(this);
+        this.removeMapping = this.removeMapping.bind(this);
     }
 
     componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.emit('route', {input: 'output'});
+        this.emit('route', {input: 'output'});
         window.Perf = Perf;
+    }
+
+    emit(eventName, data) {
+        this.socket.emit(eventName, data);
     }
 
     handleMessage(message) {
@@ -72,25 +80,28 @@ class AppContainer extends React.Component {
     createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
         effectsArray.forEach((effect, index) => {
+            const ID = effect.get('ID');
             if (index == 0) {
-                routeObj.input = effect.get('ID');
+                routeObj.input = ID;
             }
-            routeObj[effect.get('ID')] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+            routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
         });
-        this.socket.emit('route', routeObj);
+        this.emit('route', routeObj);
     }
 
     addEffectToChain(effectType) {
-        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
+        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);
         usableIDs.forEach((curID, index) => {
             if (this.state.usedIDs.includes(curID)) {
                 if (index == usableIDs.size - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
             } else {
-                const newEffectsArray = this.state.effects.push(Immutable.Map({
+                const newEffectsArray = this.state.effects.push(Immutable.fromJS({
                     type: effectType,
-                    ID: curID
+                    ID: curID,
+                    isBypassed: false,
+                    isSoloing: false
                 }));
                 this.setState(({usedIDs, effects}) => ({
                     usedIDs: usedIDs.push(curID).sort(),
@@ -113,6 +124,63 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
+    //TODO: these two methods are almost exactly the same, combine them
+    toggleBypass(effectID) {
+        if (!this.state.effects.find(effect => effect.get('isSoloing'))) {
+            let isBypassed;
+            let indexToUpdate;
+            const effectsRoute = Immutable.List().asMutable();
+            this.state.effects.forEach((effect, index) => {
+                if (effect.get('ID') != effectID) {
+                    if (!effect.get('isBypassed')) {
+                        effectsRoute.push(effect);
+                    }
+                } else {
+                    isBypassed = effect.get('isBypassed');
+                    indexToUpdate = index;
+                    if (isBypassed) {
+                        effectsRoute.push(effect);
+                    }
+                }
+            });
+            this.createRoutes(effectsRoute.asImmutable());
+            this.setState(({effects}) => ({
+                effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
+            }));
+        }
+    }
+
+    toggleSolo(effectID) {
+        let isSoloing;
+        let indexToUpdate;
+        let effectsUpdated = this.state.effects.asMutable();
+        effectsUpdated.forEach((effect, index) => {
+            if (effect.get('ID') == effectID) {
+                isSoloing = effect.get('isSoloing');
+                indexToUpdate = index;
+                return false;
+            }
+        });
+        if (!isSoloing) {
+            effectsUpdated.forEach((effect, index) => {
+                if (effect.get('ID') != effectID) {
+                    if (effect.get('isSoloing')) {
+                        effectsUpdated.update(index, effect => effect.update('isSoloing', value => false));
+                    }
+                } else {
+                    effectsUpdated.update(index, effect => effect.update('isSoloing', value => !isSoloing));
+                }
+            });
+            this.createRoutes(Immutable.List([this.state.effects.get(indexToUpdate)]));
+        } else {
+            effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
+            this.createRoutes(this.state.effects);
+        }
+        this.setState({
+            effects: effectsUpdated.asImmutable()
+        });
+    }
+
     toggleMapping(axisName = false) {
         this.setState(({mapping}) => ({
             mapping: mapping.update('isMapping', value => !mapping.get('isMapping')).update('currentAxis', value => axisName ? axisName : '')
@@ -124,7 +192,7 @@ class AppContainer extends React.Component {
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.socket.emit('updateParam', paramInfo.toJS());
+        this.emit('updateParam', paramInfo.toJS());
     }
 
     mapToParameter(paramInfo) {
@@ -135,11 +203,10 @@ class AppContainer extends React.Component {
         if (xyzMapMutable.getIn([axisName, 'effectID'])) {
             const {effectID, param} = xyzMapMutable.get(axisName).toJS();
             this.socket.emit('xyzMap', {
-                    effectID: effectID,
-                    param: param,
-                    axis: 'n'
-                }
-            );
+                effectID: effectID,
+                param: param,
+                axis: 'n'
+            });
         }
 
         xyzMapMutable.map((axisInfo, axis) => {
@@ -154,15 +221,25 @@ class AppContainer extends React.Component {
         xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
         this.socket.emit('xyzMap', {
-                effectID: effectID,
-                param: paramName,
-                axis: axisName
-            }
-        );
+            effectID: effectID,
+            param: paramName,
+            axis: axisName
+        });
 
         this.toggleMapping();
         this.setState(({xyzMap}) => ({
             xyzMap: xyzMap.mergeDeep(xyzMapMutable.asImmutable())
+        }));
+    }
+
+    removeMapping(axis, effectID, paramName) {
+        this.emit('xyzMap', {
+            effectID: effectID,
+            param: paramName,
+            axis: 'n'
+        });
+        this.setState(({xyzMap}) => ({
+            xyzMap: xyzMap.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined)
         }));
     }
 
@@ -177,7 +254,10 @@ class AppContainer extends React.Component {
                 toggleMapping = {this.toggleMapping}
                 mapToParameter = {this.mapToParameter}
                 xyzMap = {this.state.xyzMap}
-                removeEffect = {this.removeEffect}>
+                removeEffect = {this.removeEffect}
+                toggleBypass = {this.toggleBypass}
+                toggleSolo = {this.toggleSolo}
+                removeMapping = {this.removeMapping}>
                 {this.state.effects}
             </App>
         );

@@ -26,10 +26,21 @@ class Effect extends React.PureComponent {
         parameterList.forEach((paramName, index) => {
             const paramType = parameters.get(paramName);
             const axes = ['x', 'y', 'z'];
+            let mapToAxis = undefined;
             let xyzMap = undefined;
             for (let i = 0; i < xyzMapArray.length; i++) {
                 if (xyzMapArray[i].param == paramName) {
-                    xyzMap = xyzMapArray[i].coord;
+                    const thisAxis = xyzMapArray[i].coord;
+                    xyzMap = [
+                        <p 
+                            key = {`${this.props.ID}${thisAxis}`}
+                            style = {styles.xyzMap}>{thisAxis}</p>,
+                        <button 
+                            key = {`${this.props.ID}Remove${thisAxis}`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
+                            onClick = {() => this.props.handleRemoveMappingClick(thisAxis, this.props.ID, paramName)}>X</button>
+                    ];
                 }
             }
             params.push(
@@ -37,7 +48,7 @@ class Effect extends React.PureComponent {
                     key = {index}
                     style = {styles.paramDiv}>
                     <div style = {styles.xyzMapDiv}>
-                        <p style = {styles.xyzMap}>{xyzMap ? xyzMap : ' '}</p>
+                        {xyzMap}
                     </div>
                     <p style = {styles.paramTitle}>{paramName}</p>
                     <ParameterContainer
@@ -51,13 +62,31 @@ class Effect extends React.PureComponent {
             );
         });
 
+        const bypassStyle = this.props.isBypassed ? 'isActive' : 'isNotActive';
+        const soloStyle = this.props.isSoloing ? 'isActive' : 'isNotActive';
         return (
             <div style = {styles.effectDiv}>
-                <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                <div style = {styles.headerDiv}>
+                    <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                    <div style = {styles.buttonDiv}>
+                        <button
+                            key = {`${this.props.ID}Solo`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.soloButton, styles[soloStyle])}
+                            onClick = {() => this.props.handleSoloButtonClick(this.props.ID)}>S</button>
+                        <button
+                            key = {`${this.props.ID}Bypass`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.bypassButton, styles[bypassStyle])}
+                            onClick = {() => this.props.handleBypassButtonClick(this.props.ID)}>B</button>
+                        <button
+                            key = {`${this.props.ID}Close`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
+                            onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
+                    </div>
+                </div>
                 {params}
-                <button
-                    type = 'button'
-                    onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
             </div>
         );
     }
@@ -74,27 +103,63 @@ const styles = {
         paddingLeft: 20,
         paddingRight: 20,
     },
+    headerDiv: {
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+    buttonDiv: {
+        display: 'inline-block'
+    },
     paramDiv: {
         display: 'inline-block',
         paddingRight: 5,
         paddingLeft: 5
     },
     xyzMapDiv: {
-        display: 'inline-block',
         height: 30,
         width: '100%'
     },
     effectTitle: {
-        textAlign: 'center'
+        display: 'inline-block'
     },
     paramTitle: {
         textAlign: 'center',
         fontSize: '0.8em'
     },
     xyzMap: {
-        textAlign: 'center',
+        display: 'inline-block',
         padding: 0,
         margin: 0
+    },
+    buttonBase: {
+        display: 'inline-block',
+        borderRadius: '50%',
+        marginLeft: 5,
+        marginRight: 5,
+        borderWidth: 1.5,
+        borderColor: '#333',
+        borderStyle: 'solid',
+        ':focus': {
+            outline: 'none'
+        }
+    },
+    soloButton: {
+
+    },
+    bypassButton: {
+
+    },
+    removeMappingButton: {
+        display: 'inline-block'
+    },
+    closeButton: {
+        backgroundColor: '#999'
+    },
+    isActive: {
+        backgroundColor: 'yellow'
+    },
+    isNotActive: {
+        backgroundColor: '#999'
     }
 }
 
