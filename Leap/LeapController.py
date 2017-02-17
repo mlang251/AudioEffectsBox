@@ -64,7 +64,7 @@ class LeapController(object):
         #                str(round(palm_position.z, 3)))
         # print coordinates
 
-        Use OSC to send xyz coordiantes and have max seperate by space
+        #Use OSC to send xyz coordiantes and have max seperate by space
         try:
             self.oscmsg = OSC.OSCMessage()
             self.oscmsg.setAddress("/Coordinates")
