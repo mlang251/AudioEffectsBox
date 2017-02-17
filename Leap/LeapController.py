@@ -50,7 +50,7 @@ class LeapController(object):
         self.data_client = OSC.OSCClient()
         self.data_client.connect(('127.0.0.1', 8000))
 
-        # OSC connection for sending statuses
+        # OSC connection for sending status updates
         self.status_client = OSC.OSCClient()
         self.status_client.connect(('127.0.0.1', 8010))
 
@@ -77,16 +77,16 @@ class LeapController(object):
         # print coordinates
 
         # Use OSC to send xyz coordiantes and have max seperate by space
-        # try:
-        #     coord_msg = OSC.OSCMessage()
-        #     coord_msg.setAddress("/Coordinates")
-        #     coord_msg += round(palm_position.x, 3)
-        #     coord_msg += round(palm_position.y, 3)
-        #     coord_msg += round(palm_position.z, 3)
-        #     self.data_client.send(coord_msg)
-        # except OSC.OSCClientError:
-        #     print "Server is not running, stopping program."
-        #     sys.exit(1)
+        try:
+            coord_msg = OSC.OSCMessage()
+            coord_msg.setAddress("/Coordinates")
+            coord_msg += round(palm_position.x, 3)
+            coord_msg += round(palm_position.y, 3)
+            coord_msg += round(palm_position.z, 3)
+            self.data_client.send(coord_msg)
+        except OSC.OSCClientError:
+            print "Server is not running, stopping program."
+            sys.exit(1)
 
     def runloop(self):
         """
@@ -108,7 +108,7 @@ class LeapController(object):
 
             # If a hand is present (user in bounds)
             if not frame.hands.is_empty:
-                # Flag for tracking if hand is in/out of bounds
+                # Look at last state of in_bounds flag
                 if self.in_bounds == False:
                     # Reset bound_msg_sent flag so new status will be sent
                     # when in/out of bounds status has changed
@@ -135,11 +135,7 @@ class LeapController(object):
             # If no hand present (user out of bounds)
             else:
                 if self.in_bounds == True:
-                    # Reset bound_msg flag so new status will be sent
-                    # when in/out of bounds status has changed
                     self.bound_msg_sent = False
-
-                # Set flag for out of bounds
                 self.in_bounds = False
 
                 # TODO: Add smoothing function
@@ -149,8 +145,10 @@ class LeapController(object):
 
             # Send status of hand being in or out of bounds if not already sent
             if not self.bound_msg_sent:
-                self.send_bound_status()
+                self.send_status_update('bound')
+                print "In Bounds: %s" % str(self.in_bounds)
 
+            # TODO: encapsulate bound status/msg stuff into a check_bound_status function like pinch
     def check_pinch(self):
         """
         Checks for user pinch lasting longer than a set time and adjusts
@@ -183,29 +181,46 @@ class LeapController(object):
 
         # If user pinched for longer than the set time
         if user_is_pinching:
-            # set self.tracking_hand flag to its opposite
+            # Switch tracking mode
             self.tracking_hand = not self.tracking_hand
-            print "Tracking Mode: %s" % str(self.tracking_hand)
+            self.send_status_update('tracking')
+            print "Tracking Hand: %s" % str(self.tracking_hand)
 
-            # TODO: Send tracking mode OSC message, and only once
-
-    def send_bound_status(self):
+    def send_status_update(self, msg_type):
         """
-        Send a status message that reports if the user's hand is
-        inside the interaction box or not.
+        Sends a status update message that reports status changes like
+        the user's hand moving in/out of bounds and tracking mode
+        being enabled/disabled.
+
+        Parameters
+        ----------
+        msg_type: String that chooses what message type to send
+
+        Outputs
+        -------
+        OSC status message to server
 
         """
         try:
-            # bound_status = OSC.OSCMessage()
-            # bound_status.setAddress("/BoundError")
-            # bound_status += self.in_bounds
-            # self.status_client.send(bound_status)
-            print "Bound Status Sent: %s"  % str(self.in_bounds)
+            # Tracking mode enabled/disabled status
+            if msg_type == "tracking":
+                tracking_mode = OSC.OSCMessage()
+                tracking_mode.setAddress("/TrackingMode")
+                tracking_mode += int(self.tracking_hand)
+                self.status_client.send(tracking_mode)
 
-            # Set flag for error message sent
-            self.bound_msg_sent = True
+            # In/out of bounds status
+            elif msg_type == "bound":
+                bound_status = OSC.OSCMessage()
+                bound_status.setAddress("/BoundError")
+                bound_status += int(self.in_bounds)
+                self.status_client.send(bound_status)
+                self.bound_msg_sent = True  # Set flag
+
+            # Incorrect msg_type chosen
+            else:
+                raise ValueError, "msg_type '%s' does not exist." % str(msg_type)
+
         except OSC.OSCClientError:
             print "Server is not running, stopping program."
             sys.exit(1)
-
-        # TODO: Change send_bound_status to generic status message that includes in/out bounds and tracking mode
