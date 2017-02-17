@@ -44,7 +44,7 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
 leapToServerChannel.portLeapErrors.on('message', msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
-    io.emit('leapError', data);
+    io.emit('leapError', msg);
 });
 
 

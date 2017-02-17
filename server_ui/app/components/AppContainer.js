@@ -52,6 +52,7 @@ class AppContainer extends React.Component {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
+        this.socket.on('leapError', this.receiveLeapError);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
     }
@@ -62,6 +63,10 @@ class AppContainer extends React.Component {
 
     handleMessage(message) {
         this.setState({message: message});
+    }
+
+    receiveLeapError(message) {
+        console.log(message);
     }
 
     receiveLeapData(data) {
