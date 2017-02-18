@@ -2,6 +2,10 @@ import React from 'react';
 import Radium from 'radium';
 
 class InteractionBox extends React.PureComponent {
+    constructor() {
+        super();
+    }
+    
     render() {
         return (
             <section style = {styles.container}>
@@ -14,20 +18,19 @@ class InteractionBox extends React.PureComponent {
                     <figure style = {Object.assign({}, styles.figure, styles.bottom)}></figure>
                 </div>
             </section>
-        )
+        );
     }
 }
 
 export default Radium(InteractionBox);
 
 const styles = {
+    //TODO: width and height should be 100% as containing block width
     container: {
-        width: 200,
-        height: 200,
+        width: 300,
+        height: 300,
         position: 'relative',
         perspective: 1000,
-        marginTop: 30,
-        marginBottom: 30,
         marginLeft: 'auto',
         marginRight: 'auto'
     },
@@ -36,12 +39,12 @@ const styles = {
         height: '100%',
         position: 'absolute',
         transformStyle: 'preserve-3d',
-        transform: 'translateZ(-100px) rotateX(-20deg)'
+        transform: 'translateZ(-150px) rotateX(-20deg)'
     },
     figure: {
         margin: 0,
-        width: 196,
-        height: 196,
+        width: 296,
+        height: 296,
         display: 'block',
         position: 'absolute',
         borderWidth: 2,
@@ -50,27 +53,27 @@ const styles = {
         opacity: '0.5'
     },
     front: {
-        transform: 'rotateY(0deg) translateZ(100px)',
+        transform: 'rotateY(0deg) translateZ(150px)',
         backgroundColor: '#800'
     },
     back: {
-        transform: 'rotateX(180deg) translateZ(100px)',
+        transform: 'rotateX(180deg) translateZ(150px)',
         backgroundColor: '#F00'
     },
     right: {
-        transform: 'rotateY(90deg) translateZ(100px)',
+        transform: 'rotateY(90deg) translateZ(150px)',
         backgroundColor: '#080'
     },
     left: {
-        transform: 'rotateY(-90deg) translateZ(100px)',
+        transform: 'rotateY(-90deg) translateZ(150px)',
         backgroundColor: '#0F0'
     },
     top: {
-        transform: 'rotateX(90deg) translateZ(100px)',
+        transform: 'rotateX(90deg) translateZ(150px)',
         backgroundColor: '#008'
     },
     bottom: {
-        transform: 'rotateX(-90deg) translateZ(100px)',
+        transform: 'rotateX(-90deg) translateZ(150px)',
         backgroundColor: '#00F'
     },
 }

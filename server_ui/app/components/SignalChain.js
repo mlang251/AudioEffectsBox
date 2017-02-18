@@ -43,11 +43,8 @@ export default Radium(SignalChain);
 
 const styles = {
     div: {
-        height: 250,
-        width: '90%',
-        left: '5%',
-        position: 'absolute',
-        bottom: 25,
+        height: '100%',
+        width: '100%',
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
