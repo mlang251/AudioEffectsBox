@@ -51,12 +51,18 @@ class Effect extends React.PureComponent {
             );
         });
 
-        const bypassStyle = this.props.isBypassed ? 'isBypassed' : 'isNotBypassed';
+        const bypassStyle = this.props.isBypassed ? 'isActive' : 'isNotActive';
+        const soloStyle = this.props.isSoloing ? 'isActive' : 'isNotActive';
         return (
             <div style = {styles.effectDiv}>
                 <div style = {styles.headerDiv}>
                     <p style = {styles.effectTitle}>{effect.get('name')}</p>
                     <div style = {styles.buttonDiv}>
+                        <button
+                            key = {`${this.props.ID}Solo`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.soloButton, styles[soloStyle])}
+                            onClick = {() => this.props.handleSoloButtonClick(this.props.ID)}>S</button>
                         <button
                             key = {`${this.props.ID}Bypass`}
                             type = 'button'
@@ -127,16 +133,19 @@ const styles = {
             outline: 'none'
         }
     },
-    closeButton: {
-        backgroundColor: '#999'
+    soloButton: {
+
     },
     bypassButton: {
 
     },
-    isBypassed: {
+    closeButton: {
+        backgroundColor: '#999'
+    },
+    isActive: {
         backgroundColor: 'yellow'
     },
-    isNotBypassed: {
+    isNotActive: {
         backgroundColor: '#999'
     }
 }

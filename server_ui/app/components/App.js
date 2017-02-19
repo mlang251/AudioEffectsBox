@@ -20,7 +20,8 @@ const App = props => (
                         mapToParameter = {props.mapToParameter}
                         xyzMap = {props.xyzMap}
                         removeEffect = {props.removeEffect}
-                        toggleBypass = {props.toggleBypass}>{props.children}</SignalChain>
+                        toggleBypass = {props.toggleBypass}
+                        toggleSolo = {props.toggleSolo}>{props.children}</SignalChain>
                 </div>
                 <div className = 'col-sm-2'>
                     <Sidebar

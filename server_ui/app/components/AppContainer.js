@@ -42,6 +42,7 @@ class AppContainer extends React.Component {
         this.receiveLeapData = this.receiveLeapData.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
         this.toggleBypass = this.toggleBypass.bind(this);
+        this.toggleSolo = this.toggleSolo.bind(this);
         this.emit = this.emit.bind(this);
     }
 
@@ -98,7 +99,8 @@ class AppContainer extends React.Component {
                 const newEffectsArray = this.state.effects.push(Immutable.fromJS({
                     type: effectType,
                     ID: curID,
-                    isBypassed: false
+                    isBypassed: false,
+                    isSoloing: false
                 }));
                 this.setState(({usedIDs, effects}) => ({
                     usedIDs: usedIDs.push(curID).sort(),
@@ -121,6 +123,7 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
+    //TODO: these two methods are almost exactly the same, combine them
     toggleBypass(effectID) {
         let isBypassed;
         let indexToUpdate;
@@ -138,6 +141,26 @@ class AppContainer extends React.Component {
         }
         this.setState(({effects}) => ({
             effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
+        }));
+    }
+
+    toggleSolo(effectID) {
+        let isSoloing;
+        let indexToUpdate;
+        const effect = this.state.effects.forEach((effect, index) => {
+            if (effect.get('ID') == effectID) {
+                isSoloing = effect.get('isSoloing');
+                indexToUpdate = index;
+                return false;
+            }
+        });
+        if (!isSoloing) {
+            this.createRoutes(Immutable.List([this.state.effects.get(indexToUpdate)]));
+        } else {
+            this.createRoutes(this.state.effects);
+        }
+        this.setState(({effects}) => ({
+            effects: effects.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing))
         }));
     }
 
@@ -205,7 +228,8 @@ class AppContainer extends React.Component {
                 mapToParameter = {this.mapToParameter}
                 xyzMap = {this.state.xyzMap}
                 removeEffect = {this.removeEffect}
-                toggleBypass = {this.toggleBypass}>
+                toggleBypass = {this.toggleBypass}
+                toggleSolo = {this.toggleSolo}>
                 {this.state.effects}
             </App>
         );
