@@ -51,16 +51,25 @@ class Effect extends React.PureComponent {
             );
         });
 
+        const bypassStyle = this.props.isBypassed ? 'isBypassed' : 'isNotBypassed';
         return (
             <div style = {styles.effectDiv}>
-                <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                <div style = {styles.headerDiv}>
+                    <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                    <div style = {styles.buttonDiv}>
+                        <button
+                            key = {`${this.props.ID}Bypass`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.bypassButton, styles[bypassStyle])}
+                            onClick = {() => this.props.handleBypassButtonClick(this.props.ID)}>B</button>
+                        <button
+                            key = {`${this.props.ID}Close`}
+                            type = 'button'
+                            style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
+                            onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
+                    </div>
+                </div>
                 {params}
-                <button
-                    type = 'button'
-                    onClick = {() => this.props.handleBypassButtonClick(this.props.ID)}>Bypass</button>
-                <button
-                    type = 'button'
-                    onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
             </div>
         );
     }
@@ -77,6 +86,13 @@ const styles = {
         paddingLeft: 20,
         paddingRight: 20,
     },
+    headerDiv: {
+        paddingLeft: 15,
+        paddingRight: 15
+    },
+    buttonDiv: {
+        display: 'inline-block'
+    },
     paramDiv: {
         display: 'inline-block',
         paddingRight: 5,
@@ -88,7 +104,7 @@ const styles = {
         width: '100%'
     },
     effectTitle: {
-        textAlign: 'center'
+        display: 'inline-block'
     },
     paramTitle: {
         textAlign: 'center',
@@ -98,6 +114,30 @@ const styles = {
         textAlign: 'center',
         padding: 0,
         margin: 0
+    },
+    buttonBase: {
+        display: 'inline-block',
+        borderRadius: '50%',
+        marginLeft: 5,
+        marginRight: 5,
+        borderWidth: 1.5,
+        borderColor: '#333',
+        borderStyle: 'solid',
+        ':focus': {
+            outline: 'none'
+        }
+    },
+    closeButton: {
+        backgroundColor: '#999'
+    },
+    bypassButton: {
+
+    },
+    isBypassed: {
+        backgroundColor: 'yellow'
+    },
+    isNotBypassed: {
+        backgroundColor: '#999'
     }
 }
 

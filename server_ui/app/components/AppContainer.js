@@ -41,7 +41,7 @@ class AppContainer extends React.Component {
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
-        this.bypassEffect = this.bypassEffect.bind(this);
+        this.toggleBypass = this.toggleBypass.bind(this);
         this.emit = this.emit.bind(this);
     }
 
@@ -75,29 +75,27 @@ class AppContainer extends React.Component {
         });
     }
 
-    createRoutes(effectsArray, bypassID) {
+    createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
         effectsArray.forEach((effect, index) => {
             const ID = effect.get('ID');
             if (index == 0) {
                 routeObj.input = ID;
             }
-            if (ID != bypassID) {
-                routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
-            }
+            routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
         });
         this.emit('route', routeObj);
     }
 
     addEffectToChain(effectType) {
-        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);  //TODO: Make this Immutable
+        const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);
         usableIDs.forEach((curID, index) => {
             if (this.state.usedIDs.includes(curID)) {
                 if (index == usableIDs.size - 1) {
                     alert(`Maximum number of ${effectType} effects reached.`);
                 }
             } else {
-                const newEffectsArray = this.state.effects.push(Immutable.Map({
+                const newEffectsArray = this.state.effects.push(Immutable.fromJS({
                     type: effectType,
                     ID: curID,
                     isBypassed: false
@@ -123,17 +121,24 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
-    toggleBypassEffect(effectID) {
-        const isBypassed = this.state.effects.getIn([effectID, 'isBypassed']);
+    toggleBypass(effectID) {
+        let isBypassed;
+        let indexToUpdate;
+        const effect = this.state.effects.forEach((effect, index) => {
+            if (effect.get('ID') == effectID) {
+                isBypassed = effect.get('isBypassed');
+                indexToUpdate = index;
+                return false;
+            }
+        });
         if (!isBypassed) {
-            const effectsFiltered = this.state.effects.filter((effect, index) => {
-                return effect.get('ID') != effectID;
-            });
+            this.createRoutes(this.state.effects.delete(indexToUpdate));
+        } else {
+            this.createRoutes(this.state.effects);
         }
         this.setState(({effects}) => ({
-            effects: effects.updateIn([effectID, 'isBypassed'], value => !isBypassed)
+            effects: effects.update(indexToUpdate, effect => effect.update('isBypassed', value => !isBypassed))
         }));
-        this.createRoutes(effectsFiltered);
     }
 
     toggleMapping(axisName = false) {
@@ -200,7 +205,7 @@ class AppContainer extends React.Component {
                 mapToParameter = {this.mapToParameter}
                 xyzMap = {this.state.xyzMap}
                 removeEffect = {this.removeEffect}
-                bypassEffect = {this.bypassEffect}>
+                toggleBypass = {this.toggleBypass}>
                 {this.state.effects}
             </App>
         );
