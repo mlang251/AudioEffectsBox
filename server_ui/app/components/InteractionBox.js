@@ -27,8 +27,9 @@ export default Radium(InteractionBox);
 const styles = {
     //TODO: width and height should be 100% as containing block width
     container: {
-        width: 300,
-        height: 300,
+        width: 200,
+        height: 200,
+        maxHeight: '40vh',
         position: 'relative',
         perspective: 1000,
         marginLeft: 'auto',

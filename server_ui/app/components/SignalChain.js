@@ -45,6 +45,7 @@ const styles = {
     div: {
         height: '100%',
         width: '100%',
+        marginBottom: 25,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'

@@ -20,9 +20,7 @@ const App = props => (
                     className = 'col-sm-10'
                     style = {styles.div}>
                     <p>Received message on port 57120: {props.message}</p>
-                    <section 
-                        id = 'interactionBoxContainer'
-                        style = {styles.interactionBoxContainer}>
+                    <section style = {styles.interactionBoxContainer}>
                         <InteractionBox />
                     </section>
                     <section style = {styles.signalChainContainer}>
@@ -51,19 +49,18 @@ const App = props => (
 
 const styles = {
     container: {
-        height: window.innerHeight - 64,
-        paddingBottom: 25
+        height: '90vh'
     },
     div: {
         height: '100%'
     },
     interactionBoxContainer: {
-        height: '60%',
-        paddingTop: 30,
-        paddingBottom: 30
+        height: '50vh',
+        paddingTop: '5vh',
+        paddingBottom: '5vh'
     },
     signalChainContainer: {
-        height: '35%',
+        height: '30vh',
         width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto'
