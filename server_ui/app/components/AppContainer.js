@@ -31,7 +31,8 @@ class AppContainer extends React.Component {
                     effectID: undefined,
                     param: undefined
                 })
-            })            
+            }),
+            coords: Immutable.List()
         }
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
@@ -81,6 +82,9 @@ class AppContainer extends React.Component {
                 }));
             }
         });
+        this.setState(({coords}) => ({
+            coords: Immutable.List(data)
+        }));
     }
 
     createRoutes(effectsArray) {
@@ -288,7 +292,8 @@ class AppContainer extends React.Component {
                 toggleBypass = {this.toggleBypass}
                 toggleSolo = {this.toggleSolo}
                 removeMapping = {this.removeMapping}
-                reorderEffects = {this.reorderEffects}>
+                reorderEffects = {this.reorderEffects}
+                coords = {this.state.coords}>
                 {this.state.effects}
             </App>
         );

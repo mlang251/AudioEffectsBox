@@ -4,13 +4,29 @@ import Radium from 'radium';
 class InteractionBox extends React.PureComponent {
     constructor() {
         super();
+        this.createStyles = this.createStyles.bind(this);
+    }
+
+    createStyles(coords) {
+        //TODO: create the xyz translations based on the coordinates
+        return {
+            pointerStyles: {
+
+            },
+            shadowStyles: {
+
+            }
+        }
     }
     
     render() {
+        const {pointerStyles, shadowStyles} = this.createStyles(this.props.coords);
         return (
             <section style = {styles.container}>
                 <div style = {styles.cube}>
-                    <div style = {styles.pointer}><span style = {styles.shadow}></span></div>
+                    <div style = {Object.assign({}, styles.pointer, pointerStyles)}>
+                        <span style = {Object.assign({}, styles.shadow, shadowStyles)}></span>
+                    </div>
                     <figure style = {Object.assign({}, styles.figure, styles.front)}></figure>
                     <figure style = {Object.assign({}, styles.figure, styles.back)}></figure>
                     <figure style = {Object.assign({}, styles.figure, styles.right)}></figure>
