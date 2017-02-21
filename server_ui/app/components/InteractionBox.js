@@ -10,6 +10,7 @@ class InteractionBox extends React.PureComponent {
         return (
             <section style = {styles.container}>
                 <div style = {styles.cube}>
+                    <div style = {styles.pointer}><span style = {styles.shadow}></span></div>
                     <figure style = {Object.assign({}, styles.figure, styles.front)}></figure>
                     <figure style = {Object.assign({}, styles.figure, styles.back)}></figure>
                     <figure style = {Object.assign({}, styles.figure, styles.right)}></figure>
@@ -25,7 +26,6 @@ class InteractionBox extends React.PureComponent {
 export default Radium(InteractionBox);
 
 const styles = {
-    //TODO: width and height should be 100% as containing block width
     container: {
         width: 200,
         height: 200,
@@ -41,6 +41,26 @@ const styles = {
         position: 'absolute',
         transformStyle: 'preserve-3d',
         transform: 'translateZ(-100px) rotateX(-20deg)'
+    },
+    pointer: {
+        display: 'block',
+        position: 'absolute',
+        borderRadius: '50%',
+        bottom: 0,
+        left: 0,
+        height: 20,
+        width: 20,
+        margin: 0,
+        backgroundImage: 'radial-gradient(circle at 5px 5px, #080, #222)',
+        transform: 'translateZ(100px)'
+    },
+    shadow: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.5) 40%, rgba(0, 0, 0, 0) 50%)',
+        transform: 'rotateX(90deg) translateZ(-10px)',
+        zIndex: -1
     },
     figure: {
         margin: 0,
