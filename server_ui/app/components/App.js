@@ -22,7 +22,7 @@ const App = props => (
                     <p>Received message on port 57120: {props.message}</p>
                     <section style = {styles.interactionBoxContainer}>
                         <InteractionBox
-                            coords = {this.props.coords} />
+                            coords = {props.coords} />
                     </section>
                     <section style = {styles.signalChainContainer}>
                         <SignalChain
