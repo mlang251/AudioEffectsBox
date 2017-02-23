@@ -25,7 +25,10 @@ class SignalChain extends React.PureComponent {
                     handleCloseButtonClick = {this.props.removeEffect} 
                     handleBypassButtonClick = {this.props.toggleBypass} 
                     handleSoloButtonClick = {this.props.toggleSolo} 
-                    handleRemoveMappingClick = {this.props.removeMapping} />
+                    handleRemoveMappingClick = {this.props.removeMapping}
+                    reorderButtonLeft = {index != 0}
+                    reorderButtonRight = {index != this.props.children.size - 1} 
+                    handleReorderButtonClick = {this.props.reorderEffects} />
             );
         });
         return (
@@ -40,9 +43,9 @@ export default Radium(SignalChain);
 
 const styles = {
     div: {
-        display: 'inline-block',
-        height: 400,
+        height: '100%',
         width: '100%',
+        marginBottom: 25,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
