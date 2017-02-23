@@ -1649,7 +1649,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 123.0, 196.0, 26.0, 22.0 ],
+									"patching_rect" : [ 151.0, 203.0, 26.0, 22.0 ],
 									"style" : "",
 									"text" : "s z"
 								}
@@ -1661,7 +1661,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 86.5, 196.0, 26.0, 22.0 ],
+									"patching_rect" : [ 114.5, 203.0, 26.0, 22.0 ],
 									"style" : "",
 									"text" : "s y"
 								}
@@ -1673,7 +1673,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 50.0, 196.0, 26.0, 22.0 ],
+									"patching_rect" : [ 78.0, 203.0, 26.0, 22.0 ],
 									"style" : "",
 									"text" : "s x"
 								}
@@ -1684,11 +1684,11 @@
 									"id" : "obj-5",
 									"maxclass" : "newobj",
 									"numinlets" : 1,
-									"numoutlets" : 3,
-									"outlettype" : [ "float", "float", "float" ],
-									"patching_rect" : [ 55.0, 158.0, 89.0, 22.0 ],
+									"numoutlets" : 4,
+									"outlettype" : [ "", "float", "float", "float" ],
+									"patching_rect" : [ 55.0, 158.0, 115.0, 22.0 ],
 									"style" : "",
-									"text" : "unpack 0. 0. 0."
+									"text" : "unpack sym 0. 0. 0."
 								}
 
 							}
@@ -1732,7 +1732,7 @@
 									"destination" : [ "obj-56", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-5", 0 ]
+									"source" : [ "obj-5", 1 ]
 								}
 
 							}
@@ -1741,7 +1741,7 @@
 									"destination" : [ "obj-57", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-5", 1 ]
+									"source" : [ "obj-5", 2 ]
 								}
 
 							}
@@ -1750,7 +1750,7 @@
 									"destination" : [ "obj-58", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-5", 2 ]
+									"source" : [ "obj-5", 3 ]
 								}
 
 							}
@@ -2654,7 +2654,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-4",
