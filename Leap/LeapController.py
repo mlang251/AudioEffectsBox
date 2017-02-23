@@ -17,7 +17,7 @@ class LeapController(object):
 
         # Create a Leap.Controller object
         self.controller = Leap.Controller()
-        time.sleep(0.5)
+        time.sleep(0.1)
 
         # Check that the Leap is connected
         if not self.controller.is_connected:
@@ -56,6 +56,7 @@ class LeapController(object):
 
         # Send Leap interaction box dimensions
         self.send_status_update('box_dimensions')
+        time.sleep(0.5)
         print "Leap is connected to Server."
 
     def runloop(self):
@@ -128,7 +129,7 @@ class LeapController(object):
         """
         # Collect a new frame
         new_frame = self.controller.frame()
-        pinch_threshold = 0.7
+        pinch_threshold = 0.5
 
         # If user is pinching
         if new_frame.hands[0].pinch_strength > pinch_threshold:
@@ -137,7 +138,7 @@ class LeapController(object):
             pinch_time = 0.0
 
             # Collect new frames and wait for set time
-            while (pinch_time < 1.5) and (user_is_pinching):
+            while (pinch_time < 0.5) and (user_is_pinching):
                 new_frame = self.controller.frame()
 
                 # If user stops pinching, break
@@ -182,7 +183,7 @@ class LeapController(object):
             # In/out of bounds status
             elif msg_type == "bound":
                 bound_status = OSC.OSCMessage()
-                bound_status.setAddress("/BoundError")
+                bound_status.setAddress("/BoundStatus")
                 bound_status += int(self.in_bounds)
                 self.status_client.send(bound_status)
                 self.bound_msg_sent = True  # Set flag
@@ -192,15 +193,11 @@ class LeapController(object):
                 ibox_dims = OSC.OSCMessage()
                 ibox_dims.setAddress("/BoxDimensions")
 
-                # Get a frame and check dimensions from ibox
+                # Get a frame and send dimensions from ibox
                 ibox = self.controller.frame().interaction_box
-                ibox_height = ibox.height
-                ibox_width  = ibox.width
-                ibox_depth  = ibox.depth
-
-                # Send dimensions
-                ibox_dims += {'Height': ibox_height, 'Width': ibox_width,
-                             'Depth': ibox_depth}
+                ibox_dims += {'Height': ibox.height,
+                              'Width': ibox.width,
+                              'Depth': ibox.depth}
                 self.status_client.send(ibox_dims)
 
             # Incorrect msg_type chosen
