@@ -4,8 +4,8 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 3,
-			"revision" : 1,
-			"architecture" : "x64",
+			"revision" : 0,
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
@@ -235,7 +235,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 19.5, 234.0, 176.0, 34.0 ],
+					"patching_rect" : [ 19.5, 234.0, 176.0, 33.0 ],
 					"style" : "",
 					"text" : "subpatchs for input and output audio routing"
 				}
@@ -252,8 +252,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -411,12 +411,12 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
-						"rect" : [ -31958.0, -31915.0, 521.0, 480.0 ],
+						"rect" : [ 34.0, 79.0, 521.0, 480.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -443,7 +443,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-4",
@@ -586,7 +585,7 @@
 										"followglobaltempo" : 0,
 										"formantcorrection" : 0,
 										"mode" : "basic",
-										"originallength" : [ 275652.437424, "ticks" ],
+										"originallength" : [ 275652.4375, "ticks" ],
 										"originaltempo" : 120.000008,
 										"pitchcorrection" : 0,
 										"quality" : "basic",
@@ -618,9 +617,9 @@
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 182.5, 276.0, 53.0, 36.0 ],
+									"patching_rect" : [ 182.5, 276.0, 53.0, 35.0 ],
 									"style" : "",
-									"text" : "set reverb1"
+									"text" : "set output"
 								}
 
 							}
@@ -799,8 +798,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -839,7 +838,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 44.0, 260.5, 155.0, 89.0 ],
+									"patching_rect" : [ 44.0, 260.5, 155.0, 87.0 ],
 									"style" : "",
 									"text" : "if receiving coordinate changes, only accept parameter changes from coordinate. If not, only accept parameter changes from UI"
 								}
@@ -1863,8 +1862,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -2338,8 +2337,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -2372,32 +2371,6 @@
 						"subpatcher_template" : "",
 						"visible" : 1,
 						"boxes" : [ 							{
-								"box" : 								{
-									"id" : "obj-3",
-									"maxclass" : "message",
-									"numinlets" : 2,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 530.0, 309.0, 50.0, 22.0 ],
-									"style" : "",
-									"text" : "0.55"
-								}
-
-							}
-, 							{
-								"box" : 								{
-									"id" : "obj-2",
-									"maxclass" : "newobj",
-									"numinlets" : 0,
-									"numoutlets" : 1,
-									"outlettype" : [ "" ],
-									"patching_rect" : [ 540.0, 236.0, 24.0, 22.0 ],
-									"style" : "",
-									"text" : "r x"
-								}
-
-							}
-, 							{
 								"box" : 								{
 									"id" : "obj-58",
 									"maxclass" : "newobj",
@@ -2474,24 +2447,6 @@
  ],
 						"lines" : [ 							{
 								"patchline" : 								{
-									"destination" : [ "obj-3", 1 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-2", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
-									"destination" : [ "obj-3", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
-									"source" : [ "obj-2", 0 ]
-								}
-
-							}
-, 							{
-								"patchline" : 								{
 									"destination" : [ "obj-5", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
@@ -2554,8 +2509,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -3056,8 +3011,8 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
-							"architecture" : "x64",
+							"revision" : 0,
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -3679,9 +3634,9 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-56::obj-2" : [ "live.gain~[1]", "live.gain~", 0 ],
+			"obj-56::obj-3" : [ "live.gain~[2]", "live.gain~", 0 ],
 			"obj-56::obj-1" : [ "live.gain~", "live.gain~", 0 ],
-			"obj-56::obj-3" : [ "live.gain~[2]", "live.gain~", 0 ]
+			"obj-56::obj-2" : [ "live.gain~[1]", "live.gain~", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
