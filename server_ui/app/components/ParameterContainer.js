@@ -9,6 +9,11 @@ class ParameterContainer extends React.PureComponent {
         this.handleDrag = this.handleDrag.bind(this);
     }
 
+    componentWillMount() {
+        const info = this.props.info.set('paramValue', this.props.value);
+        this.props.onParameterChange(info)
+    }
+
     handleDrag(data, info, max) {
         let value =                                 //Make sure the value is within the bounds of the draggable area
             data.y < 0 ? 0                          //Normalize it on a scale of 0-1

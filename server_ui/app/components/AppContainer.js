@@ -32,7 +32,11 @@ class AppContainer extends React.Component {
                     param: undefined
                 })
             }),
-            coords: Immutable.List()
+            interactionBox: Immutable.Map({
+                coords: Immutable.List(),
+                dimensions: Immutable.Map(),
+                status: 'not connected'
+            })
         }
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
@@ -53,8 +57,9 @@ class AppContainer extends React.Component {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.on('leapTrackingMode', this.receiveLeapError);
-        this.socket.on('leapBoundError', this.receiveLeapError);
+        this.socket.on('leapTrackingStatus', this.receiveLeapError);
+        this.socket.on('leapBoundStatus', this.receiveLeapError);
+        this.socket.on('leapDimensionUpdate', this.receiveLeapError);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
     }
@@ -135,7 +140,6 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
-    //TODO: these two methods are almost exactly the same, combine them
     toggleBypass(effectID) {
         if (!this.state.effects.find(effect => effect.get('isSoloing'))) {
             let isBypassed;
