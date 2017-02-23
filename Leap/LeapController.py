@@ -33,15 +33,11 @@ class LeapController(object):
         # Check that the correct policy has been set
         if self.controller.is_policy_set(Leap.Controller.POLICY_BACKGROUND_FRAMES):
             print "Background frames policy in effect."
-<<<<<<< HEAD
 
         # Flags
         self.tracking_hand = False      # Flag for tracking mode enable/disable
         self.bound_msg_sent = False     # Flag for bound message
         self.in_bounds = False          # Flag for tracking if in/out of bounds
-
-=======
->>>>>>> 6309a2c092f064840da2f8df2fed8b4a86ba3244
         print "Leap Initialized."
 
     def connect(self):
@@ -53,15 +49,9 @@ class LeapController(object):
         self.data_client = OSC.OSCClient()
         self.data_client.connect(('127.0.0.1', 8000))
 
-<<<<<<< HEAD
         # OSC connection for sending status updates
         self.status_client = OSC.OSCClient()
         self.status_client.connect(('127.0.0.1', 8010))
-=======
-        # OSC connection for sending errors
-        self.error_client = OSC.OSCClient()
-        self.error_client.connect(('127.0.0.1', 8010))
->>>>>>> 6309a2c092f064840da2f8df2fed8b4a86ba3244
 
         print "Leap is connected to Server."
 
@@ -79,10 +69,7 @@ class LeapController(object):
         An OSC message containing hand position coordinates
 
         """
-<<<<<<< HEAD
         # TODO: Remove coordinates print when testing is done
-=======
->>>>>>> 6309a2c092f064840da2f8df2fed8b4a86ba3244
         # coordinates = (str(round(palm_position.x, 3)) + " " +
         #                str(round(palm_position.y, 3)) + " " +
         #                str(round(palm_position.z, 3)))
@@ -107,11 +94,7 @@ class LeapController(object):
 
         """
         # Set Leap framerate
-<<<<<<< HEAD
         framerate = 70
-=======
-        framerate = 65
->>>>>>> 6309a2c092f064840da2f8df2fed8b4a86ba3244
 
         # Main loop
         while True:
@@ -122,7 +105,6 @@ class LeapController(object):
             frame = self.controller.frame()
             ibox = frame.interaction_box
 
-<<<<<<< HEAD
             # If a hand is present (user in bounds)
             if not frame.hands.is_empty:
                 # Look at last state of in_bounds flag
@@ -241,41 +223,3 @@ class LeapController(object):
         except OSC.OSCClientError:
             print "Server is not running, stopping program."
             sys.exit(1)
-=======
-            # If a hand is present
-            if not frame.hands.is_empty:
-                # Reset flag for tracking out of bounds error                      # TODO: Add pinching to start and stop tracking
-                self.sent_bound_error = False
-
-                # Get palm position of first available hand
-                palm_position = frame.hands[0].palm_position
-
-                # Normalize coordinates on a scale from 0 - 1 for x,y,z
-                normalized_palm = ibox.normalize_point(palm_position)
-
-                # Send coordinates to the server
-                self.send_palm_position(normalized_palm)
-            else:
-                if not self.send_bound_error:
-                    self.send_bound_error()
-                # print "OUT OF BOUNDS"
-                continue
-                                                                                    # TODO: Add smoothing function
-                                                                                    # Wait for new frame of hand data that is inside interaction box
-                                                                                    # Calculate midpoint palm position between new frame
-                                                                                    # and last good frame
-
-      def send_bound_error(self):
-          """
-          Send an error message reporting that the user's hand
-          is outside of the interaction box.
-
-          """
-          error_msg = OSC.OSCMessage()
-          error_msg.setAddress("/BoundError")
-          error_msg += True
-          self.error_client.send(error_msg)
-
-          # Set flag for error message sent
-          self.sent_bound_error = True
->>>>>>> 6309a2c092f064840da2f8df2fed8b4a86ba3244
