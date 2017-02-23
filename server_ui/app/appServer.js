@@ -31,7 +31,7 @@ const serverToMaxChannel = {
 //Create the Leap --> Server OSC sockets
 const leapToServerChannel = {
     portLeapCoords: new OscUdpPort({localPort: 8000}),
-    portLeapErrors: new OscUdpPort({localPort: 8010})
+    portLeapStatusUpdates: new OscUdpPort({localPort: 8010})
 };
 
 leapToServerChannel.portLeapCoords.on("message", msg => {
@@ -41,10 +41,20 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     io.emit('leapData', data);
 });
 
-leapToServerChannel.portLeapErrors.on('message', msg => {
+leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
     const data = msg.args;
+    switch (msg.address) {
+        case '/TrackingMode':
+            io.emit('leapTrackingMode', data);
+            break;
+        case '/BoundError':
+            io.emit('leapBoundError', data);
+            break;
+        default:
+            console.log('Unknown OSC Address');
+            break;
+    }
     console.log(`received message from leap: ${data}`);
-    io.emit('leapError', msg);
 });
 
 

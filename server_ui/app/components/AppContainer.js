@@ -53,7 +53,8 @@ class AppContainer extends React.Component {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.on('leapError', this.receiveLeapError);
+        this.socket.on('leapTrackingMode', this.receiveLeapError);
+        this.socket.on('leapBoundError', this.receiveLeapError);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
     }
