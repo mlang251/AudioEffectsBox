@@ -54,39 +54,9 @@ class LeapController(object):
         self.status_client = OSC.OSCClient()
         self.status_client.connect(('127.0.0.1', 8010))
 
+        # Send Leap interaction box dimensions
+        self.send_status_update('box_dimensions')
         print "Leap is connected to Server."
-
-    def send_palm_position(self, palm_position):
-        """
-        Sends Leap hand position coordinates to the AudioEffectsBox server
-        using OSC.
-
-        Parameters
-        ----------
-        A Leap hand.palm_position
-
-        Outputs
-        -------
-        An OSC message containing hand position coordinates
-
-        """
-        # TODO: Remove coordinates print when testing is done
-        # coordinates = (str(round(palm_position.x, 3)) + " " +
-        #                str(round(palm_position.y, 3)) + " " +
-        #                str(round(palm_position.z, 3)))
-        # print coordinates
-
-        # Use OSC to send xyz coordiantes and have max seperate by space
-        try:
-            coord_msg = OSC.OSCMessage()
-            coord_msg.setAddress("/Coordinates")
-            coord_msg += round(palm_position.x, 3)
-            coord_msg += round(palm_position.y, 3)
-            coord_msg += round(palm_position.z, 3)
-            self.data_client.send(coord_msg)
-        except OSC.OSCClientError:
-            print "Server is not running, stopping program."
-            sys.exit(1)
 
     def runloop(self):
         """
@@ -217,10 +187,52 @@ class LeapController(object):
                 self.status_client.send(bound_status)
                 self.bound_msg_sent = True  # Set flag
 
+            # Box dimensions
+            elif msg_type == "box_dimensions":
+                ibox_dims = OSC.OSCMessage()
+                ibox_dims.setAddress("/BoxDimensions")
+
+                # Get a frame and check dimensions from ibox
+                ibox = self.controller.frame().interaction_box
+                ibox_height = ibox.height
+                ibox_width  = ibox.width
+                ibox_depth  = ibox.depth
+
+                # Send dimensions
+                ibox_dims += {'Height': ibox_height, 'Width': ibox_width,
+                             'Depth': ibox_depth}
+                self.status_client.send(ibox_dims)
+
             # Incorrect msg_type chosen
             else:
                 raise ValueError, "msg_type '%s' does not exist." % str(msg_type)
 
+        except OSC.OSCClientError:
+            print "Server is not running, stopping program."
+            sys.exit(1)
+
+    def send_palm_position(self, palm_position):
+        """
+        Sends Leap hand position coordinates to the AudioEffectsBox server
+        using OSC.
+
+        Parameters
+        ----------
+        A Leap hand.palm_position
+
+        Outputs
+        -------
+        An OSC message containing hand position coordinates
+
+        """
+        # Use OSC to send xyz coordiantes and have max seperate by space
+        try:
+            coord_msg = OSC.OSCMessage()
+            coord_msg.setAddress("/Coordinates")
+            coord_msg += round(palm_position.x, 3)
+            coord_msg += round(palm_position.y, 3)
+            coord_msg += round(palm_position.z, 3)
+            self.data_client.send(coord_msg)
         except OSC.OSCClientError:
             print "Server is not running, stopping program."
             sys.exit(1)
