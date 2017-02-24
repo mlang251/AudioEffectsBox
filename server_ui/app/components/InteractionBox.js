@@ -14,12 +14,24 @@ class InteractionBox extends React.PureComponent {
                     <div style = {Object.assign({}, styles.pointer, propStyles.pointer)}>
                         <span style = {Object.assign({}, styles.shadow, propStyles.shadow)}></span>
                     </div>
-                    <figure style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
+                    <figure 
+                        id = 'front'
+                        style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
+                    <figure 
+                        id = 'back'
+                        style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
+                    <figure 
+                        id = 'right'
+                        style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
+                    <figure 
+                        id = 'left'
+                        style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
+                    <figure 
+                        id = 'top'
+                        style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
+                    <figure 
+                        id = 'bottom'
+                        style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
                 </div>
             </section>
         );
@@ -39,6 +51,9 @@ const styles = {
         width: '100%',
         height: '100%',
         position: 'absolute',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
         transformStyle: 'preserve-3d',
     },
     pointer: {
@@ -59,8 +74,6 @@ const styles = {
     },
     figure: {
         margin: 0,
-        width: '100%',
-        height: '100%',
         display: 'block',
         position: 'absolute',
         borderWidth: 2,

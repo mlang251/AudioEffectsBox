@@ -62,7 +62,10 @@ const styles = {
     interactionBoxContainer: {
         height: '50vh',
         paddingTop: '5vh',
-        paddingBottom: '5vh'
+        paddingBottom: '5vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     signalChainContainer: {
         height: '30vh',

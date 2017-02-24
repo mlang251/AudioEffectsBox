@@ -24,15 +24,33 @@ class InteractionBoxContainer extends React.PureComponent {
             const depthHeightRatio = Depth/Height;
             const maxHeight = window.innerHeight * 0.4;
             const maxWidth = window.innerWidth * 0.833;
+            const maxDepth = window.innerHeight * 1.4;
             
             if (maxHeight * widthHeightRatio > maxWidth) {
-                width = maxWidth;
-                height = width/widthHeightRatio;
+                if (maxWidth * depthHeightRatio / widthHeightRatio > maxDepth) {
+                    depth = maxDepth;
+                    height = depth/depthHeightRatio;
+                    width = height * widthHeightRatio;
+                } else {
+                    width = maxWidth;
+                    height = width/widthHeightRatio;
+                    depth = height * depthHeightRatio;
+                }
+            } else if (maxHeight * depthHeightRatio > maxDepth) {
+                if (maxDepth * widthHeightRatio / depthHeightRatio > maxWidth) {
+                    width = maxWidth;
+                    height = width/widthHeightRatio;
+                    depth = height * depthHeightRatio;
+                } else {
+                    depth = maxDepth;
+                    height = depth/depthHeightRatio;
+                    width = height * widthHeightRatio;
+                }
             } else {
                 height = maxHeight;
                 width = height * widthHeightRatio;
+                depth = height * depthHeightRatio;
             }
-            depth = height * depthHeightRatio;
         }
 
         if (!this.props.coords.isEmpty()) {
@@ -43,7 +61,8 @@ class InteractionBoxContainer extends React.PureComponent {
         }
 
         const pointerColor = !this.props.isInBounds ? '#C00' : this.props.isTracking ? '#080' : '#EE0';
-
+        const minDimension = Math.min(height, width, depth);
+        
         return Immutable.fromJS({
             container: {
                 height: height,
@@ -53,39 +72,51 @@ class InteractionBoxContainer extends React.PureComponent {
                 transform: `translateZ(-${depth}px) rotateX(-20deg)`
             },
             pointer: {
-                height: height/10,
-                width: height/10,
-                backgroundImage: `radial-gradient(circle at ${height/40}px ${height/40}px, ${pointerColor}, #222)`,
+                height: minDimension/10,
+                width: minDimension/10,
+                backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
                 transform: `translateX(${x * width}px) translateY(${y * height}px) translateZ(${depth/2 + z * depth}px)`
             },
             shadow: {
-                transform: `rotateX(90deg) translateZ(-${height/20 - y * height}px)`,
+                transform: `rotateX(90deg) translateZ(-${minDimension/20 - y * height}px)`,
             },
             front: {
+                height: height,
+                width: width,
                 transform: `rotateY(0deg) translateZ(${depth/2}px)`,
             },
             back: {
-                transform: `rotateX(180deg) translateZ(${depth/2}px)`,
+                height: height,
+                width: width,
                 backgroundSize: `${height/30}px ${height/30}px`,
                 backgroundPosition: `${height/60}px ${height/60}px`,
+                transform: `rotateX(180deg) translateZ(${depth/2}px)`
             },
             right: {
-                transform: `rotateY(90deg) translateZ(${depth/2}px)`,
+                height: height,
+                width: depth,
                 backgroundSize: `${height/30}px ${height/30}px`,
                 backgroundPosition: `${height/60}px ${height/60}px`,
+                transform: `rotateY(90deg) translateZ(${width/2}px)`
             },
             left: {
-                transform: `rotateY(-90deg) translateZ(${depth/2}px)`,
+                height: height,
+                width: depth,
                 backgroundSize: `${height/30}px ${height/30}px`,
                 backgroundPosition: `${height/60}px ${height/60}px`,
+                transform: `rotateY(-90deg) translateZ(${width/2}px)`
             },
             top: {
-                transform: `rotateX(90deg) translateZ(${depth/2}px)`,
+                height: depth,
+                width: width,
+                transform: `rotateX(90deg) translateZ(${height/2}px)`
             },
             bottom: {
-                transform: `rotateX(-90deg) translateZ(${depth/2}px)`,
+                height: depth,
+                width: width,
                 backgroundSize: `${height/15}px ${height/15}px`,
                 backgroundPosition: `${height/30}px ${height/30}px`,
+                transform: `rotateX(-90deg) translateZ(${height/2}px)`
             },
         });
     }
