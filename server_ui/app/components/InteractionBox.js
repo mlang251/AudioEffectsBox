@@ -69,8 +69,9 @@ const styles = {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0) 50%)',
-        zIndex: -1
+        backgroundColor: 'black',
+        // background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0) 50%)',
+        zIndex: 10
     },
     figure: {
         margin: 0,

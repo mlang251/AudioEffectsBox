@@ -62,7 +62,6 @@ class InteractionBoxContainer extends React.PureComponent {
 
         const pointerColor = !this.props.isInBounds ? '#C00' : this.props.isTracking ? '#080' : '#EE0';
         const minDimension = Math.min(height, width, depth);
-        
         return Immutable.fromJS({
             container: {
                 height: height,
@@ -75,10 +74,16 @@ class InteractionBoxContainer extends React.PureComponent {
                 height: minDimension/10,
                 width: minDimension/10,
                 backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
-                transform: `translateX(${x * width}px) translateY(${y * height}px) translateZ(${depth/2 + z * depth}px)`
+                //TODO: these values need to be offset by half the width of the pointer
+                transform: `
+                    translateX(${x * width}px) 
+                    translateY(${-y * height}px) 
+                    translateZ(${depth/2 - z * depth}px)
+                `
             },
             shadow: {
-                transform: `rotateX(90deg) translateZ(-${minDimension/20 - y * height}px)`,
+                //TODO: shadow not showing up
+                transform: `rotateX(90deg) translateZ(-${minDimension/20 + y * height}px)`,
             },
             front: {
                 height: height,
