@@ -1,5 +1,5 @@
 import React from 'react';
-import InteractionBox from './InteractionBox';
+import InteractionBoxContainer from './InteractionBoxContainer';
 import SignalChain from './SignalChain';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
@@ -21,7 +21,7 @@ const App = props => (
                     style = {styles.div}>
                     <p>Received message on port 57120: {props.message}</p>
                     <section style = {styles.interactionBoxContainer}>
-                        <InteractionBox
+                        <InteractionBoxContainer
                             coords = {props.interactionBox.get('coords')}
                             dimensions = {props.interactionBox.get('dimensions')}
                             isConnected = {props.interactionBox.get('isConnected')}
