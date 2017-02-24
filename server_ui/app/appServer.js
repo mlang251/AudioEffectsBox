@@ -71,18 +71,18 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 //Other events are fired by the UI when certain interactions take place
 io.on('connection', socket => {
     console.log('User connected');
-    io.emit('leapStatusUpdate', {
-        address: '/TrackingMode',
-        args: 1
-    })
-    io.emit('leapStatusUpdate', {
-        address: '/BoundStatus',
-        args: 1
-    })
+    // io.emit('leapStatusUpdate', {
+    //     address: '/TrackingMode',
+    //     args: 1
+    // })
+    // io.emit('leapStatusUpdate', {
+    //     address: '/BoundStatus',
+    //     args: 1
+    // })
     io.emit('leapStatusUpdate', {
         address: '/BoxDimensions',
         args: {
-            Height: 20,
+            Height: 40,
             Width: 20,
             Depth: 20
         }

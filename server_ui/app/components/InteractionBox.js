@@ -7,18 +7,19 @@ class InteractionBox extends React.PureComponent {
     }
     
     render() {
+        const propStyles = this.props.style.toJS();
         return (
-            <section style = {styles.container}>
-                <div style = {styles.cube}>
-                    <div style = {Object.assign({}, styles.pointer, pointerStyles)}>
-                        <span style = {Object.assign({}, styles.shadow, shadowStyles)}></span>
+            <section style = {Object.assign({}, styles.container, propStyles.container)}>
+                <div style = {Object.assign({}, styles.cube, propStyles.cube)}>
+                    <div style = {Object.assign({}, styles.pointer, propStyles.pointer)}>
+                        <span style = {Object.assign({}, styles.shadow, propStyles.shadow)}></span>
                     </div>
-                    <figure style = {Object.assign({}, styles.figure, styles.front)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.back)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.right)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.left)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.top)}></figure>
-                    <figure style = {Object.assign({}, styles.figure, styles.bottom)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
+                    <figure style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
                 </div>
             </section>
         );
@@ -26,11 +27,8 @@ class InteractionBox extends React.PureComponent {
 }
 
 export default Radium(InteractionBox);
-const height = window.innerHeight*0.4;
 const styles = {
     container: {
-        width: height,
-        height: height,
         maxHeight: '40vh',
         position: 'relative',
         perspective: 1000,
@@ -42,7 +40,6 @@ const styles = {
         height: '100%',
         position: 'absolute',
         transformStyle: 'preserve-3d',
-        transform: `translateZ(-${height}px) rotateX(-20deg)`
     },
     pointer: {
         display: 'block',
@@ -51,18 +48,13 @@ const styles = {
         backgroundColor: 'black',
         bottom: 0,
         left: 0,
-        height: height/10,
-        width: height/10,
-        margin: 0,
-        backgroundImage: `radial-gradient(circle at ${height/40}px ${height/40}px, #080, #222)`,
-        transform: `translateZ(${height/2}px)`
+        margin: 0
     },
     shadow: {
         position: 'absolute',
         width: '100%',
         height: '100%',
         background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0) 50%)',
-        transform: `rotateX(90deg) translateZ(-${height/20}px)`,
         zIndex: -1
     },
     figure: {
@@ -79,39 +71,25 @@ const styles = {
         opacity: 0.5
     },
     front: {
-        transform: `rotateY(0deg) translateZ(${height/2}px)`,
         backgroundColor: '#FFF',
         backgroundImage: '',
         opacity: 0.2
     },
     back: {
-        transform: `rotateX(180deg) translateZ(${height/2}px)`,
-        backgroundSize: `${height/30}px ${height/30}px`,
-        backgroundPosition: `${height/60}px ${height/60}px`,
         backgroundColor: '#AAA'
     },
     right: {
-        transform: `rotateY(90deg) translateZ(${height/2}px)`,
-        backgroundSize: `${height/30}px ${height/30}px`,
-        backgroundPosition: `${height/60}px ${height/60}px`,
         backgroundColor: '#AAA'
     },
     left: {
-        transform: `rotateY(-90deg) translateZ(${height/2}px)`,
-        backgroundSize: `${height/30}px ${height/30}px`,
-        backgroundPosition: `${height/60}px ${height/60}px`,
         backgroundColor: '#AAA'
     },
     top: {
-        transform: `rotateX(90deg) translateZ(${height/2}px)`,
         backgroundColor: '#EEE',
         backgroundImage: '',
         opacity: 0.2
     },
     bottom: {
-        transform: `rotateX(-90deg) translateZ(${height/2}px)`,
-        backgroundSize: `${height/15}px ${height/15}px`,
-        backgroundPosition: `${height/30}px ${height/30}px`,
         backgroundColor: '#EEE'
     },
 }
