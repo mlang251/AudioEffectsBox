@@ -22,7 +22,11 @@ const App = props => (
                     <p>Received message on port 57120: {props.message}</p>
                     <section style = {styles.interactionBoxContainer}>
                         <InteractionBox
-                            coords = {props.coords} />
+                            coords = {props.interactionBox.get('coords')}
+                            dimensions = {props.interactionBox.get('dimensions')}
+                            isConnected = {props.interactionBox.get('isConnected')}
+                            isInBounds = {props.interactionBox.get('isInBounds')}
+                            isTracking = {props.interactionBox.get('isTracking')} />
                     </section>
                     <section style = {styles.signalChainContainer}>
                         <SignalChain

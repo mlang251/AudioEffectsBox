@@ -35,7 +35,9 @@ class AppContainer extends React.Component {
             interactionBox: Immutable.Map({
                 coords: Immutable.List(),
                 dimensions: Immutable.Map(),
-                status: 'not connected'
+                isConnected: false,
+                isInBounds: false,
+                isTracking: false
             })
         }
         this.effects = Immutable.fromJS(effectsJSON)
@@ -45,6 +47,7 @@ class AppContainer extends React.Component {
         this.toggleMapping = this.toggleMapping.bind(this);
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
+        this.receiveLeapStatus = this.receiveLeapStatus.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
         this.toggleBypass = this.toggleBypass.bind(this);
         this.toggleSolo = this.toggleSolo.bind(this);
@@ -71,10 +74,27 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapStatus(message) {
-        const address = message.address;
-        const data = Immutable.fromJS(message.args)
+        const {address, args} = message;
         switch (address) {
-            //Handle the Leap status updates
+            case '/BoxDimensions':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isConnected', value => true)
+                        .update('dimensions', value => this.state.interactionBox.get('dimensions').merge(Immutable.fromJS(args)))
+                }));
+                break;
+            case '/BoundStatus':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isInBounds', value => args ? true : false)
+                }));
+                break;
+            case '/TrackingMode':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isTracking', value => args ? true : false)
+                }));
+                break;
+            default:
+                console.log('OSC message from unknown address received on port 8010');
+                break;
         }
     }
 
@@ -90,8 +110,8 @@ class AppContainer extends React.Component {
                 }));
             }
         });
-        this.setState(({coords}) => ({
-            coords: Immutable.List(data)
+        this.setState(({interactionBox}) => ({
+            interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
     }
 
@@ -300,7 +320,7 @@ class AppContainer extends React.Component {
                 toggleSolo = {this.toggleSolo}
                 removeMapping = {this.removeMapping}
                 reorderEffects = {this.reorderEffects}
-                coords = {this.state.coords}>
+                interactionBox = {this.state.interactionBox}>
                 {this.state.effects}
             </App>
         );
