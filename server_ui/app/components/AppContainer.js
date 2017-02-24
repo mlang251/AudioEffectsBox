@@ -57,9 +57,7 @@ class AppContainer extends React.Component {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.on('leapTrackingStatus', this.receiveLeapStatus.bind('trackingStatus'));
-        this.socket.on('leapBoundStatus', this.receiveLeapStatus.bind('boundStatus'));
-        this.socket.on('leapDimensionUpdate', this.receiveLeapStatus.bind('dimensionUpdate'));
+        this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
     }
@@ -73,7 +71,11 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapStatus(message) {
-        console.log(message);
+        const address = message.address;
+        const data = Immutable.fromJS(message.args)
+        switch (address) {
+            //Handle the Leap status updates
+        }
     }
 
     receiveLeapData(data) {

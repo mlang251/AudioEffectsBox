@@ -42,22 +42,8 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
 });
 
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
-    const data = msg.args;
-    switch (msg.address) {
-        case '/TrackingMode':
-            io.emit('leapTrackingStatus', data);
-            break;
-        case '/BoundStatus':
-            io.emit('leapBoundStatus', data);
-            break;
-        case '/BoxDimensions':
-            io.emit('leapDimensionUpdate', data);
-            break;
-        default:
-            console.log('Unknown OSC Address');
-            break;
-    }
-    console.log(`received message from leap: ${data}`);
+    io.emit('leapStatusUpdate', msg);
+    console.log(`received message from leap: ${msg.args}`);
 });
 
 
