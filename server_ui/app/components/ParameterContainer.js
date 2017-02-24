@@ -21,7 +21,7 @@ class ParameterContainer extends React.PureComponent {
             : data.y/max
         value = Math.round(value * 1000)/1000;
         const updatedInfo = info.set('paramValue', value);
-        this.props.onParameterChange(updatedInfo);
+        this.props.onParameterChange(updatedInfo, false);
     }
 
     handleMappingClick(isMapping, info) {

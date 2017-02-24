@@ -107,7 +107,7 @@ class AppContainer extends React.Component {
                     effectID: effectID,
                     paramName: param,
                     paramValue: coord
-                }));
+                }), true);
             }
         });
         this.setState(({interactionBox}) => ({
@@ -224,12 +224,14 @@ class AppContainer extends React.Component {
         }));
     }
 
-    updateParameterValue(paramInfo) {
+    updateParameterValue(paramInfo, wasChangedByLeap) {
         const {effectID, paramName, paramValue} = paramInfo.toJS();
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.emit('updateParam', paramInfo.toJS());
+        if (!wasChangedByLeap) {
+            this.emit('updateParam', paramInfo.toJS());
+        }
     }
 
     mapToParameter(paramInfo) {
