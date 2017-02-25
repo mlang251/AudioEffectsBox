@@ -41,9 +41,9 @@ class InteractionBox extends React.PureComponent {
 export default Radium(InteractionBox);
 const styles = {
     container: {
-        maxHeight: '40vh',
         position: 'relative',
         perspective: 1000,
+        transformStyle: 'preserve-3d',
         marginLeft: 'auto',
         marginRight: 'auto'
     },
@@ -63,15 +63,15 @@ const styles = {
         backgroundColor: 'black',
         bottom: 0,
         left: 0,
-        margin: 0
+        margin: 0,
+        transformStyle: 'preserve-3d'
     },
     shadow: {
         position: 'absolute',
         width: '100%',
         height: '100%',
-        backgroundColor: 'black',
-        // background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.7) 40%, rgba(0, 0, 0, 0) 50%)',
-        zIndex: 10
+        background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 50%)',
+        zIndex: -1
     },
     figure: {
         margin: 0,

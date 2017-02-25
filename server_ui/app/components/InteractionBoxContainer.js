@@ -82,7 +82,6 @@ class InteractionBoxContainer extends React.PureComponent {
                 `
             },
             shadow: {
-                //TODO: shadow not showing up
                 transform: `rotateX(90deg) translateZ(-${minDimension/20 + y * height}px)`,
             },
             front: {
