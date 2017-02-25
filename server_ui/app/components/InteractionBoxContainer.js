@@ -74,15 +74,14 @@ class InteractionBoxContainer extends React.PureComponent {
                 height: minDimension/10,
                 width: minDimension/10,
                 backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
-                //TODO: these values need to be offset by half the width of the pointer
                 transform: `
-                    translateX(${x * width}px) 
-                    translateY(${-y * height}px) 
+                    translateX(${x * width - minDimension/20}px) 
+                    translateY(${-y * height + minDimension/20}px) 
                     translateZ(${depth/2 - z * depth}px)
                 `
             },
             shadow: {
-                transform: `rotateX(90deg) translateZ(-${minDimension/20 + y * height}px)`,
+                transform: `rotateX(90deg) translateZ(-${y * height}px)`,
             },
             front: {
                 height: height,
