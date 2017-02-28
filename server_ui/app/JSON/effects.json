@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb", "Filter"],
+    "list": ["Reverb", "Filter", "Delay"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -21,6 +21,18 @@
               "Gain": "fader",
               "Cf": "fader",
               "Q": "fader"
+          }
+        },
+        "delay": {
+          "type": "delay",
+          "name": "Delay",
+          "IDs": ["delay1", "delay2", "delay3"],
+          "parameterList": ["Amount", "DelayTime", "Feedback", "Gain"],
+          "parameters": {
+              "Amount": "fader",
+              "DelayTime": "fader",
+              "Feedback": "fader",
+              "Gain": "fader"
           }
         }
     }

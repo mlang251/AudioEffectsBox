@@ -28,5 +28,23 @@
         "Gain": 0,
         "Cf": 0,
         "Q": 0
+    },
+    "delay1": {
+        "Amount": 0,
+        "DelayTime": 0,
+        "Feedback": 0,
+        "Gain": 0.25
+    },
+    "delay2": {
+        "Amount": 0,
+        "DelayTime": 0,
+        "Feedback": 0,
+        "Gain": 0.25
+    },
+    "delay3": {
+        "Amount": 0,
+        "DelayTime": 0,
+        "Feedback": 0,
+        "Gain": 0.25
     }
 }
