@@ -1,6 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
-import Effect from './Effect';
+import EffectContainer from './EffectContainer';
 
 class SignalChain extends React.PureComponent {
     constructor() {
@@ -11,7 +11,7 @@ class SignalChain extends React.PureComponent {
         const effects = this.props.children.map((effect, index) => {
             const {ID, type, isBypassed, isSoloing} = effect.toJS();
             return (
-                <Effect
+                <EffectContainer
                     key = {ID}
                     ID = {ID}
                     type = {type}
