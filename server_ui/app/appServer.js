@@ -28,15 +28,24 @@ const serverToMaxChannel = {
     portXYZMap: new OscUdpPort({remotePort: 7040, address: "xyzMap"})              //For assigning x, y, and z to specific effect parameters
 };
 
-//Create the Leap --> Server OSC socket
-const leapToServerChannel = new OscUdpPort({localPort: 8000});
+//Create the Leap --> Server OSC sockets
+const leapToServerChannel = {
+    portLeapCoords: new OscUdpPort({localPort: 8000}),
+    portLeapStatusUpdates: new OscUdpPort({localPort: 8010})
+};
 
-leapToServerChannel.on("message", msg => {
+leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
     io.emit('leapData', data);
 });
+
+leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
+    io.emit('leapStatusUpdate', msg);
+    console.log(`received message from leap: ${msg.args}`);
+});
+
 
 
 
