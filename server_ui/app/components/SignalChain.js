@@ -1,6 +1,5 @@
 import React from 'react';
 import Radium from 'radium';
-import EffectContainer from './EffectContainer';
 
 class SignalChain extends React.PureComponent {
     constructor() {
@@ -8,32 +7,9 @@ class SignalChain extends React.PureComponent {
     }
 
     render() {
-        const effects = this.props.children.map((effect, index) => {
-            const {ID, type, isBypassed, isSoloing} = effect.toJS();
-            return (
-                <EffectContainer
-                    key = {ID}
-                    ID = {ID}
-                    type = {type}
-                    isBypassed = {isBypassed}
-                    isSoloing = {isSoloing}
-                    parameterValues = {this.props.parameterValues.get(ID)}
-                    onParameterChange = {this.props.onParameterChange}
-                    isMapping = {this.props.isMapping}
-                    mapToParameter = {this.props.mapToParameter}
-                    xyzMap = {this.props.xyzMap}
-                    handleCloseButtonClick = {this.props.removeEffect} 
-                    handleBypassButtonClick = {this.props.toggleBypass} 
-                    handleSoloButtonClick = {this.props.toggleSolo} 
-                    handleRemoveMappingClick = {this.props.removeMapping}
-                    reorderButtonLeft = {index != 0}
-                    reorderButtonRight = {index != this.props.children.size - 1} 
-                    handleReorderButtonClick = {this.props.reorderEffects} />
-            );
-        });
         return (
             <div id = 'signalChain' style = {styles.div}>
-                {effects}
+                {this.props.effects}
             </div>
         )
     }

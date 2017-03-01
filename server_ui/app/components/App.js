@@ -1,6 +1,6 @@
 import React from 'react';
 import InteractionBoxContainer from './InteractionBoxContainer';
-import SignalChain from './SignalChain';
+import SignalChainContainer from './SignalChainContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
 import Sidebar from './Sidebar';
@@ -29,7 +29,7 @@ const App = props => (
                             isTracking = {props.interactionBox.get('isTracking')} />
                     </section>
                     <section style = {styles.signalChainContainer}>
-                        <SignalChain
+                        <SignalChainContainer
                             onParameterChange = {props.onParameterChange}
                             parameterValues = {props.parameterValues}
                             isMapping = {props.isMapping}
@@ -39,7 +39,8 @@ const App = props => (
                             toggleBypass = {props.toggleBypass}
                             toggleSolo = {props.toggleSolo}
                             removeMapping = {props.removeMapping}
-                            reorderEffects = {props.reorderEffects}>{props.children}</SignalChain>
+                            reorderEffects = {props.reorderEffects}
+                            effects = {props.children} />
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
