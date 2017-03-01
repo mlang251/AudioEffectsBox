@@ -322,9 +322,8 @@ class AppContainer extends React.Component {
                 toggleSolo = {this.toggleSolo}
                 removeMapping = {this.removeMapping}
                 reorderEffects = {this.reorderEffects}
-                interactionBox = {this.state.interactionBox}>
-                {this.state.effects}
-            </App>
+                interactionBox = {this.state.interactionBox}
+                effects = {this.state.effects} />
         );
     }
 }

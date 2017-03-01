@@ -40,7 +40,7 @@ const App = props => (
                             toggleSolo = {props.toggleSolo}
                             removeMapping = {props.removeMapping}
                             reorderEffects = {props.reorderEffects}
-                            effects = {props.children} />
+                            effects = {props.effects} />
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
