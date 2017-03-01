@@ -1,44 +1,29 @@
 import React from 'react';
 import Radium from 'radium';
 
-const generateEffects = effectsArray => {
-    return effectsArray.map((effect, i) => {
+class SignalChain extends React.PureComponent {
+    constructor() {
+        super();
+    }
+
+    render() {
         return (
-            <div className = 'effect'
-                 key = {i}
-                 style = {styles.divEffects}>
-                {effect.type}
+            <div id = 'signalChain' style = {styles.div}>
+                {this.props.effects}
             </div>
         );
-    });
+    }
 }
-
-const SignalChain = props => {
-    const effects = generateEffects(props.children);
-    return (
-        <div id = 'signalChain' style = {styles.div}>
-            {effects}
-        </div>
-    )
-};
 
 export default Radium(SignalChain);
 
 const styles = {
     div: {
-        display: 'inline-block',
-        height: 400,
+        height: '100%',
         width: '100%',
+        marginBottom: 25,
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
-    },
-    divEffects: {
-        display: 'inline-block',
-        height: 100,
-        width: 100,
-        borderWidth: 1,
-        borderStyle: 'solid',
-        borderColor: '#F00'
     }
 }

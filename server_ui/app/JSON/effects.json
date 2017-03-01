@@ -1,0 +1,27 @@
+{
+    "list": ["Reverb", "Filter"],
+    "effects": {
+        "reverb": {
+            "type": "reverb",
+            "name": "Reverb",
+            "IDs": ["reverb1", "reverb2", "reverb3"],
+            "parameterList": ["Liveness", "Crossover", "Damping"],
+            "parameters": {
+                "Liveness": "fader",
+                "Crossover": "fader",
+                "Damping": "fader"
+            }
+        },
+        "filter": {
+          "type": "filter",
+          "name": "Filter",
+          "IDs": ["filter1", "filter2", "filter3"],
+          "parameterList": ["Gain", "Cf", "Q"],
+          "parameters": {
+              "Gain": "fader",
+              "Cf": "fader",
+              "Q": "fader"
+          }
+        }
+    }
+}
