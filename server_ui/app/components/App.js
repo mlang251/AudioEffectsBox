@@ -3,7 +3,7 @@ import InteractionBoxContainer from './InteractionBoxContainer';
 import SignalChainContainer from './SignalChainContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-import Sidebar from './Sidebar';
+import SidebarContainer from './SidebarContainer';
 
 const App = props => (
     <div>
@@ -44,7 +44,7 @@ const App = props => (
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
-                    <Sidebar
+                    <SidebarContainer
                         handleEffectButtonClick = {props.addEffectToChain}
                         handleAxisButtonClick = {props.toggleMapping} />
                 </div>
