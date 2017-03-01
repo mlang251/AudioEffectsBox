@@ -9,9 +9,12 @@ class Effect extends React.PureComponent {
         super();
     }
 
-    render() {
-        const effect = Immutable.fromJS(effects).getIn(['effects', this.props.type]);
-        const [parameterList, parameters] = [effect.get('parameterList'), effect.get('parameters')];
+    componentWillMount() {
+        this.effect = Immutable.fromJS(effects).getIn(['effects', this.props.type]);
+    }
+
+    createParameters(effect) {
+        const [parameterList, parameters] = [this.effect.get('parameterList'), this.effect.get('parameters')];
         let params = [];
         let xyzMapArray = [];
         this.props.xyzMap.forEach((axisInfo, axis) => {
@@ -61,11 +64,13 @@ class Effect extends React.PureComponent {
                 </div>
             );
         });
+        return params;
+    }
 
-        let reorderButtonLeft;
-        let reorderButtonRight;
+    createReorderButtons() {
+        const buttons = {};
         if (this.props.reorderButtonLeft) {
-            reorderButtonLeft = (
+            buttons.reorderButtonLeft = (
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Left`}
@@ -74,7 +79,7 @@ class Effect extends React.PureComponent {
             );
         }
         if (this.props.reorderButtonRight) {
-            reorderButtonRight = (
+            buttons.reorderButtonRight = (
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Right`}
@@ -82,13 +87,24 @@ class Effect extends React.PureComponent {
                     onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
             );
         }
-        
-        const bypassStyle = this.props.isBypassed ? 'isActive' : 'isNotActive';
-        const soloStyle = this.props.isSoloing ? 'isActive' : 'isNotActive';
+        return buttons;
+    }
+
+    createStyles() {
+        return {
+            bypassStyle: this.props.isBypassed ? 'isActive' : 'isNotActive',
+            soloStyle: this.props.isSoloing ? 'isActive' : 'isNotActive'
+        }
+    }
+
+    render() {
+        const params = this.createParameters(this.effect);
+        const {reorderButtonLeft, reorderButtonRight} = this.createReorderButtons();
+        const {bypassStyle, soloStyle} = this.createStyles();
         return (
             <div style = {styles.effectDiv}>
                 <div style = {styles.headerDiv}>
-                    <p style = {styles.effectTitle}>{effect.get('name')}</p>
+                    <p style = {styles.effectTitle}>{this.effect.get('name')}</p>
                     <div style = {styles.buttonDiv}>
                         <button
                             key = {`${this.props.ID}Solo`}
