@@ -32,7 +32,13 @@ class AppContainer extends React.Component {
                     param: undefined
                 })
             }),
-            coords: Immutable.List()
+            interactionBox: Immutable.Map({
+                coords: Immutable.List(),
+                dimensions: Immutable.Map(),
+                isConnected: false,
+                isInBounds: false,
+                isTracking: false
+            })
         }
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
@@ -41,6 +47,7 @@ class AppContainer extends React.Component {
         this.toggleMapping = this.toggleMapping.bind(this);
         this.mapToParameter = this.mapToParameter.bind(this);
         this.receiveLeapData = this.receiveLeapData.bind(this);
+        this.receiveLeapStatus = this.receiveLeapStatus.bind(this);
         this.removeEffect = this.removeEffect.bind(this);
         this.toggleBypass = this.toggleBypass.bind(this);
         this.toggleSolo = this.toggleSolo.bind(this);
@@ -53,8 +60,7 @@ class AppContainer extends React.Component {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.receiveLeapData);
-        this.socket.on('leapTrackingMode', this.receiveLeapError);
-        this.socket.on('leapBoundError', this.receiveLeapError);
+        this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
     }
@@ -67,8 +73,29 @@ class AppContainer extends React.Component {
         this.setState({message: message});
     }
 
-    receiveLeapError(message) {
-        console.log(message);
+    receiveLeapStatus(message) {
+        const {address, args} = message;
+        switch (address) {
+            case '/BoxDimensions':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isConnected', value => true)
+                        .update('dimensions', value => this.state.interactionBox.get('dimensions').merge(Immutable.fromJS(args)))
+                }));
+                break;
+            case '/BoundStatus':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isInBounds', value => args ? true : false)
+                }));
+                break;
+            case '/TrackingMode':
+                this.setState(({interactionBox}) => ({
+                    interactionBox: interactionBox.update('isTracking', value => args ? true : false)
+                }));
+                break;
+            default:
+                console.log('OSC message from unknown address received on port 8010');
+                break;
+        }
     }
 
     receiveLeapData(data) {
@@ -80,11 +107,11 @@ class AppContainer extends React.Component {
                     effectID: effectID,
                     paramName: param,
                     paramValue: coord
-                }));
+                }), true);
             }
         });
-        this.setState(({coords}) => ({
-            coords: Immutable.List(data)
+        this.setState(({interactionBox}) => ({
+            interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
     }
 
@@ -135,7 +162,6 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
-    //TODO: these two methods are almost exactly the same, combine them
     toggleBypass(effectID) {
         if (!this.state.effects.find(effect => effect.get('isSoloing'))) {
             let isBypassed;
@@ -198,12 +224,14 @@ class AppContainer extends React.Component {
         }));
     }
 
-    updateParameterValue(paramInfo) {
+    updateParameterValue(paramInfo, wasChangedByLeap) {
         const {effectID, paramName, paramValue} = paramInfo.toJS();
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
-        this.emit('updateParam', paramInfo.toJS());
+        if (!wasChangedByLeap) {
+            this.emit('updateParam', paramInfo.toJS());
+        }
     }
 
     mapToParameter(paramInfo) {
@@ -294,9 +322,8 @@ class AppContainer extends React.Component {
                 toggleSolo = {this.toggleSolo}
                 removeMapping = {this.removeMapping}
                 reorderEffects = {this.reorderEffects}
-                coords = {this.state.coords}>
-                {this.state.effects}
-            </App>
+                interactionBox = {this.state.interactionBox}
+                effects = {this.state.effects} />
         );
     }
 }

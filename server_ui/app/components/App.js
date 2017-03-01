@@ -1,9 +1,9 @@
 import React from 'react';
-import InteractionBox from './InteractionBox';
-import SignalChain from './SignalChain';
+import InteractionBoxContainer from './InteractionBoxContainer';
+import SignalChainContainer from './SignalChainContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-import Sidebar from './Sidebar';
+import SidebarContainer from './SidebarContainer';
 
 const App = props => (
     <div>
@@ -21,11 +21,15 @@ const App = props => (
                     style = {styles.div}>
                     <p>Received message on port 57120: {props.message}</p>
                     <section style = {styles.interactionBoxContainer}>
-                        <InteractionBox
-                            coords = {props.coords} />
+                        <InteractionBoxContainer
+                            coords = {props.interactionBox.get('coords')}
+                            dimensions = {props.interactionBox.get('dimensions')}
+                            isConnected = {props.interactionBox.get('isConnected')}
+                            isInBounds = {props.interactionBox.get('isInBounds')}
+                            isTracking = {props.interactionBox.get('isTracking')} />
                     </section>
                     <section style = {styles.signalChainContainer}>
-                        <SignalChain
+                        <SignalChainContainer
                             onParameterChange = {props.onParameterChange}
                             parameterValues = {props.parameterValues}
                             isMapping = {props.isMapping}
@@ -35,11 +39,12 @@ const App = props => (
                             toggleBypass = {props.toggleBypass}
                             toggleSolo = {props.toggleSolo}
                             removeMapping = {props.removeMapping}
-                            reorderEffects = {props.reorderEffects}>{props.children}</SignalChain>
+                            reorderEffects = {props.reorderEffects}
+                            effects = {props.effects} />
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
-                    <Sidebar
+                    <SidebarContainer
                         handleEffectButtonClick = {props.addEffectToChain}
                         handleAxisButtonClick = {props.toggleMapping} />
                 </div>
@@ -58,7 +63,10 @@ const styles = {
     interactionBoxContainer: {
         height: '50vh',
         paddingTop: '5vh',
-        paddingBottom: '5vh'
+        paddingBottom: '5vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     signalChainContainer: {
         height: '30vh',
