@@ -15,7 +15,7 @@ class EffectContainer extends React.PureComponent {
 
     createParameters(effect) {
         const [parameterList, parameters] = [this.effect.get('parameterList'), this.effect.get('parameters')];
-        let params = [];
+        let params = Immutable.List([]).asMutable();
         let xyzMapArray = [];
         this.props.xyzMap.forEach((axisInfo, axis) => {
             if (axisInfo.get('effectID') == this.props.ID) {
@@ -46,7 +46,7 @@ class EffectContainer extends React.PureComponent {
                     ];
                 }
             }
-            params.push(
+            params = params.push(
                 <div
                     key = {index}
                     style = {styles.paramDiv}>
@@ -64,30 +64,30 @@ class EffectContainer extends React.PureComponent {
                 </div>
             );
         });
-        return params;
+        return params.asImmutable();
     }
 
     createReorderButtons() {
-        const buttons = {};
+        let buttons = Immutable.Map({}).asMutable();
         if (this.props.reorderButtonLeft) {
-            buttons.reorderButtonLeft = (
+            buttons = buttons.set('reorderButtonLeft', value => (
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Left`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
                     onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
-            );
+            ));
         }
         if (this.props.reorderButtonRight) {
-            buttons.reorderButtonRight = (
+            buttons = buttons.set('reorderButtonRight', value => (
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Right`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
                     onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
-            );
+            ));
         }
-        return buttons;
+        return buttons.asImmutable();
     }
 
     createStyles() {
@@ -99,7 +99,7 @@ class EffectContainer extends React.PureComponent {
 
     render() {
         const params = this.createParameters(this.effect);
-        const {reorderButtonLeft, reorderButtonRight} = this.createReorderButtons();
+        const {reorderButtonLeft, reorderButtonRight} = this.createReorderButtons().toJS();
         const {bypassStyle, soloStyle} = this.createStyles();
         return (
             <Effect

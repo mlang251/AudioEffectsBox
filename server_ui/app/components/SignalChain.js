@@ -7,6 +7,7 @@ class SignalChain extends React.PureComponent {
     }
 
     render() {
+        console.log(this.props.effects);
         return (
             <div id = 'signalChain' style = {styles.div}>
                 {this.props.effects}
