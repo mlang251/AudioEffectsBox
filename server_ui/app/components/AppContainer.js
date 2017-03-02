@@ -131,17 +131,19 @@ class AppContainer extends React.Component {
     receiveLeapData(data) {
         const start = performance.now();
         const coords = ['x', 'y', 'z'];
+        let updatedParams = Immutable.List([]).asMutable();
         for (let i = 0; i < data.length; i++) {
             const effectID = this.state.xyzMap.getIn([coords[i], 'effectID']);
             if (effectID) {
-                const param = this.state.xyzMap.getIn([coords[i], 'param']);
-                this.updateParameterValue(Immutable.Map({
+                const paramName = this.state.xyzMap.getIn([coords[i], 'param']);
+                updatedParams = updatedParams.push(Immutable.Map({
                     effectID: effectID,
-                    paramName: param,
+                    paramName: paramName,
                     paramValue: data[i]
-                }), true);
+                }));
             }
         };
+        this.updateParameterValue(updatedParams.asImmutable(), true);
         this.setState(({interactionBox}) => ({
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
@@ -263,19 +265,41 @@ class AppContainer extends React.Component {
     }
 
     updateParameterValue(paramInfo, wasChangedByLeap) {
-        const effectID = paramInfo.get('effectID');
-        const paramName = paramInfo.get('paramName');
-        const paramValue = paramInfo.get('paramValue');
-        this.setState(({parameterValues}) => ({
-            parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
-        }));
-        if (!wasChangedByLeap) {
-            this.emit('updateParam', {
-                effectID: effectID,
-                paramName: paramName,
-                paramValue: paramValue
+        const updatedParams = {};
+        if (Immutable.List.isList(paramInfo)) {
+            paramInfo.forEach((paramInfo, index) => {
+                const effectID = paramInfo.get('effectID');
+                const paramName = paramInfo.get('paramName');
+                const paramValue = paramInfo.get('paramValue');
+                if (!updatedParams[effectID]) {
+                    updatedParams[effectID] = {}
+                }
+                updatedParams[effectID][paramName] = paramValue;
+                if (!wasChangedByLeap) {
+                    this.emit('updateParam', {
+                        effectID: effectID,
+                        paramName: paramName,
+                        paramValue: paramValue
+                    });
+                }
             });
+        } else {
+            const effectID = paramInfo.get('effectID');
+            const paramName = paramInfo.get('paramName');
+            const paramValue = paramInfo.get('paramValue');
+            updatedParams[effectID] = {}
+            updatedParams[effectID][paramName] = paramValue;
+            if (!wasChangedByLeap) {
+                this.emit('updateParam', {
+                    effectID: effectID,
+                    paramName: paramName,
+                    paramValue: paramValue
+                });
+            }
         }
+        this.setState(({parameterValues}) => ({
+            parameterValues: parameterValues.mergeDeep(Immutable.fromJS(updatedParams))
+        }));
     }
 
     mapToParameter(paramInfo) {
