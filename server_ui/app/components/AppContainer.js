@@ -131,16 +131,17 @@ class AppContainer extends React.Component {
     receiveLeapData(data) {
         const start = performance.now();
         const coords = ['x', 'y', 'z'];
-        data.forEach((coord, i) => {
-            const {effectID, param} = this.state.xyzMap.get(coords[i]).toJS();
+        for (let i = 0; i < data.length; i++) {
+            const effectID = this.state.xyzMap.getIn([coords[i], 'effectID']);
             if (effectID) {
+                const param = this.state.xyzMap.getIn([coords[i], 'param']);
                 this.updateParameterValue(Immutable.Map({
                     effectID: effectID,
                     paramName: param,
-                    paramValue: coord
+                    paramValue: data[i]
                 }), true);
             }
-        });
+        };
         this.setState(({interactionBox}) => ({
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
@@ -262,12 +263,18 @@ class AppContainer extends React.Component {
     }
 
     updateParameterValue(paramInfo, wasChangedByLeap) {
-        const {effectID, paramName, paramValue} = paramInfo.toJS();
+        const effectID = paramInfo.get('effectID');
+        const paramName = paramInfo.get('paramName');
+        const paramValue = paramInfo.get('paramValue');
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.updateIn([effectID, paramName], value => paramValue)
         }));
         if (!wasChangedByLeap) {
-            this.emit('updateParam', paramInfo.toJS());
+            this.emit('updateParam', {
+                effectID: effectID,
+                paramName: paramName,
+                paramValue: paramValue
+            });
         }
     }
 
