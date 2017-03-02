@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import App from './App';
 import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
-import Perf from 'react-addons-perf';
 
 class AppContainer extends React.Component {
     constructor() {
@@ -38,8 +37,7 @@ class AppContainer extends React.Component {
                 isConnected: false,
                 isInBounds: false,
                 isTracking: false
-            }),
-            elapsed: []
+            })
         }
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
@@ -55,9 +53,6 @@ class AppContainer extends React.Component {
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
         this.reorderEffects = this.reorderEffects.bind(this);
-        this.sendData = this.sendData.bind(this);
-        this.sendLeap = this.sendLeap.bind(this);
-        this.clear = this.clear.bind(this);
     }
 
     componentDidMount() {
@@ -66,32 +61,6 @@ class AppContainer extends React.Component {
         this.socket.on('leapData', this.receiveLeapData);
         this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
-        window.Perf = Perf;
-    }
-
-    sendData() {
-        this.receiveLeapData([Math.random(), Math.random(), Math.random()])
-    }
-
-    clear() {
-        clearInterval(this.intervalID);
-        clearTimeout(this.timeoutID);
-        const average = this.state.elapsed.reduce((accumulator, currentValue, index, array) => {
-            if (index == array.length - 1) {
-                return (accumulator + currentValue)/array.length;
-            } else {
-                return accumulator + currentValue;
-            }
-        }) 
-        console.log(`average: ${average}`)
-        this.setState({
-            elapsed: []
-        });
-    }
-
-    sendLeap() {
-        this.intervalID = setInterval(this.sendData, 15);
-        this.timeoutID = setTimeout(this.clear, 300);
     }
 
     emit(eventName, data) {
@@ -129,7 +98,6 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapData(data) {
-        const start = performance.now();
         const coords = ['x', 'y', 'z'];
         let updatedParams = Immutable.List([]).asMutable();
         for (let i = 0; i < data.length; i++) {
@@ -147,12 +115,6 @@ class AppContainer extends React.Component {
         this.setState(({interactionBox}) => ({
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
-        const end = performance.now();
-        const elapsed = this.state.elapsed;
-        elapsed.push(end-start);
-        this.setState({
-            elapsed: elapsed
-        });
     }
 
     createRoutes(effectsArray) {
