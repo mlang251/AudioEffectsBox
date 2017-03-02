@@ -202,7 +202,7 @@ class LeapController(object):
                 dimensions = {'Height': ibox.height,
                               'Width' : ibox.width,
                               'Depth' : ibox.depth}
-                dimension_string = json.dump(dimensions)
+                dimension_string = json.dumps(dimensions)
                 ibox_dims += dimension_string
                 self.status_client.send(ibox_dims)
 
