@@ -54,6 +54,9 @@ class AppContainer extends React.Component {
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
         this.reorderEffects = this.reorderEffects.bind(this);
+        this.sendData = this.sendData.bind(this);
+        this.sendLeap = this.sendLeap.bind(this);
+        this.clear = this.clear.bind(this);
     }
 
     componentDidMount() {
@@ -63,6 +66,20 @@ class AppContainer extends React.Component {
         this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
         window.Perf = Perf;
+    }
+
+    sendData() {
+        this.receiveLeapData([Math.random(), Math.random(), Math.random()])
+    }
+
+    clear() {
+        clearInterval(this.intervalID);
+        clearTimeout(this.timeoutID);
+    }
+
+    sendLeap() {
+        this.intervalID = setInterval(this.sendData, 15);
+        this.timeoutID = setTimeout(this.clear, 300);
     }
 
     emit(eventName, data) {
@@ -100,6 +117,7 @@ class AppContainer extends React.Component {
     }
 
     receiveLeapData(data) {
+        const start = performance.now();
         const coords = ['x', 'y', 'z'];
         data.forEach((coord, i) => {
             const {effectID, param} = this.state.xyzMap.get(coords[i]).toJS();
@@ -114,6 +132,8 @@ class AppContainer extends React.Component {
         this.setState(({interactionBox}) => ({
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
+        const end = performance.now();
+        console.log(`diff: ${end-start}ms`)
     }
 
     createRoutes(effectsArray) {
@@ -324,7 +344,8 @@ class AppContainer extends React.Component {
                 removeMapping = {this.removeMapping}
                 reorderEffects = {this.reorderEffects}
                 interactionBox = {this.state.interactionBox}
-                effects = {this.state.effects} />
+                effects = {this.state.effects}
+                sendLeap = {this.sendLeap} />
         );
     }
 }

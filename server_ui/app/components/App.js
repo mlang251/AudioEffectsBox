@@ -20,6 +20,9 @@ const App = props => (
                     className = 'col-sm-10'
                     style = {styles.div}>
                     <p>Received message on port 57120: {props.message}</p>
+                    <button
+                        type = 'button'
+                        onClick = {props.sendLeap}>Send Leap</button>
                     <section style = {styles.interactionBoxContainer}>
                         <InteractionBoxContainer
                             coords = {props.interactionBox.get('coords')}
