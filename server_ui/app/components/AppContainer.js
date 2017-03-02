@@ -264,38 +264,38 @@ class AppContainer extends React.Component {
         }));
     }
 
+    createParameterObj(paramInfo, wasChangedByLeap) {
+        const effectID = paramInfo.get('effectID');
+        const paramName = paramInfo.get('paramName');
+        const paramValue = paramInfo.get('paramValue');
+        if (!wasChangedByLeap) {
+            this.emit('updateParam', {
+                effectID: effectID,
+                paramName: paramName,
+                paramValue: paramValue
+            });
+        }
+        return {
+            effectID: effectID,
+            paramName: paramName,
+            paramValue: paramValue
+        };
+    }
+
     updateParameterValue(paramInfo, wasChangedByLeap) {
         const updatedParams = {};
         if (Immutable.List.isList(paramInfo)) {
             paramInfo.forEach((paramInfo, index) => {
-                const effectID = paramInfo.get('effectID');
-                const paramName = paramInfo.get('paramName');
-                const paramValue = paramInfo.get('paramValue');
+                const {effectID, paramName, paramValue} = this.createParameterObj(paramInfo, wasChangedByLeap);
                 if (!updatedParams[effectID]) {
                     updatedParams[effectID] = {}
                 }
                 updatedParams[effectID][paramName] = paramValue;
-                if (!wasChangedByLeap) {
-                    this.emit('updateParam', {
-                        effectID: effectID,
-                        paramName: paramName,
-                        paramValue: paramValue
-                    });
-                }
             });
         } else {
-            const effectID = paramInfo.get('effectID');
-            const paramName = paramInfo.get('paramName');
-            const paramValue = paramInfo.get('paramValue');
+            const {effectID, paramName, paramValue} = this.createParameterObj(paramInfo, wasChangedByLeap);
             updatedParams[effectID] = {}
             updatedParams[effectID][paramName] = paramValue;
-            if (!wasChangedByLeap) {
-                this.emit('updateParam', {
-                    effectID: effectID,
-                    paramName: paramName,
-                    paramValue: paramValue
-                });
-            }
         }
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.mergeDeep(Immutable.fromJS(updatedParams))
