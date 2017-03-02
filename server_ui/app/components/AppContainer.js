@@ -38,7 +38,8 @@ class AppContainer extends React.Component {
                 isConnected: false,
                 isInBounds: false,
                 isTracking: false
-            })
+            }),
+            elapsed: []
         }
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
@@ -75,6 +76,17 @@ class AppContainer extends React.Component {
     clear() {
         clearInterval(this.intervalID);
         clearTimeout(this.timeoutID);
+        const average = this.state.elapsed.reduce((accumulator, currentValue, index, array) => {
+            if (index == array.length - 1) {
+                return (accumulator + currentValue)/array.length;
+            } else {
+                return accumulator + currentValue;
+            }
+        }) 
+        console.log(`average: ${average}`)
+        this.setState({
+            elapsed: []
+        });
     }
 
     sendLeap() {
@@ -133,7 +145,11 @@ class AppContainer extends React.Component {
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
         const end = performance.now();
-        console.log(`diff: ${end-start}ms`)
+        const elapsed = this.state.elapsed;
+        elapsed.push(end-start);
+        this.setState({
+            elapsed: elapsed
+        });
     }
 
     createRoutes(effectsArray) {
