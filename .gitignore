@@ -2,6 +2,7 @@
 *.project
 *.pydevproject
 *.DS_Store
+.vscode
 node_modules
 public
 npm-debug.log
