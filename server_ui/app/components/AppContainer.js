@@ -353,8 +353,7 @@ class AppContainer extends React.Component {
                 removeMapping = {this.removeMapping}
                 reorderEffects = {this.reorderEffects}
                 interactionBox = {this.state.interactionBox}
-                effects = {this.state.effects}
-                sendLeap = {this.sendLeap} />
+                effects = {this.state.effects} />
         );
     }
 }
