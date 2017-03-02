@@ -72,6 +72,23 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 io.on('connection', socket => {
     console.log('User connected');
 
+    io.emit('leapStatusUpdate', {
+        address: '/BoxDimensions',
+        args: JSON.stringify({
+            Height: 20,
+            Width: 30,
+            Depth: 30
+        })
+    });
+    io.emit('leapStatusUpdate', {
+        address: '/BoundStatus',
+        args: [1]
+    });
+    io.emit('leapStatusUpdate', {
+        address: '/TrackingMode',
+        args: [1]
+    });
+
     socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
     socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
     socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
