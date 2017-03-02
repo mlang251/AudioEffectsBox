@@ -3,6 +3,8 @@
 *.pydevproject
 *.DS_Store
 .vscode
+performance.*
+~$performance.*
 node_modules
 public
 npm-debug.log
