@@ -125,11 +125,10 @@ class InteractionBoxContainer extends React.PureComponent {
     }
     
     render() {
-        const styles = this.createStyles();
         return (
             <div>
                 <Display if = {this.props.isConnected}>
-                    <InteractionBox style = {styles} />
+                    <InteractionBox style = {this.createStyles()} />
                 </Display>
                 <Display if = {!this.props.isConnected}>
                     <InteractionBoxPlaceholder />
