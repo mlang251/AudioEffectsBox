@@ -77,9 +77,10 @@ class AppContainer extends React.Component {
         const {address, args} = message;
         switch (address) {
             case '/BoxDimensions':
+                const dimensions = JSON.parse(args);
                 this.setState(({interactionBox}) => ({
                     interactionBox: interactionBox.update('isConnected', value => true)
-                        .update('dimensions', value => this.state.interactionBox.get('dimensions').merge(Immutable.fromJS(args)))
+                        .update('dimensions', value => this.state.interactionBox.get('dimensions').merge(Immutable.fromJS(dimensions)))
                 }));
                 break;
             case '/BoundStatus':
