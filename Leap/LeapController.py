@@ -1,6 +1,7 @@
 import OSC
 import time
 import sys
+import json
 import Leap
 
 class LeapController(object):
@@ -18,6 +19,8 @@ class LeapController(object):
         # Create a Leap.Controller object
         self.controller = Leap.Controller()
         time.sleep(0.1)
+
+        # IDEA: Check the status of connection each loop and send when changing status
 
         # Check that the Leap is connected
         if not self.controller.is_connected:
@@ -120,6 +123,7 @@ class LeapController(object):
                 print "In Bounds: %s" % str(self.in_bounds)
 
             # TODO: encapsulate bound status/msg stuff into a check_bound_status function like pinch
+
     def check_pinch(self):
         """
         Checks for user pinch lasting longer than a set time and adjusts
@@ -195,9 +199,11 @@ class LeapController(object):
 
                 # Get a frame and send dimensions from ibox
                 ibox = self.controller.frame().interaction_box
-                ibox_dims += {'Height': ibox.height,
-                              'Width': ibox.width,
-                              'Depth': ibox.depth}
+                dimensions = {'Height': ibox.height,
+                              'Width' : ibox.width,
+                              'Depth' : ibox.depth}
+                dimension_string = json.dump(dimensions)
+                ibox_dims += dimension_string
                 self.status_client.send(ibox_dims)
 
             # Incorrect msg_type chosen
