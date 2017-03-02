@@ -85,12 +85,12 @@ class AppContainer extends React.Component {
                 break;
             case '/BoundStatus':
                 this.setState(({interactionBox}) => ({
-                    interactionBox: interactionBox.update('isInBounds', value => args ? true : false)
+                    interactionBox: interactionBox.update('isInBounds', value => args[0] ? true : false)
                 }));
                 break;
             case '/TrackingMode':
                 this.setState(({interactionBox}) => ({
-                    interactionBox: interactionBox.update('isTracking', value => args ? true : false)
+                    interactionBox: interactionBox.update('isTracking', value => args[0] ? true : false)
                 }));
                 break;
             default:
