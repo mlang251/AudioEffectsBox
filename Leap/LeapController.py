@@ -17,7 +17,7 @@ class LeapController(object):
 
         # Create a Leap.Controller object
         self.controller = Leap.Controller()
-        time.sleep(0.5)
+        time.sleep(0.1)
 
         # Check that the Leap is connected
         if not self.controller.is_connected:
@@ -38,6 +38,7 @@ class LeapController(object):
         self.tracking_hand = False      # Flag for tracking mode enable/disable
         self.bound_msg_sent = False     # Flag for bound message
         self.in_bounds = False          # Flag for tracking if in/out of bounds
+
         print "Leap Initialized."
 
     def connect(self):
@@ -53,39 +54,10 @@ class LeapController(object):
         self.status_client = OSC.OSCClient()
         self.status_client.connect(('127.0.0.1', 8010))
 
+        # Send Leap interaction box dimensions
+        self.send_status_update('box_dimensions')
+        time.sleep(0.5)
         print "Leap is connected to Server."
-
-    def send_palm_position(self, palm_position):
-        """
-        Sends Leap hand position coordinates to the AudioEffectsBox server
-        using OSC.
-
-        Parameters
-        ----------
-        A Leap hand.palm_position
-
-        Outputs
-        -------
-        An OSC message containing hand position coordinates
-
-        """
-        # TODO: Remove coordinates print when testing is done
-        # coordinates = (str(round(palm_position.x, 3)) + " " +
-        #                str(round(palm_position.y, 3)) + " " +
-        #                str(round(palm_position.z, 3)))
-        # print coordinates
-
-        # Use OSC to send xyz coordiantes and have max seperate by space
-        try:
-            coord_msg = OSC.OSCMessage()
-            coord_msg.setAddress("/Coordinates")
-            coord_msg += round(palm_position.x, 3)
-            coord_msg += round(palm_position.y, 3)
-            coord_msg += round(palm_position.z, 3)
-            self.data_client.send(coord_msg)
-        except OSC.OSCClientError:
-            print "Server is not running, stopping program."
-            sys.exit(1)
 
     def runloop(self):
         """
@@ -157,7 +129,7 @@ class LeapController(object):
         """
         # Collect a new frame
         new_frame = self.controller.frame()
-        pinch_threshold = 0.7
+        pinch_threshold = 0.5
 
         # If user is pinching
         if new_frame.hands[0].pinch_strength > pinch_threshold:
@@ -166,7 +138,7 @@ class LeapController(object):
             pinch_time = 0.0
 
             # Collect new frames and wait for set time
-            while (pinch_time < 1.5) and (user_is_pinching):
+            while (pinch_time < 0.5) and (user_is_pinching):
                 new_frame = self.controller.frame()
 
                 # If user stops pinching, break
@@ -211,15 +183,53 @@ class LeapController(object):
             # In/out of bounds status
             elif msg_type == "bound":
                 bound_status = OSC.OSCMessage()
-                bound_status.setAddress("/BoundError")
+                bound_status.setAddress("/BoundStatus")
                 bound_status += int(self.in_bounds)
                 self.status_client.send(bound_status)
                 self.bound_msg_sent = True  # Set flag
+
+            # Box dimensions
+            elif msg_type == "box_dimensions":
+                ibox_dims = OSC.OSCMessage()
+                ibox_dims.setAddress("/BoxDimensions")
+
+                # Get a frame and send dimensions from ibox
+                ibox = self.controller.frame().interaction_box
+                ibox_dims += {'Height': ibox.height,
+                              'Width': ibox.width,
+                              'Depth': ibox.depth}
+                self.status_client.send(ibox_dims)
 
             # Incorrect msg_type chosen
             else:
                 raise ValueError, "msg_type '%s' does not exist." % str(msg_type)
 
+        except OSC.OSCClientError:
+            print "Server is not running, stopping program."
+            sys.exit(1)
+
+    def send_palm_position(self, palm_position):
+        """
+        Sends Leap hand position coordinates to the AudioEffectsBox server
+        using OSC.
+
+        Parameters
+        ----------
+        A Leap hand.palm_position
+
+        Outputs
+        -------
+        An OSC message containing hand position coordinates
+
+        """
+        # Use OSC to send xyz coordiantes and have max seperate by space
+        try:
+            coord_msg = OSC.OSCMessage()
+            coord_msg.setAddress("/Coordinates")
+            coord_msg += round(palm_position.x, 3)
+            coord_msg += round(palm_position.y, 3)
+            coord_msg += round(palm_position.z, 3)
+            self.data_client.send(coord_msg)
         except OSC.OSCClientError:
             print "Server is not running, stopping program."
             sys.exit(1)
