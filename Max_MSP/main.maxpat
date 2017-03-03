@@ -1080,7 +1080,6 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
-						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-36",
@@ -3645,14 +3644,14 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-9",
-									"linecount" : 2,
+									"linecount" : 3,
 									"maxclass" : "message",
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 353.0, 378.0, 53.0, 36.0 ],
 									"style" : "",
-									"text" : "set output"
+									"text" : "set outputRight"
 								}
 
 							}
@@ -3851,14 +3850,14 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-142",
-									"linecount" : 2,
+									"linecount" : 3,
 									"maxclass" : "message",
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 52.0, 378.0, 53.0, 36.0 ],
 									"style" : "",
-									"text" : "set output"
+									"text" : "set outputLeft"
 								}
 
 							}
