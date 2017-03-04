@@ -68,7 +68,7 @@ class EffectContainer extends React.PureComponent {
     }
 
     createReorderButtons() {
-        let buttons = Immutable.Map({}).asMutable();
+        let buttons = Immutable.Map().asMutable();
         if (this.props.reorderButtonLeft) {
             buttons = buttons.set('reorderButtonLeft', value => (
                 <button
