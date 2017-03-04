@@ -67,47 +67,36 @@ class EffectContainer extends React.PureComponent {
         return params.asImmutable();
     }
 
-    createReorderButtons() {
-        let buttons = Immutable.Map().asMutable();
-        if (this.props.reorderButtonLeft) {
-            buttons = buttons.set('reorderButtonLeft', value => (
+    createReorderButtons(direction) {
+        if (direction == 'left') {
+            return Immutable.List([(
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Left`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
                     onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
-            ));
-        }
-        if (this.props.reorderButtonRight) {
-            buttons = buttons.set('reorderButtonRight', value => (
+            )]);
+        } else if (direction == 'right') {
+           return Immutable.List([(
                 <button
                     type = 'button'
                     key = {`${this.props.ID}Right`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
                     onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
-            ));
-        }
-        return buttons.asImmutable();
-    }
-
-    createStyles() {
-        return {
-            bypassStyle: this.props.isBypassed ? 'isActive' : 'isNotActive',
-            soloStyle: this.props.isSoloing ? 'isActive' : 'isNotActive'
+            )]);
+        } else {
+            return null;
         }
     }
 
     render() {
-        const params = this.createParameters(this.effect);
-        const {reorderButtonLeft, reorderButtonRight} = this.createReorderButtons().toJS();
-        const {bypassStyle, soloStyle} = this.createStyles();
         return (
             <Effect
-                params = {params}
-                reorderButtonLeft = {reorderButtonLeft}
-                reorderButtonRight = {reorderButtonRight}
-                bypassStyle = {bypassStyle}
-                soloStyle = {soloStyle}
+                params = {this.createParameters(this.effect)}
+                reorderButtonLeft = {this.props.reorderButtonLeft ? this.createReorderButtons('left') : null}
+                reorderButtonRight = {this.props.reorderButtonRight ? this.createReorderButtons('right') : null}
+                bypassStyle = {this.props.isBypassed ? 'isActive' : 'isNotActive'}
+                soloStyle = {this.props.isSoloing ? 'isActive' : 'isNotActive'}
                 effectName = {this.effect.get('name')}
                 ID = {this.props.ID}
                 handleSoloButtonClick = {this.props.handleSoloButtonClick}
