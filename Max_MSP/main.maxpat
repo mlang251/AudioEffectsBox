@@ -319,7 +319,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 171.5, 509.566711, 59.0, 50.0 ],
 									"style" : "",
-									"text" : "set outputRight"
+									"text" : "set reverb1Right"
 								}
 
 							}
@@ -538,7 +538,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 67.5, 509.566711, 59.0, 50.0 ],
 									"style" : "",
-									"text" : "set outputLeft"
+									"text" : "set reverb1Left"
 								}
 
 							}
@@ -1442,7 +1442,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 157.0, 536.93335, 59.0, 50.0 ],
 									"style" : "",
-									"text" : "set filter2Right"
+									"text" : "set outputRight"
 								}
 
 							}
@@ -1551,14 +1551,14 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-87",
-									"linecount" : 2,
+									"linecount" : 3,
 									"maxclass" : "message",
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 40.0, 536.93335, 59.0, 36.0 ],
+									"patching_rect" : [ 40.0, 536.93335, 59.0, 50.0 ],
 									"style" : "",
-									"text" : "set filter2Left"
+									"text" : "set outputLeft"
 								}
 
 							}
@@ -2787,7 +2787,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 467.0, 489.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "0.73"
+									"text" : "0.729"
 								}
 
 							}
@@ -2807,13 +2807,14 @@
 , 							{
 								"box" : 								{
 									"id" : "obj-33",
+									"linecount" : 2,
 									"maxclass" : "message",
 									"numinlets" : 2,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 261.0, 562.799988, 134.800003, 22.0 ],
+									"patching_rect" : [ 261.0, 562.799988, 134.800003, 36.0 ],
 									"style" : "",
-									"text" : "send filter1CfUI"
+									"text" : "send reverb1WetnessUI"
 								}
 
 							}
@@ -3666,7 +3667,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 353.0, 378.0, 53.0, 50.0 ],
 									"style" : "",
-									"text" : "set filter1Right"
+									"text" : "set reverb1Right"
 								}
 
 							}
@@ -3872,7 +3873,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 52.0, 378.0, 53.0, 50.0 ],
 									"style" : "",
-									"text" : "set filter1Left"
+									"text" : "set reverb1Left"
 								}
 
 							}
@@ -3965,7 +3966,7 @@
 									"destination" : [ "obj-8", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"source" : [ "obj-128", 0 ]
+									"source" : [ "obj-128", 1 ]
 								}
 
 							}
