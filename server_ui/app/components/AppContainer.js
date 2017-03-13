@@ -371,8 +371,21 @@ class AppContainer extends React.Component {
         }));
     }
 
+    /**
+     * Maps a coordinate axis to a specific parameter on an effect in the signal chain. Retrives the current axis being
+     *     mapped from this.state.mapping.currentAxis and applies that axis to the parameter. If the axis to be mapped
+     *     is already mapped to another parameter, it clears that mapping and emits an xyzMap event to clear it. If the
+     *     specific effect parameter is already mapped to an axis, it will clear that mapping as well. Emits an xyzMap
+     *     event with the new mapping of the specified parameter and the current mapping axis. It will call
+     *     this.toggleMapping to turn the mapping state off and clear the current axis from the state, and will then
+     *     update the state of the xyzMap.
+     * @param {Map} paramInfo - A description of the parameter to map to
+     * @property {string} effectID - The unique ID of the effect in the signal chain
+     * @property {string} paramName - The name of the parameter to map to
+     */
     mapToParameter(paramInfo) {
-        const {effectID, paramName} = paramInfo.toJS();
+        const effectID = paramInfo.get('effectID');
+        const paramName = paramInfo.get('paramName');
         const axisName = this.state.mapping.get('currentAxis');
         let xyzMapMutable = this.state.xyzMap.asMutable();
 
@@ -390,7 +403,6 @@ class AppContainer extends React.Component {
                 xyzMapMutable.updateIn([axis, 'effectID'], value => undefined);
                 xyzMapMutable.updateIn([axis, 'param'], value => undefined);
             }
-
         });
 
         xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
