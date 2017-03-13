@@ -34,5 +34,23 @@
         "Gain": 0,
         "Cf": 0,
         "Q": 0
+    },
+    "delay1": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
+    },
+    "delay2": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
+    },
+    "delay3": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
     }
 }
