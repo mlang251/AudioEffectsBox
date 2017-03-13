@@ -55,6 +55,10 @@ class AppContainer extends React.Component {
         this.reorderEffects = this.reorderEffects.bind(this);
     }
 
+    /**
+     * After the app is mounted, create the web sockets for communication with the server
+     *     Emits a routing message to establish the initial input > output audio chain
+     */
     componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
@@ -63,14 +67,27 @@ class AppContainer extends React.Component {
         this.emit('route', {input: 'output'});
     }
 
+    /**
+     * Emit an event over the web socket to the server
+     * @param {string} eventName - The name of the event to emit
+     * @param {*} data - The data to be emitted in the event
+     */
     emit(eventName, data) {
         this.socket.emit(eventName, data);
     }
 
+    /**
+     * Receive a message and update the state.
+     * @param {string} message - The message received 
+     */
     handleMessage(message) {
         this.setState({message: message});
     }
 
+    /**
+     * 
+     * @param {Object} message - An OSC formatted message received from the server
+     */
     receiveLeapStatus(message) {
         const {address, args} = message;
         switch (address) {
