@@ -18,6 +18,31 @@ import defaults from '../JSON/defaults.json';
  * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
  */
 
+/**
+ * Represents an audio effect
+ * @typedef {Map} Effect
+ * @property {string} type - The type of effect
+ * @property {string} ID - The unique ID of the audio effect
+ * @property {boolean} isBypassed - True or false depending on whether or not the effect is bypassed
+ * @property {boolean} isSoloing - True or false depending on whether or not the effect is soloing
+ */
+
+/**
+ * Represents an Immutable Map containing parameter info
+ * @typedef {Map} ParamInfoImmutable
+ * @property {string} ParamInfoImmutable.effetID - The unique ID of the effect in the signal chain
+ * @property {string} ParamInfoImmutable.paramName - The name of the parameter
+ * @property {Number} ParamInfoImmutable.paramValue - A float representing the value of the parameter
+ */
+
+/**
+ * Represents an object containing parameter info
+ * @typedef {Object} ParamInfoObj
+ * @property {string} ParamInfoObj.effetID - The unique ID of the effect in the signal chain
+ * @property {string} ParamInfoObj.paramName - The name of the parameter
+ * @property {Number} ParamInfoObj.paramValue - A float representing the value of the parameter
+ */
+
 class AppContainer extends React.Component {
     constructor() {
         super();
@@ -157,8 +182,10 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * 
-     * @param {List.<Map>} effectsArray - 
+     * Creates a routing message to emit to the server based on an input List of effects in the signal chain.
+     *     If no effects are in the signal chain, sends an input > output audio signal routing message, otherwise
+     *     it will create a routing message that mirrors the representation in the signal chain.
+     * @param {List.<Effect>} effectsArray - An Immutable List of audio effects
      */
     createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
@@ -172,6 +199,14 @@ class AppContainer extends React.Component {
         this.emit('route', routeObj);
     }
 
+    /**
+     * Adds a specific type of effect to the signal chain. Checks to see which IDs for the same effect type 
+     *     are already present in the signal chain, if it finds any, it will choose the first unused ID to add
+     *     to the signal chain. If there are already three of the same type of effect in the signal chain,
+     *     it will alert the user that the maximum number of any type of effect is 3. If an effect is added to the
+     *     signal chain, it will call this.createRoutes to send a new routing message to the server.
+     * @param {string} effectType - The type of effect to add to the signal chain
+     */
     addEffectToChain(effectType) {
         const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);
         usableIDs.forEach((curID, index) => {
@@ -196,6 +231,13 @@ class AppContainer extends React.Component {
         });
     }
 
+    /**
+     * Removes a specific effect from the signal chain. Given a unique effect ID, it will filter the List of
+     *     effects in the signal chain and remove the specified effect. It will also update the state of usedIDs
+     *     so that both the list of effects in the signal chain, and the list of used IDs will stay in sync. It
+     *     then calls this.createRoutes to emit a routing event with the new signal chain.
+     * @param {string} effectID - The unique effect ID to be removed from the signal chain
+     */
     removeEffect(effectID) {
         const effectsFiltered = this.state.effects.filter((effect, index) => {
             return effect.get('ID') != effectID;
@@ -207,6 +249,15 @@ class AppContainer extends React.Component {
         this.createRoutes(effectsFiltered);
     }
 
+    /**
+     * Toggles the bypass state of a specific effect in the signal chain. It will check to see if any effects are currently
+     *     soloing, if an effect is soloing, this function is disabled so that routing events are not emitted. Whichever
+     *     effect is soloing must be un-soloed before toggling bypass on another effect. Aside from toggling the bypass state
+     *     of the specific effect, it will also keep track of which effects are currently bypassed, since more than one can
+     *     be bypassed at the same time. It calls this.createRoutes with the effects in the signal chain, without the bypassed
+     *     effects. It also updates the bypassed state of the specified effect.
+     * @param {string} effectID - The unique ID of the specific effect to be bypassed
+     */
     toggleBypass(effectID) {
         if (!this.state.effects.find(effect => effect.get('isSoloing'))) {
             let isBypassed;
@@ -232,6 +283,14 @@ class AppContainer extends React.Component {
         }
     }
 
+    /**
+     * Toggles the solo state of a specific effect in the signal chain. If the specified effect is going into solo mode,
+     *     it will check to see if another effect is soloing, and if so, turns off solo mode for that effect. It
+     *     will then call this.createRoutes to send a routing message that only includes the soloing effect. If the
+     *     specific effect is coming out of solo mode, it will simply set the solo state to true for that effect, and
+     *     then call this.createRoutes to include all the effects in the signal chain.
+     * @param {string} effectID - The unique ID of the specific effect to be soloed
+     */
     toggleSolo(effectID) {
         let isSoloing;
         let indexToUpdate;
@@ -263,45 +322,50 @@ class AppContainer extends React.Component {
         });
     }
 
+    /**
+     * Updates the state of the mapping feature of the app. Every time it is called it will set isMapping to it's opposite.
+     *     If axisName is provided, it will set the value of currentAxis equal to axisName, otherwise currentAxis will be empty.
+     * @param {string} [axisName = false] - The name of the axis to toggle the mapping of
+     */
     toggleMapping(axisName = false) {
         this.setState(({mapping}) => ({
             mapping: mapping.update('isMapping', value => !mapping.get('isMapping')).update('currentAxis', value => axisName ? axisName : '')
         }));
     }
 
+    /**
+     * Creates an object that describes an effect parameter. If the wasChangedByLeap parameter is false, in other words,
+     *     if the user is changing a parameter value by clicking and dragging it, the app will emit an updateParam event
+     *     with the parameter info.
+     * @param {ParamInfoImmutable} paramInfo - The information describing the specific parameter
+     * @param {boolean} wasChangedByLeap - True or false depending on whether or not the parameter was changed by the Leap
+     * @returns {ParamInfoObj} - An object describing the specific parameter
+     */
     createParameterObj(paramInfo, wasChangedByLeap) {
-        const effectID = paramInfo.get('effectID');
-        const paramName = paramInfo.get('paramName');
-        const paramValue = paramInfo.get('paramValue');
+        const paramInfoObj = {};
+        paramInfoObj.effectID = paramInfo.get('effectID');
+        paramInfoObj.paramName = paramInfo.get('paramName');
+        paramInfoObj.paramValue = paramInfo.get('paramValue');
         if (!wasChangedByLeap) {
-            this.emit('updateParam', {
-                effectID: effectID,
-                paramName: paramName,
-                paramValue: paramValue
-            });
+            this.emit('updateParam', paramInfoObj);
         }
-        return {
-            effectID: effectID,
-            paramName: paramName,
-            paramValue: paramValue
-        };
+        return paramInfoObj;
     }
 
+    /**
+     * Updates the values of one or more specific parameters of one or more effects in the signal chain.
+     * @param {List.<ParamInfoImmutable>} paramInfo - The information describing the specific parameter
+     * @param {boolean} wasChangedByLeap - True or false depending on whether or not the parameter was changed by the Leap
+     */
     updateParameterValue(paramInfo, wasChangedByLeap) {
         const updatedParams = {};
-        if (Immutable.List.isList(paramInfo)) {
-            paramInfo.forEach((paramInfo, index) => {
-                const {effectID, paramName, paramValue} = this.createParameterObj(paramInfo, wasChangedByLeap);
-                if (!updatedParams[effectID]) {
-                    updatedParams[effectID] = {}
-                }
-                updatedParams[effectID][paramName] = paramValue;
-            });
-        } else {
+        paramInfo.forEach((paramInfo, index) => {
             const {effectID, paramName, paramValue} = this.createParameterObj(paramInfo, wasChangedByLeap);
-            updatedParams[effectID] = {}
+            if (!updatedParams[effectID]) {
+                updatedParams[effectID] = {}
+            }
             updatedParams[effectID][paramName] = paramValue;
-        }
+        });
         this.setState(({parameterValues}) => ({
             parameterValues: parameterValues.mergeDeep(Immutable.fromJS(updatedParams))
         }));

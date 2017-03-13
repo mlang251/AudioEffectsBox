@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import Immutable from 'immutable';
 import Parameter from './Parameter';
 
 class ParameterContainer extends React.PureComponent {
@@ -11,7 +12,7 @@ class ParameterContainer extends React.PureComponent {
 
     componentWillMount() {
         const info = this.props.info.set('paramValue', this.props.value);
-        this.props.onParameterChange(info)
+        this.props.onParameterChange(Immutable.List([info]));
     }
 
     handleDrag(data, info, max) {
@@ -21,7 +22,7 @@ class ParameterContainer extends React.PureComponent {
             : data.y/max
         value = Math.round(value * 1000)/1000;
         const updatedInfo = info.set('paramValue', value);
-        this.props.onParameterChange(updatedInfo, false);
+        this.props.onParameterChange(Immutable.List([updatedInfo]), false);
     }
 
     handleMappingClick(isMapping, info) {
