@@ -5,6 +5,19 @@ import App from './App';
 import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
 
+/**
+ * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
+ * @external List
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
+ */
+
+/**
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with 
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
+ */
+
 class AppContainer extends React.Component {
     constructor() {
         super();
@@ -85,8 +98,11 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * 
+     * Used to update the state of the InteractionBox.
+     *     Receives a Leap status update from the server, updates the appropraite state.
      * @param {Object} message - An OSC formatted message received from the server
+     * @property {string} message.address - The OSC address in the header info of the message
+     * @property {string} message.args - The OSC message body, either a plain string or JSON string
      */
     receiveLeapStatus(message) {
         const {address, args} = message;
@@ -114,6 +130,12 @@ class AppContainer extends React.Component {
         }
     }
 
+    /**
+     * Receive Leap hand tracking data from the server. Iterate through the coordinate data and determine if
+     *     the current axis is mapped to an effect parameter. If it is, update that effect's parameter. Update
+     *     the interactionBox coords state to update the location of the pointer in InteractionBox.
+     * @param {Number[]} data - An array of floats representing the x, y, z coordinates of the user's hand.
+     */
     receiveLeapData(data) {
         const coords = ['x', 'y', 'z'];
         let updatedParams = Immutable.List([]).asMutable();
@@ -134,6 +156,10 @@ class AppContainer extends React.Component {
         }));
     }
 
+    /**
+     * 
+     * @param {List.<Map>} effectsArray - 
+     */
     createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
         effectsArray.forEach((effect, index) => {
