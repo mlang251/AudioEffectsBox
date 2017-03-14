@@ -4,7 +4,6 @@ import Immutable from 'immutable';
 import App from './App';
 import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
-import * as globals from './JSDoc_globals/globals';
 
 /**
  * The AppContainer module. Responsible for maintaining the state of the entire app. Contains methods for app-wide manipulation
@@ -74,6 +73,18 @@ import * as globals from './JSDoc_globals/globals';
  * @property {Number} ParamInfoObj.paramValue - A float representing the value of the parameter
  */
 
+/**
+ * Represents the data describing a specific type of effect, taken from effects.json
+ * @global
+ * @typedef {external:Map} EffectTypeDescription
+ * @property {string} type - The type of effect
+ * @property {string} name - The name of the effect
+ * @property {List.<string>} IDs - An Immutable List containing the possible IDs the effect type can use
+ * @property {List.<string>} parameterList - An Immutable List containing the parameter names in the order they would be rendered
+ * @property {Map.<string, string>} parameters - An Immutable map containing the parameter names and the type of perameter
+ *     it shold render as (e.g. fader, knob, etc.)
+ */
+
 /** 
  * Class representing the container for the entire app. Responsible for maintaining the state of the entire app. 
  *     Contains methods for app-wide manipulation and web socket communication with the server.
@@ -86,7 +97,7 @@ class AppContainer extends React.Component {
     constructor() {
         super();
         /**
-         * @namespace AppContainerState
+         * @member {Object} state
          * @property {string} message - A message to be displayed at the top of the app
          * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
          * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with 
@@ -141,6 +152,13 @@ class AppContainer extends React.Component {
             })
         }
         
+        /** 
+         * @member {external:Map} effect
+         * @memberof! AppContainer
+         * @property {external:List} list - An Immutable List containing the effect types available
+         * @property {external:Map.<string, EffectTypeDescription>} effects - An Immutable Map containing descriptions of the types 
+         *     of effects available
+         */
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);

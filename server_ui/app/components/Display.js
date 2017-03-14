@@ -21,6 +21,9 @@ class Display extends React.PureComponent {
     
     /**
      * Renders whatever is passed as this props.children if props.if is true, otherwise does not render anything.
+     * @see module:InteractionBox
+     * @see module:InteractionBoxContainer
+     * @see module:InteractionBoxPlaceholder
      */
     render() {
         return this.props.if ? <div>{this.props.children}</div> : null;

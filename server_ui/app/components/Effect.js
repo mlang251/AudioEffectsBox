@@ -21,6 +21,7 @@ class Effect extends React.PureComponent {
 
     /**
      * Render the effect into the signal chain. Receives ParameterContainer child components as props from EffectContainer
+     * @see module:ParameterContainer
      */
     render() {
         return (
