@@ -6,6 +6,19 @@ import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
 
 /**
+ * The AppContainer module. Responsible for maintaining the state of the entire app. Contains methods for app-wide manipulation
+ *     and web socket communication with the server.
+ * @module AppContainer
+ * @see module:App
+ */
+
+/**
+ * A React component.
+ * @external Component
+ * @see {@link https://facebook.github.io/react/docs/react-component.html#defaultprops}
+ */
+
+/**
  * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
  * @external List
  * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
@@ -20,6 +33,7 @@ import defaults from '../JSON/defaults.json';
 
 /**
  * Represents an audio effect
+ * @global
  * @typedef {external:Map} Effect
  * @property {string} type - The type of effect
  * @property {string} ID - The unique ID of the audio effect
@@ -28,7 +42,16 @@ import defaults from '../JSON/defaults.json';
  */
 
 /**
+ * Represents an axis mapping
+ * @global
+ * @typedef {external:Map} AxisMap
+ * @property {string} effectID - The unique ID of the effect that contains the mapping
+ * @property {string} param - The parameter the axis is mapped to
+ */
+
+/**
  * Represents an Immutable Map containing parameter info
+ * @global
  * @typedef {external:Map} ParamInfoImmutable
  * @property {string} ParamInfoImmutable.effectID - The unique ID of the effect in the signal chain
  * @property {string} ParamInfoImmutable.paramName - The name of the parameter
@@ -37,19 +60,48 @@ import defaults from '../JSON/defaults.json';
 
 /**
  * Represents an object containing parameter info
+ * @global
  * @typedef {Object} ParamInfoObj
  * @property {string} ParamInfoObj.effetID - The unique ID of the effect in the signal chain
  * @property {string} ParamInfoObj.paramName - The name of the parameter
  * @property {Number} ParamInfoObj.paramValue - A float representing the value of the parameter
  */
 
-/** Class representing the container for the entire app */
+/** 
+ * Class representing the container for the entire app. Responsible for maintaining the state of the entire app. 
+ *     Contains methods for app-wide manipulation and web socket communication with the server.
+ * @extends external:Component 
+ */
 class AppContainer extends React.Component {
     /**
      * Create the app container, create the initial state of the app and bind methods to this instance
      */
     constructor() {
         super();
+        /**
+         * @namespace AppContainerState
+         * @property {string} message - A message to be displayed at the top of the app
+         * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
+         * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with 
+         *     the effects in the signal chain
+         * @property {external:Map} parameterValues - An Immutable Map containing the default values for effect parameters
+         * @property {external:Map} mapping - An Immutable Map describing the mapping state of the app
+         * @property {boolean} mapping.isMapping - True or false depending on whether or not the app is in mapping mode
+         * @property {string} mapping.currentAxis - Represents the coordinate axis currently being mapped
+         * @property {external:Map} xyzMap - An Immutable Map containing information about coordinate axis mappings
+         * @property {AxisMap} xyzMap.x - An Immutable Map representing the parameter mapping applied to the x axis
+         * @property {AxisMap} xyzMap.y - An Immutable Map representing the parameter mapping applied to the y axis
+         * @property {AxisMap} xyzMap.z - An Immutable Map representing the parameter mapping applied to the z axis
+         * @property {external:Map} interactionBox - An Immutable Map representing the state of the InteractionBox
+         * @property {external:List} interactionBox.coords - An Immutable List containing the current x, y, z coordinates 
+         * @property {external:Map} interactionBox.dimensions - An Immutable Map representing the dimensions of the 
+         *     InteractionBox as reported by the Leap
+         * @property {boolean} interactionBox.isConnected - True or false depending on whether or not the Leap is connected
+         * @property {boolean} interactionBox.isInBounds - True or false depending on whether or not the user's hand is in the
+         *     field of view of the Leap
+         * @property {boolean} interactionBox.isTracking - True or false depending on whether or not the Leap is tracking
+         *     the user's hand motions
+         */
         this.state = {
             message: '',
             effects: Immutable.List(),
@@ -81,6 +133,7 @@ class AppContainer extends React.Component {
                 isTracking: false
             })
         }
+        
         this.effects = Immutable.fromJS(effectsJSON)
         this.handleMessage = this.handleMessage.bind(this);
         this.addEffectToChain = this.addEffectToChain.bind(this);
@@ -503,4 +556,5 @@ class AppContainer extends React.Component {
     }
 }
 
+/** The AppContainer module */
 export default AppContainer;
