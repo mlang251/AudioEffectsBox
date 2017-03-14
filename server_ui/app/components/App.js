@@ -1,9 +1,9 @@
 import React from 'react';
 import InteractionBoxContainer from './InteractionBoxContainer';
 import SignalChainContainer from './SignalChainContainer';
+import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-import SidebarContainer from './SidebarContainer';
 
 /**
  * The App module. Responsible for rendering the App and child components. Parent component is AppContainer,
@@ -19,6 +19,10 @@ import SidebarContainer from './SidebarContainer';
 /**
  * Responsible for rendering the App and child components.
  * @param {Object} props - The props passed down by module:AppContainer
+ * @see module:InteractionBoxContainer
+ * @see module:SignalChainContainer
+ * @see module:SidebarContainer
+ * @see {@link http://www.material-ui.com/#/components/app-bar}
  */
 const App = props => (
     <div>

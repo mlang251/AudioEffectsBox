@@ -533,6 +533,7 @@ class AppContainer extends React.Component {
 
     /**
      * Renders the entire app.
+     * @see module:App
      */
     render() {
         return (
