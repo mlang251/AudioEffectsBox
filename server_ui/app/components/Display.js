@@ -1,13 +1,27 @@
 import React from 'react';
 
+/**
+ * The Display module. Responsible for conditionally rendering whatever is passed as props.children
+ * @module Display
+ */
+
+/** 
+ * Class responsible for conditionally rendering whatever is passed as props.children
+ * @extends external:PureComponent 
+ */
 class Display extends React.PureComponent {
+    /** Create the conditional Display component */
     constructor() {
         super();
     }
     
+    /**
+     * Renders whatever is passed as this props.children if props.if is true, otherwise does not render anything.
+     */
     render() {
         return this.props.if ? <div>{this.props.children}</div> : null;
     }
 }
 
+/** The Display component */
 export default Display;

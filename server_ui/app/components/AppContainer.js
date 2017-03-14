@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import App from './App';
 import effectsJSON from '../JSON/effects.json';
 import defaults from '../JSON/defaults.json';
+import * as globals from './JSDoc_globals/globals';
 
 /**
  * The AppContainer module. Responsible for maintaining the state of the entire app. Contains methods for app-wide manipulation
@@ -15,7 +16,13 @@ import defaults from '../JSON/defaults.json';
 /**
  * A React component.
  * @external Component
- * @see {@link https://facebook.github.io/react/docs/react-component.html#defaultprops}
+ * @see {@link https://facebook.github.io/react/docs/react-api.html#react.component}
+ */
+
+/**
+ * A pure React component.
+ * @external PureComponent
+ * @see {@link https://facebook.github.io/react/docs/react-api.html#react.purecomponent}
  */
 
 /**
