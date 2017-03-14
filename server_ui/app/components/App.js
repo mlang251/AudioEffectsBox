@@ -6,7 +6,7 @@ import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
 
 /**
- * The App module. Responsible for rendering the App and child components. Parent component is AppContainer,
+ * The App module. Responsible for rendering the App and child components. Appears as child component of AppContainer,
  *     child components are InteractionBoxContainer, SignalChainContainer, SidebarContainer.
  * @module App
  * @see module:AppContainer

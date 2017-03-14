@@ -1,8 +1,12 @@
 import React from 'react';
 
 /**
- * The Display module. Responsible for conditionally rendering whatever is passed as props.children
+ * The Display module. Responsible for conditionally rendering whatever is passed as props.children. Appears as child
+ *     component of InteractionBoxContainer, child components are InteractionBoxPlaceholder and InteractionBox.
  * @module Display
+ * @see module:InteractionBoxContainer
+ * @see module:InteractionBoxPlaceholder
+ * @see module:InteractionBox
  */
 
 /** 

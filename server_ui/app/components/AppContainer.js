@@ -8,7 +8,7 @@ import * as globals from './JSDoc_globals/globals';
 
 /**
  * The AppContainer module. Responsible for maintaining the state of the entire app. Contains methods for app-wide manipulation
- *     and web socket communication with the server.
+ *     and web socket communication with the server. Child component is App.
  * @module AppContainer
  * @see module:App
  */
