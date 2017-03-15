@@ -98,7 +98,6 @@ class EffectContainer extends React.PureComponent {
      * @returns {external:List} An Immutable List containing html for the reordering button with the specified direction
      */
     createReorderButtons(direction) {
-        let buttons = Immutable.Map().asMutable();
         if (direction == 'left') {
             return Immutable.List([(
                 <button
