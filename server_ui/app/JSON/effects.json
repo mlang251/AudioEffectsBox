@@ -1,12 +1,13 @@
 {
-    "list": ["Reverb", "Filter"],
+    "list": ["Reverb", "Filter", "Delay", "Pitch Shift"],
     "effects": {
         "reverb": {
             "type": "reverb",
             "name": "Reverb",
             "IDs": ["reverb1", "reverb2", "reverb3"],
-            "parameterList": ["Liveness", "Crossover", "Damping"],
+            "parameterList": ["Wetness", "Liveness", "Crossover", "Damping"],
             "parameters": {
+                "Wetness": "fader",
                 "Liveness": "fader",
                 "Crossover": "fader",
                 "Damping": "fader"
@@ -16,11 +17,34 @@
           "type": "filter",
           "name": "Filter",
           "IDs": ["filter1", "filter2", "filter3"],
-          "parameterList": ["Gain", "Cf", "Q"],
+          "parameterList": ["Wetness", "Gain", "Cf", "Q"],
           "parameters": {
+            "Wetness": "fader",
               "Gain": "fader",
               "Cf": "fader",
               "Q": "fader"
+          }
+        },
+        "delay": {
+          "type": "delay",
+          "name": "Delay",
+          "IDs": ["delay1", "delay2", "delay3"],
+          "parameterList": ["Wetness", "Gain", "DelayTime", "Feedback"],
+          "parameters": {
+            "Wetness": "fader",
+              "Gain": "fader",
+              "DelayTime": "fader",
+              "Feedback": "fader"
+          }
+        },
+        "pitch shift": {
+          "type": "pitchShift",
+          "name": "Pitch Shift",
+          "IDs": ["pitchShift1", "pitchShift2", "pitchShift3"],
+          "parameterList": ["Wetness", "Pitch"],
+          "parameters": {
+              "Wetness": "fader",
+              "Pitch": "fader"
           }
         }
     }

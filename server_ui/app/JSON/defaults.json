@@ -1,32 +1,68 @@
 {
     "reverb1": {
+        "Wetness": 0,
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
     },
     "reverb2": {
+        "Wetness": 0,
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
     },
     "reverb3": {
+        "Wetness": 0,
         "Liveness": 0,
         "Crossover": 0,
         "Damping": 0
     },
     "filter1": {
+        "Wetness": 0,
         "Gain": 0,
         "Cf": 0,
         "Q": 0
     },
     "filter2": {
+        "Wetness": 0,
         "Gains": 0,
         "Cf": 0,
         "Q": 0
     },
     "filter3": {
+        "Wetness": 0,
         "Gain": 0,
         "Cf": 0,
         "Q": 0
+    },
+    "delay1": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
+    },
+    "delay2": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
+    },
+    "delay3": {
+        "Wetness": 0.25,
+        "Gain": 0,
+        "DelayTime": 0,
+        "Feedback": 0
+    },
+    "pitchShift1": {
+        "Wetness": 0.25,
+        "Pitch": 0
+    },
+    "pitchShift2": {
+        "Wetness": 0.25,
+        "Pitch": 0
+    },
+    "pitchShift3": {
+        "Wetness": 0.25,
+        "Pitch": 0
     }
 }
