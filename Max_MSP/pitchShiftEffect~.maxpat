@@ -67,7 +67,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 395.5, 422.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -80,7 +80,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 337.5, 422.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -155,7 +155,7 @@
 
 									}
 ,
-									"varname" : "Transp"
+									"varname" : "Transp[1]"
 								}
 
 							}
@@ -276,7 +276,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 93.5, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -289,7 +289,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 36.75, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -857,7 +857,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 238.5, 249.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -870,7 +870,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 180.5, 249.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1066,7 +1066,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 93.5, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1079,7 +1079,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 36.75, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1647,7 +1647,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 123.0, 53.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1660,7 +1660,7 @@
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 65.0, 53.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1710,6 +1710,7 @@
 						"tags" : "",
 						"style" : "",
 						"subpatcher_template" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"id" : "obj-71",
@@ -1735,7 +1736,7 @@
 
 									}
 ,
-									"varname" : "Transp"
+									"varname" : "Transp[2]"
 								}
 
 							}
@@ -1856,7 +1857,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 93.5, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1869,7 +1870,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 36.75, 448.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1959,9 +1960,9 @@
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 51.0, 2.0, 107.0, 22.0 ],
+									"patching_rect" : [ 51.0, 2.0, 133.0, 22.0 ],
 									"style" : "",
-									"text" : "r pitchShift1Coord"
+									"text" : "r pitchShift1PitchCoord"
 								}
 
 							}
@@ -1974,7 +1975,7 @@
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 51.0, 98.0, 50.0, 22.0 ],
 									"style" : "",
-									"text" : "set n"
+									"text" : "set x"
 								}
 
 							}
@@ -2010,9 +2011,9 @@
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 89.5, 144.0, 86.0, 22.0 ],
+									"patching_rect" : [ 89.5, 144.0, 113.0, 22.0 ],
 									"style" : "",
-									"text" : "r pitchShift1UI"
+									"text" : "r pitchShift1PitchUI"
 								}
 
 							}
@@ -2517,27 +2518,7 @@
 				}
 
 			}
- ],
-		"parameters" : 		{
-			"obj-12::obj-71" : [ "Transp", "Transp", 0 ],
-			"obj-1::obj-71" : [ "Transp[2]", "Transp", 0 ],
-			"obj-21::obj-71" : [ "Transp[1]", "Transp", 0 ]
-		}
-,
-		"dependency_cache" : [ 			{
-				"name" : "velocityDetector.maxpat",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "dryWet~.maxpat",
-				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
- ],
-		"autosave" : 0
+ ]
 	}
 
 }
