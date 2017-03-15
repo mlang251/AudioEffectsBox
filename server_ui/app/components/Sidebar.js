@@ -9,7 +9,7 @@ import Radium from 'radium';
  */
 
 /** 
- * Class responsible rendering the Sidebar component.
+ * Class responsible for rendering the Sidebar component.
  * @extends external:ReactPureComponent 
  */
 class Sidebar extends React.PureComponent {

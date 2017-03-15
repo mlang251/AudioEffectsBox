@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: ParameterContainer</title>
+    <title>JSDoc: Source: SignalChain.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,226 +17,69 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: ParameterContainer</h1>
+    <h1 class="page-title">Source: SignalChain.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">The ParameterContainer module. Responsible for rendering the parameter, maintaining it's value, and facilitating    interaction with the parameter. Appears as child component of Effect, child components are Parameter.</div>
-        
-
-        
-            
-
-    
-
-    <h4 class="name" id="module:ParameterContainer"><span class="type-signature"></span>module:ParameterContainer<span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    The ParameterContainer component
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ParameterContainer.js.html">ParameterContainer.js</a>, <a href="ParameterContainer.js.html#line78">line 78</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="ParameterContainer.js.html">ParameterContainer.js</a>, <a href="ParameterContainer.js.html#line5">line 5</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="module-ParameterContainer.html">module:ParameterContainer</a></li>
-        
-            <li><a href="module-Parameter.html">module:Parameter</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-ParameterContainer-ParameterContainer.html">ParameterContainer</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import Radium from 'radium';
+
+/**
+ * The SignalChain module. Responsible rendering a SignalChain component which is the location where effects modules
+ *     are rendered. Appears as a child component of the SignalChainContainer component, child components are Effect components.
+ * @module SignalChain
+ * @see module:SignalChainContainer
+ * @see module:Effect
+ */
+
+/** 
+ * Class responsible for rendering the SignalChain component.
+ * @extends external:ReactPureComponent 
+ */
+class SignalChain extends React.PureComponent {
+    /** Create the SignalChain component instance */
+    constructor() {
+        super();
+    }
+
+    /**
+     * Render the SignalChain, including the child Effect components
+     * @see module:Effect
+     */
+    render() {
+        return (
+            &lt;div id = 'signalChain' style = {styles.div}>
+                {this.props.effects}
+            &lt;/div>
+        );
+    }
+}
+
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
+const styles = {
+    div: {
+        height: '100%',
+        width: '100%',
+        marginBottom: 25,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000'
+    }
+}
+
+/** The SignalChain component */
+export default Radium(SignalChain);
+</code></pre>
+        </article>
+    </section>
 
 
 
