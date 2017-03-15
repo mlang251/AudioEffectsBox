@@ -3,11 +3,28 @@ import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 import Sidebar from './Sidebar';
 
+/**
+ * The SidebarContainer module. Responsible for creating buttons and styles for it's Sidebar child. Appears
+ *     as a child component of App, child component is Sidebar.
+ * @module SidebarContainer
+ * @see module:App
+ * @see module:Sidebar
+ */
+
+/** 
+ * Class responsible for creating buttons and styles for it's Sidebar child.
+ * @extends external:ReactPureComponent 
+ */
 class SidebarContainer extends React.PureComponent {
+    /** Create the SidebarContainer component instance */
     constructor() {
         super();
     }
 
+    /**
+     * Create the buttons for adding effects to the signal chain. Retrieves a list of available effects by parsing the list
+     *     in effects.json. Creates buttons which add the corresponding effect to the signal chain.
+     */
     createEffectsButtons() {
         const effectsList = Immutable.fromJS(effects).get('list');
         let effectsButtons = Immutable.List([]).asMutable();
@@ -23,6 +40,9 @@ class SidebarContainer extends React.PureComponent {
         return effectsButtons.asImmutable();
     }
 
+    /**
+     * Creates buttons for mapping coordinate axes to effect parameters.
+     */
     createAxisButtons() {
         const axesList = ['x', 'y', 'z'];
         let axisButtons = Immutable.List([]).asMutable();
@@ -38,17 +58,23 @@ class SidebarContainer extends React.PureComponent {
         return axisButtons.asImmutable();
     }
 
+    /**
+     * Renders the Sidebar component
+     * @see module:Sidebar
+     */
     render() {
-        const axisButtons = this.createAxisButtons();
-        const effectsButtons = this.createEffectsButtons();
         return (
             <Sidebar
-                effectsButtons = {effectsButtons}
-                axisButtons = {axisButtons} />
+                effectsButtons = {this.createEffectsButtons()}
+                axisButtons = {this.createAxisButtons()} />
         );
     }
 }
 
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
 const styles = {
     button: {
         display: 'block',
@@ -56,4 +82,5 @@ const styles = {
     }
 }
 
+/** The SidebarContainer component */
 export default SidebarContainer;
