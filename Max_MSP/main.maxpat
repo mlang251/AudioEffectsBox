@@ -1023,7 +1023,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 130.333328, 556.0, 70.0, 22.0 ],
+					"patching_rect" : [ 129.0, 556.0, 70.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"description" : "",
 						"digest" : "",
@@ -7865,6 +7865,12 @@
 
 			}
  ],
+		"parameters" : 		{
+			"obj-4::obj-5::obj-12::obj-71" : [ "Transp", "Transp", 0 ],
+			"obj-4::obj-5::obj-1::obj-71" : [ "Transp[2]", "Transp", 0 ],
+			"obj-4::obj-5::obj-21::obj-71" : [ "Transp[1]", "Transp", 0 ]
+		}
+,
 		"dependency_cache" : [ 			{
 				"name" : "reverbEffect~.maxpat",
 				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
@@ -7898,18 +7904,6 @@
 , 			{
 				"name" : "pitchShiftEffect~.maxpat",
 				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "transratio.maxpat",
-				"bootpath" : "/Users/Shared/Max 7/Examples/max-tricks/notes-and-pitch/pitch-to-freq-ratio",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gizmo_loadme.maxpat",
-				"bootpath" : "C74:/help/msp",
 				"type" : "JSON",
 				"implicit" : 1
 			}
