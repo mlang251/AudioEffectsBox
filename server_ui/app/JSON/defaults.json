@@ -52,5 +52,17 @@
         "Gain": 0,
         "DelayTime": 0,
         "Feedback": 0
+    },
+    "pitchShift1": {
+        "Wetness": 0.25,
+        "Pitch": 0
+    },
+    "pitchShift2": {
+        "Wetness": 0.25,
+        "Pitch": 0
+    },
+    "pitchShift3": {
+        "Wetness": 0.25,
+        "Pitch": 0
     }
 }
