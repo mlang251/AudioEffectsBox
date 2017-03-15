@@ -24,6 +24,9 @@ class ParameterContainer extends React.PureComponent {
         super();
         this.handleMappingClick = this.handleMappingClick.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
+    }
+
+    componentWillMount() {
         const info = this.props.info.set('paramValue', this.props.value);
         this.props.onParameterChange(Immutable.List([info]));
     }
