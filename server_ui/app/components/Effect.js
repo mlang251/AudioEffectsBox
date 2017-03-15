@@ -1,11 +1,28 @@
 import React from 'react';
 import Radium from 'radium';
 
+/**
+ * The Effect module. Represents an effect in the signal chain. Appears as a child component of EffectContainer, child
+ *     component is ParameterContainer.
+ * @module Effect
+ * @see module:EffectContainer
+ * @see module:ParameterContainer
+ */
+
+/** 
+ * Class representing an effect in the signal chain.
+ * @extends external:ReactPureComponent 
+ */
 class Effect extends React.PureComponent {
+    /** Create the Effect component */
     constructor() {
         super();
     }
 
+    /**
+     * Render the effect into the signal chain. Receives ParameterContainer child components as props from EffectContainer
+     * @see module:ParameterContainer
+     */
     render() {
         return (
             <div style = {styles.effectDiv}>
@@ -37,6 +54,10 @@ class Effect extends React.PureComponent {
     }
 }
 
+/**
+ * A style object whose members are passed to components when rendering.
+ * @type {Object}
+ */
 const styles = {
     effectDiv: {
         display: 'inline-block',
@@ -88,4 +109,5 @@ const styles = {
     }
 }
 
+/** The Effect component */
 export default Radium(Effect);
