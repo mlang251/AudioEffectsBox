@@ -121,19 +121,6 @@ class EffectContainer extends React.PureComponent {
     }
 
     /**
-     * Creates an object whose values are passed to the buttons in the child Effect Component, these values point
-     *     to style objects in Effect. These styles are responsible for coloring the bypass and solo buttons, 
-     *     based on whether or not the button is currently active.
-     * @returns {Object} Values tell whether or not the solo and/or bypass buttons are active
-     */
-    createStyles() {
-        return {
-            bypassStyle: this.props.isBypassed ? 'isActive' : 'isNotActive',
-            soloStyle: this.props.isSoloing ? 'isActive' : 'isNotActive'
-        }
-    }
-
-    /**
      * Renders the child Effect component and passes along the generated HTML and ParameterContainer components
      * @see module:Effect
      */
