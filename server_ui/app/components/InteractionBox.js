@@ -1,11 +1,29 @@
 import React from 'react';
 import Radium from 'radium';
 
+/**
+ * The InteractionBox module. Responsible rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
+ *     as well as the position of the user's hand and the state of the InteractionBox. Appears as a child component of the 
+ *     InteractionBoxContainer component.
+ * @module InteractionBox
+ * @see module:InteractionBoxContainer
+ */
+
+/** 
+ * Class responsible rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
+ *     as well as the position of the user's hand and the state of the InteractionBox
+ * @extends external:ReactPureComponent 
+ */
 class InteractionBox extends React.PureComponent {
+    /** Create the InteractionBox component */
     constructor() {
         super();
     }
     
+    /**
+     * Renders the 3D representation of the Leap field of vision as well as pointer representing the location of the user's hand.
+     *     The color of the pointer depends on the current state of the InteractionBox.
+     */
     render() {
         const propStyles = this.props.style.toJS();
         return (
@@ -38,7 +56,10 @@ class InteractionBox extends React.PureComponent {
     }
 }
 
-export default Radium(InteractionBox);
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
 const styles = {
     container: {
         position: 'relative',
@@ -107,3 +128,6 @@ const styles = {
         backgroundColor: '#EEE'
     },
 }
+
+/** The InteractionBox component */
+export default Radium(InteractionBox);

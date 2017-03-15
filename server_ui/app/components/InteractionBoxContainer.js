@@ -4,12 +4,38 @@ import Display from './Display';
 import InteractionBoxPlaceholder from './InteractionBoxPlaceholder';
 import Immutable from 'immutable';
 
+/**
+ * The InteractionBoxContainer module. Responsible for displaying the InteractionBox, or the InteractionBoxPlaceholder,
+ *     depending on whether or not the Leap is connected. Creates styles for the InteractionBox based on data from the Leap.
+ *     Appears as child component of App, child components are Display, InteractionBox, and InteractionBoxPlaceholder.
+ * @module InteractionBoxContainer
+ * @see module:App
+ * @see module:Display
+ * @see module:InteractionBox
+ * @see module:InteractionBoxPlaceholder
+ */
+
+/** 
+ * Class responsible for displaying the InteractionBox, or the InteractionBoxPlaceholder, depending on whether or not 
+ *     the Leap is connected. Creates styles for the InteractionBox based on data from the Leap.
+ * @extends external:ReactPureComponent 
+ */
 class InteractionBoxContainer extends React.PureComponent {
+    /** Creates the InteractionBoxContainer instance. Binds methods to this instance */
     constructor() {
         super();
         this.createStyles = this.createStyles.bind(this);
     }
 
+    /**
+     * Creates styles for the InteractionBox, based on the Leap data and status updates. If box dimensions are provided
+     *     via props.dimensions, it determines the dimensions, in pixels, with which to render the 3D representation of the
+     *     Leap's field of vision. It calculates this using the ratio of the dimensions provided by the Leap, and makes
+     *     the 3D representation so that it is as large as possible within the constraints of it's containing block. If
+     *     Leap hand tracking data is available, it positions the pointer to show where the user's hand is in relation to 
+     *     the 3D representation. The pointer is rendered with different colors, depending on the Leap status updates.
+     * @returns {external:Map} - An Immutable Map representing a style object for various components in the InteractionBox
+     */
     createStyles() {
         let height = 0;
         let width = 0;
@@ -124,12 +150,17 @@ class InteractionBoxContainer extends React.PureComponent {
         });
     }
     
+    /**
+     * Renders the InteractionBox if the Leap is connected, otherwise, renders the InteractionBoxPlaceholder
+     * @see module:Display
+     * @see module:InteractionBox
+     * @see module:InteractionBoxPlaceholder
+     */
     render() {
-        const styles = this.createStyles();
         return (
             <div>
                 <Display if = {this.props.isConnected}>
-                    <InteractionBox style = {styles} />
+                    <InteractionBox style = {this.createStyles()} />
                 </Display>
                 <Display if = {!this.props.isConnected}>
                     <InteractionBoxPlaceholder />
@@ -139,4 +170,5 @@ class InteractionBoxContainer extends React.PureComponent {
     }
 }
 
+/** The InteractionBoxContainer component */
 export default InteractionBoxContainer;
