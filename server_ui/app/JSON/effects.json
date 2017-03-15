@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb", "Filter", "Delay", "pitchShift"],
+    "list": ["Reverb", "Filter", "Delay", "Pitch Shift"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -37,8 +37,8 @@
               "Feedback": "fader"
           }
         },
-        "pitchshift": {
-          "type": "pitchshift",
+        "pitch shift": {
+          "type": "pitchShift",
           "name": "Pitch Shift",
           "IDs": ["pitchShift1", "pitchShift2", "pitchShift3"],
           "parameterList": ["Wetness", "Pitch"],
