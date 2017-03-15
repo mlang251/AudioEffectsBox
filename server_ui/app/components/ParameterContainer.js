@@ -36,8 +36,8 @@ class ParameterContainer extends React.PureComponent {
      * @param {Number} max - Equal to the height of the fader's containing element
      */
     handleDrag(yValue, max) {
-        let value =                                 //Make sure the value is within the bounds of the draggable area
-            yValue < 0 ? 0                          //Normalize it on a scale of 0-1
+        let value =
+            yValue < 0 ? 0
             : yValue > max ? 1
             : yValue/max
         value = Math.round(value * 1000)/1000;
