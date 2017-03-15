@@ -2,11 +2,29 @@ import React from 'react';
 import SignalChain from './SignalChain';
 import EffectContainer from './EffectContainer';
 
+/**
+ * The SignalChainContainer module. Responsible for creating EffectContainer components and rendering it's 
+ *     SignalChain child. Appears as a child component of App, child component is SignalChain.
+ * @module SignalChainContainer
+ * @see module:App
+ * @see module:SignalChain
+ * @see module:EffectContainer
+ */
+
+/** 
+ * Class responsible for creating EffectContainer components and rendering it's SignalChain child.
+ * @extends external:ReactPureComponent 
+ */
 class SignalChainContainer extends React.PureComponent {
+    /** Create the SignalChainContainer component instance */
     constructor() {
         super();
     }
 
+    /**
+     * Creates an interable of EffectContainer components by iterating through props.effects and assigning props.
+     * @returns {external:List} An Immutable List containing EffectContainer components
+     */
     createEffects() {
         return this.props.effects.map((effect, index) => {
             const {ID, type, isBypassed, isSoloing} = effect.toJS();
@@ -33,6 +51,10 @@ class SignalChainContainer extends React.PureComponent {
         });
     }
 
+    /**
+     * Renders the SignalChain and passes along the iterable of EffectContainer components
+     * @see module:SignalChain
+     */
     render() {
         return (
             <SignalChain effects = {this.createEffects()} />
@@ -40,4 +62,5 @@ class SignalChainContainer extends React.PureComponent {
     }
 }
 
+/** The SignalChainContainer component */
 export default SignalChainContainer;

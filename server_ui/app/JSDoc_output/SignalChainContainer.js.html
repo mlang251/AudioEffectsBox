@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: InteractionBoxContainer</title>
+    <title>JSDoc: Source: SignalChainContainer.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,230 +17,83 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: InteractionBoxContainer</h1>
+    <h1 class="page-title">Source: SignalChainContainer.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-            
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">The InteractionBoxContainer module. Responsible for displaying the InteractionBox, or the InteractionBoxPlaceholder,    depending on whether or not the Leap is connected. Creates styles for the InteractionBox based on data from the Leap.    Appears as child component of App, child components are Display, InteractionBox, and InteractionBoxPlaceholder.</div>
-        
-
-        
-            
-
-    
-
-    <h4 class="name" id="module:InteractionBoxContainer"><span class="type-signature"></span>module:InteractionBoxContainer<span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    The InteractionBoxContainer component
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="InteractionBoxContainer.js.html">InteractionBoxContainer.js</a>, <a href="InteractionBoxContainer.js.html#line174">line 174</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="InteractionBoxContainer.js.html">InteractionBoxContainer.js</a>, <a href="InteractionBoxContainer.js.html#line7">line 7</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="module-App.html">module:App</a></li>
-        
-            <li><a href="module-Display.html">module:Display</a></li>
-        
-            <li><a href="module-InteractionBox.html">module:InteractionBox</a></li>
-        
-            <li><a href="module-InteractionBoxPlaceholder.html">module:InteractionBoxPlaceholder</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-InteractionBoxContainer-InteractionBoxContainer.html">InteractionBoxContainer</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import SignalChain from './SignalChain';
+import EffectContainer from './EffectContainer';
+
+/**
+ * The SignalChainContainer module. Responsible for creating EffectContainer components and rendering it's 
+ *     SignalChain child. Appears as a child component of App, child component is SignalChain.
+ * @module SignalChainContainer
+ * @see module:App
+ * @see module:SignalChain
+ * @see module:EffectContainer
+ */
+
+/** 
+ * Class responsible for creating EffectContainer components and rendering it's SignalChain child.
+ * @extends external:ReactPureComponent 
+ */
+class SignalChainContainer extends React.PureComponent {
+    /** Create the SignalChainContainer component instance */
+    constructor() {
+        super();
+    }
+
+    /**
+     * Creates an interable of EffectContainer components by iterating through props.effects and assigning props.
+     * @returns {external:List} An Immutable List containing EffectContainer components
+     */
+    createEffects() {
+        return this.props.effects.map((effect, index) => {
+            const {ID, type, isBypassed, isSoloing} = effect.toJS();
+            return (
+                &lt;EffectContainer
+                    key = {ID}
+                    ID = {ID}
+                    type = {type}
+                    isBypassed = {isBypassed}
+                    isSoloing = {isSoloing}
+                    parameterValues = {this.props.parameterValues.get(ID)}
+                    onParameterChange = {this.props.onParameterChange}
+                    isMapping = {this.props.isMapping}
+                    mapToParameter = {this.props.mapToParameter}
+                    xyzMap = {this.props.xyzMap}
+                    handleCloseButtonClick = {this.props.removeEffect} 
+                    handleBypassButtonClick = {this.props.toggleBypass} 
+                    handleSoloButtonClick = {this.props.toggleSolo} 
+                    handleRemoveMappingClick = {this.props.removeMapping}
+                    reorderButtonLeft = {index != 0}
+                    reorderButtonRight = {index != this.props.effects.size - 1} 
+                    handleReorderButtonClick = {this.props.reorderEffects} />
+            );
+        });
+    }
+
+    /**
+     * Renders the SignalChain and passes along the iterable of EffectContainer components
+     * @see module:SignalChain
+     */
+    render() {
+        return (
+            &lt;SignalChain effects = {this.createEffects()} />
+        );
+    }
+}
+
+/** The SignalChainContainer component */
+export default SignalChainContainer;</code></pre>
+        </article>
+    </section>
 
 
 
