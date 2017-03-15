@@ -1,4 +1,32 @@
-import React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: AppContainer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: AppContainer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
 import io from 'socket.io-client';
 import Immutable from 'immutable';
 import App from './App';
@@ -70,9 +98,9 @@ import defaults from '../JSON/defaults.json';
  * @typedef {external:Map} EffectTypeDescription
  * @property {string} type - The type of effect
  * @property {string} name - The name of the effect
- * @property {List.<string>} IDs - An Immutable List containing the possible IDs the effect type can use
- * @property {List.<string>} parameterList - An Immutable List containing the parameter names in the order they would be rendered
- * @property {Map.<string, string>} parameters - An Immutable map containing the parameter names and the type of perameter
+ * @property {List.&lt;string>} IDs - An Immutable List containing the possible IDs the effect type can use
+ * @property {List.&lt;string>} parameterList - An Immutable List containing the parameter names in the order they would be rendered
+ * @property {Map.&lt;string, string>} parameters - An Immutable map containing the parameter names and the type of perameter
  *     it shold render as (e.g. fader, knob, etc.)
  */
 
@@ -90,8 +118,8 @@ class AppContainer extends React.Component {
         /**
          * @member {Object} state
          * @property {string} message - A message to be displayed at the top of the app
-         * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
-         * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with 
+         * @property {external:List.&lt;Effect>} effects - An Immutable List containing the effects in the signal chain
+         * @property {external:List.&lt;string>} usedIDs - An Immutable List of the unique IDs associated with 
          *     the effects in the signal chain
          * @property {external:Map} parameterValues - An Immutable Map containing the default values for effect parameters
          * @property {external:Map} mapping - An Immutable Map describing the mapping state of the app
@@ -147,7 +175,7 @@ class AppContainer extends React.Component {
          * @member {external:Map} effect
          * @memberof! AppContainer
          * @property {external:List} list - An Immutable List containing the effect types available
-         * @property {external:Map.<string, EffectTypeDescription>} effects - An Immutable Map containing descriptions of the types 
+         * @property {external:Map.&lt;string, EffectTypeDescription>} effects - An Immutable Map containing descriptions of the types 
          *     of effects available
          */
         this.effects = Immutable.fromJS(effectsJSON)
@@ -237,7 +265,7 @@ class AppContainer extends React.Component {
     receiveLeapData(data) {
         const coords = ['x', 'y', 'z'];
         let updatedParams = Immutable.List().asMutable();
-        for (let i = 0; i < data.length; i++) {
+        for (let i = 0; i &lt; data.length; i++) {
             const effectID = this.state.xyzMap.getIn([coords[i], 'effectID']);
             if (effectID) {
                 const paramName = this.state.xyzMap.getIn([coords[i], 'param']);
@@ -258,7 +286,7 @@ class AppContainer extends React.Component {
      * Creates a routing message to emit to the server based on an input List of effects in the signal chain.
      *     If no effects are in the signal chain, sends an input > output audio signal routing message, otherwise
      *     it will create a routing message that mirrors the representation in the signal chain.
-     * @param {external:List.<Effect>} effectsArray - An Immutable List of audio effects
+     * @param {external:List.&lt;Effect>} effectsArray - An Immutable List of audio effects
      */
     createRoutes(effectsArray) {
         let routeObj = {input: 'output'};
@@ -410,7 +438,7 @@ class AppContainer extends React.Component {
      * Updates the values of one or more specific parameters of one or more effects in the signal chain. If the 
      *     wasChangedByLeap parameter is false, in other words, if the user is changing a parameter value by clicking
      *     and dragging it, the app will emit an updateParam event with the parameter info.
-     * @param {external:List.<ParamInfo>} paramInfo - The information describing the specific parameter
+     * @param {external:List.&lt;ParamInfo>} paramInfo - The information describing the specific parameter
      * @param {boolean} [wasChangedByLeap=false] - True or false depending on whether or not the parameter was 
      *     changed by the Leap
      */
@@ -465,7 +493,7 @@ class AppContainer extends React.Component {
         }
 
         xyzMapMutable.map((axisInfo, axis) => {
-            if (axisInfo.get('effectID') == effectID && axisInfo.get('param') == paramName) {
+            if (axisInfo.get('effectID') == effectID &amp;&amp; axisInfo.get('param') == paramName) {
                 xyzMapMutable.updateIn([axis, 'effectID'], value => undefined);
                 xyzMapMutable.updateIn([axis, 'param'], value => undefined);
             }
@@ -546,7 +574,7 @@ class AppContainer extends React.Component {
      */
     render() {
         return (
-            <App
+            &lt;App
                 message = {this.state.message}
                 addEffectToChain = {this.addEffectToChain}
                 parameterValues = {this.state.parameterValues}
@@ -568,3 +596,26 @@ class AppContainer extends React.Component {
 
 /** The AppContainer module */
 export default AppContainer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-AppContainer.html">AppContainer</a></li><li><a href="module-Display.html">Display</a></li><li><a href="module-Effect.html">Effect</a></li><li><a href="module-EffectContainer.html">EffectContainer</a></li><li><a href="module-InteractionBox.html">InteractionBox</a></li><li><a href="module-InteractionBoxContainer.html">InteractionBoxContainer</a></li><li><a href="module-InteractionBoxPlaceholder.html">InteractionBoxPlaceholder</a></li><li><a href="module-Parameter.html">Parameter</a></li><li><a href="module-ParameterContainer.html">ParameterContainer</a></li></ul><h3>Externals</h3><ul><li><a href="external-List.html">List</a></li><li><a href="external-Map.html">Map</a></li><li><a href="external-ReactComponent.html">ReactComponent</a></li><li><a href="external-ReactPureComponent.html">ReactPureComponent</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppContainer-AppContainer.html">AppContainer</a></li><li><a href="module-App-App.html">App</a></li><li><a href="module-Display-Display.html">Display</a></li><li><a href="module-EffectContainer-EffectContainer.html">EffectContainer</a></li><li><a href="module-Effect-Effect.html">Effect</a></li><li><a href="module-InteractionBoxContainer-InteractionBoxContainer.html">InteractionBoxContainer</a></li><li><a href="module-InteractionBoxPlaceholder-InteractionBoxPlaceholder.html">InteractionBoxPlaceholder</a></li><li><a href="module-InteractionBox-InteractionBox.html">InteractionBox</a></li><li><a href="module-ParameterContainer-ParameterContainer.html">ParameterContainer</a></li><li><a href="module-Parameter-Parameter.html">Parameter</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 16 2017 01:29:44 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

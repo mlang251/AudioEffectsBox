@@ -1,4 +1,32 @@
-import React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: EffectContainer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: EffectContainer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
 import Immutable from 'immutable';
 import effects from '../JSON/effects.json';
 import Effect from './Effect';
@@ -53,37 +81,37 @@ class EffectContainer extends React.PureComponent {
             const paramType = parameters.get(paramName);
             const axes = ['x', 'y', 'z'];
             let xyzMap = undefined;
-            for (let i = 0; i < xyzMapArray.length; i++) {
+            for (let i = 0; i &lt; xyzMapArray.length; i++) {
                 if (xyzMapArray[i].param == paramName) {
                     const thisAxis = xyzMapArray[i].coord;
                     xyzMap = [
-                        <p 
+                        &lt;p 
                             key = {`${this.props.ID}${thisAxis}`}
-                            style = {styles.xyzMap}>{thisAxis}</p>,
-                        <button 
+                            style = {styles.xyzMap}>{thisAxis}&lt;/p>,
+                        &lt;button 
                             key = {`${this.props.ID}Remove${thisAxis}`}
                             type = 'button'
                             style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
-                            onClick = {() => this.props.handleRemoveMappingClick(thisAxis, this.props.ID, paramName)}>X</button>
+                            onClick = {() => this.props.handleRemoveMappingClick(thisAxis, this.props.ID, paramName)}>X&lt;/button>
                     ];
                 }
             }
             params = params.push(
-                <div
+                &lt;div
                     key = {index}
                     style = {styles.paramDiv}>
-                    <div style = {styles.xyzMapDiv}>
+                    &lt;div style = {styles.xyzMapDiv}>
                         {xyzMap}
-                    </div>
-                    <p style = {styles.paramTitle}>{paramName}</p>
-                    <ParameterContainer
+                    &lt;/div>
+                    &lt;p style = {styles.paramTitle}>{paramName}&lt;/p>
+                    &lt;ParameterContainer
                         type = {paramType}
                         info = {Immutable.Map({effectID: this.props.ID,  paramName: paramName})}
                         value = {this.props.parameterValues.get(paramName)}
                         onParameterChange = {this.props.onParameterChange}
                         isMapping = {this.props.isMapping}
                         mapToParameter = {this.props.mapToParameter} />
-                </div>
+                &lt;/div>
             );
         });
         return params.asImmutable();
@@ -94,30 +122,29 @@ class EffectContainer extends React.PureComponent {
      *     the props.reorderButtonLeft and props.reorderButtonRight values will be true or false, depending on whether or not
      *     an effect can be moved in the corresponding direction (e.g. the first effect in the chain cannot be moved to the left
      *     but it can be moved to the right. An effect in the middle of two other effects can be moved in both directions). 
-     * @param {string} direction - Indicates the direction of the reordering button to create
-     * @returns {external:List} An Immutable List containing html for the reordering button with the specified direction
+     * @returns {external:Map} Contains html for the reordering buttons if the effect can be reordered
      */
-    createReorderButtons(direction) {
+    createReorderButtons() {
         let buttons = Immutable.Map().asMutable();
-        if (direction == 'left') {
-            return Immutable.List([(
-                <button
+        if (this.props.reorderButtonLeft) {
+            buttons = buttons.set('reorderButtonLeft', value => (
+                &lt;button
                     type = 'button'
                     key = {`${this.props.ID}Left`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
-                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
-            )]);
-        } else if (direction == 'right') {
-           return Immutable.List([(
-                <button
+                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&amp;lt;&lt;/button>
+            ));
+        }
+        if (this.props.reorderButtonRight) {
+            buttons = buttons.set('reorderButtonRight', value => (
+                &lt;button
                     type = 'button'
                     key = {`${this.props.ID}Right`}
                     style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
-                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
-            )]);
-        } else {
-            return null;
+                    onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&amp;gt;&lt;/button>
+            ));
         }
+        return buttons.asImmutable();
     }
 
     /**
@@ -138,13 +165,16 @@ class EffectContainer extends React.PureComponent {
      * @see module:Effect
      */
     render() {
+        const params = this.createParameters(this.effect);
+        const {reorderButtonLeft, reorderButtonRight} = this.createReorderButtons().toJS();
+        const {bypassStyle, soloStyle} = this.createStyles();
         return (
-            <Effect
-                params = {this.createParameters(this.effect)}
-                reorderButtonLeft = {this.props.reorderButtonLeft ? this.createReorderButtons('left') : null}
-                reorderButtonRight = {this.props.reorderButtonRight ? this.createReorderButtons('right') : null}
-                bypassStyle = {this.props.isBypassed ? 'isActive' : 'isNotActive'}
-                soloStyle = {this.props.isSoloing ? 'isActive' : 'isNotActive'}
+            &lt;Effect
+                params = {params}
+                reorderButtonLeft = {reorderButtonLeft}
+                reorderButtonRight = {reorderButtonRight}
+                bypassStyle = {bypassStyle}
+                soloStyle = {soloStyle}
                 effectName = {this.effect.get('name')}
                 ID = {this.props.ID}
                 handleSoloButtonClick = {this.props.handleSoloButtonClick}
@@ -204,3 +234,26 @@ const styles = {
 
 /** The EffectContainer component */
 export default EffectContainer;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-App.html">App</a></li><li><a href="module-AppContainer.html">AppContainer</a></li><li><a href="module-Display.html">Display</a></li><li><a href="module-Effect.html">Effect</a></li><li><a href="module-EffectContainer.html">EffectContainer</a></li><li><a href="module-InteractionBox.html">InteractionBox</a></li><li><a href="module-InteractionBoxContainer.html">InteractionBoxContainer</a></li><li><a href="module-InteractionBoxPlaceholder.html">InteractionBoxPlaceholder</a></li><li><a href="module-Parameter.html">Parameter</a></li><li><a href="module-ParameterContainer.html">ParameterContainer</a></li></ul><h3>Externals</h3><ul><li><a href="external-List.html">List</a></li><li><a href="external-Map.html">Map</a></li><li><a href="external-ReactComponent.html">ReactComponent</a></li><li><a href="external-ReactPureComponent.html">ReactPureComponent</a></li></ul><h3>Classes</h3><ul><li><a href="module-AppContainer-AppContainer.html">AppContainer</a></li><li><a href="module-App-App.html">App</a></li><li><a href="module-Display-Display.html">Display</a></li><li><a href="module-EffectContainer-EffectContainer.html">EffectContainer</a></li><li><a href="module-Effect-Effect.html">Effect</a></li><li><a href="module-InteractionBoxContainer-InteractionBoxContainer.html">InteractionBoxContainer</a></li><li><a href="module-InteractionBoxPlaceholder-InteractionBoxPlaceholder.html">InteractionBoxPlaceholder</a></li><li><a href="module-InteractionBox-InteractionBox.html">InteractionBox</a></li><li><a href="module-ParameterContainer-ParameterContainer.html">ParameterContainer</a></li><li><a href="module-Parameter-Parameter.html">Parameter</a></li></ul><h3><a href="global.html">Global</a></h3>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Thu Mar 16 2017 01:29:44 GMT-0400 (Eastern Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
