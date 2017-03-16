@@ -31,7 +31,7 @@ import defaults from '../JSON/defaults.json';
  */
 
 /**
- * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with 
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
  *     O(log32 N) gets and O(log32 N) persistent sets.
  * @external Map
  * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
@@ -76,10 +76,10 @@ import defaults from '../JSON/defaults.json';
  *     it shold render as (e.g. fader, knob, etc.)
  */
 
-/** 
- * Class representing the container for the entire app. Responsible for maintaining the state of the entire app. 
+/**
+ * Class representing the container for the entire app. Responsible for maintaining the state of the entire app.
  *     Contains methods for app-wide manipulation and web socket communication with the server.
- * @extends external:ReactComponent 
+ * @extends external:ReactComponent
  */
 class AppContainer extends React.Component {
     /**
@@ -91,7 +91,7 @@ class AppContainer extends React.Component {
          * @member {Object} state
          * @property {string} message - A message to be displayed at the top of the app
          * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
-         * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with 
+         * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with
          *     the effects in the signal chain
          * @property {external:Map} parameterValues - An Immutable Map containing the default values for effect parameters
          * @property {external:Map} mapping - An Immutable Map describing the mapping state of the app
@@ -102,8 +102,8 @@ class AppContainer extends React.Component {
          * @property {AxisMap} xyzMap.y - An Immutable Map representing the parameter mapping applied to the y axis
          * @property {AxisMap} xyzMap.z - An Immutable Map representing the parameter mapping applied to the z axis
          * @property {external:Map} interactionBox - An Immutable Map representing the state of the InteractionBox
-         * @property {external:List} interactionBox.coords - An Immutable List containing the current x, y, z coordinates 
-         * @property {external:Map} interactionBox.dimensions - An Immutable Map representing the dimensions of the 
+         * @property {external:List} interactionBox.coords - An Immutable List containing the current x, y, z coordinates
+         * @property {external:Map} interactionBox.dimensions - An Immutable Map representing the dimensions of the
          *     InteractionBox as reported by the Leap
          * @property {boolean} interactionBox.isConnected - True or false depending on whether or not the Leap is connected
          * @property {boolean} interactionBox.isInBounds - True or false depending on whether or not the user's hand is in the
@@ -113,6 +113,7 @@ class AppContainer extends React.Component {
          */
         this.state = {
             message: '',
+            counter: 0,
             effects: Immutable.List(),
             usedIDs: Immutable.List(),
             parameterValues: Immutable.fromJS(defaults),
@@ -142,12 +143,12 @@ class AppContainer extends React.Component {
                 isTracking: false
             })
         }
-        
-        /** 
+
+        /**
          * @member {external:Map} effect
          * @memberof! AppContainer
          * @property {external:List} list - An Immutable List containing the effect types available
-         * @property {external:Map.<string, EffectTypeDescription>} effects - An Immutable Map containing descriptions of the types 
+         * @property {external:Map.<string, EffectTypeDescription>} effects - An Immutable Map containing descriptions of the types
          *     of effects available
          */
         this.effects = Immutable.fromJS(effectsJSON)
@@ -164,6 +165,7 @@ class AppContainer extends React.Component {
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
         this.reorderEffects = this.reorderEffects.bind(this);
+        this.leapDataFramerateThrottle = this.leapDataFramerateThrottle.bind(this);
     }
 
     /**
@@ -173,7 +175,7 @@ class AppContainer extends React.Component {
     componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
-        this.socket.on('leapData', this.receiveLeapData);
+        this.socket.on('leapData', this.leapDataFramerateThrottle);
         this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
     }
@@ -189,7 +191,7 @@ class AppContainer extends React.Component {
 
     /**
      * Receive a message and update the state.
-     * @param {string} message - The message received 
+     * @param {string} message - The message received
      */
     handleMessage(message) {
         this.setState({message: message});
@@ -228,6 +230,15 @@ class AppContainer extends React.Component {
         }
     }
 
+    leapDataFramerateThrottle(data) {
+        if (this.state.counter % 3 == 0) {
+            this.receiveLeapData(data);
+        }
+        this.setState(({counter}) => ({
+            counter: counter += 1
+        }));
+    }
+
     /**
      * Receive Leap hand tracking data from the server. Iterate through the coordinate data and determine if
      *     the current axis is mapped to an effect parameter. If it is, update that effect's parameter. Update
@@ -249,6 +260,7 @@ class AppContainer extends React.Component {
             }
         };
         this.updateParameterValue(updatedParams.asImmutable(), true);
+
         this.setState(({interactionBox}) => ({
             interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
@@ -273,7 +285,7 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * Adds a specific type of effect to the signal chain. Checks to see which IDs for the same effect type 
+     * Adds a specific type of effect to the signal chain. Checks to see which IDs for the same effect type
      *     are already present in the signal chain, if it finds any, it will choose the first unused ID to add
      *     to the signal chain. If there are already three of the same type of effect in the signal chain,
      *     it will alert the user that the maximum number of any type of effect is 3. If an effect is added to the
@@ -407,11 +419,11 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * Updates the values of one or more specific parameters of one or more effects in the signal chain. If the 
+     * Updates the values of one or more specific parameters of one or more effects in the signal chain. If the
      *     wasChangedByLeap parameter is false, in other words, if the user is changing a parameter value by clicking
      *     and dragging it, the app will emit an updateParam event with the parameter info.
      * @param {external:List.<ParamInfo>} paramInfo - The information describing the specific parameter
-     * @param {boolean} [wasChangedByLeap=false] - True or false depending on whether or not the parameter was 
+     * @param {boolean} [wasChangedByLeap=false] - True or false depending on whether or not the parameter was
      *     changed by the Leap
      */
     updateParameterValue(paramInfo, wasChangedByLeap = false) {
