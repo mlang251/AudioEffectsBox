@@ -28,7 +28,7 @@ class Effect extends React.PureComponent {
             <div style = {styles.effectDiv}>
                 <div style = {styles.headerDiv}>
                     <p style = {styles.effectTitle}>{this.props.effectName}</p>
-                    <div style = {styles.buttonDiv}>
+                    <div style = {this.props.renderButtons ? styles.buttonDiv : {display: 'none'}}>
                         <button
                             key = {`${this.props.ID}Solo`}
                             type = 'button'
