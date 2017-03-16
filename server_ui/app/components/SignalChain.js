@@ -25,8 +25,15 @@ class SignalChain extends React.PureComponent {
      */
     render() {
         return (
-            <div id = 'signalChain' style = {styles.div}>
-                {this.props.effects}
+            <div style = {styles.div}>
+                <div 
+                    id = 'signalChain' 
+                    style = {styles.signalChain}>
+                    {this.props.effects}
+                </div>
+                <div style = {styles.gainBlock}>
+                    {this.props.gain}
+                </div>
             </div>
         );
     }
@@ -44,6 +51,16 @@ const styles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
+    },
+    signalChain: {
+        display: 'inline-block',
+        height: '100%',
+        width: '90%'
+    },
+    gainBlock: {
+        display: 'inline-block',
+        height: '100%',
+        width: '10%'
     }
 }
 
