@@ -15,7 +15,7 @@ import ParameterContainer from './ParameterContainer';
 
 /** 
  * Class responsible for creating parameters, buttons, and styles for it's Effect child
- * @extends external:PureComponent 
+ * @extends external:ReactPureComponent 
  */
 class EffectContainer extends React.PureComponent {
     /** Create the EffectContainer instance */

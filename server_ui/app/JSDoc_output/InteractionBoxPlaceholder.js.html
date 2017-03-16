@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Display</title>
+    <title>JSDoc: Source: InteractionBoxPlaceholder.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,228 +17,83 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Display</h1>
+    <h1 class="page-title">Source: InteractionBoxPlaceholder.js</h1>
 
     
 
 
 
-
-<section>
-
-<header>
     
-        
-            
-        
-            
-        
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react';
+import Radium from 'radium';
+
+/**
+ * The InteractionBoxPlaceholder module. Responsible rendering the InteractionBoxPlaceholder. Appears as a child component
+ *     of the InteractionBoxContainer component.
+ * @module InteractionBoxPlaceholder
+ * @see module:InteractionBoxContainer
+ */
+
+/** 
+ * Class responsible rendering the InteractionBoxPlaceholder.
+ * @extends external:ReactPureComponent 
+ */
+class InteractionBoxPlaceholder extends React.PureComponent {
+    /** Create the InteractionBoxPlaceholder instance */
+    constructor() {
+        super();
+    }
     
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-            <div class="description">The Display module. Responsible for conditionally rendering whatever is passed as props.children. Appears as child    component of InteractionBoxContainer, child components are InteractionBoxPlaceholder and InteractionBox.</div>
-        
-
-        
-            
-
-    
-
-    <h4 class="name" id="module:Display"><span class="type-signature"></span>module:Display<span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    The Display component
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Display.js.html">Display.js</a>, <a href="Display.js.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Display.js.html">Display.js</a>, <a href="Display.js.html#line3">line 3</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li><a href="module-InteractionBoxContainer.html">module:InteractionBoxContainer</a></li>
-        
-            <li><a href="module-InteractionBoxPlaceholder.html">module:InteractionBoxPlaceholder</a></li>
-        
-            <li><a href="module-InteractionBox.html">module:InteractionBox</a></li>
-        </ul>
-    </dd>
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-    
-    </div>
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Classes</h3>
-
-        <dl>
-            <dt><a href="module-Display-Display.html">Display</a></dt>
-            <dd></dd>
-        </dl>
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    /**
+     * Render HTML to display a placeholder for the InteractionBox
+     */
+    render() {
+        return (
+            &lt;section style = {styles.container}>
+                &lt;h4 style = {styles.text}>Leap Motion Controller not detected&lt;/h4>
+            &lt;/section>
+        );
+    }
+}
+
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
+const styles = {
+    container: {
+        width: '40vh',
+        height: '40vh',
+        position: 'relative',
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingTop: '3vh',
+        paddingRight: '3vh',
+        paddingBottom: '3vh',
+        paddingLeft: '3vh',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: 'black',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    text: {
+        textAlign: 'center',
+        marginTop: 0,
+        marginRight: 0,
+        marginBottom: 0,
+        marginLeft: 0
+    }
+}
+
+/** The InteractionBoxPlaceholder component */
+export default Radium(InteractionBoxPlaceholder);
+</code></pre>
+        </article>
+    </section>
 
 
 

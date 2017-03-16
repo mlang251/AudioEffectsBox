@@ -11,7 +11,7 @@ import Radium from 'radium';
 
 /** 
  * Class representing an effect in the signal chain.
- * @extends external:PureComponent 
+ * @extends external:ReactPureComponent 
  */
 class Effect extends React.PureComponent {
     /** Create the Effect component */

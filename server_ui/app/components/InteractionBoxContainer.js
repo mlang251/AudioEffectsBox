@@ -18,7 +18,7 @@ import Immutable from 'immutable';
 /** 
  * Class responsible for displaying the InteractionBox, or the InteractionBoxPlaceholder, depending on whether or not 
  *     the Leap is connected. Creates styles for the InteractionBox based on data from the Leap.
- * @extends external:PureComponent 
+ * @extends external:ReactPureComponent 
  */
 class InteractionBoxContainer extends React.PureComponent {
     /** Creates the InteractionBoxContainer instance. Binds methods to this instance */

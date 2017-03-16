@@ -14,13 +14,13 @@ import defaults from '../JSON/defaults.json';
 
 /**
  * A React component.
- * @external Component
+ * @external ReactComponent
  * @see {@link https://facebook.github.io/react/docs/react-api.html#react.component}
  */
 
 /**
  * A pure React component.
- * @external PureComponent
+ * @external ReactPureComponent
  * @see {@link https://facebook.github.io/react/docs/react-api.html#react.purecomponent}
  */
 
@@ -58,19 +58,10 @@ import defaults from '../JSON/defaults.json';
 /**
  * Represents an Immutable Map containing parameter info
  * @global
- * @typedef {external:Map} ParamInfoImmutable
- * @property {string} ParamInfoImmutable.effectID - The unique ID of the effect in the signal chain
- * @property {string} ParamInfoImmutable.paramName - The name of the parameter
- * @property {Number} ParamInfoImmutable.paramValue - A float representing the value of the parameter
- */
-
-/**
- * Represents an object containing parameter info
- * @global
- * @typedef {Object} ParamInfoObj
- * @property {string} ParamInfoObj.effetID - The unique ID of the effect in the signal chain
- * @property {string} ParamInfoObj.paramName - The name of the parameter
- * @property {Number} ParamInfoObj.paramValue - A float representing the value of the parameter
+ * @typedef {external:Map} ParamInfo
+ * @property {string} ParamInfo.effectID - The unique ID of the effect in the signal chain
+ * @property {string} ParamInfo.paramName - The name of the parameter
+ * @property {Number} ParamInfo.paramValue - A float representing the value of the parameter
  */
 
 /**
@@ -88,7 +79,7 @@ import defaults from '../JSON/defaults.json';
 /** 
  * Class representing the container for the entire app. Responsible for maintaining the state of the entire app. 
  *     Contains methods for app-wide manipulation and web socket communication with the server.
- * @extends external:Component 
+ * @extends external:ReactComponent 
  */
 class AppContainer extends React.Component {
     /**
@@ -416,35 +407,28 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * Creates an object that describes an effect parameter. If the wasChangedByLeap parameter is false, in other words,
-     *     if the user is changing a parameter value by clicking and dragging it, the app will emit an updateParam event
-     *     with the parameter info.
-     * @param {ParamInfoImmutable} paramInfo - The information describing the specific parameter
-     * @param {boolean} wasChangedByLeap - True or false depending on whether or not the parameter was changed by the Leap
-     * @returns {ParamInfoObj} - An object describing the specific parameter
+     * Updates the values of one or more specific parameters of one or more effects in the signal chain. If the 
+     *     wasChangedByLeap parameter is false, in other words, if the user is changing a parameter value by clicking
+     *     and dragging it, the app will emit an updateParam event with the parameter info.
+     * @param {external:List.<ParamInfo>} paramInfo - The information describing the specific parameter
+     * @param {boolean} [wasChangedByLeap=false] - True or false depending on whether or not the parameter was 
+     *     changed by the Leap
      */
-    createParameterObj(paramInfo, wasChangedByLeap) {
-        const paramInfoObj = {};
-        paramInfoObj.effectID = paramInfo.get('effectID');
-        paramInfoObj.paramName = paramInfo.get('paramName');
-        paramInfoObj.paramValue = paramInfo.get('paramValue');
-        if (!wasChangedByLeap) {
-            this.emit('updateParam', paramInfoObj);
-        }
-        return paramInfoObj;
-    }
-
-    /**
-     * Updates the values of one or more specific parameters of one or more effects in the signal chain.
-     * @param {external:List.<ParamInfoImmutable>} paramInfo - The information describing the specific parameter
-     * @param {boolean} wasChangedByLeap - True or false depending on whether or not the parameter was changed by the Leap
-     */
-    updateParameterValue(paramInfo, wasChangedByLeap) {
+    updateParameterValue(paramInfo, wasChangedByLeap = false) {
         const updatedParams = {};
         paramInfo.forEach((paramInfo, index) => {
-            const {effectID, paramName, paramValue} = this.createParameterObj(paramInfo, wasChangedByLeap);
+            const effectID = paramInfo.get('effectID');
+            const paramName = paramInfo.get('paramName');
+            const paramValue = paramInfo.get('paramValue');
             if (!updatedParams[effectID]) {
                 updatedParams[effectID] = {}
+            }
+            if (!wasChangedByLeap) {
+                this.emit('updateParam', {
+                    effectID: effectID,
+                    paramName: paramName,
+                    paramValue: paramValue
+                });
             }
             updatedParams[effectID][paramName] = paramValue;
         });

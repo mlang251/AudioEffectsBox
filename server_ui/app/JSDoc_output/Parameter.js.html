@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Display.js</title>
+    <title>JSDoc: Source: Parameter.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Display.js</h1>
+    <h1 class="page-title">Source: Parameter.js</h1>
 
     
 
@@ -27,39 +27,107 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React from 'react';
+import Radium from 'radium';
+import Draggable from 'react-draggable';
 
 /**
- * The Display module. Responsible for conditionally rendering whatever is passed as props.children. Appears as child
- *     component of InteractionBoxContainer, child components are InteractionBoxPlaceholder and InteractionBox.
- * @module Display
- * @see module:InteractionBoxContainer
- * @see module:InteractionBoxPlaceholder
- * @see module:InteractionBox
+ * The Parameter module. Responsible rendering a Parameter component. Appears as a child component of the 
+ *     ParameterContainer component. 
+ * @module Parameter
+ * @see module:ParameterContainer
+ * @see {@link https://github.com/mzabriskie/react-draggable#draggable}
  */
 
 /** 
- * Class responsible for conditionally rendering whatever is passed as props.children
+ * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-class Display extends React.PureComponent {
-    /** Create the conditional Display component */
+class Parameter extends React.PureComponent {
+    /** Create the Parameter instance */
     constructor() {
         super();
     }
-    
+
     /**
-     * Renders whatever is passed as this props.children if props.if is true, otherwise does not render anything.
-     * @see module:InteractionBox
-     * @see module:InteractionBoxContainer
-     * @see module:InteractionBoxPlaceholder
+     * Renders the Parameter.
      */
     render() {
-        return this.props.if ? &lt;div>{this.props.children}&lt;/div> : null;
+        const divStyle =
+            this.props.isMapping ?
+            Object.assign(styles.faderContainerDiv, styles.isMapping) :
+            Object.assign(styles.faderContainerDiv, styles.isNotMapping);
+        return (
+            &lt;div style = {styles.div}>
+                &lt;div
+                    style = {divStyle}
+                    onClick = {this.props.handleMappingClick}>
+                    &lt;div style = {styles.slotDiv}>&lt;/div>
+                    &lt;Draggable
+                        axis = 'y'
+                        bounds = 'parent'
+                        disabled = {this.props.isMapping}
+                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
+                        onDrag = {(e, data) => {this.props.handleDrag(data.y, styles.slotDiv.height)}}>
+                        &lt;div style = {styles.faderDiv}>&lt;/div>
+                    &lt;/Draggable>
+                &lt;/div>
+            &lt;/div>
+        );
     }
 }
 
-/** The Display component */
-export default Display;</code></pre>
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
+const styles = {
+    div: {
+        height: 100,
+        width: 50,
+        position: 'relative',
+        display: 'inline-block'
+    },
+    isMapping: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: 'blue'
+    },
+    isNotMapping: {
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#FFF'
+    },
+    faderContainerDiv: {
+        height: 100,
+        width: 30,
+        float: 'right',
+        position: 'relative'
+    },
+    slotDiv: {
+        height: 85,
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000',
+        position: 'absolute',
+        zIndex: 0,
+        left: '50%',
+        top: '50%',
+        transform: 'translate(0, -50%)'
+    },
+    faderDiv: {
+        height: 15,
+        width: 30,
+        borderStyle: 'solid',
+        borderColor: '#000',
+        borderWidth: 1,
+        borderRadius: 2,
+        backgroundColor: '#999'
+    }
+}
+
+/** The Parameter component */
+export default Radium(Parameter);
+</code></pre>
         </article>
     </section>
 

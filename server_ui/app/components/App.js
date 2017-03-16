@@ -17,60 +17,72 @@ import AppBar from 'material-ui/AppBar';
  */
 
 /**
- * Responsible for rendering the App and child components.
- * @param {Object} props - The props passed down by module:AppContainer
- * @see module:InteractionBoxContainer
- * @see module:SignalChainContainer
- * @see module:SidebarContainer
- * @see {@link http://www.material-ui.com/#/components/app-bar}
+ * Class responsible for rendering the App and child components.
+ * @extends external:ReactPureComponent
  */
-const App = props => (
-    <div>
-        <AppBar 
-            showMenuIconButton = {false}
-            title = "Audio Expression Box" />
-        <div 
-            className = 'container-fluid'
-            style = {styles.container}>
-            <div 
-                className = 'row'
-                style = {styles.div}>
+class App extends React.PureComponent {
+    /** Create the App component instance */
+    constructor() {
+        super();
+    }
+
+    /**
+     * Render the App and it's child components.
+     * @see module:InteractionBoxContainer
+     * @see module:SignalChainContainer
+     * @see module:SidebarContainer
+     * @see {@link http://www.material-ui.com/#/components/app-bar}
+     */
+    render() {
+        return (
+            <div>
+                <AppBar 
+                    showMenuIconButton = {false}
+                    title = "Audio Expression Box" />
                 <div 
-                    className = 'col-sm-10'
-                    style = {styles.div}>
-                    <p>Received message on port 57120: {props.message}</p>
-                    <section style = {styles.interactionBoxContainer}>
-                        <InteractionBoxContainer
-                            coords = {props.interactionBox.get('coords')}
-                            dimensions = {props.interactionBox.get('dimensions')}
-                            isConnected = {props.interactionBox.get('isConnected')}
-                            isInBounds = {props.interactionBox.get('isInBounds')}
-                            isTracking = {props.interactionBox.get('isTracking')} />
-                    </section>
-                    <section style = {styles.signalChainContainer}>
-                        <SignalChainContainer
-                            onParameterChange = {props.onParameterChange}
-                            parameterValues = {props.parameterValues}
-                            isMapping = {props.isMapping}
-                            mapToParameter = {props.mapToParameter}
-                            xyzMap = {props.xyzMap}
-                            removeEffect = {props.removeEffect}
-                            toggleBypass = {props.toggleBypass}
-                            toggleSolo = {props.toggleSolo}
-                            removeMapping = {props.removeMapping}
-                            reorderEffects = {props.reorderEffects}
-                            effects = {props.effects} />
-                    </section>
-                </div>
-                <div className = 'col-sm-2'>
-                    <SidebarContainer
-                        handleEffectButtonClick = {props.addEffectToChain}
-                        handleAxisButtonClick = {props.toggleMapping} />
+                    className = 'container-fluid'
+                    style = {styles.container}>
+                    <div 
+                        className = 'row'
+                        style = {styles.div}>
+                        <div 
+                            className = 'col-sm-10'
+                            style = {styles.div}>
+                            <p>Received message on port 57120: {this.props.message}</p>
+                            <section style = {styles.interactionBoxContainer}>
+                                <InteractionBoxContainer
+                                    coords = {this.props.interactionBox.get('coords')}
+                                    dimensions = {this.props.interactionBox.get('dimensions')}
+                                    isConnected = {this.props.interactionBox.get('isConnected')}
+                                    isInBounds = {this.props.interactionBox.get('isInBounds')}
+                                    isTracking = {this.props.interactionBox.get('isTracking')} />
+                            </section>
+                            <section style = {styles.signalChainContainer}>
+                                <SignalChainContainer
+                                    onParameterChange = {this.props.onParameterChange}
+                                    parameterValues = {this.props.parameterValues}
+                                    isMapping = {this.props.isMapping}
+                                    mapToParameter = {this.props.mapToParameter}
+                                    xyzMap = {this.props.xyzMap}
+                                    removeEffect = {this.props.removeEffect}
+                                    toggleBypass = {this.props.toggleBypass}
+                                    toggleSolo = {this.props.toggleSolo}
+                                    removeMapping = {this.props.removeMapping}
+                                    reorderEffects = {this.props.reorderEffects}
+                                    effects = {this.props.effects} />
+                            </section>
+                        </div>
+                        <div className = 'col-sm-2'>
+                            <SidebarContainer
+                                handleEffectButtonClick = {this.props.addEffectToChain}
+                                handleAxisButtonClick = {this.props.toggleMapping} />
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-);
+        );
+    }
+}
 
 /**
  * A style object whose members are passed to components when rendering.

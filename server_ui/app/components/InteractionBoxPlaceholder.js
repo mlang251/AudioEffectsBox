@@ -1,11 +1,26 @@
 import React from 'react';
 import Radium from 'radium';
 
+/**
+ * The InteractionBoxPlaceholder module. Responsible rendering the InteractionBoxPlaceholder. Appears as a child component
+ *     of the InteractionBoxContainer component.
+ * @module InteractionBoxPlaceholder
+ * @see module:InteractionBoxContainer
+ */
+
+/** 
+ * Class responsible rendering the InteractionBoxPlaceholder.
+ * @extends external:ReactPureComponent 
+ */
 class InteractionBoxPlaceholder extends React.PureComponent {
+    /** Create the InteractionBoxPlaceholder instance */
     constructor() {
         super();
     }
     
+    /**
+     * Render HTML to display a placeholder for the InteractionBox
+     */
     render() {
         return (
             <section style = {styles.container}>
@@ -15,8 +30,10 @@ class InteractionBoxPlaceholder extends React.PureComponent {
     }
 }
 
-export default Radium(InteractionBoxPlaceholder);
-
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
 const styles = {
     container: {
         width: '40vh',
@@ -43,3 +60,6 @@ const styles = {
         marginLeft: 0
     }
 }
+
+/** The InteractionBoxPlaceholder component */
+export default Radium(InteractionBoxPlaceholder);

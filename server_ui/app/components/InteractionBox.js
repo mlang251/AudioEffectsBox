@@ -12,7 +12,7 @@ import Radium from 'radium';
 /** 
  * Class responsible rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
  *     as well as the position of the user's hand and the state of the InteractionBox
- * @extends external:PureComponent 
+ * @extends external:ReactPureComponent 
  */
 class InteractionBox extends React.PureComponent {
     /** Create the InteractionBox component */
@@ -57,7 +57,7 @@ class InteractionBox extends React.PureComponent {
 }
 
 /**
- * A style object whose members are passed to components when rendering.
+ * A style object whose members are passed to elements when rendering.
  * @type {Object}
  */
 const styles = {

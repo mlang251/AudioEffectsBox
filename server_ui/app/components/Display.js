@@ -11,7 +11,7 @@ import React from 'react';
 
 /** 
  * Class responsible for conditionally rendering whatever is passed as props.children
- * @extends external:PureComponent 
+ * @extends external:ReactPureComponent 
  */
 class Display extends React.PureComponent {
     /** Create the conditional Display component */
