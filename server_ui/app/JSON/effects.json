@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb", "Filter", "Delay", "Pitch Shift"],
+    "list": ["Reverb", "Filter", "Delay", "Pitch Shift", "Overdrive"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -45,6 +45,17 @@
           "parameters": {
               "Wetness": "fader",
               "Pitch": "fader"
+          }
+        },
+        "overdrive": {
+          "type": "overdrive",
+          "name": "Overdrive",
+          "IDs": ["overdrive1", "overdrive2", "overdrive3"],
+          "parameterList": ["Wetness", "Gain", "Tone"],
+          "parameters": {
+            "Wetness": "fader",
+              "Gain": "fader",
+              "Tone": "fader"
           }
         }
     }
