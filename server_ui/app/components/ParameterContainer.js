@@ -15,18 +15,15 @@ import Parameter from './Parameter';
  * @extends external:ReactPureComponent 
  */
 class ParameterContainer extends React.PureComponent {
-    /** Creates the ParameterContainer instance. Binds methods to this instance. */
+    /** 
+     * Creates the ParameterContainer instance. Binds methods to this instance. Retrives the parameter's value 
+     *     and calls this.props.onParameterChange, which is used to update the app state of the parameters, 
+     *     and emit the initial value of the Parameter.
+     */
     constructor() {
         super();
         this.handleMappingClick = this.handleMappingClick.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
-    }
-
-    /**
-     * When component is about to mount, retrives it's value and calls this.props.onParameterChange, which is used to
-     *     update the app state of the parameters, and emit the initial value of the Parameter.
-     */
-    componentWillMount() {
         const info = this.props.info.set('paramValue', this.props.value);
         this.props.onParameterChange(Immutable.List([info]));
     }
