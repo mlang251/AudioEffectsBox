@@ -165,6 +165,7 @@ class AppContainer extends React.Component {
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
         this.reorderEffects = this.reorderEffects.bind(this);
+        this.leapDataFramerateThrottle = this.leapDataFramerateThrottle.bind(this);
     }
 
     /**
@@ -174,7 +175,7 @@ class AppContainer extends React.Component {
     componentDidMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
-        this.socket.on('leapData', this.receiveLeapData);
+        this.socket.on('leapData', this.leapDataFramerateThrottle);
         this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
     }
@@ -229,33 +230,39 @@ class AppContainer extends React.Component {
         }
     }
 
+    leapDataFramerateThrottle(data) {
+        if (this.state.counter % 3 == 0) {
+            this.receiveLeapData(data);
+        }
+        this.setState(({counter}) => ({
+            counter: counter += 1
+        }));
+    }
+
     /**
      * Receive Leap hand tracking data from the server. Iterate through the coordinate data and determine if
      *     the current axis is mapped to an effect parameter. If it is, update that effect's parameter. Update
      *     the interactionBox coords state to update the location of the pointer in InteractionBox.
      * @param {Number[]} data - An array of floats representing the x, y, z coordinates of the user's hand.
      */
-    receiveLeapData(data) {S
-        if (this.state.counter % 10 == 0) {
-            const coords = ['x', 'y', 'z'];
-            let updatedParams = Immutable.List().asMutable();
-            for (let i = 0; i < data.length; i++) {
-                const effectID = this.state.xyzMap.getIn([coords[i], 'effectID']);
-                if (effectID) {
-                    const paramName = this.state.xyzMap.getIn([coords[i], 'param']);
-                    updatedParams = updatedParams.push(Immutable.Map({
-                        effectID: effectID,
-                        paramName: paramName,
-                        paramValue: data[i]
-                    }));
-                }
-            };
-            this.updateParameterValue(updatedParams.asImmutable(), true);
-        }
+    receiveLeapData(data) {
+        const coords = ['x', 'y', 'z'];
+        let updatedParams = Immutable.List().asMutable();
+        for (let i = 0; i < data.length; i++) {
+            const effectID = this.state.xyzMap.getIn([coords[i], 'effectID']);
+            if (effectID) {
+                const paramName = this.state.xyzMap.getIn([coords[i], 'param']);
+                updatedParams = updatedParams.push(Immutable.Map({
+                    effectID: effectID,
+                    paramName: paramName,
+                    paramValue: data[i]
+                }));
+            }
+        };
+        this.updateParameterValue(updatedParams.asImmutable(), true);
 
-        this.setState(({interactionBox, counter}) => ({
-            interactionBox: interactionBox.update('coords', value => Immutable.List(data)),
-            counter: this.state.counter++
+        this.setState(({interactionBox}) => ({
+            interactionBox: interactionBox.update('coords', value => Immutable.List(data))
         }));
     }
 
