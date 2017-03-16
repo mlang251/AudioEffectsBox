@@ -1,4 +1,5 @@
 import React from 'react';
+import Immutable from 'immutable';
 import SignalChain from './SignalChain';
 import EffectContainer from './EffectContainer';
 
