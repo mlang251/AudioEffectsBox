@@ -1587,7 +1587,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 6,
 									"numoutlets" : 6,
-									"outlettype" : [ "", "", "", "", "", "" ],
+									"outlettype" : [ "signal", "signal", "signal", "signal", "signal", "signal" ],
 									"patching_rect" : [ 559.5, 264.566711, 77.0, 22.0 ],
 									"style" : "",
 									"text" : "delayEffect~"
@@ -5616,6 +5616,64 @@
 						"subpatcher_template" : "",
 						"boxes" : [ 							{
 								"box" : 								{
+									"id" : "obj-62",
+									"linecount" : 3,
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 130.899994, 6.9841, 412.200012, 47.0 ],
+									"style" : "",
+									"text" : "Note: There will be feedback if the input is set to the microphone and output is set to the internal speakers! Also soundcard driver must be set in computer settings beforehand. Soundflower is for mac only."
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"bubble" : 1,
+									"fontname" : "Arial",
+									"fontsize" : 13.0,
+									"id" : "obj-21",
+									"linecount" : 2,
+									"maxclass" : "comment",
+									"numinlets" : 1,
+									"numoutlets" : 0,
+									"patching_rect" : [ 169.0, 58.9841, 145.0, 40.0 ],
+									"style" : "",
+									"text" : "Display/manually choose Audio Input"
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"id" : "obj-36",
+									"items" : [ "Built-in Input", ",", "Soundflower (2ch)", ",", "Soundflower (64ch)" ],
+									"maxclass" : "umenu",
+									"numinlets" : 1,
+									"numoutlets" : 3,
+									"outlettype" : [ "int", "", "" ],
+									"parameter_enable" : 0,
+									"patching_rect" : [ 10.332458, 67.9841, 156.667542, 22.0 ],
+									"style" : ""
+								}
+
+							}
+, 							{
+								"box" : 								{
+									"fontname" : "Arial",
+									"fontsize" : 13.0,
+									"id" : "obj-38",
+									"maxclass" : "newobj",
+									"numinlets" : 2,
+									"numoutlets" : 2,
+									"outlettype" : [ "", "int" ],
+									"patching_rect" : [ 10.332458, 30.9841, 110.0, 23.0 ],
+									"style" : "",
+									"text" : "adstatus option 0"
+								}
+
+							}
+, 							{
+								"box" : 								{
 									"id" : "obj-13",
 									"maxclass" : "button",
 									"numinlets" : 1,
@@ -5903,7 +5961,7 @@
 									"maxclass" : "comment",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 158.5, 110.5, 150.0, 20.0 ],
+									"patching_rect" : [ 61.0, 147.533325, 150.0, 20.0 ],
 									"style" : "",
 									"text" : "audio input\n"
 								}
@@ -6042,6 +6100,15 @@
 									"disabled" : 0,
 									"hidden" : 0,
 									"source" : [ "obj-3", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-36", 0 ],
+									"disabled" : 0,
+									"hidden" : 0,
+									"source" : [ "obj-38", 0 ]
 								}
 
 							}
@@ -7866,8 +7933,8 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-4::obj-5::obj-12::obj-71" : [ "Transp", "Transp", 0 ],
 			"obj-4::obj-5::obj-1::obj-71" : [ "Transp[2]", "Transp", 0 ],
+			"obj-4::obj-5::obj-12::obj-71" : [ "Transp", "Transp", 0 ],
 			"obj-4::obj-5::obj-21::obj-71" : [ "Transp[1]", "Transp", 0 ]
 		}
 ,
@@ -7897,6 +7964,18 @@
 			}
 , 			{
 				"name" : "filterEffect~.maxpat",
+				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "delayEffect~.maxpat",
+				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "tapDelay~.maxpat",
 				"bootpath" : "~/Desktop/AudioEffectsBox/Max_MSP",
 				"type" : "JSON",
 				"implicit" : 1
