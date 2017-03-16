@@ -64,5 +64,20 @@
     "pitchShift3": {
         "Wetness": 0.25,
         "Pitch": 0
+    },
+    "overdrive1": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
+    },
+    "overdrive2": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
+    },
+    "overdrive3": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
     }
 }
