@@ -1,0 +1,18 @@
+// Action types
+
+export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
+export const ADD_EFFECT = 'ADD_EFFECT';
+export const UPDATE_PARAMETER_VALUE = 'UPDATE_PARAMETER_VALUE';
+export const TOGGLE_MAPPING = 'TOGGLE_MAPPING';
+export const MAP_TO_PARAMETER = 'MAP_TO_PARAMETER';
+export const RECEIVE_LEAP_DATA = 'RECEIVE_LEAP_DATA';
+export const RECEIVE_LEAP_STATUS = 'RECEIVE_LEAP_STATUS';
+export const REMOVE_EFFECT = 'REMOVE_EFFECT';
+export const TOGGLE_BYPASS = 'TOGGLE_BYPASS';
+export const TOGGLE_SOLO = 'TOGGLE_SOLO';
+export const EMIT = 'EMIT';
+export const REMOVE_MAPPING = 'REMOVE_MAPPING';
+export const REORDER_EFFECTS = 'REORDER_EFFECTS';
+
+// Action creators
+
