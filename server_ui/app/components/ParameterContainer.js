@@ -15,17 +15,17 @@ import Parameter from './Parameter';
  * @extends external:ReactPureComponent 
  */
 class ParameterContainer extends React.PureComponent {
-    /** 
-     * Creates the ParameterContainer instance. Binds methods to this instance. Retrives the parameter's value 
-     *     and calls this.props.onParameterChange, which is used to update the app state of the parameters, 
-     *     and emit the initial value of the Parameter.
-     */
+    /** Creates the ParameterContainer instance. Binds methods to this instance. */
     constructor() {
         super();
         this.handleMappingClick = this.handleMappingClick.bind(this);
         this.handleDrag = this.handleDrag.bind(this);
     }
 
+    /**
+     * Retrives the parameter's value and calls this.props.onParameterChange, which is used to update the app state 
+     *     of the parameters, and emit the initial value of the Parameter.
+     */
     componentWillMount() {
         const info = this.props.info.set('paramValue', this.props.value);
         this.props.onParameterChange(Immutable.List([info]));
@@ -39,8 +39,8 @@ class ParameterContainer extends React.PureComponent {
      * @param {Number} max - Equal to the height of the fader's containing element
      */
     handleDrag(yValue, max) {
-        let value =                                 //Make sure the value is within the bounds of the draggable area
-            yValue < 0 ? 0                          //Normalize it on a scale of 0-1
+        let value =
+            yValue < 0 ? 0
             : yValue > max ? 1
             : yValue/max
         value = Math.round(value * 1000)/1000;

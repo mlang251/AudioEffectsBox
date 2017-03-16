@@ -25,8 +25,8 @@ class SignalChainContainer extends React.PureComponent {
      * Creates an interable of EffectContainer components by iterating through props.effects and assigning props.
      * @returns {external:List} An Immutable List containing EffectContainer components
      */
-    createEffects() {
-        return this.props.effects.map((effect, index) => {
+    createEffects(effects) {
+        return effects.map((effect, index) => {
             const {ID, type, isBypassed, isSoloing} = effect.toJS();
             return (
                 <EffectContainer
@@ -56,8 +56,16 @@ class SignalChainContainer extends React.PureComponent {
      * @see module:SignalChain
      */
     render() {
+        const gainEffect = Immutable.List([Immutable.Map({
+            ID: 'gain',
+            type: 'gain',
+            isBypassed: false,
+            isSoloing: false
+        })]);
         return (
-            <SignalChain effects = {this.createEffects()} />
+            <SignalChain 
+                effects = {this.createEffects(this.props.effects)}
+                gain = {this.createEffects(gainEffect)} />
         );
     }
 }
