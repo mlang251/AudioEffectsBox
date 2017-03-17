@@ -79,5 +79,8 @@
         "Wetness": 0.25,
         "Gain": 0.5,
         "Tone": 1
+    },
+    "gain": {
+        "Level": 0.921
     }
 }
