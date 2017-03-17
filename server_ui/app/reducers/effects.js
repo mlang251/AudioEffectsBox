@@ -1,37 +1,36 @@
 import {List, Map} from 'immutable';
 import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS} from '../actions/actions';
 
-const addEffect = (state) => {
-    const usableIDs = this.effects.getIn(['effects', effectType, 'IDs']);
-    const usedIDs = state.map(effect => effect.ID);
-    usableIDs.forEach((curID, index) => {
-        if (usedIDs.includes(curID)) {
-            if (index == usableIDs.size - 1) {
-                alert(`Maximum number of ${effectType} effects reached.`);
-            }
-        } else {
-            const newEffectsArray = this.state.effects.push(Immutable.fromJS({
+const effects = (state = List(), action) => {
+    const {effectType, ID, direction} = action.payload;
+    switch (action.type) {
+        case ADD_EFFECT:
+            return state.push(Immutable.fromJS({
                 type: effectType,
-                ID: curID,
+                ID: ID,
                 isBypassed: false,
                 isSoloing: false
             }));
-            this.setState(({usedIDs, effects}) => ({
-                usedIDs: usedIDs.push(curID).sort(),
-                effects: newEffectsArray
-            }));
-            this.createRoutes(newEffectsArray);
-            return false;
-        }
-    });
-}
-
-const effects = (state = List(), action) => {
-    switch (action.type) {
-        case ADD_EFFECT:
-            return state.push(addEffect(state));
         case REMOVE_EFFECT:
+            return state.filter((effect) => effect.ID != ID);
         case REORDER_EFFECTS:
+            let effectsList;
+            if (direction == 'left') {
+                effectsList = state.asMutable().reverse();
+            } else {
+                effectsList = state.asMutable();
+            }
+            effectsList = effectsList.sort((effectA, effectB) => {
+                if (effectA.get('ID') == ID) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            });
+            if (direction == 'left') {
+                effectsList = effectsList.reverse();
+            }
+            return effectsList.asImmutable(); 
         default:
             return state;
     }

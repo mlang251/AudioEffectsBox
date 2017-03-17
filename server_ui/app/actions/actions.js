@@ -26,11 +26,12 @@ export const updateMessage = (message) => {
     };
 };
 
-export const addEffect = (effectType) => {
+export const addEffect = (effectType, ID) => {
     return {
         type: ADD_EFFECT,
         payload: {
-            effectType
+            effectType,
+            ID
         }
     };
 };
@@ -94,11 +95,11 @@ export const receiveLeapStatus = (address, args) => {
     };
 };
 
-export const removeEffect = (effectID) => {
+export const removeEffect = (ID) => {
     return {
         type: REMOVE_EFFECT,
         payload: {
-            effectID
+            ID
         }
     };
 };
@@ -146,7 +147,7 @@ export const reorderEffects = (effectID, direction) => {
     return {
         type: REORDER_EFFECTS,
         payload: {
-            effectID,
+            ID,
             direction
         }
     };
