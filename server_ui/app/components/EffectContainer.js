@@ -127,7 +127,7 @@ class EffectContainer extends React.PureComponent {
         return (
             <Effect
                 params = {this.createParameters(this.effect)}
-                renderButtons = {this.props.type == 'gain'}
+                renderButtons = {this.props.type != 'gain'}
                 reorderButtonLeft = {this.props.reorderButtonLeft ? this.createReorderButtons('left') : null}
                 reorderButtonRight = {this.props.reorderButtonRight ? this.createReorderButtons('right') : null}
                 bypassStyle = {this.props.isBypassed ? 'isActive' : 'isNotActive'}

@@ -90,6 +90,7 @@ class AppContainer extends React.Component {
         /**
          * @member {Object} state
          * @property {string} message - A message to be displayed at the top of the app
+         * @property {Number} counter - A counter used to keep track of how many Leap data sets have been received
          * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
          * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with
          *     the effects in the signal chain
@@ -169,10 +170,10 @@ class AppContainer extends React.Component {
     }
 
     /**
-     * After the app is mounted, create the web sockets for communication with the server
+     * Before the app is mounted, create the web sockets for communication with the server
      *     Emits a routing message to establish the initial input > output audio chain
      */
-    componentDidMount() {
+    componentWillMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
         this.socket.on('leapData', this.leapDataFramerateThrottle);
@@ -230,6 +231,11 @@ class AppContainer extends React.Component {
         }
     }
 
+    /**
+     * Throttles the refresh rate of the app when Leap data is received. Maintains a counter and only calls
+     *     this.receiveLeapData with ever third set of data received.
+     * @param {Number[]} data - An array of floats representing the x, y, z coordinates of the user's hand.
+     */
     leapDataFramerateThrottle(data) {
         if (this.state.counter % 3 == 0) {
             this.receiveLeapData(data);

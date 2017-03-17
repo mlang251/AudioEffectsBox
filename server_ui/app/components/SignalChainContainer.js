@@ -24,6 +24,7 @@ class SignalChainContainer extends React.PureComponent {
 
     /**
      * Creates an interable of EffectContainer components by iterating through props.effects and assigning props.
+     * @param {external:List.<Effect>} effects - An Immutable List containing effects to be created
      * @returns {external:List} An Immutable List containing EffectContainer components
      */
     createEffects(effects) {
@@ -46,7 +47,7 @@ class SignalChainContainer extends React.PureComponent {
                     handleSoloButtonClick = {this.props.toggleSolo} 
                     handleRemoveMappingClick = {this.props.removeMapping}
                     reorderButtonLeft = {index != 0}
-                    reorderButtonRight = {index != this.props.effects.size - 1} 
+                    reorderButtonRight = {index != effects.size - 1} 
                     handleReorderButtonClick = {this.props.reorderEffects} />
             );
         });

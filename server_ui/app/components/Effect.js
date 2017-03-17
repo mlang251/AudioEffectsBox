@@ -24,8 +24,11 @@ class Effect extends React.PureComponent {
      * @see module:ParameterContainer
      */
     render() {
+        const effectStyle = this.props.renderButtons ?
+            Object.assign({}, styles.effectDiv, styles.effectPadding) :
+            styles.effectDiv;
         return (
-            <div style = {styles.effectDiv}>
+            <div style = {effectStyle}>
                 <div style = {styles.headerDiv}>
                     <p style = {styles.effectTitle}>{this.props.effectName}</p>
                     <div style = {this.props.renderButtons ? styles.buttonDiv : {display: 'none'}}>
@@ -66,9 +69,11 @@ const styles = {
         borderStyle: 'solid',
         borderColor: '#333',
         boxShadow: 'inset 0 0 5px #AAA',
-        borderRadius: 5,
+        borderRadius: 5
+    },
+    effectPadding: {
         paddingLeft: 40,
-        paddingRight: 40,
+        paddingRight: 40
     },
     headerDiv: {
         paddingLeft: 15,
