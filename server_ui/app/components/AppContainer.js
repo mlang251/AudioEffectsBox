@@ -212,7 +212,9 @@ class AppContainer extends React.Component {
                 const dimensions = JSON.parse(args);
                 this.setState(({interactionBox}) => ({
                     interactionBox: interactionBox.update('isConnected', value => true)
-                        .update('dimensions', value => this.state.interactionBox.get('dimensions').merge(Immutable.fromJS(dimensions)))
+                        .update('dimensions', value => this.state.interactionBox
+                        .get('dimensions')
+                        .merge(Immutable.fromJS(dimensions)))
                 }));
                 break;
             case '/BoundStatus':
@@ -527,22 +529,21 @@ class AppContainer extends React.Component {
      *     Performs the sorting by iterating through the effects in the signal chain, when it finds the specified effect,
      *     it nudges it one step closer to the end of the list. To make this sorting work in both directions, if the direction
      *     value is 'left', it reverses the list, sorts the list as previously described, and then reverses the sorted list.
-     *     It then calls this.createRoutes with the sorted list to emit a routing message, and then updates the state of the
-     *     effects in the signal chain.
+     *     The boolean, isReordered, is set to true once the reordering takes place so that the effect does not continue to
+     *     get pushed to the end of the list. It then calls this.createRoutes with the sorted list to emit a routing message,
+     *     and then updates the state of the effects in the signal chain.
      * @param {string} effectID - The unique ID of the effect in the signal chain to move.
      * @param {string} direction - The direction to in which to nudge the selected effect. A value of 'left' will
      *     nudge the effect one step closer to the raw audio input and a direction of 'right' will nudge the effect
      *     one step closer to the final output.
      */
     reorderEffects(effectID, direction) {
-        let effectsList;
-        if (direction == 'left') {
-            effectsList = this.state.effects.asMutable().reverse();
-        } else {
-            effectsList = this.state.effects.asMutable();
-        }
+        let effectsList = this.state.effects.asMutable();
+        let isReordered = false;
+        effectsList = direction == 'left' ? effectsList.reverse() : effectsList;
         effectsList = effectsList.sort((effectA, effectB) => {
-            if (effectA.get('ID') == effectID) {
+            if (effectA.get('ID') == effectID && !isReordered) {
+                isReordered = true;
                 return 1;
             } else {
                 return 0;
