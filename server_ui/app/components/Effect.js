@@ -24,14 +24,14 @@ class Effect extends React.PureComponent {
      * @see module:ParameterContainer
      */
     render() {
-        const effectStyle = this.props.renderButtons ?
-            Object.assign({}, styles.effectDiv, styles.effectPadding) :
-            styles.effectDiv;
+        const effectStyle = this.props.isGainBlock ?
+            Object.assign({}, styles.effectDiv, styles.floatRight) :
+            Object.assign({}, styles.effectDiv, styles.effectPadding);
         return (
             <div style = {effectStyle}>
                 <div style = {styles.headerDiv}>
                     <p style = {styles.effectTitle}>{this.props.effectName}</p>
-                    <div style = {this.props.renderButtons ? styles.buttonDiv : {display: 'none'}}>
+                    <div style = {!this.props.isGainBlock ? styles.buttonDiv : {display: 'none'}}>
                         <button
                             key = {`${this.props.ID}Solo`}
                             type = 'button'
@@ -75,12 +75,16 @@ const styles = {
         paddingLeft: 40,
         paddingRight: 40
     },
+    floatRight: {
+        float: 'right'
+    },
     headerDiv: {
         paddingLeft: 15,
         paddingRight: 15
     },
     buttonDiv: {
-        display: 'inline-block'
+        display: 'inline-block',
+        float: 'right'
     },
     effectTitle: {
         display: 'inline-block'

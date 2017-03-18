@@ -38,8 +38,8 @@ class Parameter extends React.PureComponent {
                         axis = 'y'
                         bounds = 'parent'
                         disabled = {this.props.isMapping}
-                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
-                        onDrag = {(e, data) => {this.props.handleDrag(data.y, styles.slotDiv.height)}}>
+                        position = {{x: 0, y: (1 - this.props.value) * styles.slotDiv.height}}
+                        onDrag = {(e, data) => {this.props.handleDrag(styles.slotDiv.height - data.y, styles.slotDiv.height)}}>
                         <div style = {styles.faderDiv}></div>
                     </Draggable>
                 </div>

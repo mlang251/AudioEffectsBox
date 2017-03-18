@@ -54,11 +54,19 @@ const styles = {
     },
     signalChain: {
         display: 'inline-block',
+        float: 'left',
         height: '100%',
-        width: '90%'
+        width: '90%',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        whiteSpace: 'nowrap',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000'
     },
     gainBlock: {
         display: 'inline-block',
+        float: 'right',
         height: '100%',
         width: '10%'
     }
