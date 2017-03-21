@@ -11,8 +11,10 @@ const effects = (state = List(), action) => {
                 isBypassed: false,
                 isSoloing: false
             }));
+            break;
         case REMOVE_EFFECT:
             return state.filter((effect) => effect.ID != ID);
+            break;
         case REORDER_EFFECTS:
             let effectsList;
             if (direction == 'left') {
@@ -31,8 +33,10 @@ const effects = (state = List(), action) => {
                 effectsList = effectsList.reverse();
             }
             return effectsList.asImmutable(); 
+            break;
         default:
             return state;
+            break;
     }
 }
 

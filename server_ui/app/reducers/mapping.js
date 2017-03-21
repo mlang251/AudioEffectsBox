@@ -6,8 +6,10 @@ const mapping = (state = Map(), action) => {
     switch (action.type) {
         case TOGGLE_MAPPING:
             return state.update('isMapping', value => !state.get('isMapping')).update('currentAxis', value => axisName ? axisName : '');
+            break;
         default:
             return state;
+            break;
     }
 }
 

@@ -21,10 +21,13 @@ const xyzMap = (state = initialState, action) => {
     switch (action.type) {
         case MAP_TO_PARAMETER:
             return state.updateIn([axis, 'effectID'], value => effectID).updateIn([axis, 'param'], value => paramName)
+            break;
         case REMOVE_MAPPING:
             return state.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined);
+            break;
         default:
             return state;
+            break;
     }
 }
 
