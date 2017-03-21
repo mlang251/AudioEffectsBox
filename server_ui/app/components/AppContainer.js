@@ -235,16 +235,18 @@ class AppContainer extends React.Component {
 
     /**
      * Throttles the refresh rate of the app when Leap data is received. Maintains a counter and only calls
-     *     this.receiveLeapData with ever third set of data received.
+     *     this.receiveLeapData with every third set of data received.
      * @param {Number[]} data - An array of floats representing the x, y, z coordinates of the user's hand.
      */
     leapDataFramerateThrottle(data) {
         if (this.state.counter % 3 == 0) {
             this.receiveLeapData(data);
+            this.setState({counter: 1});
+        } else {
+            this.setState(({counter}) => ({
+                counter: counter + 1
+            }));
         }
-        this.setState(({counter}) => ({
-            counter: counter += 1
-        }));
     }
 
     /**
