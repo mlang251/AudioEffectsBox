@@ -5,7 +5,7 @@ const effects = (state = List(), action) => {
     const {effectType, ID, direction} = action.payload;
     switch (action.type) {
         case ADD_EFFECT:
-            return state.push(Immutable.fromJS({
+            return state.push(Immutable.Map({
                 type: effectType,
                 ID: ID,
                 isBypassed: false,

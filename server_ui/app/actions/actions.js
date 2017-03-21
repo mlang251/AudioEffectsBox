@@ -45,11 +45,13 @@ export const createRoutes = (effectsArray) => {
     };
 };
 
-export const updateParameterValue = (paramInfo, wasChangedByLeap) => {
+export const updateParameterValue = (effectID, paramName, paramValue, wasChangedByLeap) => {
     return {
         type: UPDATE_PARAMETER_VALUE,
         payload: {
-            paramInfo,
+            effectID,
+            paramName,
+            paramValue,
             wasChangedByLeap
         }
     };
