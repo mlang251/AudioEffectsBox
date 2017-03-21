@@ -66,14 +66,13 @@ export const toggleMapping = (axisName) => {
     };
 };
 
-// In current app, we get axisName from the current state, maybe do the same here
-export const mapToParameter = (effectID, paramName, _axisName_) => {
+export const mapToParameter = (effectID, paramName, axis) => {
     return {
         type: MAP_TO_PARAMETER,
         payload: {
             effectID,
             paramName,
-            _axisName_
+            axis
         }
     };
 };
@@ -134,13 +133,11 @@ export const emit = (eventName, data) => {
     };
 };
 
-export const removeMapping = (axis, effectID, paramName) => {
+export const removeMapping = (axis) => {
     return {
         type: REMOVE_MAPPING,
         payload: {
-            axis,
-            effectID,
-            paramName
+            axis
         }
     };
 };
