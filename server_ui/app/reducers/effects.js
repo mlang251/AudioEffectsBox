@@ -1,11 +1,11 @@
 import {List, Map} from 'immutable';
-import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS} from '../actions/actions';
+import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../actions/actions';
 
 const effects = (state = List(), action) => {
     const {effectType, ID, direction} = action.payload;
     switch (action.type) {
         case ADD_EFFECT:
-            return state.push(Immutable.Map({
+            return state.push(Map({
                 type: effectType,
                 ID: ID,
                 isBypassed: false,
@@ -33,6 +33,15 @@ const effects = (state = List(), action) => {
                 effectsList = effectsList.reverse();
             }
             return effectsList.asImmutable(); 
+            break;
+        case TOGGLE_BYPASS:
+        case TOGGLE_SOLO:
+            const index = state.findIndex(effect => {
+                return effect.get('ID') == ID;
+            });
+            return action.type == TOGGLE_BYPASS ?
+                state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed']))) :
+                state.update(index, effect => effect.update('isSoloing', value => !state.get(index).get('isSoloing'])));
             break;
         default:
             return state;

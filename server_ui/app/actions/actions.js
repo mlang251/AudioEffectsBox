@@ -2,7 +2,6 @@
 
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
 export const ADD_EFFECT = 'ADD_EFFECT';
-export const CREATE_ROUTES = 'CREATE_ROUTES';
 export const UPDATE_PARAMETER_VALUE = 'UPDATE_PARAMETER_VALUE';
 export const TOGGLE_MAPPING = 'TOGGLE_MAPPING';
 export const MAP_TO_PARAMETER = 'MAP_TO_PARAMETER';
@@ -11,7 +10,6 @@ export const RECEIVE_LEAP_STATUS = 'RECEIVE_LEAP_STATUS';
 export const REMOVE_EFFECT = 'REMOVE_EFFECT';
 export const TOGGLE_BYPASS = 'TOGGLE_BYPASS';
 export const TOGGLE_SOLO = 'TOGGLE_SOLO';
-export const EMIT = 'EMIT';
 export const REMOVE_MAPPING = 'REMOVE_MAPPING';
 export const REORDER_EFFECTS = 'REORDER_EFFECTS';
 
@@ -36,23 +34,13 @@ export const addEffect = (effectType, ID) => {
     };
 };
 
-export const createRoutes = (effectsArray) => {
-    return {
-        type: CREATE_ROUTES,
-        payload: {
-            effectsArray
-        }
-    };
-};
-
-export const updateParameterValue = (effectID, paramName, paramValue, wasChangedByLeap) => {
+export const updateParameterValue = (effectID, paramName, paramValue) => {
     return {
         type: UPDATE_PARAMETER_VALUE,
         payload: {
             effectID,
             paramName,
-            paramValue,
-            wasChangedByLeap
+            paramValue
         }
     };
 };
@@ -105,30 +93,20 @@ export const removeEffect = (ID) => {
     };
 };
 
-export const toggleBypass = (effectID) => {
+export const toggleBypass = (ID) => {
     return {
         type: TOGGLE_BYPASS,
         payload: {
-            effectID
+            ID
         }
     };
 };
 
-export const toggleSolo = (effectID) => {
+export const toggleSolo = (ID) => {
     return {
         type: TOGGLE_SOLO,
         payload: {
-            effectID
-        }
-    };
-};
-
-export const emit = (eventName, data) => {
-    return {
-        type: EMIT,
-        payload: {
-            eventName,
-            data
+            ID
         }
     };
 };

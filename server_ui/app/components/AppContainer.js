@@ -457,7 +457,7 @@ class AppContainer extends React.Component {
 
         if (xyzMapMutable.getIn([axisName, 'effectID'])) {
             const {effectID, param} = xyzMapMutable.get(axisName).toJS();
-            this.socket.emit('xyzMap', {
+            this.emit('xyzMap', {
                 effectID: effectID,
                 param: param,
                 axis: 'n'
@@ -474,7 +474,7 @@ class AppContainer extends React.Component {
         xyzMapMutable.updateIn([axisName, 'effectID'], value => effectID);
         xyzMapMutable.updateIn([axisName, 'param'], value => paramName);
 
-        this.socket.emit('xyzMap', {
+        this.emit('xyzMap', {
             effectID: effectID,
             param: paramName,
             axis: axisName
