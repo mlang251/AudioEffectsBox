@@ -3,7 +3,7 @@ const io = require('socket.io')();
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 
-const leapDataCounter = 0;
+let leapDataCounter = 0;
 
 //Instantiate the server
 let app = express();
@@ -40,7 +40,7 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
-    if (leapDataCounter % 3 == 0) {
+    if (leapDataCounter % 6 == 0) {
         io.emit('leapData', data);
         leapDataCounter = 1;
     } else {
