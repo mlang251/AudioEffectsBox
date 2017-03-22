@@ -1,8 +1,9 @@
+import * as types from './actionTypes';
 // Action creators
 
 export const updateMessage = (message) => {
     return {
-        type: UPDATE_MESSAGE,
+        type: types.UPDATE_MESSAGE,
         payload: {
             message
         }
@@ -11,7 +12,7 @@ export const updateMessage = (message) => {
 
 export const toggleMapping = (axisName) => {
     return {
-        type: TOGGLE_MAPPING,
+        type: types.TOGGLE_MAPPING,
         payload: {
             axisName
         }
@@ -20,7 +21,7 @@ export const toggleMapping = (axisName) => {
 
 export const addEffect = (effectType, ID) => {
     return {
-        type: ADD_EFFECT,
+        type: types.ADD_EFFECT,
         payload: {
             effectType,
             ID
@@ -30,7 +31,7 @@ export const addEffect = (effectType, ID) => {
 
 export const removeEffect = (ID) => {
     return {
-        type: REMOVE_EFFECT,
+        type: types.REMOVE_EFFECT,
         payload: {
             ID
         }
@@ -39,7 +40,7 @@ export const removeEffect = (ID) => {
 
 export const toggleBypass = (ID) => {
     return {
-        type: TOGGLE_BYPASS,
+        type: types.TOGGLE_BYPASS,
         payload: {
             ID
         }
@@ -48,7 +49,7 @@ export const toggleBypass = (ID) => {
 
 export const reorderEffects = (effectID, direction) => {
     return {
-        type: REORDER_EFFECTS,
+        type: types.REORDER_EFFECTS,
         payload: {
             ID,
             direction
@@ -58,7 +59,7 @@ export const reorderEffects = (effectID, direction) => {
 
 export const toggleSolo = (ID) => {
     return {
-        type: TOGGLE_SOLO,
+        type: types.TOGGLE_SOLO,
         payload: {
             ID
         }
@@ -67,7 +68,7 @@ export const toggleSolo = (ID) => {
 
 export const receiveLeapData = (data) => {
     return {
-        type: RECEIVE_LEAP_DATA,
+        type: types.RECEIVE_LEAP_DATA,
         payload: {
             data
         }
@@ -76,7 +77,7 @@ export const receiveLeapData = (data) => {
 
 export const receiveLeapStatus = (address, args) => {
     return {
-        type: RECEIVE_LEAP_STATUS,
+        type: types.RECEIVE_LEAP_STATUS,
         payload: {
             address,
             args
@@ -86,7 +87,7 @@ export const receiveLeapStatus = (address, args) => {
 
 export const updateParameterValue = (effectID, paramName, paramValue) => {
     return {
-        type: UPDATE_PARAMETER_VALUE,
+        type: types.UPDATE_PARAMETER_VALUE,
         payload: {
             effectID,
             paramName,
@@ -97,7 +98,7 @@ export const updateParameterValue = (effectID, paramName, paramValue) => {
 
 export const mapToParameter = (effectID, paramName, axis) => {
     return {
-        type: MAP_TO_PARAMETER,
+        type: types.MAP_TO_PARAMETER,
         payload: {
             effectID,
             paramName,
@@ -108,7 +109,7 @@ export const mapToParameter = (effectID, paramName, axis) => {
 
 export const removeMapping = (axis) => {
     return {
-        type: REMOVE_MAPPING,
+        type: types.REMOVE_MAPPING,
         payload: {
             axis
         }
