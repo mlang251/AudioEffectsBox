@@ -44,7 +44,7 @@ describe('effects reducer', () => {
             }
         })).toEqual(List());
     });
-    test('should handle REORDER_EFFECTS', () => {
+    test('should handle REORDER_EFFECTS to the left', () => {
         const initialState = List([
             Map({
                 effectType: 'reverb',
@@ -89,6 +89,56 @@ describe('effects reducer', () => {
             Map({
                 effectType: 'reverb',
                 effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]));
+    });
+    test('should handle REORDER_EFFECTS to the right', () => {
+        const initialState = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb3',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]);
+        const effectID = 'reverb1';
+        const direction = 'right';
+        expect(effects(initialState, {
+            type: REORDER_EFFECTS,
+            payload: {
+                effectID,
+                direction
+            }
+        })).toEqual(List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb3',
                 isBypassed: false,
                 isSoloing: false
             })
