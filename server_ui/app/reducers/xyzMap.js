@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {MAP_TO_PARAMETER, REMOVE_MAPPING} from '../actions/actions';
+import {MAP_TO_PARAMETER, REMOVE_MAPPING} from '../actions/actionTypes';
 
 const initialState = Map({
     x: Map({

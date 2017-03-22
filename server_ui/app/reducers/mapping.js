@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {TOGGLE_MAPPING} from '../actions/actions';
+import {TOGGLE_MAPPING} from '../actions/actionTypes';
 
 const mapping = (state = Map(), action) => {
     const {axisName} = action.payload;

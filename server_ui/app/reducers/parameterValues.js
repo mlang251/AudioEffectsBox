@@ -1,5 +1,5 @@
 import {List} from 'immutable';
-import {UPDATE_PARAMETER_VALUE} from '../actions/actions';
+import {UPDATE_PARAMETER_VALUE} from '../actions/actionTypes';
 
 const parameterValues = (state = List(), action) => {
     const {effectID, paramName, paramValue} = action.payload;

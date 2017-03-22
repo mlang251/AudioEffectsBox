@@ -1,4 +1,4 @@
-import {UPDATE_MESSAGE} from '../actions/actions';
+import {UPDATE_MESSAGE} from '../actions/actionTypes';
 
 const message = (state = '', action) => {
     const {message} = action.payload;

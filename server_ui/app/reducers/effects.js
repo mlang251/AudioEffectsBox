@@ -1,5 +1,5 @@
 import {List, Map} from 'immutable';
-import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../actions/actions';
+import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../actions/actionTypes';
 
 const effects = (state = List(), action) => {
     const {effectType, ID, direction} = action.payload;
