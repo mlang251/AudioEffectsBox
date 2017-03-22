@@ -3,7 +3,7 @@ state = {
     effects: Immutable.List([
         Immutable.Map({
             type: 'reverb',
-            ID: 'reverb1',
+            effectID: 'reverb1',
             isBypassed: false,
             isSoloing: false
         })

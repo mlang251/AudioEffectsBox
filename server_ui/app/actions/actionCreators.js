@@ -19,30 +19,21 @@ export const toggleMapping = (axisName) => {
     };
 };
 
-export const addEffect = (effectType, ID) => {
+export const addEffect = (effectType, effectID) => {
     return {
         type: types.ADD_EFFECT,
         payload: {
             effectType,
-            ID
+            effectID
         }
     };
 };
 
-export const removeEffect = (ID) => {
+export const removeEffect = (effectID) => {
     return {
         type: types.REMOVE_EFFECT,
         payload: {
-            ID
-        }
-    };
-};
-
-export const toggleBypass = (ID) => {
-    return {
-        type: types.TOGGLE_BYPASS,
-        payload: {
-            ID
+            effectID
         }
     };
 };
@@ -51,17 +42,26 @@ export const reorderEffects = (effectID, direction) => {
     return {
         type: types.REORDER_EFFECTS,
         payload: {
-            ID,
+            effectID,
             direction
         }
     };
 };
 
-export const toggleSolo = (ID) => {
+export const toggleBypass = (effectID) => {
+    return {
+        type: types.TOGGLE_BYPASS,
+        payload: {
+            effectID
+        }
+    };
+};
+
+export const toggleSolo = (effectID) => {
     return {
         type: types.TOGGLE_SOLO,
         payload: {
-            ID
+            effectID
         }
     };
 };
