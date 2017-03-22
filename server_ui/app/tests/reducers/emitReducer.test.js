@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import emit from '../reducers/emit';
+import emit from '../../reducers/emit';
 
 describe('emit reducer', () => {
     test('should return initial state', () => {

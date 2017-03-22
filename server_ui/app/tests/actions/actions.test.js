@@ -1,5 +1,5 @@
-import * as types from '../actions/actionTypes';
-import * as actions from '../actions/actionCreators';
+import * as types from '../../actions/actionTypes';
+import * as actions from '../../actions/actionCreators';
 
 describe('actions', () => {
     test('should create an action to update the message', () => {
