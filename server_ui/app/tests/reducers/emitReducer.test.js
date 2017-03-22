@@ -1,16 +1,16 @@
 import {Map} from 'immutable';
-import emit from '../../reducers/emit';
+import emitReducer from '../../reducers/emit';
 
 describe('emit reducer', () => {
     test('should return initial state', () => {
-        expect(emit(undefined, {
+        expect(emitReducer(undefined, {
             type: undefined,
             data: undefined
         })).toEqual(Map());
     });
     test('should handle route', () => {
         const data = {input: 'output'};
-        expect(emit(undefined, {
+        expect(emitReducer(undefined, {
             type: 'route',
             data
         })).toEqual(Map({
@@ -23,7 +23,7 @@ describe('emit reducer', () => {
             paramName: 'Liveness',
             paramValue: 0.254
         }
-        expect(emit(undefined, {
+        expect(emitReducer(undefined, {
             type: 'updateParam',
             data
         })).toEqual(Map({
@@ -36,7 +36,7 @@ describe('emit reducer', () => {
             param: 'Liveness',
             axis: 'x'
         }
-        expect(emit(undefined, {
+        expect(emitReducer(undefined, {
             type: 'xyzMap',
             data
         })).toEqual(Map({

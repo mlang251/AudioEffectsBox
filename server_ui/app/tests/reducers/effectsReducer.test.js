@@ -1,10 +1,10 @@
 import {List, Map} from 'immutable';
 import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../../actions/actionTypes';
-import effects from '../../reducers/effects';
+import effectsReducer from '../../reducers/effects';
 
 describe('effects reducer', () => {
     test('should return initial state', () => {
-        expect(effects(undefined, {
+        expect(effectsReducer(undefined, {
             type: undefined,
             payload: {}
         })).toEqual(List());
@@ -12,7 +12,7 @@ describe('effects reducer', () => {
     test('should handle ADD_EFFECT', () => {
         const effectType = 'reverb'
         const effectID = 'reverb1'
-        expect(effects(List(), {
+        expect(effectsReducer(List(), {
             type: ADD_EFFECT,
             payload: {
                 effectType,
@@ -37,7 +37,7 @@ describe('effects reducer', () => {
             })
         ]);
         const effectID = 'reverb1';
-        expect(effects(initialState, {
+        expect(effectsReducer(initialState, {
             type: REMOVE_EFFECT,
             payload: {
                 effectID
@@ -67,7 +67,7 @@ describe('effects reducer', () => {
         ]);
         const effectID = 'reverb3';
         const direction = 'left';
-        expect(effects(initialState, {
+        expect(effectsReducer(initialState, {
             type: REORDER_EFFECTS,
             payload: {
                 effectID,
@@ -117,7 +117,7 @@ describe('effects reducer', () => {
         ]);
         const effectID = 'reverb1';
         const direction = 'right';
-        expect(effects(initialState, {
+        expect(effectsReducer(initialState, {
             type: REORDER_EFFECTS,
             payload: {
                 effectID,
@@ -154,7 +154,7 @@ describe('effects reducer', () => {
             })
         ]);
         const effectID = 'reverb1';
-        expect(effects(initialState, {
+        expect(effectsReducer(initialState, {
             type: TOGGLE_BYPASS,
             payload: {
                 effectID
@@ -178,7 +178,7 @@ describe('effects reducer', () => {
             })
         ]);
         const effectID = 'reverb1';
-        expect(effects(initialState, {
+        expect(effectsReducer(initialState, {
             type: TOGGLE_SOLO,
             payload: {
                 effectID

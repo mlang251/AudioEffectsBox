@@ -29,6 +29,7 @@ const interactionBox = (state = initialState, action) => {
                 case '/TrackingMode':
                     return state.update('isTracking', value => args[0] ? true : false)
                 default:
+                    return;
             }
         default:
             return state;
