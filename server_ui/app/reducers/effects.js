@@ -22,7 +22,7 @@ const effects = (state = List(), action) => {
             }
             let isSorted = false;
             effectsList = effectsList.sort((effectA, effectB) => {
-                if (effectA.get('effectID') == effectID && !isSorted) {
+                if (!isSorted && effectA.get('effectID') == effectID) {
                     isSorted = true;
                     return 1;
                 } else {
