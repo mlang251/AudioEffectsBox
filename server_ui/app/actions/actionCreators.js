@@ -10,11 +10,11 @@ export const updateMessage = (message) => {
     };
 };
 
-export const toggleMapping = (axisName) => {
+export const toggleMapping = (axis) => {
     return {
         type: types.TOGGLE_MAPPING,
         payload: {
-            axisName
+            axis
         }
     };
 };
