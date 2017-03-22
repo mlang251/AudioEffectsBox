@@ -1,17 +1,17 @@
 // Action types
 
 export const UPDATE_MESSAGE = 'UPDATE_MESSAGE';
-export const ADD_EFFECT = 'ADD_EFFECT';
-export const UPDATE_PARAMETER_VALUE = 'UPDATE_PARAMETER_VALUE';
 export const TOGGLE_MAPPING = 'TOGGLE_MAPPING';
-export const MAP_TO_PARAMETER = 'MAP_TO_PARAMETER';
-export const RECEIVE_LEAP_DATA = 'RECEIVE_LEAP_DATA';
-export const RECEIVE_LEAP_STATUS = 'RECEIVE_LEAP_STATUS';
+export const ADD_EFFECT = 'ADD_EFFECT';
 export const REMOVE_EFFECT = 'REMOVE_EFFECT';
+export const REORDER_EFFECTS = 'REORDER_EFFECTS';
 export const TOGGLE_BYPASS = 'TOGGLE_BYPASS';
 export const TOGGLE_SOLO = 'TOGGLE_SOLO';
+export const RECEIVE_LEAP_DATA = 'RECEIVE_LEAP_DATA';
+export const RECEIVE_LEAP_STATUS = 'RECEIVE_LEAP_STATUS';
+export const UPDATE_PARAMETER_VALUE = 'UPDATE_PARAMETER_VALUE';
+export const MAP_TO_PARAMETER = 'MAP_TO_PARAMETER';
 export const REMOVE_MAPPING = 'REMOVE_MAPPING';
-export const REORDER_EFFECTS = 'REORDER_EFFECTS';
 
 // Action creators
 
@@ -20,6 +20,15 @@ export const updateMessage = (message) => {
         type: UPDATE_MESSAGE,
         payload: {
             message
+        }
+    };
+};
+
+export const toggleMapping = (axisName) => {
+    return {
+        type: TOGGLE_MAPPING,
+        payload: {
+            axisName
         }
     };
 };
@@ -34,33 +43,39 @@ export const addEffect = (effectType, ID) => {
     };
 };
 
-export const updateParameterValue = (effectID, paramName, paramValue) => {
+export const removeEffect = (ID) => {
     return {
-        type: UPDATE_PARAMETER_VALUE,
+        type: REMOVE_EFFECT,
         payload: {
-            effectID,
-            paramName,
-            paramValue
+            ID
         }
     };
 };
 
-export const toggleMapping = (axisName) => {
+export const toggleBypass = (ID) => {
     return {
-        type: TOGGLE_MAPPING,
+        type: TOGGLE_BYPASS,
         payload: {
-            axisName
+            ID
         }
     };
 };
 
-export const mapToParameter = (effectID, paramName, axis) => {
+export const reorderEffects = (effectID, direction) => {
     return {
-        type: MAP_TO_PARAMETER,
+        type: REORDER_EFFECTS,
         payload: {
-            effectID,
-            paramName,
-            axis
+            ID,
+            direction
+        }
+    };
+};
+
+export const toggleSolo = (ID) => {
+    return {
+        type: TOGGLE_SOLO,
+        payload: {
+            ID
         }
     };
 };
@@ -84,29 +99,24 @@ export const receiveLeapStatus = (address, args) => {
     };
 };
 
-export const removeEffect = (ID) => {
+export const updateParameterValue = (effectID, paramName, paramValue) => {
     return {
-        type: REMOVE_EFFECT,
+        type: UPDATE_PARAMETER_VALUE,
         payload: {
-            ID
+            effectID,
+            paramName,
+            paramValue
         }
     };
 };
 
-export const toggleBypass = (ID) => {
+export const mapToParameter = (effectID, paramName, axis) => {
     return {
-        type: TOGGLE_BYPASS,
+        type: MAP_TO_PARAMETER,
         payload: {
-            ID
-        }
-    };
-};
-
-export const toggleSolo = (ID) => {
-    return {
-        type: TOGGLE_SOLO,
-        payload: {
-            ID
+            effectID,
+            paramName,
+            axis
         }
     };
 };
@@ -116,16 +126,6 @@ export const removeMapping = (axis) => {
         type: REMOVE_MAPPING,
         payload: {
             axis
-        }
-    };
-};
-
-export const reorderEffects = (effectID, direction) => {
-    return {
-        type: REORDER_EFFECTS,
-        payload: {
-            ID,
-            direction
         }
     };
 };
