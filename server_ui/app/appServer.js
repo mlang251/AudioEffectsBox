@@ -4,6 +4,7 @@ const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 
 let leapDataCounter = 0;
+let framerateThrottleFactor = 3;    // 3 is the lowest this should go. If your UI is lagging, try 6 or 8 or heigher
 
 //Instantiate the server
 let app = express();
@@ -40,7 +41,7 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
-    if (leapDataCounter % 6 == 0) {
+    if (leapDataCounter % framerateThrottleFactor == 0) {
         io.emit('leapData', data);
         leapDataCounter = 1;
     } else {
