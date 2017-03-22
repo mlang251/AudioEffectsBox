@@ -6,14 +6,14 @@ const effects = (state = List(), action) => {
     switch (action.type) {
         case ADD_EFFECT:
             return state.push(Map({
-                type: effectType,
+                effectType: effectType,
                 effectID: effectID,
                 isBypassed: false,
                 isSoloing: false
             }));
             break;
         case REMOVE_EFFECT:
-            return state.filter((effect) => effect.effectID != effectID);
+            return state.filter((effect) => effect.get('effectID') != effectID);
             break;
         case REORDER_EFFECTS:
             let effectsList;
@@ -22,8 +22,10 @@ const effects = (state = List(), action) => {
             } else {
                 effectsList = state.asMutable();
             }
+            let isSorted = false;
             effectsList = effectsList.sort((effectA, effectB) => {
-                if (effectA.get('effectID') == effectID) {
+                if (effectA.get('effectID') == effectID && !isSorted) {
+                    isSorted = true;
                     return 1;
                 } else {
                     return 0;
@@ -40,8 +42,8 @@ const effects = (state = List(), action) => {
                 return effect.get('effectID') == effectID;
             });
             return action.type == TOGGLE_BYPASS ?
-                state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed']))) :
-                state.update(index, effect => effect.update('isSoloing', value => !state.get(index).get('isSoloing'])));
+                state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed'))) :
+                state.update(index, effect => effect.update('isSoloing', value => !state.get(index).get('isSoloing')));
             break;
         default:
             return state;
