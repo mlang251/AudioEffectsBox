@@ -90,7 +90,6 @@ class AppContainer extends React.Component {
         /**
          * @member {Object} state
          * @property {string} message - A message to be displayed at the top of the app
-         * @property {Number} counter - A counter used to keep track of how many Leap data sets have been received
          * @property {external:List.<Effect>} effects - An Immutable List containing the effects in the signal chain
          * @property {external:List.<string>} usedIDs - An Immutable List of the unique IDs associated with
          *     the effects in the signal chain
@@ -114,7 +113,6 @@ class AppContainer extends React.Component {
          */
         this.state = {
             message: '',
-            counter: 0,
             effects: Immutable.List(),
             usedIDs: Immutable.List(),
             parameterValues: Immutable.fromJS(defaults),
@@ -166,7 +164,6 @@ class AppContainer extends React.Component {
         this.emit = this.emit.bind(this);
         this.removeMapping = this.removeMapping.bind(this);
         this.reorderEffects = this.reorderEffects.bind(this);
-        this.leapDataFramerateThrottle = this.leapDataFramerateThrottle.bind(this);
     }
 
     /**
@@ -176,7 +173,7 @@ class AppContainer extends React.Component {
     componentWillMount() {
         this.socket = io('http://localhost:3000');
         this.socket.on('message', this.handleMessage);
-        this.socket.on('leapData', this.leapDataFramerateThrottle);
+        this.socket.on('leapData', this.receiveLeapData);
         this.socket.on('leapStatusUpdate', this.receiveLeapStatus);
         this.emit('route', {input: 'output'});
     }
@@ -230,22 +227,6 @@ class AppContainer extends React.Component {
             default:
                 console.log('OSC message from unknown address received on port 8010');
                 break;
-        }
-    }
-
-    /**
-     * Throttles the refresh rate of the app when Leap data is received. Maintains a counter and only calls
-     *     this.receiveLeapData with every third set of data received.
-     * @param {Number[]} data - An array of floats representing the x, y, z coordinates of the user's hand.
-     */
-    leapDataFramerateThrottle(data) {
-        if (this.state.counter % 3 == 0) {
-            this.receiveLeapData(data);
-            this.setState({counter: 1});
-        } else {
-            this.setState(({counter}) => ({
-                counter: counter + 1
-            }));
         }
     }
 
