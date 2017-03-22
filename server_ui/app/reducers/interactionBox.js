@@ -18,27 +18,20 @@ const interactionBox = (state = initialState, action) => {
     switch (action.type) {
         case RECEIVE_LEAP_DATA:
             return state.update('coords', value => List(data))
-            break;
         case RECEIVE_LEAP_STATUS:
             switch (address) {
                 case '/BoxDimensions':
                     const dimensions = JSON.parse(args);
                     return state.update('isConnected', value => true)
                             .update('dimensions', value => state.get('dimensions').merge(Map(dimensions)))
-                    break;
                 case '/BoundStatus':
                     return state.update('isInBounds', value => args[0] ? true : false)
-                    break;
                 case '/TrackingMode':
                     return state.update('isTracking', value => args[0] ? true : false)
-                    break;
                 default:
-                    break;
             }
-            break;
         default:
             return state;
-            break;
     }
 }
 

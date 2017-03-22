@@ -11,10 +11,8 @@ const effects = (state = List(), action) => {
                 isBypassed: false,
                 isSoloing: false
             }));
-            break;
         case REMOVE_EFFECT:
             return state.filter((effect) => effect.get('effectID') != effectID);
-            break;
         case REORDER_EFFECTS:
             let effectsList;
             if (direction == 'left') {
@@ -35,7 +33,6 @@ const effects = (state = List(), action) => {
                 effectsList = effectsList.reverse();
             }
             return effectsList.asImmutable(); 
-            break;
         case TOGGLE_BYPASS:
         case TOGGLE_SOLO:
             const index = state.findIndex(effect => {
@@ -44,10 +41,8 @@ const effects = (state = List(), action) => {
             return action.type == TOGGLE_BYPASS ?
                 state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed'))) :
                 state.update(index, effect => effect.update('isSoloing', value => !state.get(index).get('isSoloing')));
-            break;
         default:
             return state;
-            break;
     }
 }
 

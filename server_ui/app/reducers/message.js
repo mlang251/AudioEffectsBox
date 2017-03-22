@@ -5,10 +5,8 @@ const message = (state = '', action) => {
     switch (action.type) {
         case UPDATE_MESSAGE:
             return message;
-            break;
         default:
             return state;
-            break;
     }
 };
 

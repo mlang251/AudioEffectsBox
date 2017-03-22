@@ -6,10 +6,8 @@ const parameterValues = (state = List(), action) => {
     switch (action.type) {
         case UPDATE_PARAMETER_VALUE:
             return state.updateIn([effectID, paramName], value => paramValue);
-            break;
         default:
             return state;
-            break;
     }
 }
 
