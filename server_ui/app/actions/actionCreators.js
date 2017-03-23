@@ -87,14 +87,14 @@ export const updateParameterValue = (effectID, paramName, paramValue) => {
     };
 };
 
-export const updateMapping = (mapToParameter, effectID, paramName, axis) => {
+export const updateMapping = (mapToParameter, axis, effectID, paramName) => {
     return {
         type: types.UPDATE_MAPPING,
         payload: {
             mapToParameter,
+            axis,
             effectID,
-            paramName,
-            axis
+            paramName
         }
     };
 };

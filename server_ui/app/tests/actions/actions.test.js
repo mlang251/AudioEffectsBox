@@ -12,16 +12,6 @@ describe('actions', () => {
         };
         expect(actions.updateMessage(message)).toEqual(expectedAction);
     });
-    test('should create an action to turn on axis mapping mode', () => {
-        const axis = 'x';
-        const expectedAction = {
-            type: types.TOGGLE_MAPPING,
-            payload: {
-                axis
-            }
-        };
-        expect(actions.toggleMapping(axis)).toEqual(expectedAction);
-    });
     test('should create an action to add an effect', () => {
         const effectType = 'reverb';
         const effectID = 'reverb1';
@@ -112,19 +102,33 @@ describe('actions', () => {
         };
         expect(actions.updateParameterValue(effectID, paramName, paramValue)).toEqual(expectedAction);
     });
-    test('should create an action to map an axis to a parameter', () => {
-        const effectID = 'reverb1';
-        const paramName = 'Liveness';
+    test('should create an action to turn on axis mapping mode', () => {
+        const mapToParameter = false;
         const axis = 'x';
         const expectedAction = {
-            type: types.MAP_TO_PARAMETER,
+            type: types.UPDATE_MAPPING,
             payload: {
-                effectID,
-                paramName,
+                mapToParameter,
                 axis
             }
         };
-        expect(actions.mapToParameter(effectID, paramName, axis)).toEqual(expectedAction);
+        expect(actions.updateMapping(mapToParameter, axis)).toEqual(expectedAction);
+    });
+    test('should create an action to map an axis to a parameter', () => {
+        const mapToParameter = true;
+        const axis = 'x';
+        const effectID = 'reverb1';
+        const paramName = 'Liveness';
+        const expectedAction = {
+            type: types.UPDATE_MAPPING,
+            payload: {
+                mapToParameter,
+                axis,
+                effectID,
+                paramName
+            }
+        };
+        expect(actions.updateMapping(mapToParameter, axis, effectID, paramName)).toEqual(expectedAction);
     });
     test('should create an action to remove an axis mapping', () => {
         const axis = 'x';

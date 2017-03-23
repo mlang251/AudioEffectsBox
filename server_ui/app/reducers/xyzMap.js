@@ -17,7 +17,7 @@ const initialState = Map({
 });
 
 const xyzMap = (state = initialState, action) => {
-    const {mapToParameter, effectID, paramName, axis} = action.payload;
+    const {mapToParameter, axis, effectID, paramName} = action.payload;
     switch (action.type) {
         case UPDATE_MAPPING:
             return mapToParameter ?

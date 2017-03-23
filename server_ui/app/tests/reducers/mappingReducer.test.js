@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {TOGGLE_MAPPING} from '../../actions/actionTypes';
+import {UPDATE_MAPPING} from '../../actions/actionTypes';
 import mappingReducer from '../../reducers/mapping';
 
 describe('mapping reducer', () => {
@@ -9,13 +9,14 @@ describe('mapping reducer', () => {
             payload: {}
         })).toEqual(Map());
     });
-    test('should handle TOGGLE_MAPPING - turn on mapping mode', () => {
+    test('should handle UPDATE_MAPPING - turn on mapping mode', () => {
         expect(mappingReducer(Map({
             isMapping: false,
             currentAxis: ''
         }), {
-            type: TOGGLE_MAPPING,
+            type: UPDATE_MAPPING,
             payload: {
+                mapToParameter: false,
                 axis: 'x'
             }
         })).toEqual(Map({
@@ -23,13 +24,15 @@ describe('mapping reducer', () => {
             currentAxis: 'x'
         }));
     });
-    test('should handle TOGGLE_MAPPING - turn off mapping mode', () => {
+    test('should handle UPDATE_MAPPING - turn off mapping mode', () => {
         expect(mappingReducer(Map({
             isMapping: true,
             currentAxis: 'x'
         }), {
-            type: TOGGLE_MAPPING,
-            payload: {}
+            type: UPDATE_MAPPING,
+            payload: {
+                mapToParameter: true
+            }
         })).toEqual(Map({
             isMapping: false,
             currentAxis: ''

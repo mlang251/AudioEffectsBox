@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-import {MAP_TO_PARAMETER, REMOVE_MAPPING} from '../../actions/actionTypes';
+import {UPDATE_MAPPING, REMOVE_MAPPING} from '../../actions/actionTypes';
 import xyzMapReducer from '../../reducers/xyzMap';
 
 describe('xyzMap reducer', () => {
@@ -22,7 +22,7 @@ describe('xyzMap reducer', () => {
             })
         }));
     });
-    test('should handle MAP_TO_PARAMETER', () => {
+    test('should handle UPDATE_MAPPING - map axis to parameter', () => {
         expect(xyzMapReducer(Map({
             x: Map({
                 effectID: undefined,
@@ -37,8 +37,9 @@ describe('xyzMap reducer', () => {
                 param: undefined
             })
         }), {
-            type: MAP_TO_PARAMETER,
+            type: UPDATE_MAPPING,
             payload: {
+                mapToParameter: true,
                 effectID: 'reverb1',
                 paramName: 'Liveness',
                 axis: 'x'
@@ -58,7 +59,42 @@ describe('xyzMap reducer', () => {
             })
         }))
     });
-    test('should handle MAP_TO_PARAMETER', () => {
+    test('should handle UPDATE_MAPPING - do not map axis to parameter', () => {
+        expect(xyzMapReducer(Map({
+            x: Map({
+                effectID: undefined,
+                param: undefined
+            }),
+            y: Map({
+                effectID: undefined,
+                param: undefined
+            }),
+            z: Map({
+                effectID: undefined,
+                param: undefined
+            })
+        }), {
+            type: UPDATE_MAPPING,
+            payload: {
+                mapToParameter: false,
+                axis: 'x'
+            }
+        })).toEqual(Map({
+            x: Map({
+                effectID: undefined,
+                param: undefined
+            }),
+            y: Map({
+                effectID: undefined,
+                param: undefined
+            }),
+            z: Map({
+                effectID: undefined,
+                param: undefined
+            })
+        }))
+    });
+    test('should handle REMOVE_MAPPING', () => {
         expect(xyzMapReducer(Map({
             x: Map({
                 effectID: 'reverb1',
