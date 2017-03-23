@@ -5,7 +5,7 @@ const mapping = (state = Map(), action) => {
     const {axis} = action.payload;
     switch (action.type) {
         case TOGGLE_MAPPING:
-            return state.update('isMapping', value => !state.get('isMapping')).update('currentAxis', value => axis ? axis : '');
+            return state.update('isMapping', value => axis ? true : false).update('currentAxis', value => axis ? axis : '');
         default:
             return state;
     }
