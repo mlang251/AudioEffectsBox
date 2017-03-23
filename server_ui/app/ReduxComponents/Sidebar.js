@@ -12,26 +12,30 @@ import Radium from 'radium';
  * Class responsible for rendering the Sidebar component.
  * @extends external:ReactPureComponent 
  */
-class Sidebar extends React.PureComponent {
-    /** Create the Sidebar component instance */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Renders HTML for the Sidebar component
-     */
-    render() {
-        return (
-            <div>
-                <h3>Motion Tracking</h3>
-                {this.props.axisButtons}
-                <h3>Effects</h3>
-                {this.props.effectsButtons}
-            </div>
-        );
-    }
-}
+const Sidebar = ({addEffect, updateMapping, effectsList}) => (
+    <div>
+        <h3>Motion Tracking</h3>
+        {['x', 'y', 'z'].map(axisName => {
+            return (
+                <button
+                    type = 'button'
+                    key = {axisName}
+                    style = {styles.button}
+                    onClick = {() => updateMapping(false, axisName)}>Map {axisName.toUpperCase()}</button>
+            );
+        })}
+        <h3>Effects</h3>
+        {effectsList.map(effectName => {
+            return (
+                <button
+                    type = 'button'
+                    key = {effectName}
+                    style = {styles.button}
+                    onClick = {() => addEffect(effectName.toLowerCase())}>Add {effectName}</button>
+            );
+        })}
+    </div>
+);
 
 /** The Sidebar component */
 export default Radium(Sidebar);

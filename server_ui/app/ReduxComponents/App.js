@@ -4,6 +4,8 @@ import SignalChainContainer from './SignalChainContainer';
 import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
+import {List} from 'immutable';
+import {list as effectsList} from '../JSON/effects';
 
 /**
  * The App module. Responsible for rendering the App and child components. Appears as child component of AppContainer,
@@ -20,7 +22,7 @@ import AppBar from 'material-ui/AppBar';
  * Class responsible for rendering the App and child components.
  * @extends external:ReactPureComponent
  */
-const App = ({message}) => (
+const App = ({message, usedIDs}) => (
     <div>
         <AppBar 
             showMenuIconButton = {false}
@@ -43,7 +45,9 @@ const App = ({message}) => (
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
-                    <SidebarContainer />
+                    <SidebarContainer 
+                        effectsList = {List(effectsList)}
+                        usedIDs = {List(usedIDs)} />
                 </div>
             </div>
         </div>
