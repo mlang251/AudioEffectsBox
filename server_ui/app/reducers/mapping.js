@@ -1,11 +1,11 @@
 import {Map} from 'immutable';
-import {TOGGLE_MAPPING} from '../actions/actionTypes';
+import {UPDATE_MAPPING} from '../actions/actionTypes';
 
 const mapping = (state = Map(), action) => {
-    const {axis} = action.payload;
+    const {mapToParameter, axis} = action.payload;
     switch (action.type) {
-        case TOGGLE_MAPPING:
-            return state.update('isMapping', value => axis ? true : false).update('currentAxis', value => axis ? axis : '');
+        case UPDATE_MAPPING:
+            return state.update('isMapping', value => mapToParameter ? false : true).update('currentAxis', value => mapToParameter ? '' : axis);
         default:
             return state;
     }

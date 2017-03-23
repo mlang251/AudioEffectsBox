@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {toggleMapping, updateParameterValue, mapToParameter, removeMapping} from '../actions/actionCreators';
+import {toggleMapping, updateParameterValue, updateMapping, removeMapping} from '../actions/actionCreators';
 import Parameter from './Parameter';
 
 const mapStateToProps = state => {
@@ -12,14 +12,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleMapping: () => {
-            dispatch(toggleMapping());
-        },
-        updateParameterValue: (effectID, paramName, paramValue) => {
+        handleDrag: (effectID, paramName, paramValue) => {
             dispatch(updateParameterValue(effectID, paramName, paramValue));
         }, 
-        mapToParameter: (effectID, paramName, axis) => {
-            dispatch(mapToParameter(effectID, paramName, axis));
+        handleClick: (effectID, paramName, axis) => {
+            dispatch(updateMapping(true, effectID, paramName, axis));
         },
         removeMapping: axis => {
             dispatch(removeMapping(axis));

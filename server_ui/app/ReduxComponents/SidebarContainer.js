@@ -1,11 +1,11 @@
 import {connect} from 'react-redux';
-import {toggleMapping, addEffect} from '../actions/actionCreators';
+import {updateMapping, addEffect} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleMapping: axis => {
-            dispatch(toggleMapping(axis));
+        updateMapping: axis => {
+            dispatch(updateMapping(false, axis));
         },
         addEffect: (effectType, effectID) => {
             dispatch(addEffect(effectType, effectID));

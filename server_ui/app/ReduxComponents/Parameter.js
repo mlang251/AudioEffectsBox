@@ -14,16 +14,7 @@ import Draggable from 'react-draggable';
  * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-class Parameter extends React.PureComponent {
-    /** Create the Parameter instance */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Renders the Parameter.
-     */
-    render() {
+const Parameter = ({parameterValues, mapping, xyzMap, }) {
         const divStyle =
             this.props.isMapping ?
             Object.assign(styles.faderContainerDiv, styles.isMapping) :

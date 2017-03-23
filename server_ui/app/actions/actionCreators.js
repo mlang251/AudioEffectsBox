@@ -10,15 +10,6 @@ export const updateMessage = (message) => {
     };
 };
 
-export const toggleMapping = (axis) => {
-    return {
-        type: types.TOGGLE_MAPPING,
-        payload: {
-            axis
-        }
-    };
-};
-
 export const addEffect = (effectType, effectID) => {
     return {
         type: types.ADD_EFFECT,
@@ -96,10 +87,11 @@ export const updateParameterValue = (effectID, paramName, paramValue) => {
     };
 };
 
-export const mapToParameter = (effectID, paramName, axis) => {
+export const updateMapping = (mapToParameter, effectID, paramName, axis) => {
     return {
-        type: types.MAP_TO_PARAMETER,
+        type: types.UPDATE_MAPPING,
         payload: {
+            mapToParameter,
             effectID,
             paramName,
             axis
