@@ -37,5 +37,16 @@ const Sidebar = ({addEffect, updateMapping, effectsList}) => (
     </div>
 );
 
+/**
+ * A style object whose members are passed to elements when rendering.
+ * @type {Object}
+ */
+const styles = {
+    button: {
+        display: 'block',
+        marginBottom: 10
+    }
+}
+
 /** The Sidebar component */
 export default Radium(Sidebar);
