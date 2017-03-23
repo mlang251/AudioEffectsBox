@@ -16,7 +16,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(updateParameterValue(effectID, paramName, paramValue));
         }, 
         handleClick: (effectID, paramName, axis) => {
-            dispatch(updateMapping(true, effectID, paramName, axis));
+            dispatch(updateMapping(true, axis, effectID, paramName));
         },
         removeMapping: axis => {
             dispatch(removeMapping(axis));

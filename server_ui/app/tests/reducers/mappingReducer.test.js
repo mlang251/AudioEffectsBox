@@ -31,7 +31,10 @@ describe('mapping reducer', () => {
         }), {
             type: UPDATE_MAPPING,
             payload: {
-                mapToParameter: true
+                mapToParameter: true,
+                axis: 'x',
+                effectID: 'reverb1',
+                paramName: 'Liveness'
             }
         })).toEqual(Map({
             isMapping: false,
