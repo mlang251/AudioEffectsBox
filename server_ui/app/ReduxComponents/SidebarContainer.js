@@ -16,7 +16,6 @@ const checkUsedIDs = (effectType, usedIDs) => {
     }
 };
 
-
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         updateMapping: axis => {
