@@ -14,29 +14,27 @@ import Draggable from 'react-draggable';
  * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-const Parameter = ({parameterValues, mapping, xyzMap, }) {
-        const divStyle =
-            this.props.isMapping ?
-            Object.assign(styles.faderContainerDiv, styles.isMapping) :
-            Object.assign(styles.faderContainerDiv, styles.isNotMapping);
-        return (
-            <div style = {styles.div}>
-                <div
-                    style = {divStyle}
-                    onClick = {this.props.handleMappingClick}>
-                    <div style = {styles.slotDiv}></div>
-                    <Draggable
-                        axis = 'y'
-                        bounds = 'parent'
-                        disabled = {this.props.isMapping}
-                        position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
-                        onDrag = {(e, data) => {this.props.handleDrag(data.y, styles.slotDiv.height)}}>
-                        <div style = {styles.faderDiv}></div>
-                    </Draggable>
-                </div>
+const Parameter = ({parameterValues, isMapping, xyzMap, handleDrag, handleClick, removeMapping}) => {
+    const divStyle = isMapping ?
+        Object.assign(styles.faderContainerDiv, styles.isMapping) :
+        Object.assign(styles.faderContainerDiv, styles.isNotMapping);
+    return (
+        <div style = {styles.div}>
+            <div
+                style = {divStyle}
+                onClick = {this.props.handleClick}>
+                <div style = {styles.slotDiv}></div>
+                <Draggable
+                    axis = 'y'
+                    bounds = 'parent'
+                    disabled = {isMapping}
+                    position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
+                    onDrag = {(e, data) => {this.props.handleDrag(data.y, styles.slotDiv.height)}}>
+                    <div style = {styles.faderDiv}></div>
+                </Draggable>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
 /**
