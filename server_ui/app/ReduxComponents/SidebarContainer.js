@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {toggleMapping, addEffect} from '../actions/actionCreators';
-import Sidebar from '../components/Sidebar';
+import Sidebar from './Sidebar';
 
 const mapDispatchToProps = dispatch => {
     return {

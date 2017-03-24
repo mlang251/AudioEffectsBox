@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import SignalChain from '../components/SignalChain';
+import SignalChain from './SignalChain';
 
 const mapStateToProps = state => {
     return {

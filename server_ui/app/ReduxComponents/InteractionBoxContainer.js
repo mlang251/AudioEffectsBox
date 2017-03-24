@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import InteractionBox from '../components/InteractionBox';
+import InteractionBox from './InteractionBox';
 
 const mapStateToProps = state => {
     return {

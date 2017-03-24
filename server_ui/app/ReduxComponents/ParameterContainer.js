@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
 import {toggleMapping, updateParameterValue, mapToParameter, removeMapping} from '../actions/actionCreators';
-import Parameter from '../components/Parameter';
+import Parameter from './Parameter';
 
 const mapStateToProps = state => {
     return {
@@ -19,7 +19,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(updateParameterValue(effectID, paramName, paramValue));
         }, 
         mapToParameter: (effectID, paramName, axis) => {
-            dispatch(mapToParameter((effectID, paramName, axis)));
+            dispatch(mapToParameter(effectID, paramName, axis));
         },
         removeMapping: axis => {
             dispatch(removeMapping(axis));
