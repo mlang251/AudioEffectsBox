@@ -19,14 +19,46 @@ const setup = () => {
 
 describe('Sidebar', () => {
     test('should render self', () => {
-        const {enzymeWrapper} = setup();
+        const {props, enzymeWrapper} = setup();
+        const axes = ['X', 'Y', 'Z'];
 
-        const h3Elements = enzymeWrapper.find('h3')
-        console.log('h3 elements')
-        console.log(h3Elements)
-        console.log('h1')
-        console.log(enzymeWrapper.find('h1'));
-        expect(h3Elements[0].text()).toBe('Motion Tracking');
-        expect(h3Elements[1].text()).toBe('Effect');
+        const h3Elements = enzymeWrapper.find('h3');
+        expect(h3Elements.at(0).text()).toBe('Motion Tracking');
+        expect(h3Elements.at(1).text()).toBe('Effects');
+
+        const buttonElements = enzymeWrapper.find('button');
+        const axisButtons = buttonElements.slice(0, 3);
+        const effectButtons = buttonElements.slice(3);
+        expect(buttonElements.length).toBe(props.effectsList.size + 3);
+        axisButtons.forEach((button, index) => {
+            expect(button.text()).toBe(`Map ${axes[index]}`);
+        });
+        effectButtons.forEach((button, index) => {
+            expect(button.text()).toBe(`Add ${props.effectsList.get(index)}`);
+        });
+    });
+
+    test('should call updateMapping when an axis button is clicked', () => {
+        const {props, enzymeWrapper} = setup();
+        const axes = ['x', 'y', 'z'];
+
+        const axisButtons = enzymeWrapper.find('button').slice(0, 3);
+        axisButtons.forEach((button, index) => {
+            button.simulate('click');
+            expect(props.updateMapping.mock.calls[index][0]).toBe(false);
+            expect(props.updateMapping.mock.calls[index][1]).toBe(axes[index]);
+            expect(props.updateMapping.mock.calls.length).toBe(index + 1);
+        });
+    });
+    
+    test('should call addEffect when an effect button is clicked', () => {
+        const {props, enzymeWrapper} = setup();
+
+        const effectButtons = enzymeWrapper.find('button').slice(3);
+        effectButtons.forEach((button, index) => {
+            button.simulate('click');
+            expect(props.addEffect.mock.calls[index][0]).toBe(props.effectsList.get(index).toLowerCase());
+            expect(props.addEffect.mock.calls.length).toBe(index + 1);
+        });
     });
 });
