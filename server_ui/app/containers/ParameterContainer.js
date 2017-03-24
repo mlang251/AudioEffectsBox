@@ -12,8 +12,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        toggleMapping: axis => {
-            dispatch(toggleMapping(axis));
+        toggleMapping: () => {
+            dispatch(toggleMapping());
         },
         updateParameterValue: (effectID, paramName, paramValue) => {
             dispatch(updateParameterValue(effectID, paramName, paramValue));
