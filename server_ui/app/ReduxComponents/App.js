@@ -20,69 +20,35 @@ import AppBar from 'material-ui/AppBar';
  * Class responsible for rendering the App and child components.
  * @extends external:ReactPureComponent
  */
-class App extends React.PureComponent {
-    /** Create the App component instance */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Render the App and it's child components.
-     * @see module:InteractionBoxContainer
-     * @see module:SignalChainContainer
-     * @see module:SidebarContainer
-     * @see {@link http://www.material-ui.com/#/components/app-bar}
-     */
-    render() {
-        return (
-            <div>
-                <AppBar 
-                    showMenuIconButton = {false}
-                    title = "Audio Expression Box" />
+const App = ({message}) => (
+    <div>
+        <AppBar 
+            showMenuIconButton = {false}
+            title = "Audio Expression Box" />
+        <div 
+            className = 'container-fluid'
+            style = {styles.container}>
+            <div 
+                className = 'row'
+                style = {styles.div}>
                 <div 
-                    className = 'container-fluid'
-                    style = {styles.container}>
-                    <div 
-                        className = 'row'
-                        style = {styles.div}>
-                        <div 
-                            className = 'col-sm-10'
-                            style = {styles.div}>
-                            <p>Received message on port 57120: {this.props.message}</p>
-                            <section style = {styles.interactionBoxContainer}>
-                                <InteractionBoxContainer
-                                    coords = {this.props.interactionBox.get('coords')}
-                                    dimensions = {this.props.interactionBox.get('dimensions')}
-                                    isConnected = {this.props.interactionBox.get('isConnected')}
-                                    isInBounds = {this.props.interactionBox.get('isInBounds')}
-                                    isTracking = {this.props.interactionBox.get('isTracking')} />
-                            </section>
-                            <section style = {styles.signalChainContainer}>
-                                <SignalChainContainer
-                                    onParameterChange = {this.props.onParameterChange}
-                                    parameterValues = {this.props.parameterValues}
-                                    isMapping = {this.props.isMapping}
-                                    mapToParameter = {this.props.mapToParameter}
-                                    xyzMap = {this.props.xyzMap}
-                                    removeEffect = {this.props.removeEffect}
-                                    toggleBypass = {this.props.toggleBypass}
-                                    toggleSolo = {this.props.toggleSolo}
-                                    removeMapping = {this.props.removeMapping}
-                                    reorderEffects = {this.props.reorderEffects}
-                                    effects = {this.props.effects} />
-                            </section>
-                        </div>
-                        <div className = 'col-sm-2'>
-                            <SidebarContainer
-                                handleEffectButtonClick = {this.props.addEffectToChain}
-                                handleAxisButtonClick = {this.props.toggleMapping} />
-                        </div>
-                    </div>
+                    className = 'col-sm-10'
+                    style = {styles.div}>
+                    <p>Received message on port 57120: {message}</p>
+                    <section style = {styles.interactionBoxContainer}>
+                        <InteractionBoxContainer />
+                    </section>
+                    <section style = {styles.signalChainContainer}>
+                        <SignalChainContainer />
+                    </section>
+                </div>
+                <div className = 'col-sm-2'>
+                    <SidebarContainer />
                 </div>
             </div>
-        );
-    }
-}
+        </div>
+    </div>
+);
 
 /**
  * A style object whose members are passed to components when rendering.

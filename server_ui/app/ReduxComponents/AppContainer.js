@@ -8,17 +8,8 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        updateMessage: message => {
-            dispatch(updateMessage(message));
-        }
-    };
-};
-
 const AppContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps
+    mapStateToProps
 )(App);
 
 export default AppContainer;
