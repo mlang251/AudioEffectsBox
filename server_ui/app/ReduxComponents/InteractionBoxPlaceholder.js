@@ -12,23 +12,11 @@ import Radium from 'radium';
  * Class responsible rendering the InteractionBoxPlaceholder.
  * @extends external:ReactPureComponent 
  */
-class InteractionBoxPlaceholder extends React.PureComponent {
-    /** Create the InteractionBoxPlaceholder instance */
-    constructor() {
-        super();
-    }
-    
-    /**
-     * Render HTML to display a placeholder for the InteractionBox
-     */
-    render() {
-        return (
-            <section style = {styles.container}>
-                <h4 style = {styles.text}>Leap Motion Controller not detected</h4>
-            </section>
-        );
-    }
-}
+const InteractionBoxPlaceholder = () => (
+    <section style = {styles.container}>
+        <h4 style = {styles.text}>Leap Motion Controller not detected</h4>
+    </section>
+);
 
 /**
  * A style object whose members are passed to elements when rendering.

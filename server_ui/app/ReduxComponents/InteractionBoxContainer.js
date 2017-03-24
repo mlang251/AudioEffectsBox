@@ -3,7 +3,10 @@ import InteractionBox from './InteractionBox';
 
 const mapStateToProps = state => {
     return {
-        interactionBox: state.interactionBox
+        coords: state.interactionBox.get('coords'),
+        dimensions: state.interactionBox.get('dimensions'),
+        isInBounds: state.interactionBox.get('isInBounds'),
+        isTracking: state.interactionBox.get('isTracking')
     };
 };
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import InteractionBoxContainer from './InteractionBoxContainer';
+import InteractionBoxPlaceholder from './InteractionBoxPlaceholder';
 
 /**
  * The Display module. Responsible for conditionally rendering whatever is passed as props.children. Appears as child
@@ -9,26 +11,23 @@ import React from 'react';
  * @see module:InteractionBox
  */
 
+const mapStateToProps = (state) => {
+    return {
+        isConnected: state.interactionBox.get('isConnected')
+    };
+};
+
 /** 
  * Class responsible for conditionally rendering whatever is passed as props.children
  * @extends external:ReactPureComponent 
  */
-class Display extends React.PureComponent {
-    /** Create the conditional Display component */
-    constructor() {
-        super();
-    }
-    
-    /**
-     * Renders whatever is passed as this props.children if props.if is true, otherwise does not render anything.
-     * @see module:InteractionBox
-     * @see module:InteractionBoxContainer
-     * @see module:InteractionBoxPlaceholder
-     */
-    render() {
-        return this.props.if ? <div>{this.props.children}</div> : null;
-    }
+let Display = ({isConnected}) => {
+    return isConnected ? <InteractionBoxContainer /> : <InteractionBoxPlaceholder />;
 }
+
+Display = connect(
+    mapStateToProps
+)(Display);
 
 /** The Display component */
 export default Display;

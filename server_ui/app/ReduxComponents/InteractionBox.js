@@ -14,47 +14,37 @@ import Radium from 'radium';
  *     as well as the position of the user's hand and the state of the InteractionBox
  * @extends external:ReactPureComponent 
  */
-class InteractionBox extends React.PureComponent {
-    /** Create the InteractionBox component */
-    constructor() {
-        super();
-    }
-    
-    /**
-     * Renders the 3D representation of the Leap field of vision as well as pointer representing the location of the user's hand.
-     *     The color of the pointer depends on the current state of the InteractionBox.
-     */
-    render() {
-        const propStyles = this.props.style.toJS();
-        return (
-            <section style = {Object.assign({}, styles.container, propStyles.container)}>
-                <div style = {Object.assign({}, styles.cube, propStyles.cube)}>
-                    <div style = {Object.assign({}, styles.pointer, propStyles.pointer)}>
-                        <span style = {Object.assign({}, styles.shadow, propStyles.shadow)}></span>
-                    </div>
-                    <figure 
-                        id = 'front'
-                        style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
-                    <figure 
-                        id = 'back'
-                        style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
-                    <figure 
-                        id = 'right'
-                        style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
-                    <figure 
-                        id = 'left'
-                        style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
-                    <figure 
-                        id = 'top'
-                        style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
-                    <figure 
-                        id = 'bottom'
-                        style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
+const InteractionBox = ({coords, dimensions, isInBounds, isTracking}) => {
+    // Need to have InteractionBoxContainer calculate this? How to inject prop from container?
+    const propStyles = this.props.style.toJS();
+    return (
+        <section style = {Object.assign({}, styles.container, propStyles.container)}>
+            <div style = {Object.assign({}, styles.cube, propStyles.cube)}>
+                <div style = {Object.assign({}, styles.pointer, propStyles.pointer)}>
+                    <span style = {Object.assign({}, styles.shadow, propStyles.shadow)}></span>
                 </div>
-            </section>
-        );
-    }
-}
+                <figure 
+                    id = 'front'
+                    style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
+                <figure 
+                    id = 'back'
+                    style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
+                <figure 
+                    id = 'right'
+                    style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
+                <figure 
+                    id = 'left'
+                    style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
+                <figure 
+                    id = 'top'
+                    style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
+                <figure 
+                    id = 'bottom'
+                    style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
+            </div>
+        </section>
+    );
+};
 
 /**
  * A style object whose members are passed to elements when rendering.
