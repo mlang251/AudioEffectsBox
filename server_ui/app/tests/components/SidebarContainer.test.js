@@ -3,7 +3,7 @@ import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
 import SidebarContainer from '../../ReduxComponents/SidebarContainer';
 import Sidebar from '../../ReduxComponents/Sidebar';
-import {list as effectsList} from '../../JSON/effects';
+import {list as effectsList, effects} from '../../JSON/effects';
 import configureMockStore from 'redux-mock-store';
 import {List} from 'immutable';
 import {UPDATE_MAPPING, ADD_EFFECT} from '../../actions/actionTypes';
@@ -69,22 +69,7 @@ describe('SidebarContainer', () => {
         effectButtons.forEach((button, index) => {
             button.simulate('click');
             const effectType = props.effectsList.get(index).toLowerCase();
-            const effectTypeSplit = effectType.split(' ');
-            let effectID = '';
-            for (let i = 0; i < effectTypeSplit.length; i++) {
-                if (i > 0) {
-                    const thisStr = effectTypeSplit[i];
-                    let tempStr = '';
-                    for (let j = 0; j < thisStr.length; j++) {
-                        tempStr += j == 0 ?
-                            thisStr[j].toUpperCase() :
-                            thisStr[j];
-                    }
-                    effectTypeSplit[i] = tempStr;
-                }
-                effectID += effectTypeSplit[i];
-            }
-            effectID += 1;
+            const effectID = effects[effectType].IDs[0];
             expect(store.dispatch).toHaveBeenCalledWith(
                 {
                     type: ADD_EFFECT,
