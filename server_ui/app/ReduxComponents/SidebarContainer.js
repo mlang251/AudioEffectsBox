@@ -14,6 +14,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const SidebarContainer = connect(
+    null,
     mapDispatchToProps
 )(Sidebar);
 

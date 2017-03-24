@@ -1,7 +1,11 @@
 import {connect} from 'react-redux';
 import InteractionBox from './InteractionBox';
 
-const mapStateToProps = state => {
+const propStyles = {
+    // Create styles for InteractionBox
+}
+
+const mapStateToProps = (state, propStyles) => {
     return {
         coords: state.interactionBox.get('coords'),
         dimensions: state.interactionBox.get('dimensions'),

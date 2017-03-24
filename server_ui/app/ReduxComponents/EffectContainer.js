@@ -20,6 +20,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const EffectContainer = connect(
+    null,
     mapDispatchToProps
 )(Effect);
 
