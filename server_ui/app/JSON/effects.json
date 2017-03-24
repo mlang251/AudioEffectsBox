@@ -38,7 +38,7 @@
           }
         },
         "pitch shift": {
-          "type": "pitchShift",
+          "type": "pitch shift",
           "name": "Pitch Shift",
           "IDs": ["pitchShift1", "pitchShift2", "pitchShift3"],
           "parameterList": ["Wetness", "Pitch"],

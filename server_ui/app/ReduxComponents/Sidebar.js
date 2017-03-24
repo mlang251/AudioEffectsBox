@@ -21,7 +21,7 @@ const Sidebar = ({addEffect, updateMapping, effectsList}) => (
                     type = 'button'
                     key = {axisName}
                     style = {styles.button}
-                    onClick = {() => updateMapping(false, axisName)}>Map {axisName.toUpperCase()}</button>
+                    onClick = {() => updateMapping(axisName)}>Map {axisName.toUpperCase()}</button>
             );
         })}
         <h3>Effects</h3>

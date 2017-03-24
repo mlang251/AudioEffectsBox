@@ -45,9 +45,7 @@ describe('Sidebar', () => {
         const axisButtons = enzymeWrapper.find('button').slice(0, 3);
         axisButtons.forEach((button, index) => {
             button.simulate('click');
-            expect(props.updateMapping.mock.calls[index][0]).toBe(false);
-            expect(props.updateMapping.mock.calls[index][1]).toBe(axes[index]);
-            expect(props.updateMapping.mock.calls.length).toBe(index + 1);
+            expect(props.updateMapping.mock.calls[index][0]).toBe(axes[index]);
         });
     });
     

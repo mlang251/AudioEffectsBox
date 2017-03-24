@@ -3,13 +3,15 @@ import {updateMapping, addEffect} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
 
-const checkUsedIDs = (effectType, usedIDs) => {
+const checkUsedIDs = (effectType, usedIDs, dispatch) => {
     const usableIDs = effects[effectType].IDs;
     for (let i = 0; i < usableIDs.length; i++) {
         const thisID = usableIDs[i];
-        if (i == usableIDs.length) {
-            alert(`Maximum of 3 ${effectType} effects allowed`);
-        } else if (!usedIDs.indexOf(thisID)) {
+        if (usedIDs.indexOf(thisID) != -1) {
+            if (i == usableIDs.length - 1) {
+                alert( `Maximum of 3 ${effectType} effects allowed`);
+            }
+        } else {
             dispatch(addEffect(effectType, thisID));
             break;
         }
@@ -21,8 +23,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         updateMapping: axis => {
             dispatch(updateMapping(false, axis));
         },
-        addEffect: (effectType, effectID) => {
-            checkUsedIDs(effectType, ownProps.usedIDs);
+        addEffect: (effectType) => {
+            checkUsedIDs(effectType, ownProps.usedIDs, dispatch);
         }
     };
 };
