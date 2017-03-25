@@ -1,6 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
 import EffectContainer from './EffectContainer';
+import {effects as effectDescriptions} from '../JSON/effects.json';
 
 /**
  * The SignalChain module. Responsible rendering a SignalChain component which is the location where effects modules
@@ -21,10 +22,14 @@ const SignalChain = ({effects}) => (
             const effectID = effect.get('effectID');
             const isBypassed = effect.get('isBypassed');
             const isSoloing = effect.get('isSoloing');
+            const thisEffect = effectDescriptions.get(effectType);
             return (
                 <EffectContainer
                     key = {effectID}
                     effectID = {effectID}
+                    effectName = {thisEffect.get('name')}
+                    parameterList = {thisEffect.get('parameterList')}
+                    parameters = {thisEffect.get('parameters')}
                     effectType = {effectType}
                     isBypassed = {isBypassed}
                     isSoloing = {isSoloing}

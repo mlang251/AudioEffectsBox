@@ -13,46 +13,40 @@ import Radium from 'radium';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-class Effect extends React.PureComponent {
-    /** Create the Effect component */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Render the effect into the signal chain. Receives ParameterContainer child components as props from EffectContainer
-     * @see module:ParameterContainer
-     */
-    render() {
-        return (
-            <div style = {styles.effectDiv}>
-                <div style = {styles.headerDiv}>
-                    <p style = {styles.effectTitle}>{this.props.effectName}</p>
-                    <div style = {styles.buttonDiv}>
-                        <button
-                            key = {`${this.props.ID}Solo`}
-                            type = 'button'
-                            style = {Object.assign({}, styles.buttonBase, styles.soloButton, styles[this.props.soloStyle])}
-                            onClick = {() => this.props.handleSoloButtonClick(this.props.ID)}>S</button>
-                        <button
-                            key = {`${this.props.ID}Bypass`}
-                            type = 'button'
-                            style = {Object.assign({}, styles.buttonBase, styles.bypassButton, styles[this.props.bypassStyle])}
-                            onClick = {() => this.props.handleBypassButtonClick(this.props.ID)}>B</button>
-                        <button
-                            key = {`${this.props.ID}Close`}
-                            type = 'button'
-                            style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
-                            onClick = {() => this.props.handleCloseButtonClick(this.props.ID)}>X</button>
-                    </div>
+const Effect = ({removeEffect, reorderEffects, toggleBypass, toggleSolo, effectID, effectType, isBypassed,
+                 isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+    const bypassStyle = isBypassed ? 'isActive' : 'isNotActive'
+    const soloStyle = isSoloing ? 'isActive' : 'isNotActive'
+    return (
+        <div style = {styles.effectDiv}>
+            <div style = {styles.headerDiv}>
+                <p style = {styles.effectTitle}>{effectName}</p>
+                <div style = {styles.buttonDiv}>
+                    <button
+                        key = {`${effectID}Solo`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.soloButton,
+                            styles[isSoloing ? 'isActive' : 'isNotActive'])}
+                        onClick = {toggleSolo}>S</button>
+                    <button
+                        key = {`${effectID}Bypass`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.bypassButton,
+                            styles[isBypassed ? 'isActive' : 'isNotActive'])}
+                        onClick = {toggleBypass}>B</button>
+                    <button
+                        key = {`${effectID}Close`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
+                        onClick = {removeEffect}>X</button>
                 </div>
-                {this.props.reorderButtonLeft}
-                {this.props.params}
-                {this.props.reorderButtonRight}
             </div>
-        );
-    }
-}
+            {reorderButtonLeft}
+            {params}
+            {reorderButtonRight}
+        </div>
+    );
+};
 
 /**
  * A style object whose members are passed to components when rendering.
