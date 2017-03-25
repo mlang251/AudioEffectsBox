@@ -5,16 +5,16 @@ import Effect from './Effect';
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: (effectID) => {
-            dispatch(removeEffect(effectID));
+            dispatch(removeEffect(ownProps.effectID));
         },
         reorderEffects: (effectID, direction) => {
-            dispatch(reorderEffects(effectID, direction));
+            dispatch(reorderEffects(ownProps.effectID, direction));
         }, 
         toggleBypass: (effectID) => {
-            dispatch(mapToParameter(effectID));
+            dispatch(mapToParameter(ownProps.effectID));
         },
-        toggleSolo: effectID => {
-            dispatch(toggleSolo(effectID));
+        toggleSolo: (effectID) => {
+            dispatch(toggleSolo(ownProps.effectID));
         }
     };
 };
