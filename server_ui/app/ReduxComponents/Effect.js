@@ -1,5 +1,7 @@
 import React from 'react';
 import Radium from 'radium';
+import {List, Map} from 'immutable';
+import ParameterContainer from './ParameterContainer';
 
 /**
  * The Effect module. Represents an effect in the signal chain. Appears as a child component of EffectContainer, child
@@ -41,16 +43,15 @@ const Effect = ({removeEffect, reorderEffects, toggleBypass, toggleSolo, effectI
                         onClick = {removeEffect}>X</button>
                 </div>
             </div>
-            {reorderButtonLeft}
-            {params}
-            {reorderButtonRight}
+            {reorderButtonLeft ? createReorderButtons('left') : null}
+            {createParameters(parameterList, parameters)}
+            {reorderButtonRight ? createReorderButtons('right') : null}
         </div>
     );
 };
 
-const createParameters = (effect) => {
-    const [parameterList, parameters] = [this.effect.get('parameterList'), this.effect.get('parameters')];
-    let params = Immutable.List().asMutable();
+const createParameters = (parameterList, parameters) => {
+    let params = List().asMutable();
     let xyzMapArray = [];
     this.props.xyzMap.forEach((axisInfo, axis) => {
         if (axisInfo.get('effectID') == this.props.ID) {
@@ -90,7 +91,7 @@ const createParameters = (effect) => {
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
-                    info = {Immutable.Map({effectID: this.props.ID,  paramName: paramName})}
+                    info = {Map({effectID: this.props.ID,  paramName: paramName})}
                     value = {this.props.parameterValues.get(paramName)}
                     onParameterChange = {this.props.onParameterChange}
                     isMapping = {this.props.isMapping}
@@ -111,7 +112,7 @@ const createParameters = (effect) => {
  */
 const createReorderButtons = (direction) => {
     if (direction == 'left') {
-        return Immutable.List([(
+        return List([(
             <button
                 type = 'button'
                 key = {`${this.props.ID}Left`}
@@ -119,7 +120,7 @@ const createReorderButtons = (direction) => {
                 onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
         )]);
     } else if (direction == 'right') {
-        return Immutable.List([(
+        return List([(
             <button
                 type = 'button'
                 key = {`${this.props.ID}Right`}
