@@ -13,23 +13,27 @@ import Radium from 'radium';
  * Class responsible for rendering the SignalChain component.
  * @extends external:ReactPureComponent 
  */
-class SignalChain extends React.PureComponent {
-    /** Create the SignalChain component instance */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Render the SignalChain, including the child Effect components
-     * @see module:Effect
-     */
-    render() {
-        return (
-            <div id = 'signalChain' style = {styles.div}>
-                {this.props.effects}
-            </div>
-        );
-    }
+const SignalChain = ({effects}) => {
+    return (
+        <div id = 'signalChain' style = {styles.div}>
+            {effects.forEach((effect, index) => {
+                const effectType = effect.get('effectType');
+                const effectID = effect.get('effectID');
+                const isBypassed = effect.get('isBypassed');
+                const isSoloing = effect.get('isSoloing');
+                return (
+                    <EffectContainer
+                        key = {effectID}
+                        effectID = {effectID}
+                        effectType = {effectType}
+                        isBypassed = {isBypassed}
+                        isSoloing = {isSoloing}
+                        reorderButtonLeft = {index != 0}
+                        reorderButtonRight = {index != effects.size - 1} />
+                );
+            })}
+        </div>
+    );
 }
 
 /**
