@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import EffectContainer from './EffectContainer';
 
 /**
  * The SignalChain module. Responsible rendering a SignalChain component which is the location where effects modules

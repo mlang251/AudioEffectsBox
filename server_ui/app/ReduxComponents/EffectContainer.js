@@ -2,7 +2,7 @@ import {connect} from 'react-redux';
 import {removeEffect, reorderEffects, toggleBypass, toggleSolo} from '../actions/actionCreators';
 import Effect from './Effect';
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: (effectID) => {
             dispatch(removeEffect(effectID));
