@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import {List, Map} from 'immutable';
 import EffectContainer from './EffectContainer';
 import {effects as effectDescriptions} from '../JSON/effects.json';
 
@@ -22,14 +23,14 @@ const SignalChain = ({effects}) => (
             const effectID = effect.get('effectID');
             const isBypassed = effect.get('isBypassed');
             const isSoloing = effect.get('isSoloing');
-            const thisEffect = effectDescriptions.get(effectType);
+            const {name, parameterList, parameters} = effectDescriptions.get(effectType);
             return (
                 <EffectContainer
                     key = {effectID}
                     effectID = {effectID}
-                    effectName = {thisEffect.get('name')}
-                    parameterList = {thisEffect.get('parameterList')}
-                    parameters = {thisEffect.get('parameters')}
+                    effectName = {name}
+                    parameterList = {List(parameterList)}
+                    parameters = {Map(parameters)}
                     effectType = {effectType}
                     isBypassed = {isBypassed}
                     isSoloing = {isSoloing}
