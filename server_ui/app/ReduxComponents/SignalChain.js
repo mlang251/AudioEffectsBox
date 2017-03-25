@@ -13,28 +13,26 @@ import Radium from 'radium';
  * Class responsible for rendering the SignalChain component.
  * @extends external:ReactPureComponent 
  */
-const SignalChain = ({effects}) => {
-    return (
-        <div id = 'signalChain' style = {styles.div}>
-            {effects.forEach((effect, index) => {
-                const effectType = effect.get('effectType');
-                const effectID = effect.get('effectID');
-                const isBypassed = effect.get('isBypassed');
-                const isSoloing = effect.get('isSoloing');
-                return (
-                    <EffectContainer
-                        key = {effectID}
-                        effectID = {effectID}
-                        effectType = {effectType}
-                        isBypassed = {isBypassed}
-                        isSoloing = {isSoloing}
-                        reorderButtonLeft = {index != 0}
-                        reorderButtonRight = {index != effects.size - 1} />
-                );
-            })}
-        </div>
-    );
-}
+const SignalChain = ({effects}) => (
+    <div id = 'signalChain' style = {styles.div}>
+        {effects.forEach((effect, index) => {
+            const effectType = effect.get('effectType');
+            const effectID = effect.get('effectID');
+            const isBypassed = effect.get('isBypassed');
+            const isSoloing = effect.get('isSoloing');
+            return (
+                <EffectContainer
+                    key = {effectID}
+                    effectID = {effectID}
+                    effectType = {effectType}
+                    isBypassed = {isBypassed}
+                    isSoloing = {isSoloing}
+                    reorderButtonLeft = {index != 0}
+                    reorderButtonRight = {index != effects.size - 1} />
+            );
+        })}
+    </div>
+);
 
 /**
  * A style object whose members are passed to elements when rendering.
