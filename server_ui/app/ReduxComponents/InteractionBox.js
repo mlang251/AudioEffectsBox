@@ -14,9 +14,8 @@ import Radium from 'radium';
  *     as well as the position of the user's hand and the state of the InteractionBox
  * @extends external:ReactPureComponent 
  */
-const InteractionBox = ({coords, dimensions, isInBounds, isTracking}) => {
-    // Need to have InteractionBoxContainer calculate this? How to inject prop from container?
-    const propStyles = this.props.style.toJS();
+const InteractionBox = ({propStyles}) => {
+    const propStyles = propStyles.toJS();
     return (
         <section style = {Object.assign({}, styles.container, propStyles.container)}>
             <div style = {Object.assign({}, styles.cube, propStyles.cube)}>

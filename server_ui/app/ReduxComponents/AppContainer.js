@@ -12,7 +12,8 @@ const getUsedIDs = effects => {
 const mapStateToProps = state => {
     return {
         message: state.message,
-        usedIDs: getUsedIDs(state.effects)
+        usedIDs: getUsedIDs(state.effects),
+        isConnected: state.interactionBox.get('isConnected')
     };
 };
 

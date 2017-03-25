@@ -22,7 +22,7 @@ import {list as effectsList} from '../JSON/effects';
  * Class responsible for rendering the App and child components.
  * @extends external:ReactPureComponent
  */
-const App = ({message, usedIDs}) => (
+const App = ({message, usedIDs, isConnected}) => (
     <div>
         <AppBar 
             showMenuIconButton = {false}
@@ -38,7 +38,7 @@ const App = ({message, usedIDs}) => (
                     style = {styles.div}>
                     <p>Received message on port 57120: {message}</p>
                     <section style = {styles.interactionBoxContainer}>
-                        <InteractionBoxContainer />
+                        {isConnected ? <InteractionBoxContainer /> : <InteractionBoxPlaceholder />}
                     </section>
                     <section style = {styles.signalChainContainer}>
                         <SignalChainContainer />

@@ -1,16 +1,128 @@
 import {connect} from 'react-redux';
 import InteractionBox from './InteractionBox';
 
-const propStyles = {
-    // Create styles for InteractionBox
+const createStyles = (state) => {
+    const coords = state.get('coords');
+    const dimensions = state.get('dimensions');
+    const isInBounds = state.get('isInBounds');
+    const isTracking = state.get('isTracking');
+
+    let height = 0;
+    let width = 0;
+    let depth = 0;
+    let x = 0;
+    let y = 0;
+    let z = 0;
+
+    if (!dimensions.isEmpty()) {
+        const {Height, Width, Depth} = dimensions.toJS();
+        const widthHeightRatio = Width/Height;
+        const depthHeightRatio = Depth/Height;
+        const maxHeight = window.innerHeight * 0.4;
+        const maxWidth = window.innerWidth * 0.833;
+        const maxDepth = window.innerHeight * 1.4;
+        
+        if (maxHeight * widthHeightRatio > maxWidth) {
+            if (maxWidth * depthHeightRatio / widthHeightRatio > maxDepth) {
+                depth = maxDepth;
+                height = depth/depthHeightRatio;
+                width = height * widthHeightRatio;
+            } else {
+                width = maxWidth;
+                height = width/widthHeightRatio;
+                depth = height * depthHeightRatio;
+            }
+        } else if (maxHeight * depthHeightRatio > maxDepth) {
+            if (maxDepth * widthHeightRatio / depthHeightRatio > maxWidth) {
+                width = maxWidth;
+                height = width/widthHeightRatio;
+                depth = height * depthHeightRatio;
+            } else {
+                depth = maxDepth;
+                height = depth/depthHeightRatio;
+                width = height * widthHeightRatio;
+            }
+        } else {
+            height = maxHeight;
+            width = height * widthHeightRatio;
+            depth = height * depthHeightRatio;
+        }
+    }
+
+    if (!coords.isEmpty()) {
+        const coords = coords.toJS();
+        x = coords[0];
+        y = coords[1];
+        z = coords[2];
+    }
+
+    const pointerColor = !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0';
+    const minDimension = Math.min(height, width, depth);
+    return Immutable.fromJS({
+        container: {
+            height: height,
+            width: width
+        },
+        cube: {
+            transform: `translateZ(-${depth}px) rotateX(-20deg)`
+        },
+        pointer: {
+            height: minDimension/10,
+            width: minDimension/10,
+            backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
+            transform: `
+                translateX(${x * width - minDimension/20}px) 
+                translateY(${-y * height + minDimension/20}px) 
+                translateZ(${depth/2 - z * depth}px)
+            `
+        },
+        shadow: {
+            transform: `rotateX(90deg) translateZ(-${y * height}px)`,
+        },
+        front: {
+            height: height,
+            width: width,
+            transform: `rotateY(0deg) translateZ(${depth/2}px)`,
+        },
+        back: {
+            height: height,
+            width: width,
+            backgroundSize: `${height/30}px ${height/30}px`,
+            backgroundPosition: `${height/60}px ${height/60}px`,
+            transform: `rotateX(180deg) translateZ(${depth/2}px)`
+        },
+        right: {
+            height: height,
+            width: depth,
+            backgroundSize: `${height/30}px ${height/30}px`,
+            backgroundPosition: `${height/60}px ${height/60}px`,
+            transform: `rotateY(90deg) translateZ(${width/2}px)`
+        },
+        left: {
+            height: height,
+            width: depth,
+            backgroundSize: `${height/30}px ${height/30}px`,
+            backgroundPosition: `${height/60}px ${height/60}px`,
+            transform: `rotateY(-90deg) translateZ(${width/2}px)`
+        },
+        top: {
+            height: depth,
+            width: width,
+            transform: `rotateX(90deg) translateZ(${height/2}px)`
+        },
+        bottom: {
+            height: depth,
+            width: width,
+            backgroundSize: `${height/15}px ${height/15}px`,
+            backgroundPosition: `${height/30}px ${height/30}px`,
+            transform: `rotateX(-90deg) translateZ(${height/2}px)`
+        },
+    });
 }
 
-const mapStateToProps = (state, propStyles) => {
+const mapStateToProps = (state) => {
     return {
-        coords: state.interactionBox.get('coords'),
-        dimensions: state.interactionBox.get('dimensions'),
-        isInBounds: state.interactionBox.get('isInBounds'),
-        isTracking: state.interactionBox.get('isTracking')
+        propStyles: createStyles(state.interactionBox)
     };
 };
 
