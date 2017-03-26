@@ -9,7 +9,7 @@ const xyzMapToParameter = (xyzMap) => {
         if (axis.get('effectID') == effectID) {
             xyzMapList.push(Map({
                 paramName: axis.get('paramName'),
-                axis: axis.get('axis')
+                axisName: axis.get('axis')
             }));
         }
     });
@@ -36,6 +36,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         toggleSolo: () => {
             dispatch(toggleSolo(ownProps.effectID));
+        },
+        removeMapping: axis => {
+            dispatch(removeMapping(axis));
         }
     };
 };

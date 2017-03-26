@@ -15,10 +15,10 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggleSolo, effectName, parameterList, parameters,
-                 effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
-    const bypassStyle = isBypassed ? 'isActive' : 'isNotActive'
-    const soloStyle = isSoloing ? 'isActive' : 'isNotActive'
+const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectName, parameterList,
+                 parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+    const bypassStyle = isBypassed ? 'isActive' : 'isNotActive';
+    const soloStyle = isSoloing ? 'isActive' : 'isNotActive';
     return (
         <div style = {styles.effectDiv}>
             <div style = {styles.headerDiv}>
@@ -44,31 +44,31 @@ const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggle
                 </div>
             </div>
             {reorderButtonLeft ? createReorderButtons('left', effectID) : null}
-            {createParameters(parameterList, parameters)}
+            {createParameters(parameterList, parameters, xyzMapArray, effectID, removeMapping)}
             {reorderButtonRight ? createReorderButtons('right', effectID) : null}
         </div>
     );
 };
 
-const createParameters = (parameterList, parameters, xyzMapArray) => {
+const createParameters = (parameterList, parameters, xyzMapArray, effectID, removeMapping) => {
     let params = List().asMutable();
 
     parameterList.forEach((paramName, index) => {
         const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
-        for (let i = 0; i < xyzMapArray.length; i++) {
-            if (xyzMapArray[i].param == paramName) {
-                const thisAxis = xyzMapArray[i].axisName;
+        for (let i = 0; i < xyzMapArray.size; i++) {
+            if (xyzMapArray.get(i).get('paramName') == paramName) {
+                const axisName = xyzMapArray.get(i).get('axisName');
                 xyzMap = [
                     <p 
-                        key = {`${effectID}${thisAxis}`}
-                        style = {styles.xyzMap}>{thisAxis}</p>,
+                        key = {`${effectID}${axisName}`}
+                        style = {styles.xyzMap}>{axisName}</p>,
                     <button 
-                        key = {`${effectID}Remove${thisAxis}`}
+                        key = {`${effectID}Remove${axisName}`}
                         type = 'button'
                         style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
-                        onClick = {() => this.props.handleRemoveMappingClick(thisAxis, paramName)}>X</button>
+                        onClick = {() => removeMapping(axisName)}>X</button>
                 ];
             }
         }
@@ -82,11 +82,7 @@ const createParameters = (parameterList, parameters, xyzMapArray) => {
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
-                    info = {Map({effectID: effectID, paramName: paramName})}
-                    value = {this.props.parameterValues.get(paramName)}
-                    onParameterChange = {this.props.onParameterChange}
-                    isMapping = {this.props.isMapping}
-                    mapToParameter = {this.props.mapToParameter} />
+                    info = {Map({effectID: effectID, paramName: paramName})} />
             </div>
         );
     });

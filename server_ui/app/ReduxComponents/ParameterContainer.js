@@ -15,9 +15,6 @@ const mapDispatchToProps = dispatch => {
         }, 
         handleClick: (effectID, paramName, axis) => {
             dispatch(updateMapping(true, axis, effectID, paramName));
-        },
-        removeMapping: axis => {
-            dispatch(removeMapping(axis));
         }
     };
 };
