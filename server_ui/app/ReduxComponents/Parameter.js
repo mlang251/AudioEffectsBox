@@ -14,10 +14,10 @@ import Draggable from 'react-draggable';
  * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-const Parameter = ({parameterValues, isMapping, xyzMap, handleDrag, handleClick, removeMapping}) => {
+const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
     const divStyle = isMapping ?
-        Object.assign(styles.faderContainerDiv, styles.isMapping) :
-        Object.assign(styles.faderContainerDiv, styles.isNotMapping);
+        Object.assign({}, styles.faderContainerDiv, styles.isMapping) :
+        Object.assign({}, styles.faderContainerDiv, styles.isNotMapping);
     return (
         <div style = {styles.div}>
             <div
