@@ -57,9 +57,10 @@ const createParameters = (parameterList, parameters, xyzMapArray, effectID, remo
         const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
+        let axisName = '';
         for (let i = 0; i < xyzMapArray.size; i++) {
             if (xyzMapArray.get(i).get('paramName') == paramName) {
-                const axisName = xyzMapArray.get(i).get('axisName');
+                axisName = xyzMapArray.get(i).get('axisName');
                 xyzMap = [
                     <p 
                         key = {`${effectID}${axisName}`}
@@ -82,7 +83,9 @@ const createParameters = (parameterList, parameters, xyzMapArray, effectID, remo
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
-                    info = {Map({effectID: effectID, paramName: paramName})} />
+                    effectID = {effectID}
+                    paramName = {paramName}
+                    axis = {axisName} />
             </div>
         );
     });

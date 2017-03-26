@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {removeEffect, reorderEffects, toggleBypass, toggleSolo} from '../actions/actionCreators';
+import {removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
 
