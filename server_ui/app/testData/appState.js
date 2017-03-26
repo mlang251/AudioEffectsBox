@@ -17,17 +17,17 @@ state = {
         x: Immutable.Map({
             effectID: undefined,
             param: undefined,
-            axis: 'x'
+            axisName: 'x'
         }),
         y: Immutable.Map({
             effectID: undefined,
             param: undefined,
-            axis: 'y'
+            axisName: 'y'
         }),
         z: Immutable.Map({
             effectID: undefined,
             param: undefined,
-            axis: 'z'
+            axisName: 'z'
         })
     }),
     interactionBox: Immutable.Map({

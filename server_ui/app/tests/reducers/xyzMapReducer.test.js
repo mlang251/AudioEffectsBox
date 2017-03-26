@@ -11,17 +11,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }));
     });
@@ -30,17 +30,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }), {
             type: UPDATE_MAPPING,
@@ -54,17 +54,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: 'reverb1',
                 param: 'Liveness',
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }))
     });
@@ -73,17 +73,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }), {
             type: UPDATE_MAPPING,
@@ -95,17 +95,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }))
     });
@@ -114,17 +114,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: 'reverb1',
                 param: 'Liveness',
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }), {
             type: REMOVE_MAPPING,
@@ -135,17 +135,17 @@ describe('xyzMap reducer', () => {
             x: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'x'
+                axisName: 'x'
             }),
             y: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'y'
+                axisName: 'y'
             }),
             z: Map({
                 effectID: undefined,
                 param: undefined,
-                axis: 'z'
+                axisName: 'z'
             })
         }))
     });

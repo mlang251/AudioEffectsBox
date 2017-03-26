@@ -5,17 +5,17 @@ const initialState = Map({
     x: Map({
         effectID: undefined,
         param: undefined,
-        axis: 'x'
+        axisName: 'x'
     }),
     y: Map({
         effectID: undefined,
         param: undefined,
-        axis: 'y'
+        axisName: 'y'
     }),
     z: Map({
         effectID: undefined,
         param: undefined,
-        axis: 'z'
+        axisName: 'z'
     })
 });
 

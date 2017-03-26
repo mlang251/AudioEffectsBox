@@ -15,7 +15,7 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMap, removeEffect, reorderEffects, toggleBypass, toggleSolo, effectName, parameterList, parameters,
+const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggleSolo, effectName, parameterList, parameters,
                  effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const bypassStyle = isBypassed ? 'isActive' : 'isNotActive'
     const soloStyle = isSoloing ? 'isActive' : 'isNotActive'
@@ -50,17 +50,8 @@ const Effect = ({xyzMap, removeEffect, reorderEffects, toggleBypass, toggleSolo,
     );
 };
 
-const createParameters = (parameterList, parameters) => {
+const createParameters = (parameterList, parameters, xyzMapArray) => {
     let params = List().asMutable();
-    let xyzMapArray = [];
-    this.props.xyzMap.forEach((axisInfo, axis) => {
-        if (axisInfo.get('effectID') == effectID) {
-            xyzMapArray.push({
-                param: axisInfo.get('param'),
-                coord: axis
-            });
-        }
-    });
 
     parameterList.forEach((paramName, index) => {
         const paramType = parameters.get(paramName);
@@ -68,7 +59,7 @@ const createParameters = (parameterList, parameters) => {
         let xyzMap = undefined;
         for (let i = 0; i < xyzMapArray.length; i++) {
             if (xyzMapArray[i].param == paramName) {
-                const thisAxis = xyzMapArray[i].coord;
+                const thisAxis = xyzMapArray[i].axisName;
                 xyzMap = [
                     <p 
                         key = {`${effectID}${thisAxis}`}
