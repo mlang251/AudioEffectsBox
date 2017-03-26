@@ -22,14 +22,14 @@ const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
         <div style = {styles.div}>
             <div
                 style = {divStyle}
-                onClick = {this.props.handleClick}>
+                onClick = {handleClick}>
                 <div style = {styles.slotDiv}></div>
                 <Draggable
                     axis = 'y'
                     bounds = 'parent'
                     disabled = {isMapping}
-                    position = {{x: 0, y: this.props.value * styles.slotDiv.height}}
-                    onDrag = {(e, data) => {this.props.handleDrag(data.y, styles.slotDiv.height)}}>
+                    position = {{x: 0, y: value * styles.slotDiv.height}}
+                    onDrag = {(e, data) => {handleDrag(data.y, styles.slotDiv.height)}}>
                     <div style = {styles.faderDiv}></div>
                 </Draggable>
             </div>
