@@ -15,7 +15,7 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({removeEffect, reorderEffects, toggleBypass, toggleSolo, effectID, effectName, parameterList, parameters,
+const Effect = ({xyzMap, removeEffect, reorderEffects, toggleBypass, toggleSolo, effectName, parameterList, parameters,
                  effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const bypassStyle = isBypassed ? 'isActive' : 'isNotActive'
     const soloStyle = isSoloing ? 'isActive' : 'isNotActive'
@@ -43,9 +43,9 @@ const Effect = ({removeEffect, reorderEffects, toggleBypass, toggleSolo, effectI
                         onClick = {removeEffect}>X</button>
                 </div>
             </div>
-            {reorderButtonLeft ? createReorderButtons('left') : null}
+            {reorderButtonLeft ? createReorderButtons('left', effectID) : null}
             {createParameters(parameterList, parameters)}
-            {reorderButtonRight ? createReorderButtons('right') : null}
+            {reorderButtonRight ? createReorderButtons('right', effectID) : null}
         </div>
     );
 };
@@ -54,7 +54,7 @@ const createParameters = (parameterList, parameters) => {
     let params = List().asMutable();
     let xyzMapArray = [];
     this.props.xyzMap.forEach((axisInfo, axis) => {
-        if (axisInfo.get('effectID') == this.props.ID) {
+        if (axisInfo.get('effectID') == effectID) {
             xyzMapArray.push({
                 param: axisInfo.get('param'),
                 coord: axis
@@ -71,13 +71,13 @@ const createParameters = (parameterList, parameters) => {
                 const thisAxis = xyzMapArray[i].coord;
                 xyzMap = [
                     <p 
-                        key = {`${this.props.ID}${thisAxis}`}
+                        key = {`${effectID}${thisAxis}`}
                         style = {styles.xyzMap}>{thisAxis}</p>,
                     <button 
-                        key = {`${this.props.ID}Remove${thisAxis}`}
+                        key = {`${effectID}Remove${thisAxis}`}
                         type = 'button'
                         style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
-                        onClick = {() => this.props.handleRemoveMappingClick(thisAxis, this.props.ID, paramName)}>X</button>
+                        onClick = {() => this.props.handleRemoveMappingClick(thisAxis, paramName)}>X</button>
                 ];
             }
         }
@@ -91,7 +91,7 @@ const createParameters = (parameterList, parameters) => {
                 <p style = {styles.paramTitle}>{paramName}</p>
                 <ParameterContainer
                     type = {paramType}
-                    info = {Map({effectID: this.props.ID,  paramName: paramName})}
+                    info = {Map({effectID: effectID, paramName: paramName})}
                     value = {this.props.parameterValues.get(paramName)}
                     onParameterChange = {this.props.onParameterChange}
                     isMapping = {this.props.isMapping}
@@ -110,22 +110,22 @@ const createParameters = (parameterList, parameters) => {
  * @param {string} direction - Indicates the direction of the reordering button to create
  * @returns {external:List} An Immutable List containing html for the reordering button with the specified direction
  */
-const createReorderButtons = (direction) => {
+const createReorderButtons = (direction, effectID) => {
     if (direction == 'left') {
         return List([(
             <button
                 type = 'button'
-                key = {`${this.props.ID}Left`}
+                key = {`${effectID}Left`}
                 style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
-                onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'left')}>&lt;</button>
+                onClick = {() => reorderEffects('left')}>&lt;</button>
         )]);
     } else if (direction == 'right') {
         return List([(
             <button
                 type = 'button'
-                key = {`${this.props.ID}Right`}
+                key = {`${effectID}Right`}
                 style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
-                onClick = {() => this.props.handleReorderButtonClick(this.props.ID, 'right')}>&gt;</button>
+                onClick = {() => reorderEffects('right')}>&gt;</button>
         )]);
     } else {
         return null;

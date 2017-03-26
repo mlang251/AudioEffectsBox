@@ -4,9 +4,7 @@ import Parameter from './Parameter';
 
 const mapStateToProps = state => {
     return {
-        parameterValues: state.parameterValues,
-        isMapping: state.mapping.get('isMapping'),
-        xyzMap: state.xyzMap
+        isMapping: state.mapping.get('isMapping')
     };
 };
 

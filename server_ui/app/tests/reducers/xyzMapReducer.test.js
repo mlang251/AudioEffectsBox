@@ -10,15 +10,18 @@ describe('xyzMap reducer', () => {
         })).toEqual(Map({
             x: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }));
     });
@@ -26,15 +29,18 @@ describe('xyzMap reducer', () => {
         expect(xyzMapReducer(Map({
             x: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }), {
             type: UPDATE_MAPPING,
@@ -47,15 +53,18 @@ describe('xyzMap reducer', () => {
         })).toEqual(Map({
             x: Map({
                 effectID: 'reverb1',
-                param: 'Liveness'
+                param: 'Liveness',
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }))
     });
@@ -63,15 +72,18 @@ describe('xyzMap reducer', () => {
         expect(xyzMapReducer(Map({
             x: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }), {
             type: UPDATE_MAPPING,
@@ -82,15 +94,18 @@ describe('xyzMap reducer', () => {
         })).toEqual(Map({
             x: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }))
     });
@@ -98,15 +113,18 @@ describe('xyzMap reducer', () => {
         expect(xyzMapReducer(Map({
             x: Map({
                 effectID: 'reverb1',
-                param: 'Liveness'
+                param: 'Liveness',
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }), {
             type: REMOVE_MAPPING,
@@ -116,15 +134,18 @@ describe('xyzMap reducer', () => {
         })).toEqual(Map({
             x: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'x'
             }),
             y: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'y'
             }),
             z: Map({
                 effectID: undefined,
-                param: undefined
+                param: undefined,
+                axis: 'z'
             })
         }))
     });

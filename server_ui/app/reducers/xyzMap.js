@@ -4,15 +4,18 @@ import {UPDATE_MAPPING, REMOVE_MAPPING} from '../actions/actionTypes';
 const initialState = Map({
     x: Map({
         effectID: undefined,
-        param: undefined
+        param: undefined,
+        axis: 'x'
     }),
     y: Map({
         effectID: undefined,
-        param: undefined
+        param: undefined,
+        axis: 'y'
     }),
     z: Map({
         effectID: undefined,
-        param: undefined
+        param: undefined,
+        axis: 'z'
     })
 });
 
