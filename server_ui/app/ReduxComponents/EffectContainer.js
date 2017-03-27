@@ -3,7 +3,7 @@ import {removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping} f
 import Effect from './Effect';
 import {List, Map} from 'immutable';
 
-const xyzMapToParameter = (xyzMap) => {
+const xyzMapToParameter = (xyzMap, effectID) => {
     let xyzMapList = List();
     xyzMap.forEach(axis => {
         if (axis.get('effectID') == effectID) {
@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(reorderEffects(ownProps.effectID, direction));
         }, 
         toggleBypass: () => {
-            dispatch(mapToParameter(ownProps.effectID));
+            dispatch(toggleBypass(ownProps.effectID));
         },
         toggleSolo: () => {
             dispatch(toggleSolo(ownProps.effectID));

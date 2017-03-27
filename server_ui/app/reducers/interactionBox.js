@@ -14,11 +14,12 @@ const initialState = Map({
 });
 
 const interactionBox = (state = initialState, action) => {
-    const {data, address, args} = action.payload;
     switch (action.type) {
         case RECEIVE_LEAP_DATA:
+            var {data} = action.payload;
             return state.update('coords', value => List(data))
         case RECEIVE_LEAP_STATUS:
+            var {address, args} = action.payload;
             switch (address) {
                 case '/BoxDimensions':
                     const dimensions = JSON.parse(args);

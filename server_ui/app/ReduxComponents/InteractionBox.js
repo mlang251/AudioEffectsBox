@@ -14,8 +14,8 @@ import Radium from 'radium';
  *     as well as the position of the user's hand and the state of the InteractionBox
  * @extends external:ReactPureComponent 
  */
-const InteractionBox = ({propStyles}) => {
-    const propStyles = propStyles.toJS();
+const InteractionBox = ({applyStyles}) => {
+    const propStyles = applyStyles.toJS();
     return (
         <section style = {Object.assign({}, styles.container, propStyles.container)}>
             <div style = {Object.assign({}, styles.cube, propStyles.cube)}>

@@ -18,12 +18,12 @@ import {effects as effectDescriptions} from '../JSON/effects.json';
  */
 const SignalChain = ({effects}) => (
     <div id = 'signalChain' style = {styles.div}>
-        {effects.forEach((effect, index) => {
+        {effects.map((effect, index) => {
             const effectType = effect.get('effectType');
             const effectID = effect.get('effectID');
             const isBypassed = effect.get('isBypassed');
             const isSoloing = effect.get('isSoloing');
-            const {name, parameterList, parameters} = effectDescriptions.get(effectType);
+            const {name, parameterList, parameters} = effectDescriptions[effectType];
             return (
                 <EffectContainer
                     key = {effectID}

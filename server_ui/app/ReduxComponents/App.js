@@ -1,5 +1,6 @@
 import React from 'react';
 import InteractionBoxContainer from './InteractionBoxContainer';
+import InteractionBoxPlaceholder from './InteractionBoxPlaceholder';
 import SignalChainContainer from './SignalChainContainer';
 import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';

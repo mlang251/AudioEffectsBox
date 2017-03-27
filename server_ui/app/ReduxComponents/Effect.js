@@ -15,7 +15,7 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectName, parameterList,
+const Effect = ({xyzMapList, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectID, effectName, parameterList,
                  parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const bypassStyle = isBypassed ? 'isActive' : 'isNotActive';
     const soloStyle = isSoloing ? 'isActive' : 'isNotActive';
@@ -43,14 +43,14 @@ const Effect = ({xyzMapArray, removeEffect, reorderEffects, toggleBypass, toggle
                         onClick = {removeEffect}>X</button>
                 </div>
             </div>
-            {reorderButtonLeft ? createReorderButtons('left', effectID) : null}
-            {createParameters(parameterList, parameters, xyzMapArray, effectID, removeMapping)}
-            {reorderButtonRight ? createReorderButtons('right', effectID) : null}
+            {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
+            {createParameters(parameterList, parameters, xyzMapList, effectID, removeMapping)}
+            {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
         </div>
     );
 };
 
-const createParameters = (parameterList, parameters, xyzMapArray, effectID, removeMapping) => {
+const createParameters = (parameterList, parameters, xyzMapList, effectID, removeMapping) => {
     let params = List().asMutable();
 
     parameterList.forEach((paramName, index) => {
@@ -58,9 +58,9 @@ const createParameters = (parameterList, parameters, xyzMapArray, effectID, remo
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
         let axisName = '';
-        for (let i = 0; i < xyzMapArray.size; i++) {
-            if (xyzMapArray.get(i).get('paramName') == paramName) {
-                axisName = xyzMapArray.get(i).get('axisName');
+        for (let i = 0; i < xyzMapList.size; i++) {
+            if (xyzMapList.get(i).get('paramName') == paramName) {
+                axisName = xyzMapList.get(i).get('axisName');
                 xyzMap = [
                     <p 
                         key = {`${effectID}${axisName}`}
@@ -100,7 +100,7 @@ const createParameters = (parameterList, parameters, xyzMapArray, effectID, remo
  * @param {string} direction - Indicates the direction of the reordering button to create
  * @returns {external:List} An Immutable List containing html for the reordering button with the specified direction
  */
-const createReorderButtons = (direction, effectID) => {
+const createReorderButtons = (direction, effectID, reorderEffects) => {
     if (direction == 'left') {
         return List([(
             <button
@@ -174,6 +174,35 @@ const styles = {
     },
     isNotActive: {
         backgroundColor: '#999'
+    },
+    paramDiv: {
+        display: 'inline-block',
+        paddingRight: 5,
+        paddingLeft: 5
+    },
+    xyzMapDiv: {
+        height: 30,
+        width: '100%'
+    },
+    paramTitle: {
+        textAlign: 'center',
+        fontSize: '0.8em'
+    },
+    xyzMap: {
+        display: 'inline-block',
+        padding: 0,
+        margin: 0
+    },
+    reorderButton: {
+        position: 'absolute',
+        top: '50%',
+        transform: 'translate(0, -50%)'
+    },
+    reorderButtonLeft: {
+        left: 3
+    },
+    reorderButtonRight: {
+        right: 3
     }
 }
 

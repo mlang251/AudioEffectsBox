@@ -20,13 +20,14 @@ const initialState = Map({
 });
 
 const xyzMap = (state = initialState, action) => {
-    const {mapToParameter, axis, effectID, paramName} = action.payload;
     switch (action.type) {
         case UPDATE_MAPPING:
+            var {mapToParameter, axis, effectID, paramName} = action.payload;
             return mapToParameter ?
                 state.updateIn([axis, 'effectID'], value => effectID).updateIn([axis, 'param'], value => paramName) :
                 state;
         case REMOVE_MAPPING:
+            var {axis} = action.payload;
             return state.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined);
         default:
             return state;

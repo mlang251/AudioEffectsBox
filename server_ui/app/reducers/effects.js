@@ -2,9 +2,9 @@ import {List, Map} from 'immutable';
 import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../actions/actionTypes';
 
 const effects = (state = List(), action) => {
-    const {effectType, effectID, direction} = action.payload;
     switch (action.type) {
         case ADD_EFFECT:
+            var {effectType, effectID} = action.payload;
             return state.push(Map({
                 effectType: effectType,
                 effectID: effectID,
@@ -12,8 +12,10 @@ const effects = (state = List(), action) => {
                 isSoloing: false
             }));
         case REMOVE_EFFECT:
+            var {effectID} = action.payload;
             return state.filter((effect) => effect.get('effectID') != effectID);
         case REORDER_EFFECTS:
+            var {effectID, direction} = action.payload;
             let effectsList;
             if (direction == 'left') {
                 effectsList = state.asMutable().reverse();
@@ -35,6 +37,7 @@ const effects = (state = List(), action) => {
             return effectsList.asImmutable(); 
         case TOGGLE_BYPASS:
         case TOGGLE_SOLO:
+            var {effectID} = action.payload;
             const index = state.findIndex(effect => {
                 return effect.get('effectID') == effectID;
             });
