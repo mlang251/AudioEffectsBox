@@ -18,6 +18,7 @@ const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
     const divStyle = isMapping ?
         Object.assign({}, styles.faderContainerDiv, styles.isMapping) :
         Object.assign({}, styles.faderContainerDiv, styles.isNotMapping);
+    const slotHeight = styles.slotDiv.height;
     return (
         <div style = {styles.div}>
             <div
@@ -28,8 +29,8 @@ const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
                     axis = 'y'
                     bounds = 'parent'
                     disabled = {isMapping}
-                    position = {{x: 0, y: value * styles.slotDiv.height}}
-                    onDrag = {(e, data) => {handleDrag(data.y, styles.slotDiv.height)}}>
+                    position = {{x: 0, y: slotHeight - value * slotHeight}}
+                    onDrag = {(e, data) => {handleDrag(slotHeight - data.y, slotHeight)}}>
                     <div style = {styles.faderDiv}></div>
                 </Draggable>
             </div>
