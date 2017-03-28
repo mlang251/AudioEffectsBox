@@ -1,4 +1,5 @@
 import {connect} from 'react-redux';
+import {Map} from 'immutable';
 import InteractionBox from './InteractionBox';
 
 const createStyles = (state) => {
@@ -15,7 +16,9 @@ const createStyles = (state) => {
     let z = 0;
 
     if (!dimensions.isEmpty()) {
-        const {Height, Width, Depth} = dimensions.toJS();
+        const Height = dimensions.get('Height');
+        const Width = dimensions.get('Width');
+        const Depth = dimensions.get('Depth');
         const widthHeightRatio = Width/Height;
         const depthHeightRatio = Depth/Height;
         const maxHeight = window.innerHeight * 0.4;
@@ -50,23 +53,22 @@ const createStyles = (state) => {
     }
 
     if (!coords.isEmpty()) {
-        const coords = coords.toJS();
-        x = coords[0];
-        y = coords[1];
-        z = coords[2];
+        x = coords.get(0);
+        y = coords.get(1);
+        z = coords.get(2);
     }
 
     const pointerColor = !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0';
     const minDimension = Math.min(height, width, depth);
-    return Immutable.fromJS({
-        container: {
+    return Map({
+        container: Map({
             height: height,
             width: width
-        },
-        cube: {
+        }),
+        cube: Map({
             transform: `translateZ(-${depth}px) rotateX(-20deg)`
-        },
-        pointer: {
+        }),
+        pointer: Map({
             height: minDimension/10,
             width: minDimension/10,
             backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
@@ -75,48 +77,48 @@ const createStyles = (state) => {
                 translateY(${-y * height + minDimension/20}px) 
                 translateZ(${depth/2 - z * depth}px)
             `
-        },
-        shadow: {
+        }),
+        shadow: Map({
             transform: `rotateX(90deg) translateZ(-${y * height}px)`,
-        },
-        front: {
+        }),
+        front: Map({
             height: height,
             width: width,
             transform: `rotateY(0deg) translateZ(${depth/2}px)`,
-        },
-        back: {
+        }),
+        back: Map({
             height: height,
             width: width,
             backgroundSize: `${height/30}px ${height/30}px`,
             backgroundPosition: `${height/60}px ${height/60}px`,
             transform: `rotateX(180deg) translateZ(${depth/2}px)`
-        },
-        right: {
+        }),
+        right: Map({
             height: height,
             width: depth,
             backgroundSize: `${height/30}px ${height/30}px`,
             backgroundPosition: `${height/60}px ${height/60}px`,
             transform: `rotateY(90deg) translateZ(${width/2}px)`
-        },
-        left: {
+        }),
+        left: Map({
             height: height,
             width: depth,
             backgroundSize: `${height/30}px ${height/30}px`,
             backgroundPosition: `${height/60}px ${height/60}px`,
             transform: `rotateY(-90deg) translateZ(${width/2}px)`
-        },
-        top: {
+        }),
+        top: Map({
             height: depth,
             width: width,
             transform: `rotateX(90deg) translateZ(${height/2}px)`
-        },
-        bottom: {
+        }),
+        bottom: Map({
             height: depth,
             width: width,
             backgroundSize: `${height/15}px ${height/15}px`,
             backgroundPosition: `${height/30}px ${height/30}px`,
             transform: `rotateX(-90deg) translateZ(${height/2}px)`
-        },
+        }),
     });
 }
 
