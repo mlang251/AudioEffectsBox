@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             normalizeParameterValue(paramValue, maximum, ownProps.effectID, ownProps.paramName, dispatch)
         }, 
         handleClick: () => {
-            dispatch(updateMapping(true, ownProps.axis, ownProps.effectID, ownProps.paramName));
+            dispatch(updateMapping(true, ownProps.axisToMap, ownProps.effectID, ownProps.paramName));
         }
     };
 };

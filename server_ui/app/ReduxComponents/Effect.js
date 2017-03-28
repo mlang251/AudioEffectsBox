@@ -15,8 +15,8 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMapList, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectID, effectName, parameterList,
-                 parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+const Effect = ({xyzMapList, axisToMap, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectID, effectName,
+                 parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const bypassStyle = isBypassed ? 'isActive' : 'isNotActive';
     const soloStyle = isSoloing ? 'isActive' : 'isNotActive';
     return (
@@ -44,23 +44,22 @@ const Effect = ({xyzMapList, removeEffect, reorderEffects, toggleBypass, toggleS
                 </div>
             </div>
             {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
-            {createParameters(parameterList, parameters, xyzMapList, effectID, removeMapping)}
+            {createParameters(parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping)}
             {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
         </div>
     );
 };
 
-const createParameters = (parameterList, parameters, xyzMapList, effectID, removeMapping) => {
+const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping) => {
     let params = List().asMutable();
 
     parameterList.forEach((paramName, index) => {
         const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
-        let axisName = '';
         for (let i = 0; i < xyzMapList.size; i++) {
             if (xyzMapList.get(i).get('paramName') == paramName) {
-                axisName = xyzMapList.get(i).get('axisName');
+                const axisName = xyzMapList.get(i).get('axisName');
                 xyzMap = [
                     <p 
                         key = {`${effectID}${axisName}`}
@@ -85,7 +84,7 @@ const createParameters = (parameterList, parameters, xyzMapList, effectID, remov
                     type = {paramType}
                     effectID = {effectID}
                     paramName = {paramName}
-                    axis = {axisName} />
+                    axisToMap = {axisToMap} />
             </div>
         );
     });

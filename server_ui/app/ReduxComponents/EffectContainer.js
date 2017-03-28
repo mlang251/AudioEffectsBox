@@ -4,22 +4,23 @@ import Effect from './Effect';
 import {List, Map} from 'immutable';
 
 const xyzMapToParameter = (xyzMap, effectID) => {
-    let xyzMapList = List();
+    let xyzMapList = List().asMutable();
     xyzMap.forEach(axis => {
         if (axis.get('effectID') == effectID) {
-            xyzMapList.push(Map({
-                paramName: axis.get('paramName'),
-                axisName: axis.get('axis')
+            xyzMapList = xyzMapList.push(Map({
+                paramName: axis.get('param'),
+                axisName: axis.get('axisName')
             }));
         }
     });
-    return xyzMapList;
+    return xyzMapList.asImmutable();
 };
 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        xyzMapList: xyzMapToParameter(state.xyzMap, ownProps.effectID)
+        xyzMapList: xyzMapToParameter(state.xyzMap, ownProps.effectID),
+        axisToMap: state.mapping.get('currentAxis')
     };
 };
 
