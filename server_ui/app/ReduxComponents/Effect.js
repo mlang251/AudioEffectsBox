@@ -51,9 +51,7 @@ const Effect = ({xyzMapList, axisToMap, removeEffect, reorderEffects, toggleBypa
 };
 
 const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping) => {
-    let params = List().asMutable();
-
-    parameterList.forEach((paramName, index) => {
+    return parameterList.map((paramName, index) => {
         const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
@@ -72,7 +70,7 @@ const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effe
                 ];
             }
         }
-        params = params.push(
+        return (
             <div
                 key = {index}
                 style = {styles.paramDiv}>
@@ -88,7 +86,6 @@ const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effe
             </div>
         );
     });
-    return params.asImmutable();
 };
 
 /**
