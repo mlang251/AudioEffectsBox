@@ -35,7 +35,6 @@ const SignalChain = ({effects}) => (
 );
 
 const createEffects = (effectsList) => {
-    console.log(effectsList)
     return effectsList.map((effect, index) => {
         const effectType = effect.get('effectType');
         const effectID = effect.get('effectID');
