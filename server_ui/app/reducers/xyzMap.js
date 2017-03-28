@@ -4,17 +4,17 @@ import {UPDATE_MAPPING, REMOVE_MAPPING} from '../actions/actionTypes';
 const initialState = Map({
     x: Map({
         effectID: undefined,
-        param: undefined,
+        paramName: undefined,
         axisName: 'x'
     }),
     y: Map({
         effectID: undefined,
-        param: undefined,
+        paramName: undefined,
         axisName: 'y'
     }),
     z: Map({
         effectID: undefined,
-        param: undefined,
+        paramName: undefined,
         axisName: 'z'
     })
 });
@@ -24,11 +24,11 @@ const xyzMap = (state = initialState, action) => {
         case UPDATE_MAPPING:
             var {mapToParameter, axis, effectID, paramName} = action.payload;
             return mapToParameter ?
-                state.updateIn([axis, 'effectID'], value => effectID).updateIn([axis, 'param'], value => paramName) :
+                state.updateIn([axis, 'effectID'], value => effectID).updateIn([axis, 'paramName'], value => paramName) :
                 state;
         case REMOVE_MAPPING:
             var {axis} = action.payload;
-            return state.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'param'], value => undefined);
+            return state.updateIn([axis, 'effectID'], value => undefined).updateIn([axis, 'paramName'], value => undefined);
         default:
             return state;
     }

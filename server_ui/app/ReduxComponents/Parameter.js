@@ -22,7 +22,7 @@ const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
         <div style = {styles.div}>
             <div
                 style = {divStyle}
-                onClick = {handleClick}>
+                onClick = {() => isMapping ? handleClick() : null}>
                 <div style = {styles.slotDiv}></div>
                 <Draggable
                     axis = 'y'

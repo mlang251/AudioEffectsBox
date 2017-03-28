@@ -57,9 +57,9 @@ const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effe
         const paramType = parameters.get(paramName);
         const axes = ['x', 'y', 'z'];
         let xyzMap = undefined;
-        for (let i = 0; i < xyzMapList.size; i++) {
-            if (xyzMapList.get(i).get('paramName') == paramName) {
-                const axisName = xyzMapList.get(i).get('axisName');
+        xyzMapList.forEach((axis, index) => {
+            if (axis.get('paramName') == paramName) {
+                const axisName = axis.get('axisName');
                 xyzMap = [
                     <p 
                         key = {`${effectID}${axisName}`}
@@ -71,7 +71,7 @@ const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effe
                         onClick = {() => removeMapping(axisName)}>X</button>
                 ];
             }
-        }
+        });
         return (
             <div
                 key = {index}

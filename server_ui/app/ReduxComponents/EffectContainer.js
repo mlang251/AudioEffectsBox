@@ -8,7 +8,7 @@ const xyzMapToParameter = (xyzMap, effectID) => {
     xyzMap.forEach(axis => {
         if (axis.get('effectID') == effectID) {
             xyzMapList = xyzMapList.push(Map({
-                paramName: axis.get('param'),
+                paramName: axis.get('paramName'),
                 axisName: axis.get('axisName')
             }));
         }
