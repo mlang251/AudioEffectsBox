@@ -22,7 +22,7 @@ const Effect = ({xyzMapList, axisToMap, allowBypass, removeEffect, reorderEffect
         Object.assign({}, styles.effectDiv, styles.floatRight) :
         Object.assign({}, styles.effectDiv, styles.effectPadding);
     return (
-        <div style = {styles.effectDiv}>
+        <div style = {effectStyle}>
             <div style = {styles.headerDiv}>
                 <p style = {styles.effectTitle}>{effectName}</p>
                 <div style = {!isGainBlock ? styles.buttonDiv : {display: 'none'}}>
