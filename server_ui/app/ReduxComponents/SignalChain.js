@@ -17,29 +17,46 @@ import {effects as effectDescriptions} from '../JSON/effects.json';
  * @extends external:ReactPureComponent 
  */
 const SignalChain = ({effects}) => (
-    <div id = 'signalChain' style = {styles.div}>
-        {effects.map((effect, index) => {
-            const effectType = effect.get('effectType');
-            const effectID = effect.get('effectID');
-            const isBypassed = effect.get('isBypassed');
-            const isSoloing = effect.get('isSoloing');
-            const {name, parameterList, parameters} = effectDescriptions[effectType];
-            return (
-                <EffectContainer
-                    key = {effectID}
-                    effectID = {effectID}
-                    effectName = {name}
-                    parameterList = {List(parameterList)}
-                    parameters = {Map(parameters)}
-                    effectType = {effectType}
-                    isBypassed = {isBypassed}
-                    isSoloing = {isSoloing}
-                    reorderButtonLeft = {index != 0}
-                    reorderButtonRight = {index != effects.size - 1} />
-            );
-        })}
+    <div style = {styles.div}>
+        <div id = 'signalChain' style = {styles.signalChain}>
+            {createEffects(effects)}
+        </div>
+        <div style = {styles.gainBlock}>
+            {createEffects(List([
+                Map({
+                    effectID: 'gain',
+                    effectType: 'gain',
+                    isBypassed: false,
+                    isSoloing: false
+                })
+            ]))}
+        </div>
     </div>
 );
+
+const createEffects = (effectsList) => {
+    console.log(effectsList)
+    return effectsList.map((effect, index) => {
+        const effectType = effect.get('effectType');
+        const effectID = effect.get('effectID');
+        const isBypassed = effect.get('isBypassed');
+        const isSoloing = effect.get('isSoloing');
+        const {name, parameterList, parameters} = effectDescriptions[effectType];
+        return (
+            <EffectContainer
+                key = {effectID}
+                effectID = {effectID}
+                effectName = {name}
+                parameterList = {List(parameterList)}
+                parameters = {Map(parameters)}
+                effectType = {effectType}
+                isBypassed = {isBypassed}
+                isSoloing = {isSoloing}
+                reorderButtonLeft = {index != 0}
+                reorderButtonRight = {index != effectsList.size - 1} />
+        );
+    });
+};
 
 /**
  * A style object whose members are passed to elements when rendering.
@@ -53,6 +70,24 @@ const styles = {
         borderWidth: 1,
         borderStyle: 'solid',
         borderColor: '#000'
+    },
+    signalChain: {
+        display: 'inline-block',
+        float: 'left',
+        height: '100%',
+        width: '90%',
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        whiteSpace: 'nowrap',
+        borderWidth: 1,
+        borderStyle: 'solid',
+        borderColor: '#000'
+    },
+    gainBlock: {
+        display: 'inline-block',
+        float: 'right',
+        height: '100%',
+        width: '10%'
     }
 }
 

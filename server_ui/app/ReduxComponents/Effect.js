@@ -16,35 +16,41 @@ import ParameterContainer from './ParameterContainer';
  * @extends external:ReactPureComponent 
  */
 const Effect = ({xyzMapList, axisToMap, allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping,
-    effectID, effectName, parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => (
-    <div style = {styles.effectDiv}>
-        <div style = {styles.headerDiv}>
-            <p style = {styles.effectTitle}>{effectName}</p>
-            <div style = {styles.buttonDiv}>
-                <button
-                    key = {`${effectID}Solo`}
-                    type = 'button'
-                    style = {Object.assign({}, styles.buttonBase, styles.soloButton,
-                        styles[isSoloing ? 'isActive' : 'isNotActive'])}
-                    onClick = {toggleSolo}>S</button>
-                <button
-                    key = {`${effectID}Bypass`}
-                    type = 'button'
-                    style = {Object.assign({}, styles.buttonBase, styles.bypassButton,
-                        styles[isBypassed ? 'isActive' : 'isNotActive'])}
-                    onClick = {() => allowBypass ? toggleBypass() : null}>B</button>
-                <button
-                    key = {`${effectID}Close`}
-                    type = 'button'
-                    style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
-                    onClick = {removeEffect}>X</button>
+    effectID, effectName, parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+    const isGainBlock = effectType == 'gain';
+    const effectStyle = isGainBlock ?
+        Object.assign({}, styles.effectDiv, styles.floatRight) :
+        Object.assign({}, styles.effectDiv, styles.effectPadding);
+    return (
+        <div style = {styles.effectDiv}>
+            <div style = {styles.headerDiv}>
+                <p style = {styles.effectTitle}>{effectName}</p>
+                <div style = {!isGainBlock ? styles.buttonDiv : {display: 'none'}}>
+                    <button
+                        key = {`${effectID}Solo`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.soloButton,
+                            styles[isSoloing ? 'isActive' : 'isNotActive'])}
+                        onClick = {toggleSolo}>S</button>
+                    <button
+                        key = {`${effectID}Bypass`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.bypassButton,
+                            styles[isBypassed ? 'isActive' : 'isNotActive'])}
+                        onClick = {() => allowBypass ? toggleBypass() : null}>B</button>
+                    <button
+                        key = {`${effectID}Close`}
+                        type = 'button'
+                        style = {Object.assign({}, styles.buttonBase, styles.closeButton)}
+                        onClick = {removeEffect}>X</button>
+                </div>
             </div>
+            {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
+            {createParameters(parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping)}
+            {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
         </div>
-        {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
-        {createParameters(parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping)}
-        {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
-    </div>
-);
+    );
+}
 
 const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping) => {
     return parameterList.map((paramName, index) => {
@@ -126,16 +132,22 @@ const styles = {
         borderStyle: 'solid',
         borderColor: '#333',
         boxShadow: 'inset 0 0 5px #AAA',
-        borderRadius: 5,
+        borderRadius: 5
+    },
+    effectPadding: {
         paddingLeft: 40,
-        paddingRight: 40,
+        paddingRight: 40
+    },
+    floatRight: {
+        float: 'right'
     },
     headerDiv: {
         paddingLeft: 15,
         paddingRight: 15
     },
     buttonDiv: {
-        display: 'inline-block'
+        display: 'inline-block',
+        float: 'right'
     },
     effectTitle: {
         display: 'inline-block'

@@ -25,7 +25,7 @@
     },
     "filter2": {
         "Wetness": 0,
-        "Gains": 0,
+        "Gain": 0,
         "Cf": 0,
         "Q": 0
     },
@@ -64,5 +64,23 @@
     "pitchShift3": {
         "Wetness": 0.25,
         "Pitch": 0
+    },
+    "overdrive1": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
+    },
+    "overdrive2": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
+    },
+    "overdrive3": {
+        "Wetness": 0.25,
+        "Gain": 0.5,
+        "Tone": 1
+    },
+    "gain": {
+        "Level": 0.921
     }
 }

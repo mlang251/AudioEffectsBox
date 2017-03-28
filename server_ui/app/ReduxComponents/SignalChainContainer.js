@@ -1,9 +1,10 @@
 import {connect} from 'react-redux';
+import {List, Map} from 'immutable';
 import SignalChain from './SignalChain';
 
 const mapStateToProps = state => {
     return {
-        effects: state.effects
+        effects: state.effects,
     };
 };
 

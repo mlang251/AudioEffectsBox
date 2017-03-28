@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb", "Filter", "Delay", "Pitch Shift"],
+    "list": ["Reverb", "Filter", "Delay", "Pitch Shift", "Overdrive"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -14,27 +14,27 @@
             }
         },
         "filter": {
-          "type": "filter",
-          "name": "Filter",
-          "IDs": ["filter1", "filter2", "filter3"],
-          "parameterList": ["Wetness", "Gain", "Cf", "Q"],
-          "parameters": {
-            "Wetness": "fader",
-              "Gain": "fader",
-              "Cf": "fader",
-              "Q": "fader"
+            "type": "filter",
+            "name": "Filter",
+            "IDs": ["filter1", "filter2", "filter3"],
+            "parameterList": ["Wetness", "Gain", "Cf", "Q"],
+            "parameters": {
+                "Wetness": "fader",
+                "Gain": "fader",
+                "Cf": "fader",
+                "Q": "fader"
           }
         },
         "delay": {
-          "type": "delay",
-          "name": "Delay",
-          "IDs": ["delay1", "delay2", "delay3"],
-          "parameterList": ["Wetness", "Gain", "DelayTime", "Feedback"],
-          "parameters": {
-            "Wetness": "fader",
-              "Gain": "fader",
-              "DelayTime": "fader",
-              "Feedback": "fader"
+            "type": "delay",
+            "name": "Delay",
+            "IDs": ["delay1", "delay2", "delay3"],
+            "parameterList": ["Wetness", "Gain", "DelayTime", "Feedback"],
+            "parameters": {
+                "Wetness": "fader",
+                "Gain": "fader",
+                "DelayTime": "fader",
+                "Feedback": "fader"
           }
         },
         "pitch shift": {
@@ -45,6 +45,26 @@
           "parameters": {
               "Wetness": "fader",
               "Pitch": "fader"
+          }
+        },
+        "overdrive": {
+            "type": "overdrive",
+            "name": "Overdrive",
+            "IDs": ["overdrive1", "overdrive2", "overdrive3"],
+            "parameterList": ["Wetness", "Gain", "Tone"],
+            "parameters": {
+                "Wetness": "fader",
+                "Gain": "fader",
+                "Tone": "fader"
+          }
+        },
+        "gain": {
+            "type": "gain",
+            "name": "Gain",
+            "IDs": ["gain"],
+            "parameterList": ["Level"],
+            "parameters": {
+                "Level": "fader"
           }
         }
     }
