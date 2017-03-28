@@ -16,11 +16,22 @@ const xyzMapToParameter = (xyzMap, effectID) => {
     return xyzMapList.asImmutable();
 };
 
+const determineSoloing = (effectsList) => {
+    let allowBypass = true;
+    effectsList.forEach(effect => {
+        if (effect.get('isSoloing')) {
+            allowBypass = false;
+            return false;
+        }
+    });
+    return allowBypass;
+}
 
 const mapStateToProps = (state, ownProps) => {
     return {
         xyzMapList: xyzMapToParameter(state.xyzMap, ownProps.effectID),
-        axisToMap: state.mapping.get('currentAxis')
+        axisToMap: state.mapping.get('currentAxis'),
+        allowBypass: determineSoloing(state.effects)
     };
 };
 

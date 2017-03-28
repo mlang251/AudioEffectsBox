@@ -15,8 +15,8 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMapList, axisToMap, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping, effectID, effectName,
-                parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => (
+const Effect = ({xyzMapList, axisToMap, allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping,
+    effectID, effectName, parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => (
     <div style = {styles.effectDiv}>
         <div style = {styles.headerDiv}>
             <p style = {styles.effectTitle}>{effectName}</p>
@@ -32,7 +32,7 @@ const Effect = ({xyzMapList, axisToMap, removeEffect, reorderEffects, toggleBypa
                     type = 'button'
                     style = {Object.assign({}, styles.buttonBase, styles.bypassButton,
                         styles[isBypassed ? 'isActive' : 'isNotActive'])}
-                    onClick = {toggleBypass}>B</button>
+                    onClick = {() => allowBypass ? toggleBypass() : null}>B</button>
                 <button
                     key = {`${effectID}Close`}
                     type = 'button'
