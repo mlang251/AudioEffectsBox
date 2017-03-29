@@ -12,7 +12,7 @@ const checkUsedIDs = (effectType, usedIDs, dispatch) => {
                 alert( `Maximum of 3 ${effectType} effects allowed`);
             }
         } else {
-            dispatch(addEffect(effectType, thisID));
+            dispatch(addEffect(effectType, thisID, {io: true}));
             break;
         }
     }

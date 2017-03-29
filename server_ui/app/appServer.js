@@ -2,7 +2,7 @@ const express = require('express');
 const io = require('socket.io')();
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
-const actionTypes = require('./actions/actionTypes');
+// const actionTypes = require('./actions/actionTypes');
 
 //Instantiate the server
 let app = express();
@@ -74,9 +74,10 @@ io.on('connection', socket => {
     console.log('User connected');
 
     socket.on('action', (action) => {
-        socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
-        socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
-        socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
+        console.log(action.type);
+        // socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
+        // socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
+        // socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
     });
 
     socket.on('disconnect', () => {

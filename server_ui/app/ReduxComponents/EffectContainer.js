@@ -38,19 +38,19 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: () => {
-            dispatch(removeEffect(ownProps.effectID));
+            dispatch(removeEffect(ownProps.effectID, {io: true}));
         },
         reorderEffects: (direction) => {
-            dispatch(reorderEffects(ownProps.effectID, direction));
+            dispatch(reorderEffects(ownProps.effectID, direction, {io: true}));
         }, 
         toggleBypass: () => {
-            dispatch(toggleBypass(ownProps.effectID));
+            dispatch(toggleBypass(ownProps.effectID, {io: true}));
         },
         toggleSolo: () => {
-            dispatch(toggleSolo(ownProps.effectID));
+            dispatch(toggleSolo(ownProps.effectID, {io: true}));
         },
         removeMapping: axis => {
-            dispatch(removeMapping(axis));
+            dispatch(removeMapping(axis, {io: true}));
         }
     };
 };
