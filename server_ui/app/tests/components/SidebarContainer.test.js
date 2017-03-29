@@ -7,6 +7,9 @@ import {list as effectsList, effects} from '../../JSON/effects';
 import configureMockStore from 'redux-mock-store';
 import {List} from 'immutable';
 import {UPDATE_MAPPING, ADD_EFFECT} from '../../actions/actionTypes';
+const actionOptions = require('../../actions/actionOptions');
+const {ROUTE} = actionOptions.ioTypes;
+const {ADD} = actionOptions.ioFlags;
 
 const store = configureMockStore()({});
 
@@ -74,7 +77,11 @@ describe('SidebarContainer', () => {
             expect(store.dispatch).toHaveBeenCalledWith(
                 {
                     type: ADD_EFFECT,
-                    options: {},
+                    options: {
+                        io: true,
+                        ioType: ROUTE,
+                        ioFlag: ADD
+                    },
                     payload: {
                         effectType: effectType,
                         effectID: effectID

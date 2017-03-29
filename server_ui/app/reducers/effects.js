@@ -36,14 +36,37 @@ const effects = (state = List(), action) => {
             }
             return effectsList.asImmutable(); 
         case TOGGLE_BYPASS:
-        case TOGGLE_SOLO:
             var {effectID} = action.payload;
             const index = state.findIndex(effect => {
                 return effect.get('effectID') == effectID;
             });
-            return action.type == TOGGLE_BYPASS ?
-                state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed'))) :
-                state.update(index, effect => effect.update('isSoloing', value => !state.get(index).get('isSoloing')));
+            return state.update(index, effect => effect.update('isBypassed', value => !state.get(index).get('isBypassed')));
+        case TOGGLE_SOLO:
+            var {effectID} = action.payload;
+            let isSoloing;
+            let indexToUpdate;
+            let effectsUpdated = state.asMutable();
+            effectsUpdated.forEach((effect, index) => {
+                if (effect.get('effectID') == effectID) {
+                    isSoloing = effect.get('isSoloing');
+                    indexToUpdate = index;
+                    return false;
+                }
+            });
+            if (!isSoloing) {
+                effectsUpdated.forEach((effect, index) => {
+                    if (effect.get('effectID') != effectID) {
+                        if (effect.get('isSoloing')) {
+                            effectsUpdated = effectsUpdated.update(index, effect => effect.update('isSoloing', value => false));
+                        }
+                    } else {
+                        effectsUpdated = effectsUpdated.update(index, effect => effect.update('isSoloing', value => !isSoloing));
+                    }
+                });
+            } else {
+                effectsUpdated = effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
+            }
+            return effectsUpdated.asImmutable();
         default:
             return state;
     }
