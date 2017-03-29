@@ -49,6 +49,7 @@ describe('SidebarContainer', () => {
             expect(store.dispatch).toHaveBeenCalledWith(
                 {
                     type: UPDATE_MAPPING,
+                    options: {},
                     payload: {
                         mapToParameter: false,
                         axis: axes[index],
@@ -73,6 +74,7 @@ describe('SidebarContainer', () => {
             expect(store.dispatch).toHaveBeenCalledWith(
                 {
                     type: ADD_EFFECT,
+                    options: {},
                     payload: {
                         effectType: effectType,
                         effectID: effectID

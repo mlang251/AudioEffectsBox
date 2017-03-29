@@ -6,95 +6,111 @@ describe('actions', () => {
         const message = 'Hello World';
         const expectedAction = {
             type: types.UPDATE_MESSAGE,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 message
             }
         };
-        expect(actions.updateMessage(message)).toEqual(expectedAction);
+        expect(actions.updateMessage(message, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to add an effect', () => {
         const effectType = 'reverb';
         const effectID = 'reverb1';
         const expectedAction = {
             type: types.ADD_EFFECT,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectType,
                 effectID
             }
         };
-        expect(actions.addEffect(effectType, effectID)).toEqual(expectedAction);
+        expect(actions.addEffect(effectType, effectID, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to remove an effect', () => {
         const effectID = 'reverb1';
         const expectedAction = {
             type: types.REMOVE_EFFECT,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectID
             }
         };
-        expect(actions.removeEffect(effectID)).toEqual(expectedAction);
+        expect(actions.removeEffect(effectID, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to reorder effects', () => {
         const effectID = 'reverb1';
         const direction = 'left';
         const expectedAction = {
             type: types.REORDER_EFFECTS,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectID,
                 direction
             }
         };
-        expect(actions.reorderEffects(effectID, direction)).toEqual(expectedAction);
+        expect(actions.reorderEffects(effectID, direction, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to toggle an effect bypass', () => {
         const effectID = 'reverb1';
         const expectedAction = {
             type: types.TOGGLE_BYPASS,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectID
             }
         };
-        expect(actions.toggleBypass(effectID)).toEqual(expectedAction);
+        expect(actions.toggleBypass(effectID, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to toggle an effect solo', () => {
         const effectID = 'reverb1';
         const expectedAction = {
             type: types.TOGGLE_SOLO,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectID
             }
         };
-        expect(actions.toggleSolo(effectID)).toEqual(expectedAction);
+        expect(actions.toggleSolo(effectID, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to receive Leap data', () => {
         const data = [0.281, 0.589, 0.354];
         const expectedAction = {
             type: types.RECEIVE_LEAP_DATA,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 data
             }
         };
-        expect(actions.receiveLeapData(data)).toEqual(expectedAction);
+        expect(actions.receiveLeapData(data, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to receive Leap status', () => {
         const address = '/BoundStatus';
         const args = [1];
         const expectedAction = {
             type: types.RECEIVE_LEAP_STATUS,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 address,
                 args
             }
         };
-        expect(actions.receiveLeapStatus(address, args)).toEqual(expectedAction);
+        expect(actions.receiveLeapStatus(address, args, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to update a parameter value', () => {
         const effectID = 'reverb1';
@@ -102,27 +118,33 @@ describe('actions', () => {
         const paramValue = 0.874;
         const expectedAction = {
             type: types.UPDATE_PARAMETER_VALUE,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 effectID,
                 paramName,
                 paramValue
             }
         };
-        expect(actions.updateParameterValue(effectID, paramName, paramValue)).toEqual(expectedAction);
+        expect(actions.updateParameterValue(effectID, paramName, paramValue, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to turn on axis mapping mode', () => {
         const mapToParameter = false;
         const axis = 'x';
+        const effectID = undefined;
+        const paramName = undefined;
         const expectedAction = {
             type: types.UPDATE_MAPPING,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 mapToParameter,
                 axis
             }
         };
-        expect(actions.updateMapping(mapToParameter, axis)).toEqual(expectedAction);
+        expect(actions.updateMapping(mapToParameter, axis, effectID, paramName, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to map an axis to a parameter', () => {
         const mapToParameter = true;
@@ -131,7 +153,9 @@ describe('actions', () => {
         const paramName = 'Liveness';
         const expectedAction = {
             type: types.UPDATE_MAPPING,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 mapToParameter,
                 axis,
@@ -139,17 +163,19 @@ describe('actions', () => {
                 paramName
             }
         };
-        expect(actions.updateMapping(mapToParameter, axis, effectID, paramName)).toEqual(expectedAction);
+        expect(actions.updateMapping(mapToParameter, axis, effectID, paramName, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to remove an axis mapping', () => {
         const axis = 'x';
         const expectedAction = {
             type: types.REMOVE_MAPPING,
-            options: {},
+            options: {
+                io: true
+            },
             payload: {
                 axis
             }
         };
-        expect(actions.removeMapping(axis)).toEqual(expectedAction);
+        expect(actions.removeMapping(axis, {io: true})).toEqual(expectedAction);
     });
 });
