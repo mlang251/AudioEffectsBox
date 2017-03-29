@@ -1,5 +1,6 @@
 const express = require('express');
 const io = require('socket.io')();
+const List = require('immutable').List;
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 const ioTypes = require('./actions/actionOptions').ioTypes;
@@ -65,6 +66,18 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 });
 
 
+const createRoutes = (effectsArray) => {
+    let routeObj = {input: 'output'};
+    effectsArray.forEach((effect, index) => {
+        const ID = effect.get('ID');
+        if (index == 0) {
+            routeObj.input = ID;
+        }
+        routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
+    });
+    return routeObj;
+}
+
 
 
 //Handle all Server <--> UI communication through socket.io events
@@ -74,8 +87,37 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 io.on('connection', socket => {
     console.log('User connected');
 
+    // Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
+    const currentRoute = createRoutes();
+    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(currentRoute))
+    // Maintain xyzMap. When mappings are overwritten, emit once to nullify the original, then again with the new one
+    const xyzMap = {
+        x: {
+            effectID: undefined,
+            paramName: undefined,
+            axisName: 'x'
+        },
+        y: {
+            effectID: undefined,
+            paramName: undefined,
+            axisName: 'y'
+        },
+        z: {
+            effectID: undefined,
+            paramName: undefined,
+            axisName: 'z'
+        }
+    };
+
     socket.on('action', (action) => {
         console.log(action.type);
+        socket.emit('action', {
+            type: 'UPDATE_MESSAGE',
+            options: {},
+            payload: {
+                message: action.type
+            }
+        });
         // socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
         // socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
         // socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
