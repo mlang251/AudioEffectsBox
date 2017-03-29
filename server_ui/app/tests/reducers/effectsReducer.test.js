@@ -168,11 +168,17 @@ describe('effects reducer', () => {
             })
         ]));
     });
-        test('should handle TOGGLE_SOLO', () => {
+    test('should handle TOGGLE_SOLO - without a previously soloing effect', () => {
         const initialState = List([
             Map({
                 effectType: 'reverb',
                 effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
                 isBypassed: false,
                 isSoloing: false
             })
@@ -189,6 +195,48 @@ describe('effects reducer', () => {
                 effectID: 'reverb1',
                 isBypassed: false,
                 isSoloing: true
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]));
+    });
+    test('should handle TOGGLE_SOLO - with a previously soloing effect', () => {
+        const initialState = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: true
+            })
+        ]);
+        const effectID = 'reverb1';
+        expect(effectsReducer(initialState, {
+            type: TOGGLE_SOLO,
+            payload: {
+                effectID
+            }
+        })).toEqual(List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: true
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
             })
         ]));
     });

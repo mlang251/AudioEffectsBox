@@ -57,14 +57,14 @@ const effects = (state = List(), action) => {
                 effectsUpdated.forEach((effect, index) => {
                     if (effect.get('effectID') != effectID) {
                         if (effect.get('isSoloing')) {
-                            effectsUpdated = effectsUpdated.update(index, effect => effect.update('isSoloing', value => false));
+                            effectsUpdated.update(index, effect => effect.update('isSoloing', value => false));
                         }
                     } else {
-                        effectsUpdated = effectsUpdated.update(index, effect => effect.update('isSoloing', value => !isSoloing));
+                        effectsUpdated.update(index, effect => effect.update('isSoloing', value => !isSoloing));
                     }
                 });
             } else {
-                effectsUpdated = effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
+                effectsUpdated.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
             }
             return effectsUpdated.asImmutable();
         default:
