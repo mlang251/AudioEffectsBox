@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import {updateMapping, addEffect} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
+const {ROUTE} = require('../actions/actionOptions').ioTypes;
+const {ADD} = require('../actions/actionOptions').ioFlags;
 
 const checkUsedIDs = (effectType, usedIDs, dispatch) => {
     const usableIDs = effects[effectType].IDs;
@@ -12,7 +14,11 @@ const checkUsedIDs = (effectType, usedIDs, dispatch) => {
                 alert( `Maximum of 3 ${effectType} effects allowed`);
             }
         } else {
-            dispatch(addEffect(effectType, thisID, {io: true}));
+            dispatch(addEffect(effectType, thisID, {
+                io: true,
+                ioType: ROUTE,
+                ioFlag: ADD
+            }));
             break;
         }
     }

@@ -2,7 +2,8 @@ const express = require('express');
 const io = require('socket.io')();
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
-// const actionTypes = require('./actions/actionTypes');
+const ioTypes = require('./actions/actionOptions').ioTypes;
+const ioFlags = require('./actions/actionOptions').ioFlags;
 
 //Instantiate the server
 let app = express();
