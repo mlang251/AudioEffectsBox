@@ -140,19 +140,19 @@ io.on('connection', socket => {
                     case ioFlags.SET_MAP:
                         //TODO: Iterate through xyzMap to see if axis is already mapped, call setMapping once to remove,
                         //and again to set new
-                        var {setEffectID, setParamName} = setMapping(axis, effectID, paramName);
-                        const removeMapData = {
+                        const {setEffectID, setParamName} = setMapping(axis, effectID, paramName);
+                        const setMapData = {
                             effectID: setEffectID,
                             param: setParamName,
                             axis: axis
                         }
-                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(removeMapData))
+                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(setMapData))
                         break;
                     case ioFlags.REMOVE_MAP:
-                        var {setEffectID, setParamName} = removeMapping(axis);
+                        const {remEffectID, remParamName} = removeMapping(axis);
                         const removeMapData = {
-                            effectID: setEffectID,
-                            param: setParamName,
+                            effectID: remEffectID,
+                            param: remParamName,
                             axis: 'n'
                         }
                         serverToMaxChannel.portXYZMap.sendData(JSON.stringify(removeMapData))
