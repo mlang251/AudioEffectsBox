@@ -5,6 +5,7 @@ const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
 const ioTypes = require('./actions/actionOptions').ioTypes;
 const ioFlags = require('./actions/actionOptions').ioFlags;
+const defaults = require('./JSON/defaults.json');
 
 //Instantiate the server
 let app = express();
@@ -99,9 +100,9 @@ const updateMapping = (method, axis, effectID, paramName) => {
             break;
         case 'set':
             data = {
-                effectID: effectID,
-                param: paramName,
-                axis: axis
+                effectID,
+                paramName,
+                axis
             }
             xyzMap[axis].effectID = effectID;
             xyzMap[axis].paramName = paramName;
@@ -112,6 +113,15 @@ const updateMapping = (method, axis, effectID, paramName) => {
     }
     serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
 };
+
+const updateParameter = (effectID, paramName, paramValue) => {
+    const data = {
+        effectID,
+        paramName,
+        paramValue
+    };
+    serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
+}
 
 // Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
 let currentRoute = createRoutes();
@@ -180,28 +190,12 @@ io.on('connection', socket => {
                 break;
             case ioTypes.UPDATE_PARAMETER:
                 var {effectID, paramName, paramValue} = action.payload;
-                const parameterData = {
-                    effectID,
-                    paramName,
-                    paramValue
-                }
-                serverToMaxChannel.portParameters.sendData(JSON.stringify(parameterData));
+                updateParameter(effectID, paramName, paramValue);
                 break;
             default:
                 console.log('Unknown io type');
                 break;
         }
-
-        // socket.emit('action', {
-        //     type: 'UPDATE_MESSAGE',
-        //     options: {},
-        //     payload: {
-        //         message: action.type
-        //     }
-        // });
-        // socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
-        // socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
-        // socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
     });
 
     socket.on('disconnect', () => {
