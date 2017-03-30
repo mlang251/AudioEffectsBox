@@ -85,11 +85,32 @@ const createRoutes = (effectsArray = []) => {
     return routeObj;
 }
 
-const removeMapping = (axis) => {
-    const {effectID, paramName} = xyzMap[axis];
-    xyzMap[axis].effectID = undefined;
-    xyzMap[axis].paramName = undefined;
-    return {effectID, paramName};
+const updateMapping = (method, axis, effectID, paramName) => {
+    let data = {};
+    switch (method) {
+        case 'remove':
+            data = {
+                effectID: xyzMap[axis].effectID,
+                param: xyzMap[axis].paramName,
+                axis: 'n'
+            }
+            xyzMap[axis].effectID = undefined;
+            xyzMap[axis].paramName = undefined;
+            break;
+        case 'set':
+            data = {
+                effectID: effectID,
+                param: paramName,
+                axis: axis
+            }
+            xyzMap[axis].effectID = effectID;
+            xyzMap[axis].paramName = paramName;
+            break;
+        default:
+            console.log('Unknown mapping method');
+            break;
+    }
+    serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
 };
 
 // Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
@@ -138,24 +159,19 @@ io.on('connection', socket => {
                 var {axis, effectID, paramName} = action.payload;
                 switch (ioFlag) {
                     case ioFlags.SET_MAP:
-                        //TODO: Iterate through xyzMap to see if axis is already mapped, call setMapping once to remove,
-                        //and again to set new
-                        const {setEffectID, setParamName} = setMapping(axis, effectID, paramName);
-                        const setMapData = {
-                            effectID: setEffectID,
-                            param: setParamName,
-                            axis: axis
+                        const axes = ['x', 'y', 'z'];
+                        if (xyzMap[axis].effectID) {
+                            updateMapping('remove', axis);
                         }
-                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(setMapData))
+                        for (let i = 0; i < axes.length; i++) {
+                            if (xyzMap[axes[i]].effectID == effectID && xyzMap[axes[i]].paramName == paramName) {
+                                updateMapping('remove', axes[i]);
+                            }
+                        }
+                        updateMapping('set', axis, effectID, paramName);
                         break;
                     case ioFlags.REMOVE_MAP:
-                        const {remEffectID, remParamName} = removeMapping(axis);
-                        const removeMapData = {
-                            effectID: remEffectID,
-                            param: remParamName,
-                            axis: 'n'
-                        }
-                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(removeMapData))
+                        updateMapping('remove', axis);
                         break;
                     default:
                         console.log('Unknown io flag');
