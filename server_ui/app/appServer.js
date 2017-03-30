@@ -41,10 +41,12 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
+    //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
     io.emit('leapData', data);
 });
 
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
+    //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
     io.emit('leapStatusUpdate', msg);
     console.log(`received message from leap: ${msg.args}`);
 });
@@ -62,21 +64,56 @@ const maxToServerChannel = {
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
+    //TODO: use redux-socket.io, import action creator updateMessage to facilitate this
     io.emit('message', msg);
 });
 
 
-const createRoutes = (effectsArray) => {
+
+//
+//Socket.io helper functions and variables
+//
+const createRoutes = (effectsArray = []) => {
     let routeObj = {input: 'output'};
-    effectsArray.forEach((effect, index) => {
-        const ID = effect.get('ID');
+    for (let i = 0; i < effectsArray.length; i++) {
+        const effectID = effectsArray[i].effectID;
         if (index == 0) {
-            routeObj.input = ID;
+            routeObj.input = effectID;
         }
-        routeObj[ID] = effectsArray.get(index + 1) ? effectsArray.get(index + 1).get('ID') : 'output';
-    });
+        routeObj[effectID] = effectsArray[i + 1] ? effectsArray[i + 1].effectID : 'output';
+    };
     return routeObj;
 }
+
+const removeMapping = (axis) => {
+    const {effectID, paramName} = xyzMap[axis];
+    xyzMap[axis].effectID = undefined;
+    xyzMap[axis].paramName = undefined;
+    return {effectID, paramName};
+};
+
+// Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
+let currentRoute = createRoutes();
+
+// Maintain xyzMap. When mappings are overwritten, emit once to nullify the original, then again with the new one
+let xyzMap = {
+    x: {
+        effectID: undefined,
+        paramName: undefined,
+        axisName: 'x'
+    },
+    y: {
+        effectID: undefined,
+        paramName: undefined,
+        axisName: 'y'
+    },
+    z: {
+        effectID: undefined,
+        paramName: undefined,
+        axisName: 'z'
+    }
+};
+
 
 
 
@@ -87,37 +124,65 @@ const createRoutes = (effectsArray) => {
 io.on('connection', socket => {
     console.log('User connected');
 
-    // Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
-    const currentRoute = createRoutes();
+    //Emit the initial route
     serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(currentRoute))
-    // Maintain xyzMap. When mappings are overwritten, emit once to nullify the original, then again with the new one
-    const xyzMap = {
-        x: {
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'x'
-        },
-        y: {
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'y'
-        },
-        z: {
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'z'
-        }
-    };
+
 
     socket.on('action', (action) => {
-        console.log(action.type);
-        socket.emit('action', {
-            type: 'UPDATE_MESSAGE',
-            options: {},
-            payload: {
-                message: action.type
-            }
-        });
+        const {ioType, ioFlag} = action.options;
+        switch (ioType) {
+            case ioTypes.ROUTE:
+                //Don't forget to emit initial parameter values when effect is added
+                break;
+            case ioTypes.XYZ_MAP:
+                var {axis, effectID, paramName} = action.payload;
+                switch (ioFlag) {
+                    case ioFlags.SET_MAP:
+                        //TODO: Iterate through xyzMap to see if axis is already mapped, call setMapping once to remove,
+                        //and again to set new
+                        var {setEffectID, setParamName} = setMapping(axis, effectID, paramName);
+                        const removeMapData = {
+                            effectID: setEffectID,
+                            param: setParamName,
+                            axis: axis
+                        }
+                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(removeMapData))
+                        break;
+                    case ioFlags.REMOVE_MAP:
+                        var {setEffectID, setParamName} = removeMapping(axis);
+                        const removeMapData = {
+                            effectID: setEffectID,
+                            param: setParamName,
+                            axis: 'n'
+                        }
+                        serverToMaxChannel.portXYZMap.sendData(JSON.stringify(removeMapData))
+                        break;
+                    default:
+                        console.log('Unknown io flag');
+                        break;
+                }
+                break;
+            case ioTypes.UPDATE_PARAMETER:
+                var {effectID, paramName, paramValue} = action.payload;
+                const parameterData = {
+                    effectID,
+                    paramName,
+                    paramValue
+                }
+                serverToMaxChannel.portParameters.sendData(JSON.stringify(parameterData));
+                break;
+            default:
+                console.log('Unknown io type');
+                break;
+        }
+
+        // socket.emit('action', {
+        //     type: 'UPDATE_MESSAGE',
+        //     options: {},
+        //     payload: {
+        //         message: action.type
+        //     }
+        // });
         // socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
         // socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
         // socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));

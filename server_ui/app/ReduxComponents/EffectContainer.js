@@ -2,6 +2,8 @@ import {connect} from 'react-redux';
 import {removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
+const {ROUTE, XYZ_MAP} = require('../actions/actionOptions').ioTypes;
+const {ADD, REMOVE_EFF, SOLO, BYPASS, REORDER, REMOVE_MAP} = require('../actions/actionOptions').ioFlags;
 
 const xyzMapToParameter = (xyzMap, effectID) => {
     let xyzMapList = List().asMutable();
@@ -38,19 +40,39 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: () => {
-            dispatch(removeEffect(ownProps.effectID, {io: true}));
+            dispatch(removeEffect(ownProps.effectID, {
+                io: true,
+                ioType: ROUTE,
+                ioFlag: REMOVE_EFF
+            }));
         },
         reorderEffects: (direction) => {
-            dispatch(reorderEffects(ownProps.effectID, direction, {io: true}));
+            dispatch(reorderEffects(ownProps.effectID, direction, {
+                io: true,
+                ioType: ROUTE,
+                ioFlag: REORDER
+            }));
         }, 
         toggleBypass: () => {
-            dispatch(toggleBypass(ownProps.effectID, {io: true}));
+            dispatch(toggleBypass(ownProps.effectID, {
+                io: true,
+                ioType: ROUTE,
+                ioFlag: BYPASS
+            }));
         },
         toggleSolo: () => {
-            dispatch(toggleSolo(ownProps.effectID, {io: true}));
+            dispatch(toggleSolo(ownProps.effectID, {
+                io: true,
+                ioType: ROUTE,
+                ioFlag: SOLO
+            }));
         },
         removeMapping: axis => {
-            dispatch(removeMapping(axis, {io: true}));
+            dispatch(removeMapping(axis, {
+                io: true,
+                ioType: XYZ_MAP,
+                ioFlag: REMOVE_MAP
+            }));
         }
     };
 };

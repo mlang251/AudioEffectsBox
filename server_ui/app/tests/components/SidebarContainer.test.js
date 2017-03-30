@@ -7,9 +7,8 @@ import {list as effectsList, effects} from '../../JSON/effects';
 import configureMockStore from 'redux-mock-store';
 import {List} from 'immutable';
 import {UPDATE_MAPPING, ADD_EFFECT} from '../../actions/actionTypes';
-const actionOptions = require('../../actions/actionOptions');
-const {ROUTE} = actionOptions.ioTypes;
-const {ADD} = actionOptions.ioFlags;
+const {ROUTE} = require('../../actions/actionOptions').ioTypes;
+const {ADD} = require('../../actions/actionOptions').ioFlags;
 
 const store = configureMockStore()({});
 
