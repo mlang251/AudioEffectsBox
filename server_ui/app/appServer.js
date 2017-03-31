@@ -164,6 +164,19 @@ io.on('connection', socket => {
         switch (ioType) {
             case ioTypes.ROUTE:
                 //Don't forget to emit initial parameter values when effect is added
+                switch (ioFlag) {
+                    case ioFlags.ADD:
+                        break;
+                    case ioFlags.REMOVE_EFF:
+                        break;
+                    case ioFlags.SOLO:
+                        break;
+                    case ioFlags.BYPASS:
+                        break;
+                    default:
+                        console.log('Unknown io flag');
+                        break;
+                }
                 break;
             case ioTypes.XYZ_MAP:
                 var {axis, effectID, paramName} = action.payload;
