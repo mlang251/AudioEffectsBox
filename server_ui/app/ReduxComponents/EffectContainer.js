@@ -31,9 +31,9 @@ const determineSoloing = (effectsList) => {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        xyzMapList: xyzMapToParameter(state.xyzMap, ownProps.effectID),
-        axisToMap: state.mapping.get('currentAxis'),
-        allowBypass: determineSoloing(state.effects)
+        xyzMapList: xyzMapToParameter(state.get('xyzMap'), ownProps.effectID),
+        axisToMap: state.get('mapping').get('currentAxis'),
+        allowBypass: determineSoloing(state.get('effects'))
     };
 };
 

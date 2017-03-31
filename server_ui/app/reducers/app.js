@@ -1,4 +1,4 @@
-import {combineReducers} from 'redux';
+import {combineReducers} from 'redux-immutable';
 import effects from './effects';
 import emit from './emit';
 import interactionBox from './interactionBox';

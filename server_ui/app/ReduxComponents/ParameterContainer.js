@@ -17,8 +17,8 @@ const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        value: state.parameterValues.get(ownProps.effectID).get(ownProps.paramName),
-        isMapping: state.mapping.get('isMapping')
+        value: state.get('parameterValues').get(ownProps.effectID).get(ownProps.paramName),
+        isMapping: state.get('mapping').get('isMapping')
     };
 };
 
