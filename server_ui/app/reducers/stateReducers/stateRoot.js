@@ -1,15 +1,13 @@
 import {combineReducers} from 'redux-immutable';
 import effects from './effects';
-import emit from './emit';
 import interactionBox from './interactionBox';
 import mapping from './mapping';
 import message from './message';
 import parameterValues from './parameterValues';
 import xyzMap from './xyzMap';
 
-const app = combineReducers({
+const stateRoot = combineReducers({
     effects,
-    emit,
     interactionBox,
     mapping,
     message,
@@ -17,4 +15,4 @@ const app = combineReducers({
     xyzMap
 });
 
-export default app;
+export default stateRoot;

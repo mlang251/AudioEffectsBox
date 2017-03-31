@@ -1,5 +1,5 @@
 import {List, Map} from 'immutable';
-import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../actions/actionTypes';
+import {ADD_EFFECT, REMOVE_EFFECT, REORDER_EFFECTS, TOGGLE_BYPASS, TOGGLE_SOLO} from '../../actions/actionTypes';
 
 const effects = (state = List(), action) => {
     switch (action.type) {
