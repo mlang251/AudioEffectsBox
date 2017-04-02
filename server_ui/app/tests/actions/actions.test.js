@@ -1,5 +1,10 @@
 import * as types from '../../actions/actionTypes';
 import * as actions from '../../actions/actionCreators';
+import {List, Map} from 'immutable';
+const {ROUTE, UPDATE_PARAMETER, XYZ_MAP} = require('../../actions/actionOptions').ioTypes;
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+const createMockStore = configureMockStore([thunk]);
 
 describe('actions', () => {
     test('should create an action to update the message', () => {
@@ -13,65 +18,85 @@ describe('actions', () => {
         };
         expect(actions.updateMessage(message)).toEqual(expectedAction);
     });
-    test('should create an action to add an effect', () => {
+    test('should create an action to update effects', () => {
+        const effectsList = List([Map({
+            effectType: 'reverb',
+            effectID: 'reverb1',
+            isBypassed: false,
+            isSoloing: false
+        })]);
+        const expectedAction = {
+            type: types.UPDATE_EFFECTS,
+            options: {},
+            payload: {
+                effectsList
+            }
+        };
+        expect(actions.updateEffects(effectsList)).toEqual(expectedAction);
+    });
+    test('should create an action to add an effect and emit routes', () => {
+        const dispatch = jest.fn();
         const effectType = 'reverb';
         const effectID = 'reverb1';
-        const expectedAction = {
-            type: types.ADD_EFFECT,
-            options: {},
-            payload: {
-                effectType,
-                effectID
-            }
-        };
-        expect(actions.addEffect(effectType, effectID)).toEqual(expectedAction);
+        const effectsList = List([Map({
+            effectType: effectType,
+            effectID: effectID,
+            isBypassed: false,
+            isSoloing: false
+        })]);
+        const thunk = actions.addEffectAndEmitRoute(effectType, effectID);
+        thunk(dispatch);
+        expect(dispatch).toHaveBeenCalledWith(actions.updateEffects(effectsList, {
+            io: true,
+            ioType: ROUTE
+        }));
     });
-    test('should create an action to remove an effect', () => {
-        const effectID = 'reverb1';
-        const expectedAction = {
-            type: types.REMOVE_EFFECT,
-            options: {},
-            payload: {
-                effectID
-            }
-        };
-        expect(actions.removeEffect(effectID)).toEqual(expectedAction);
-    });
-    test('should create an action to reorder effects', () => {
-        const effectID = 'reverb1';
-        const direction = 'left';
-        const expectedAction = {
-            type: types.REORDER_EFFECTS,
-            options: {},
-            payload: {
-                effectID,
-                direction
-            }
-        };
-        expect(actions.reorderEffects(effectID, direction)).toEqual(expectedAction);
-    });
-    test('should create an action to toggle an effect bypass', () => {
-        const effectID = 'reverb1';
-        const expectedAction = {
-            type: types.TOGGLE_BYPASS,
-            options: {},
-            payload: {
-                effectID
-            }
-        };
-        expect(actions.toggleBypass(effectID)).toEqual(expectedAction);
-    });
-    test('should create an action to toggle an effect solo', () => {
-        const effectID = 'reverb1';
-        const expectedAction = {
-            type: types.TOGGLE_SOLO,
-            options: {},
-            payload: {
-                effectID
-            }
-        };
-        expect(actions.toggleSolo(effectID)).toEqual(expectedAction);
-    });
+    // test('should create an action to remove an effect', () => {
+    //     const effectID = 'reverb1';
+    //     const expectedAction = {
+    //         type: types.REMOVE_EFFECT,
+    //         options: {},
+    //         payload: {
+    //             effectID
+    //         }
+    //     };
+    //     expect(actions.removeEffect(effectID)).toEqual(expectedAction);
+    // });
+    // test('should create an action to reorder effects', () => {
+    //     const effectID = 'reverb1';
+    //     const direction = 'left';
+    //     const expectedAction = {
+    //         type: types.REORDER_EFFECTS,
+    //         options: {},
+    //         payload: {
+    //             effectID,
+    //             direction
+    //         }
+    //     };
+    //     expect(actions.reorderEffects(effectID, direction)).toEqual(expectedAction);
+    // });
+    // test('should create an action to toggle an effect bypass', () => {
+    //     const effectID = 'reverb1';
+    //     const expectedAction = {
+    //         type: types.TOGGLE_BYPASS,
+    //         options: {},
+    //         payload: {
+    //             effectID
+    //         }
+    //     };
+    //     expect(actions.toggleBypass(effectID)).toEqual(expectedAction);
+    // });
+    // test('should create an action to toggle an effect solo', () => {
+    //     const effectID = 'reverb1';
+    //     const expectedAction = {
+    //         type: types.TOGGLE_SOLO,
+    //         options: {},
+    //         payload: {
+    //             effectID
+    //         }
+    //     };
+    //     expect(actions.toggleSolo(effectID)).toEqual(expectedAction);
+    // });
     test('should create an action to receive Leap data', () => {
         const data = [0.281, 0.589, 0.354];
         const expectedAction = {

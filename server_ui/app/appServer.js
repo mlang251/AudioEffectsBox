@@ -1,11 +1,12 @@
 const express = require('express');
 const io = require('socket.io')();
 const List = require('immutable').List;
+const Map = require('immutable').Map;
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
-const ioTypes = require('./actions/actionOptions').ioTypes;
-const ioFlags = require('./actions/actionOptions').ioFlags;
 const defaults = require('./JSON/defaults.json');
+// TODO: install requireJS and require this
+// const actionTypes = require('./actions/actionTypes');
 
 //Instantiate the server
 let app = express();
@@ -74,16 +75,23 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 //
 //Socket.io helper functions and variables
 //
-const createRoutes = (effectsArray = []) => {
+const createRoutes = (effectsList = List()) => {
+    //TODO: for some reason the immutable effectsList is being converted into plain JS
     let routeObj = {input: 'output'};
-    for (let i = 0; i < effectsArray.length; i++) {
-        const effectID = effectsArray[i].effectID;
-        if (index == 0) {
-            routeObj.input = effectID;
+    const soloEffect = effectsList.filter(effect => {
+        return effect.isSoloing;
+    });
+    const effectsToRoute = soloEffect.size > 0 ? soloEffect : effectsList;
+    effectsToRoute.forEach((effect, index) => {
+        if (!effect.isBypassed) {
+            const effectID = effect.effectID;
+            if (index == 0) {
+                routeObj.input = effectID;
+            }
+            routeObj[effectID] = effectsToRoute[index + 1] ? effectsToRoute[index + 1].effectID : 'output';
         }
-        routeObj[effectID] = effectsArray[i + 1] ? effectsArray[i + 1].effectID : 'output';
-    };
-    return routeObj;
+    });
+    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(routeObj));
 }
 
 const updateMapping = (method, axis, effectID, paramName) => {
@@ -156,57 +164,43 @@ io.on('connection', socket => {
     console.log('User connected');
 
     //Emit the initial route
-    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(currentRoute))
-
+    createRoutes();
 
     socket.on('action', (action) => {
-        const {ioType, ioFlag} = action.options;
-        switch (ioType) {
-            case ioTypes.ROUTE:
+        switch (action.type) {
+            case 'UPDATE_EFFECTS':
                 //Don't forget to emit initial parameter values when effect is added
-                switch (ioFlag) {
-                    case ioFlags.ADD:
-                        break;
-                    case ioFlags.REMOVE_EFF:
-                        break;
-                    case ioFlags.SOLO:
-                        break;
-                    case ioFlags.BYPASS:
-                        break;
-                    default:
-                        console.log('Unknown io flag');
-                        break;
-                }
+                createRoutes(action.payload.effectsList);
                 break;
-            case ioTypes.XYZ_MAP:
-                var {axis, effectID, paramName} = action.payload;
-                switch (ioFlag) {
-                    case ioFlags.SET_MAP:
-                        const axes = ['x', 'y', 'z'];
-                        if (xyzMap[axis].effectID) {
-                            updateMapping('remove', axis);
-                        }
-                        for (let i = 0; i < axes.length; i++) {
-                            if (xyzMap[axes[i]].effectID == effectID && xyzMap[axes[i]].paramName == paramName) {
-                                updateMapping('remove', axes[i]);
-                            }
-                        }
-                        updateMapping('set', axis, effectID, paramName);
-                        break;
-                    case ioFlags.REMOVE_MAP:
-                        updateMapping('remove', axis);
-                        break;
-                    default:
-                        console.log('Unknown io flag');
-                        break;
-                }
-                break;
-            case ioTypes.UPDATE_PARAMETER:
-                var {effectID, paramName, paramValue} = action.payload;
-                updateParameter(effectID, paramName, paramValue);
-                break;
+            // case ioTypes.XYZ_MAP:
+            //     var {axis, effectID, paramName} = action.payload;
+            //     switch (ioFlag) {
+            //         case ioFlags.SET_MAP:
+            //             const axes = ['x', 'y', 'z'];
+            //             if (xyzMap[axis].effectID) {
+            //                 updateMapping('remove', axis);
+            //             }
+            //             for (let i = 0; i < axes.length; i++) {
+            //                 if (xyzMap[axes[i]].effectID == effectID && xyzMap[axes[i]].paramName == paramName) {
+            //                     updateMapping('remove', axes[i]);
+            //                 }
+            //             }
+            //             updateMapping('set', axis, effectID, paramName);
+            //             break;
+            //         case ioFlags.REMOVE_MAP:
+            //             updateMapping('remove', axis);
+            //             break;
+            //         default:
+            //             console.log('Unknown io flag');
+            //             break;
+            //     }
+            //     break;
+            // case ioTypes.UPDATE_PARAMETER:
+            //     var {effectID, paramName, paramValue} = action.payload;
+            //     updateParameter(effectID, paramName, paramValue);
+            //     break;
             default:
-                console.log('Unknown io type');
+                console.log('Unknown action type');
                 break;
         }
     });

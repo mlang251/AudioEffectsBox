@@ -1,5 +1,5 @@
 import {Map, List} from 'immutable';
-import {RECEIVE_LEAP_DATA, RECEIVE_LEAP_STATUS} from '../../actions/actionTypes';
+import {RECEIVE_LEAP_DATA, RECEIVE_LEAP_STATUS} from '../actions/actionTypes';
 
 const initialState = Map({
     coords: List(),

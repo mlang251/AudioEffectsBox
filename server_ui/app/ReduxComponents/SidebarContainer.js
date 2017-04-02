@@ -1,9 +1,8 @@
 import {connect} from 'react-redux';
-import {updateMapping, addEffect} from '../actions/actionCreators';
+import {updateMapping, addEffectAndEmitRoute} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
 const {ROUTE} = require('../actions/actionOptions').ioTypes;
-const {ADD} = require('../actions/actionOptions').ioFlags;
 
 /*TODO: use Thunk to handle an action creator that is a function that passes the effects state slice to the dispatch method.
     take the list of effects, add the new on to the list, and dispatch the computed list to the store, and in the options section
@@ -18,12 +17,7 @@ const checkUsedIDs = (effectType, usedIDs, effectsRoute, dispatch) => {
                 alert( `Maximum of 3 ${effectType} effects allowed`);
             }
         } else {
-            dispatch(addEffect(effectType, thisID, {
-                io: true,
-                ioType: ROUTE,
-                ioFlag: ADD,
-                currentRoute: effectsRoute
-            }));
+            dispatch(addEffectAndEmitRoute(effectType, thisID));
             break;
         }
     }

@@ -31,8 +31,7 @@ export const addEffectAndEmitRoute = (effectType, effectID, options = {}) => {
             isSoloing: false
         }));
         dispatch(updateEffects(effects.asImmutable(), {
-            io: true,
-            ioType: ROUTE
+            io: true
         }));
     };
 };
