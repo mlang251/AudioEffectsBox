@@ -1,5 +1,5 @@
 import * as types from './actionTypes';
-// Action creators
+import {Map} from 'immutable';
 
 export const updateMessage = (message, options = {}) => {
     return {
