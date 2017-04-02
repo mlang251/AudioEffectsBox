@@ -1,7 +1,18 @@
-import reduceReducers from 'reduce-reducers';
-import stateRoot from './stateReducers/stateRoot';
-import socketRoot from './socketReducers/socketRoot';
+import {combineReducers} from 'redux-immutable';
+import effects from './effects';
+import interactionBox from './interactionBox';
+import mapping from './mapping';
+import message from './message';
+import parameterValues from './parameterValues';
+import xyzMap from './xyzMap';
 
-const root = reduceReducers(stateRoot, socketRoot);
+const root = combineReducers({
+    effects,
+    interactionBox,
+    mapping,
+    message,
+    parameterValues,
+    xyzMap
+});
 
 export default root;
