@@ -81,12 +81,14 @@ const createRoutes = (effectsList = List()) => {
     const soloEffect = effectsList.filter(effect => {
         return effect.isSoloing;
     });
-    const effectsToRoute = soloEffect.size > 0 ? soloEffect : effectsList;
+    const effectsToRoute = soloEffect.length > 0 ? soloEffect : effectsList;
+    let isFirstInChain = true;
     effectsToRoute.forEach((effect, index) => {
         if (!effect.isBypassed) {
             const effectID = effect.effectID;
-            if (index == 0) {
+            if (isFirstInChain) {
                 routeObj.input = effectID;
+                isFirstInChain = false;
             }
             routeObj[effectID] = effectsToRoute[index + 1] ? effectsToRoute[index + 1].effectID : 'output';
         }
@@ -130,29 +132,6 @@ const updateParameter = (effectID, paramName, paramValue) => {
     };
     serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
 }
-
-// Maintain currentRoute. When effects are added, removed, bypassed, or solod, update this and send it to Max
-let currentRoute = createRoutes();
-
-// Maintain xyzMap. When mappings are overwritten, emit once to nullify the original, then again with the new one
-let xyzMap = {
-    x: {
-        effectID: undefined,
-        paramName: undefined,
-        axisName: 'x'
-    },
-    y: {
-        effectID: undefined,
-        paramName: undefined,
-        axisName: 'y'
-    },
-    z: {
-        effectID: undefined,
-        paramName: undefined,
-        axisName: 'z'
-    }
-};
-
 
 
 

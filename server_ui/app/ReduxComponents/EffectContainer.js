@@ -1,5 +1,6 @@
 import {connect} from 'react-redux';
-import {removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping} from '../actions/actionCreators';
+import {removeEffectAndEmitRoute, reorderEffectsAndEmitRoute, toggleBypassAndEmitRoute,
+    toggleSoloAndEmitRoute, removeMapping} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
 
@@ -38,39 +39,19 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: () => {
-            dispatch(removeEffect(ownProps.effectID, {
-                io: true,
-                ioType: ROUTE,
-                ioFlag: REMOVE_EFF
-            }));
+            dispatch(removeEffectAndEmitRoute(ownProps.effectID));
         },
         reorderEffects: (direction) => {
-            dispatch(reorderEffects(ownProps.effectID, direction, {
-                io: true,
-                ioType: ROUTE,
-                ioFlag: REORDER
-            }));
+            dispatch(reorderEffectsAndEmitRoute(ownProps.effectID, direction));
         }, 
         toggleBypass: () => {
-            dispatch(toggleBypass(ownProps.effectID, {
-                io: true,
-                ioType: ROUTE,
-                ioFlag: BYPASS
-            }));
+            dispatch(toggleBypassAndEmitRoute(ownProps.effectID));
         },
         toggleSolo: () => {
-            dispatch(toggleSolo(ownProps.effectID, {
-                io: true,
-                ioType: ROUTE,
-                ioFlag: SOLO
-            }));
+            dispatch(toggleSoloAndEmitRoute(ownProps.effectID));
         },
         removeMapping: axis => {
-            dispatch(removeMapping(axis, {
-                io: true,
-                ioType: XYZ_MAP,
-                ioFlag: REMOVE_MAP
-            }));
+            dispatch(removeMapping(axis));
         }
     };
 };

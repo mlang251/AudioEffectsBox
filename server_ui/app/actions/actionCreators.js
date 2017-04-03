@@ -40,15 +40,14 @@ export const addEffectAndEmitRoute = (effectType, effectID, options = {}) => {
 export const removeEffectAndEmitRoute = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
-        effects.filter((effect) => effect.get('effectID') != effectID);
+        effects = effects.filter((effect) => effect.get('effectID') != effectID);
         dispatch(updateEffects(effects.asImmutable(), {
-            io: true,
-            ioType: ROUTE
+            io: true
         }));
     };
 };
 
-export const reorderEffectAndEmitRoute = (effectID, direction, options = {}) => {
+export const reorderEffectsAndEmitRoute = (effectID, direction, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects');
         let effectsList;
@@ -71,8 +70,7 @@ export const reorderEffectAndEmitRoute = (effectID, direction, options = {}) => 
         }
         
         dispatch(updateEffects(effectsList.asImmutable(), {
-            io: true,
-            ioType: ROUTE
+            io: true
         }));
     };
 };
@@ -80,13 +78,12 @@ export const reorderEffectAndEmitRoute = (effectID, direction, options = {}) => 
 export const toggleBypassAndEmitRoute = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
-        const index = state.findIndex(effect => {
+        const index = effects.findIndex(effect => {
             return effect.get('effectID') == effectID;
         });
-        effects.update(index, effect => effect.update('isBypassed', value => !effects.get(index).get('isBypassed')));
+        effects = effects.update(index, effect => effect.update('isBypassed', value => !effects.get(index).get('isBypassed')));
         dispatch(updateEffects(effects.asImmutable(), {
-            io: true,
-            ioType: ROUTE
+            io: true
         }));
     };
 };
@@ -107,18 +104,18 @@ export const toggleSoloAndEmitRoute = (effectID, options = {}) => {
             effects.forEach((effect, index) => {
                 if (effect.get('effectID') != effectID) {
                     if (effect.get('isSoloing')) {
-                        effects.update(index, effect => effect.update('isSoloing', value => false));
+                        effects = effects.update(index, effect => effect.update('isSoloing', value => false));
                     }
                 } else {
-                    effects.update(index, effect => effect.update('isSoloing', value => !isSoloing));
+                    effects = effects.update(index, effect => effect.update('isSoloing', value => !isSoloing))
+                        .update(index, effect => effect.update('isBypassed', value => false));
                 }
             });
         } else {
-            effects.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
+            effects = effects.update(indexToUpdate, effect => effect.update('isSoloing', value => !isSoloing));
         }
         dispatch(updateEffects(effects.asImmutable(), {
-            io: true,
-            ioType: ROUTE
+            io: true
         }));
     };
 };
