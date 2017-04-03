@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {updateMapping, checkUsedIDs} from '../actions/actionCreators';
+const {updateMapping, checkUsedIDs} = require('../actions/actionCreators');
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
 

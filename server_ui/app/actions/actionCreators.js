@@ -1,7 +1,7 @@
-import * as types from './actionTypes';
-import {Map} from 'immutable';
+const types = require('./actionTypes');
+const {Map} = require('immutable');
 
-export const updateMessage = (message, options = {}) => {
+const updateMessage = (message, options = {}) => {
     return {
         type: types.UPDATE_MESSAGE,
         options: options,
@@ -11,7 +11,7 @@ export const updateMessage = (message, options = {}) => {
     };
 };
 
-export const updateEffects = (effectsList, options = {}) => {
+const updateEffects = (effectsList, options = {}) => {
     return {
         type: types.UPDATE_EFFECTS,
         options: options,
@@ -21,7 +21,7 @@ export const updateEffects = (effectsList, options = {}) => {
     };
 };
 
-export const checkUsedIDs = (effectType, usableIDs) => {
+const checkUsedIDs = (effectType, usableIDs) => {
     return (dispatch, getState) => {
         const usedIDs = getState().get('effects').map(effect => {
             return effect.get('effectID');
@@ -40,7 +40,7 @@ export const checkUsedIDs = (effectType, usableIDs) => {
     }
 };
 
-export const addEffectAndEmit = (effectType, effectID, options = {}) => {
+const addEffectAndEmit = (effectType, effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects.push(Map({
@@ -56,7 +56,7 @@ export const addEffectAndEmit = (effectType, effectID, options = {}) => {
     };
 };
 
-export const removeEffectAndEmit = (effectID, options = {}) => {
+const removeEffectAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects = effects.filter((effect) => effect.get('effectID') != effectID);
@@ -66,7 +66,7 @@ export const removeEffectAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
+const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects');
         let effectsList;
@@ -94,7 +94,7 @@ export const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
     };
 };
 
-export const toggleBypassAndEmit = (effectID, options = {}) => {
+const toggleBypassAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         const index = effects.findIndex(effect => {
@@ -107,7 +107,7 @@ export const toggleBypassAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const toggleSoloAndEmit = (effectID, options = {}) => {
+const toggleSoloAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         let isSoloing;
@@ -139,17 +139,28 @@ export const toggleSoloAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const receiveLeapData = (data, options = {}) => {
+const updateCoords = (data, options = {}) => {
     return {
-        type: types.RECEIVE_LEAP_DATA,
+        type: types.UPDATE_COORDS,
         options: options,
         payload: {
             data
         }
     };
+}
+
+const receiveLeapData = (data, options = {}) => {
+    return (dispatch, getState) => {
+        getState().get('xyzMap').forEach((axis, index) => {
+            if (axis.get('effectID')) {
+                dispatch(updateParameterValue(axis.get('effectID'), axis.get('paramName'), data[index]))
+            }
+        });
+        dispatch(updateCoords(data));
+    }
 };
 
-export const receiveLeapStatus = (address, args, options = {}) => {
+const receiveLeapStatus = (address, args, options = {}) => {
     return {
         type: types.RECEIVE_LEAP_STATUS,
         options: options,
@@ -160,7 +171,7 @@ export const receiveLeapStatus = (address, args, options = {}) => {
     };
 };
 
-export const updateParameterValue = (effectID, paramName, paramValue, options = {}) => {
+const updateParameterValue = (effectID, paramName, paramValue, options = {}) => {
     return {
         type: types.UPDATE_PARAMETER_VALUE,
         options: options,
@@ -172,7 +183,7 @@ export const updateParameterValue = (effectID, paramName, paramValue, options = 
     };
 };
 
-export const updateMapping = (mapToParameter, axis, effectID, paramName, options = {}) => {
+const updateMapping = (mapToParameter, axis, effectID, paramName, options = {}) => {
     return {
         type: types.UPDATE_MAPPING,
         options: options,
@@ -185,7 +196,7 @@ export const updateMapping = (mapToParameter, axis, effectID, paramName, options
     };
 }
 
-export const removeMappingAndEmit = (effectID, paramName, axis, options = {}) => {
+const removeMappingAndEmit = (effectID, paramName, axis, options = {}) => {
     return {
         type: types.REMOVE_MAPPING,
         options: options,
@@ -197,7 +208,7 @@ export const removeMappingAndEmit = (effectID, paramName, axis, options = {}) =>
     };
 };
 
-export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, options = {}) => {
+const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, options = {}) => {
     return (dispatch, getState) => {
         const xyzMap = getState().get('xyzMap');
         const axes = ['x', 'y', 'z'];
@@ -220,3 +231,21 @@ export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, opt
         }));
     };
 };
+
+module.exports = {
+    updateMessage,
+    updateEffects,
+    checkUsedIDs,
+    addEffectAndEmit,
+    removeEffectAndEmit,
+    reorderEffectsAndEmit,
+    toggleBypassAndEmit,
+    toggleSoloAndEmit,
+    updateCoords,
+    receiveLeapData,
+    receiveLeapStatus,
+    updateParameterValue,
+    updateMapping,
+    removeMappingAndEmit,
+    setMappingAndEmit
+}

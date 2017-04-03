@@ -2,6 +2,7 @@ const express = require('express');
 const io = require('socket.io')();
 const {OscUdpPort, DgramUdpPort} = require('./serverDependencies/ports');
 const {createRoutes, updateMapping, updateParameter} = require('./serverDependencies/ioHelpers');
+const {updateMessage, receiveLeapData, receiveLeapStatus} = require('./actions/actionCreators');
 const defaults = require('./JSON/defaults.json');
 
 //Instantiate the server
@@ -39,14 +40,14 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
-    //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
-    io.emit('leapData', data);
+    receiveLeapData(data);
 });
 
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
     //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
-    io.emit('leapStatusUpdate', msg);
-    console.log(`received message from leap: ${msg.args}`);
+    const {address, args} = msg;
+    receiveLeapStatus(address, args);
+    console.log(`received message from leap: ${args}`);
 });
 
 
@@ -63,7 +64,7 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     msg = msg.toString();
     console.log(`received message from max: ${msg}`);
     //TODO: use redux-socket.io, import action creator updateMessage to facilitate this
-    io.emit('message', msg);
+    updateMessage(msg);
 });
 
 

@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import {UPDATE_PARAMETER_VALUE} from '../actions/actionTypes';
+const {UPDATE_PARAMETER_VALUE} = require('../actions/actionTypes');
 import defaults from '../JSON/defaults.json';
 
 const initialState = fromJS(defaults);

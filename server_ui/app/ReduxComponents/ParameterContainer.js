@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {updateParameterValue, setMappingAndEmit} from '../actions/actionCreators';
+const {updateParameterValue, setMappingAndEmit} = require('../actions/actionCreators');
 import Parameter from './Parameter';
 
 const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
