@@ -185,10 +185,10 @@ io.on('connection', socket => {
             //             break;
             //     }
             //     break;
-            // case ioTypes.UPDATE_PARAMETER:
-            //     var {effectID, paramName, paramValue} = action.payload;
-            //     updateParameter(effectID, paramName, paramValue);
-            //     break;
+            case 'UPDATE_PARAMETER_VALUE':
+                var {effectID, paramName, paramValue} = action.payload;
+                updateParameter(effectID, paramName, paramValue);
+                break;
             default:
                 console.log('Unknown action type');
                 break;

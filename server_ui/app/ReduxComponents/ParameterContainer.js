@@ -8,8 +8,7 @@ const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => 
         1 : yValue/max
     const paramValue = Math.round(value * 1000)/1000;
     dispatch(updateParameterValue(effectID, paramName, paramValue, {
-        io: true,
-        ioType: UPDATE_PARAMETER,
+        io: true
     }));
 }
 
@@ -27,9 +26,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         }, 
         handleClick: () => {
             dispatch(updateMapping(true, ownProps.axisToMap, ownProps.effectID, ownProps.paramName, {
-                io: true,
-                ioType: XYZ_MAP,
-                ioFlag: SET_MAP
+                io: true
             }));
         }
     };
