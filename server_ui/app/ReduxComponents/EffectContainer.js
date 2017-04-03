@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-const {removeEffectAndEmit, reorderEffectsAndEmit, toggleBypassAndEmit,
-    toggleSoloAndEmit, removeMappingAndEmit} = require('../actions/actionCreators');
+import {removeEffectAndEmit, reorderEffectsAndEmit, toggleBypassAndEmit,
+    toggleSoloAndEmit, removeMappingAndEmit} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
 

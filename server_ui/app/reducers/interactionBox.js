@@ -1,5 +1,5 @@
 import {Map, List} from 'immutable';
-const {UPDATE_COORDS, RECEIVE_LEAP_STATUS} = require('../actions/actionTypes');
+import {RECEIVE_LEAP_DATA, RECEIVE_LEAP_STATUS} from '../actions/actionTypes';
 
 const initialState = Map({
     coords: List(),
@@ -15,7 +15,7 @@ const initialState = Map({
 
 const interactionBox = (state = initialState, action) => {
     switch (action.type) {
-        case UPDATE_COORDS:
+        case RECEIVE_LEAP_DATA:
             var {data} = action.payload;
             return state.update('coords', value => List(data))
         case RECEIVE_LEAP_STATUS:

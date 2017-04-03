@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-const {UPDATE_MAPPING, REMOVE_MAPPING} = require('../actions/actionTypes');
+import {UPDATE_MAPPING, REMOVE_MAPPING} from '../actions/actionTypes';
 
 const initialState = Map({
     x: Map({

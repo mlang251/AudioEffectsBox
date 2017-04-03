@@ -1,5 +1,5 @@
 import {Map} from 'immutable';
-const {UPDATE_MAPPING} = require('../actions/actionTypes');
+import {UPDATE_MAPPING} from '../actions/actionTypes';
 
 const mapping = (state = Map(), action) => {
     switch (action.type) {

@@ -1,5 +1,5 @@
 import {List, Map} from 'immutable';
-const {UPDATE_EFFECTS} = require('../actions/actionTypes');
+import {UPDATE_EFFECTS} from '../actions/actionTypes';
 
 const effects = (state = List(), action) => {
     switch (action.type) {

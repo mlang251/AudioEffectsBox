@@ -1,4 +1,4 @@
-const {UPDATE_MESSAGE} = require('../actions/actionTypes');
+import {UPDATE_MESSAGE} from '../actions/actionTypes';
 
 const message = (state = '', action) => {
     switch (action.type) {
