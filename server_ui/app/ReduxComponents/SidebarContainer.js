@@ -1,22 +1,7 @@
 import {connect} from 'react-redux';
-import {updateMapping, addEffectAndEmit} from '../actions/actionCreators';
+import {updateMapping, checkUsedIDs} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
-
-const checkUsedIDs = (effectType, usedIDs, effectsRoute, dispatch) => {
-    const usableIDs = effects[effectType].IDs;
-    for (let i = 0; i < usableIDs.length; i++) {
-        const thisID = usableIDs[i];
-        if (usedIDs.indexOf(thisID) != -1) {
-            if (i == usableIDs.length - 1) {
-                alert( `Maximum of 3 ${effectType} effects allowed`);
-            }
-        } else {
-            dispatch(addEffectAndEmit(effectType, thisID));
-            break;
-        }
-    }
-};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
@@ -24,7 +9,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(updateMapping(false, axis));
         },
         addEffect: (effectType) => {
-            checkUsedIDs(effectType, ownProps.usedIDs, ownProps.effectsRoute, dispatch);
+            dispatch(checkUsedIDs(effectType, effects[effectType].IDs));
         }
     };
 };

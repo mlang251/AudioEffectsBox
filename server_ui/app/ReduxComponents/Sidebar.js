@@ -1,5 +1,6 @@
 import React from 'react';
 import Radium from 'radium';
+import {list as effectsList} from '../JSON/effects';
 
 /**
  * The Sidebar module. Responsible rendering a Sidebar component which is used for adding effects to the signal
@@ -12,7 +13,7 @@ import Radium from 'radium';
  * Class responsible for rendering the Sidebar component.
  * @extends external:ReactPureComponent 
  */
-const Sidebar = ({addEffect, updateMapping, effectsList}) => (
+const Sidebar = ({addEffect, updateMapping}) => (
     <div>
         <h3>Motion Tracking</h3>
         {['x', 'y', 'z'].map(axisName => {

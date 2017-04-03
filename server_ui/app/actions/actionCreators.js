@@ -21,6 +21,25 @@ export const updateEffects = (effectsList, options = {}) => {
     };
 };
 
+export const checkUsedIDs = (effectType, usableIDs) => {
+    return (dispatch, getState) => {
+        const usedIDs = getState().get('effects').map(effect => {
+            return effect.get('effectID');
+        });
+        for (let i = 0; i < usableIDs.length; i++) {
+            const thisID = usableIDs[i];
+            if (usedIDs.indexOf(thisID) != -1) {
+                if (i == usableIDs.length - 1) {
+                    alert( `Maximum of 3 ${effectType} effects allowed`);
+                }
+            } else {
+                dispatch(addEffectAndEmit(effectType, thisID));
+                break;
+            }
+        }
+    }
+};
+
 export const addEffectAndEmit = (effectType, effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();

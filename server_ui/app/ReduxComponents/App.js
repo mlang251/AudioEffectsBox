@@ -6,7 +6,6 @@ import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
 import {List} from 'immutable';
-import {list as effectsList} from '../JSON/effects';
 
 /**
  * The App module. Responsible for rendering the App and child components. Appears as child component of AppContainer,
@@ -46,9 +45,7 @@ const App = ({message, usedIDs, isConnected}) => (
                     </section>
                 </div>
                 <div className = 'col-sm-2'>
-                    <SidebarContainer 
-                        effectsList = {List(effectsList)}
-                        usedIDs = {List(usedIDs)} />
+                    <SidebarContainer />
                 </div>
             </div>
         </div>
