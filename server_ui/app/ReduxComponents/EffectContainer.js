@@ -2,8 +2,6 @@ import {connect} from 'react-redux';
 import {removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
-const {ROUTE, XYZ_MAP} = require('../actions/actionOptions').ioTypes;
-const {ADD, REMOVE_EFF, SOLO, BYPASS, REORDER, REMOVE_MAP} = require('../actions/actionOptions').ioFlags;
 
 const xyzMapToParameter = (xyzMap, effectID) => {
     let xyzMapList = List().asMutable();

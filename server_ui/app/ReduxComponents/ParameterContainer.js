@@ -1,8 +1,6 @@
 import {connect} from 'react-redux';
 import {updateParameterValue, updateMapping} from '../actions/actionCreators';
 import Parameter from './Parameter';
-const {XYZ_MAP, UPDATE_PARAMETER} = require('../actions/actionOptions').ioTypes;
-const {SET_MAP} = require('../actions/actionOptions').ioFlags;
 
 const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
     let value = yValue < 0 ? 

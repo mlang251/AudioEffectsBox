@@ -169,9 +169,19 @@ io.on('connection', socket => {
     socket.on('action', (action) => {
         switch (action.type) {
             case 'UPDATE_EFFECTS':
-                //TODO: Don't forget to emit initial parameter values when effect is added. If an effect is new, structure options like:
-                // {io: true, newEffect: 'reverb1'} and check for action.options.newEffect
                 createRoutes(action.payload.effectsList);
+                var newEffectID = action.options.newEffect;
+                if (newEffectID) {
+                    const effectDefaults = defaults[newEffectID];
+                    Object.keys(effectDefaults).forEach(parameter => {
+                        const data = {
+                            effectID: newEffectID,
+                            paramName: parameter,
+                            paramValue: effectDefaults[parameter]
+                        };
+                        serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
+                    });
+                }
                 break;
             // case ioTypes.XYZ_MAP:
             //     var {axis, effectID, paramName} = action.payload;
