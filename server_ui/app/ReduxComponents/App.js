@@ -22,7 +22,7 @@ import {List} from 'immutable';
  * Class responsible for rendering the App and child components.
  * @extends external:ReactPureComponent
  */
-const App = ({message, usedIDs, isConnected}) => (
+const App = ({message, isConnected}) => (
     <div>
         <AppBar 
             showMenuIconButton = {false}
