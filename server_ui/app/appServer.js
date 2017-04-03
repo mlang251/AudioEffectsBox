@@ -1,13 +1,8 @@
 const express = require('express');
 const io = require('socket.io')();
-const List = require('immutable').List;
-const Map = require('immutable').Map;
-const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
-const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
-const ioHelpers = require('./serverDependencies/ioHelpers');
+const {OscUdpPort, DgramUdpPort} = require('./serverDependencies/ports');
+const {createRoutes, updateMapping, updateParameter} = require('./serverDependencies/ioHelpers');
 const defaults = require('./JSON/defaults.json');
-// TODO: install requireJS and require this
-// const actionTypes = require('./actions/actionTypes');
 
 //Instantiate the server
 let app = express();
@@ -82,12 +77,12 @@ io.on('connection', socket => {
     console.log('User connected');
 
     //Emit the initial route
-    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(ioHelpers.createRoutes()));
+    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(createRoutes()));
 
     socket.on('action', (action) => {
         switch (action.type) {
             case 'UPDATE_EFFECTS':
-                var data = ioHelpers.createRoutes(action.payload.effectsList);
+                var data = createRoutes(action.payload.effectsList);
                 serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data));
                 var newEffectID = action.options.newEffect;
                 if (newEffectID) {
@@ -104,17 +99,17 @@ io.on('connection', socket => {
                 break;
             case 'UPDATE_MAPPING':
                 var {effectID, paramName, axis} = action.payload;
-                var data = ioHelpers.updateMapping('set', effectID, paramName, axis);
+                var data = updateMapping('set', effectID, paramName, axis);
                 serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
                 break;
             case 'REMOVE_MAPPING':
                 var {effectID, paramName} = action.payload;
-                var data = ioHelpers.updateMapping('remove', effectID, paramName);
+                var data = updateMapping('remove', effectID, paramName);
                 serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
                 break;
             case 'UPDATE_PARAMETER_VALUE':
                 var {effectID, paramName, paramValue} = action.payload;
-                var data = ioHelpers.updateParameter(effectID, paramName, paramValue);
+                var data = updateParameter(effectID, paramName, paramValue);
                 serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
                 break;
             default:
