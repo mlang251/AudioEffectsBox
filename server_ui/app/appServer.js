@@ -4,6 +4,7 @@ const List = require('immutable').List;
 const Map = require('immutable').Map;
 const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
 const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
+const ioHelpers = require('./serverDependencies/ioHelpers');
 const defaults = require('./JSON/defaults.json');
 // TODO: install requireJS and require this
 // const actionTypes = require('./actions/actionTypes');
@@ -72,60 +73,6 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 
 
 
-//
-//Socket.io helper functions and variables
-//
-const createRoutes = (effectsList = List()) => {
-    //TODO: for some reason the immutable effectsList is being converted into plain JS
-    let routeObj = {input: 'output'};
-    const soloEffect = effectsList.filter(effect => {
-        return effect.isSoloing;
-    });
-    const effectsToRoute = soloEffect.length > 0 ? soloEffect : effectsList;
-    let isFirstInChain = true;
-    effectsToRoute.forEach((effect, index) => {
-        if (!effect.isBypassed) {
-            const effectID = effect.effectID;
-            if (isFirstInChain) {
-                routeObj.input = effectID;
-                isFirstInChain = false;
-            }
-            routeObj[effectID] = effectsToRoute[index + 1] ? effectsToRoute[index + 1].effectID : 'output';
-        }
-    });
-    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(routeObj));
-}
-
-const updateMapping = (method, effectID, paramName, axis) => {
-    let data = {
-        effectID,
-        param: paramName,
-        axis: ''
-    };
-    switch (method) {
-        case 'remove':
-            data.axis = 'n';
-            break;
-        case 'set':
-            data.axis = axis;
-            break;
-        default:
-            console.log('Unknown mapping method');
-            break;
-    }
-    serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
-};
-
-const updateParameter = (effectID, paramName, paramValue) => {
-    const data = {
-        effectID,
-        paramName,
-        paramValue
-    };
-    serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
-}
-
-
 
 //Handle all Server <--> UI communication through socket.io events
 //Navigating to http://localhost:3000 will open a socket and fire the 'connection' event
@@ -135,17 +82,18 @@ io.on('connection', socket => {
     console.log('User connected');
 
     //Emit the initial route
-    createRoutes();
+    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(ioHelpers.createRoutes()));
 
     socket.on('action', (action) => {
         switch (action.type) {
             case 'UPDATE_EFFECTS':
-                createRoutes(action.payload.effectsList);
+                var data = ioHelpers.createRoutes(action.payload.effectsList);
+                serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data));
                 var newEffectID = action.options.newEffect;
                 if (newEffectID) {
                     const effectDefaults = defaults[newEffectID];
                     Object.keys(effectDefaults).forEach(parameter => {
-                        const data = {
+                        var data = {
                             effectID: newEffectID,
                             paramName: parameter,
                             paramValue: effectDefaults[parameter]
@@ -156,15 +104,18 @@ io.on('connection', socket => {
                 break;
             case 'UPDATE_MAPPING':
                 var {effectID, paramName, axis} = action.payload;
-                updateMapping('set', effectID, paramName, axis);
+                var data = ioHelpers.updateMapping('set', effectID, paramName, axis);
+                serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
                 break;
             case 'REMOVE_MAPPING':
                 var {effectID, paramName} = action.payload;
-                updateMapping('remove', effectID, paramName);
+                var data = ioHelpers.updateMapping('remove', effectID, paramName);
+                serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
                 break;
             case 'UPDATE_PARAMETER_VALUE':
                 var {effectID, paramName, paramValue} = action.payload;
-                updateParameter(effectID, paramName, paramValue);
+                var data = ioHelpers.updateParameter(effectID, paramName, paramValue);
+                serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
                 break;
             default:
                 console.log('Unknown action type');

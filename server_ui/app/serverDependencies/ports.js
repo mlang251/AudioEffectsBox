@@ -1,7 +1,7 @@
 const osc = require('osc');
 const dgram = require('dgram');
 
-var exports = {};
+var exportObj = {};
 
 class OscUdpPort extends osc.UDPPort {
     constructor(config) {
@@ -42,7 +42,7 @@ class DgramUdpPort {
     }
 }
 
-exports.OscUdpPort = OscUdpPort;
-exports.DgramUdpPort = DgramUdpPort;
+exportObj.OscUdpPort = OscUdpPort;
+exportObj.DgramUdpPort = DgramUdpPort;
 
-module.exports = exports;
+module.exports = exportObj;
