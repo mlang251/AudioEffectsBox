@@ -2,12 +2,7 @@ import {connect} from 'react-redux';
 import {updateMapping, addEffectAndEmitRoute} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
-const {ROUTE} = require('../actions/actionOptions').ioTypes;
 
-/*TODO: use Thunk to handle an action creator that is a function that passes the effects state slice to the dispatch method.
-    take the list of effects, add the new on to the list, and dispatch the computed list to the store, and in the options section
-    include the route to emit, or have the server compute the route (probably this is better so there can be a single function
-    that checks for soloing/bypassed effects and puts the whole list in the proper format*/
 const checkUsedIDs = (effectType, usedIDs, effectsRoute, dispatch) => {
     const usableIDs = effects[effectType].IDs;
     for (let i = 0; i < usableIDs.length; i++) {

@@ -169,7 +169,8 @@ io.on('connection', socket => {
     socket.on('action', (action) => {
         switch (action.type) {
             case 'UPDATE_EFFECTS':
-                //Don't forget to emit initial parameter values when effect is added
+                //TODO: Don't forget to emit initial parameter values when effect is added. If an effect is new, structure options like:
+                // {io: true, newEffect: 'reverb1'} and check for action.options.newEffect
                 createRoutes(action.payload.effectsList);
                 break;
             // case ioTypes.XYZ_MAP:
