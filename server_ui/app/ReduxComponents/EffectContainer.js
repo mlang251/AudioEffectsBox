@@ -50,8 +50,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         toggleSolo: () => {
             dispatch(toggleSoloAndEmit(ownProps.effectID));
         },
-        removeMapping: axis => {
-            dispatch(removeMappingAndEmit(axis, {
+        removeMapping: (axis, paramName) => {
+            dispatch(removeMappingAndEmit(ownProps.effectID, paramName, axis, {
                 io: true
             }));
         }

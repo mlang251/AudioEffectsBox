@@ -96,26 +96,18 @@ const createRoutes = (effectsList = List()) => {
     serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(routeObj));
 }
 
-const updateMapping = (method, axis, effectID, paramName) => {
-    let data = {};
+const updateMapping = (method, effectID, paramName, axis) => {
+    let data = {
+        effectID,
+        param: paramName,
+        axis: ''
+    };
     switch (method) {
         case 'remove':
-            data = {
-                effectID: xyzMap[axis].effectID,
-                param: xyzMap[axis].paramName,
-                axis: 'n'
-            }
-            xyzMap[axis].effectID = undefined;
-            xyzMap[axis].paramName = undefined;
+            data.axis = 'n';
             break;
         case 'set':
-            data = {
-                effectID,
-                paramName,
-                axis
-            }
-            xyzMap[axis].effectID = effectID;
-            xyzMap[axis].paramName = paramName;
+            data.axis = axis;
             break;
         default:
             console.log('Unknown mapping method');
@@ -163,10 +155,12 @@ io.on('connection', socket => {
                 }
                 break;
             case 'UPDATE_MAPPING':
-                console.log(action.type)
+                var {effectID, paramName, axis} = action.payload;
+                updateMapping('set', effectID, paramName, axis);
                 break;
             case 'REMOVE_MAPPING':
-                console.log(action.type)
+                var {effectID, paramName} = action.payload;
+                updateMapping('remove', effectID, paramName);
                 break;
             case 'UPDATE_PARAMETER_VALUE':
                 var {effectID, paramName, paramValue} = action.payload;

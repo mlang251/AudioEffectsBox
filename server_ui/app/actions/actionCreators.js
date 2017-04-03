@@ -166,11 +166,13 @@ export const updateMapping = (mapToParameter, axis, effectID, paramName, options
     };
 }
 
-export const removeMappingAndEmit = (axis, options = {}) => {
+export const removeMappingAndEmit = (effectID, paramName, axis, options = {}) => {
     return {
         type: types.REMOVE_MAPPING,
         options: options,
         payload: {
+            effectID,
+            paramName,
             axis
         }
     };
@@ -181,14 +183,15 @@ export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, opt
         const xyzMap = getState().get('xyzMap');
         const axes = ['x', 'y', 'z'];
         if (xyzMap.get(axis).get('effectID')) {
-            dispatch(removeMappingAndEmit(axis, {
+            const thisAxis = xyzMap.get(axis);
+            dispatch(removeMappingAndEmit(thisAxis.get('effectID'), thisAxis.get('paramName'), axis, {
                 io: true
             }));
         }
         for (let i = 0; i < axes.length; i++) {
             const thisAxis = xyzMap.get(axes[i]);
             if (thisAxis.get('effectID') == effectID && thisAxis.get('paramName') == paramName) {
-                dispatch(removeMappingAndEmit(axes[i], {
+                dispatch(removeMappingAndEmit(effectID, paramName, axes[i], {
                     io: true
                 }));
             }

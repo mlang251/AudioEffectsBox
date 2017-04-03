@@ -68,7 +68,7 @@ const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effe
                         key = {`${effectID}Remove${axisName}`}
                         type = 'button'
                         style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
-                        onClick = {() => removeMapping(axisName)}>X</button>
+                        onClick = {() => removeMapping(axisName, paramName)}>X</button>
                 ];
             }
         });
