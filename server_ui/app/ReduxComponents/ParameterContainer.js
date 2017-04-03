@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {updateParameterValue, updateMapping} from '../actions/actionCreators';
+import {updateParameterValue, setMappingAndEmit} from '../actions/actionCreators';
 import Parameter from './Parameter';
 
 const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
@@ -25,9 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             normalizeParameterValue(paramValue, maximum, ownProps.effectID, ownProps.paramName, dispatch)
         }, 
         handleClick: () => {
-            dispatch(updateMapping(true, ownProps.axisToMap, ownProps.effectID, ownProps.paramName, {
-                io: true
-            }));
+            dispatch(setMappingAndEmit(true, ownProps.axisToMap, ownProps.effectID, ownProps.paramName));
         }
     };
 };

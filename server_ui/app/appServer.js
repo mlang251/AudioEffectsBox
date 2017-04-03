@@ -162,29 +162,12 @@ io.on('connection', socket => {
                     });
                 }
                 break;
-            // case ioTypes.XYZ_MAP:
-            //     var {axis, effectID, paramName} = action.payload;
-            //     switch (ioFlag) {
-            //         case ioFlags.SET_MAP:
-            //             const axes = ['x', 'y', 'z'];
-            //             if (xyzMap[axis].effectID) {
-            //                 updateMapping('remove', axis);
-            //             }
-            //             for (let i = 0; i < axes.length; i++) {
-            //                 if (xyzMap[axes[i]].effectID == effectID && xyzMap[axes[i]].paramName == paramName) {
-            //                     updateMapping('remove', axes[i]);
-            //                 }
-            //             }
-            //             updateMapping('set', axis, effectID, paramName);
-            //             break;
-            //         case ioFlags.REMOVE_MAP:
-            //             updateMapping('remove', axis);
-            //             break;
-            //         default:
-            //             console.log('Unknown io flag');
-            //             break;
-            //     }
-            //     break;
+            case 'UPDATE_MAPPING':
+                console.log(action.type)
+                break;
+            case 'REMOVE_MAPPING':
+                console.log(action.type)
+                break;
             case 'UPDATE_PARAMETER_VALUE':
                 var {effectID, paramName, paramValue} = action.payload;
                 updateParameter(effectID, paramName, paramValue);

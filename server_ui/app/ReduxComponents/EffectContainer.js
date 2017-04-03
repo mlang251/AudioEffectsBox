@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {removeEffectAndEmitRoute, reorderEffectsAndEmitRoute, toggleBypassAndEmitRoute,
-    toggleSoloAndEmitRoute, removeMapping} from '../actions/actionCreators';
+import {removeEffectAndEmit, reorderEffectsAndEmit, toggleBypassAndEmit,
+    toggleSoloAndEmit, removeMappingAndEmit} from '../actions/actionCreators';
 import Effect from './Effect';
 import {List, Map} from 'immutable';
 
@@ -39,19 +39,21 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: () => {
-            dispatch(removeEffectAndEmitRoute(ownProps.effectID));
+            dispatch(removeEffectAndEmit(ownProps.effectID));
         },
         reorderEffects: (direction) => {
-            dispatch(reorderEffectsAndEmitRoute(ownProps.effectID, direction));
+            dispatch(reorderEffectsAndEmit(ownProps.effectID, direction));
         }, 
         toggleBypass: () => {
-            dispatch(toggleBypassAndEmitRoute(ownProps.effectID));
+            dispatch(toggleBypassAndEmit(ownProps.effectID));
         },
         toggleSolo: () => {
-            dispatch(toggleSoloAndEmitRoute(ownProps.effectID));
+            dispatch(toggleSoloAndEmit(ownProps.effectID));
         },
         removeMapping: axis => {
-            dispatch(removeMapping(axis));
+            dispatch(removeMappingAndEmit(axis, {
+                io: true
+            }));
         }
     };
 };

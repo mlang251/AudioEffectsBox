@@ -21,7 +21,7 @@ export const updateEffects = (effectsList, options = {}) => {
     };
 };
 
-export const addEffectAndEmitRoute = (effectType, effectID, options = {}) => {
+export const addEffectAndEmit = (effectType, effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects.push(Map({
@@ -37,7 +37,7 @@ export const addEffectAndEmitRoute = (effectType, effectID, options = {}) => {
     };
 };
 
-export const removeEffectAndEmitRoute = (effectID, options = {}) => {
+export const removeEffectAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects = effects.filter((effect) => effect.get('effectID') != effectID);
@@ -47,7 +47,7 @@ export const removeEffectAndEmitRoute = (effectID, options = {}) => {
     };
 };
 
-export const reorderEffectsAndEmitRoute = (effectID, direction, options = {}) => {
+export const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects');
         let effectsList;
@@ -75,7 +75,7 @@ export const reorderEffectsAndEmitRoute = (effectID, direction, options = {}) =>
     };
 };
 
-export const toggleBypassAndEmitRoute = (effectID, options = {}) => {
+export const toggleBypassAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         const index = effects.findIndex(effect => {
@@ -88,7 +88,7 @@ export const toggleBypassAndEmitRoute = (effectID, options = {}) => {
     };
 };
 
-export const toggleSoloAndEmitRoute = (effectID, options = {}) => {
+export const toggleSoloAndEmit = (effectID, options = {}) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         let isSoloing;
@@ -164,14 +164,37 @@ export const updateMapping = (mapToParameter, axis, effectID, paramName, options
             paramName
         }
     };
-};
+}
 
-export const removeMapping = (axis, options = {}) => {
+export const removeMappingAndEmit = (axis, options = {}) => {
     return {
         type: types.REMOVE_MAPPING,
         options: options,
         payload: {
             axis
         }
+    };
+};
+
+export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, options = {}) => {
+    return (dispatch, getState) => {
+        const xyzMap = getState().get('xyzMap');
+        const axes = ['x', 'y', 'z'];
+        if (xyzMap.get(axis).get('effectID')) {
+            dispatch(removeMappingAndEmit(axis, {
+                io: true
+            }));
+        }
+        for (let i = 0; i < axes.length; i++) {
+            const thisAxis = xyzMap.get(axes[i]);
+            if (thisAxis.get('effectID') == effectID && thisAxis.get('paramName') == paramName) {
+                dispatch(removeMappingAndEmit(axes[i], {
+                    io: true
+                }));
+            }
+        }
+        dispatch(updateMapping(mapToParameter, axis, effectID, paramName, {
+            io: true
+        }));
     };
 };

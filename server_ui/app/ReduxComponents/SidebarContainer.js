@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {updateMapping, addEffectAndEmitRoute} from '../actions/actionCreators';
+import {updateMapping, addEffectAndEmit} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
 
@@ -12,7 +12,7 @@ const checkUsedIDs = (effectType, usedIDs, effectsRoute, dispatch) => {
                 alert( `Maximum of 3 ${effectType} effects allowed`);
             }
         } else {
-            dispatch(addEffectAndEmitRoute(effectType, thisID));
+            dispatch(addEffectAndEmit(effectType, thisID));
             break;
         }
     }
