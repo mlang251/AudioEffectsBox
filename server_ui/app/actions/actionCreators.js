@@ -139,27 +139,6 @@ export const toggleSoloAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const receiveLeapData = (data, options = {}) => {
-    return {
-        type: types.RECEIVE_LEAP_DATA,
-        options: options,
-        payload: {
-            data
-        }
-    };
-};
-
-export const receiveLeapStatus = (address, args, options = {}) => {
-    return {
-        type: types.RECEIVE_LEAP_STATUS,
-        options: options,
-        payload: {
-            address,
-            args
-        }
-    };
-};
-
 export const updateParameterValue = (effectID, paramName, paramValue, options = {}) => {
     return {
         type: types.UPDATE_PARAMETER_VALUE,

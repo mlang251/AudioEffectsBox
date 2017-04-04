@@ -96,6 +96,13 @@ io.on('connection', socket => {
                         serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
                     });
                 }
+                // socket.emit('action', {
+                //     type: 'RECEIVE_LEAP_DATA',
+                //     options: {},
+                //     payload: {
+                //         data: [0.5, 0.5, 0.5]
+                //     }
+                // })
                 break;
             case 'UPDATE_MAPPING':
                 var {effectID, paramName, axis} = action.payload;
