@@ -58,7 +58,7 @@ leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
             args
         }
     });
-    console.log(`received message from leap: ${msg.args}`);
+    console.log(`received message from leap: ${address} - ${args[0]}`);
 });
 
 
@@ -73,7 +73,7 @@ const maxToServerChannel = {
 };
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     message = msg.toString();
-    console.log(`received message from max: ${msg}`);
+    console.log(`received message from max: ${message}`);
     io.emit('action', {
         type: 'UPDATE_MESSAGE',
         options: {},
