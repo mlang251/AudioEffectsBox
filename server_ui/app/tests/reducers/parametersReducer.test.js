@@ -1,18 +1,17 @@
 import {Map, fromJS} from 'immutable';
 import {UPDATE_PARAMETER_VALUE} from '../../actions/actionTypes';
-import parameterValuesReducer from '../../reducers/parameterValues';
+import parametersReducer, {initialState} from '../../reducers/parameters';
 import defaults from '../../JSON/defaults.json';
-const initialState = fromJS(defaults);
 
-describe('parameter values reducer', () => {
+describe('parameters reducer', () => {
     test('should return initial state', () => {
-        expect(parameterValuesReducer(undefined, {
+        expect(parametersReducer(undefined, {
             type: undefined,
             payload: {}
         })).toEqual(initialState);
     });
     test('should handle UPDATE_PARAMETER_VALUE', () => {
-        expect(parameterValuesReducer(Map({
+        expect(parametersReducer(Map({
             reverb1: Map({
                 Wetness: 0,
                 Liveness: 0,

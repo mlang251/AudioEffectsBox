@@ -31,7 +31,7 @@ for (let i = 0; i < defaultsKeys.length; i++) {
     defaultMaps[thisKey] = Map(defaults[thisKey]);
 };
 
-const initialState = Map(defaultMaps)
+export const initialState = Map(defaultMaps)
 
 const parameters = (state = initialState, action) => {
     switch (action.type) {
