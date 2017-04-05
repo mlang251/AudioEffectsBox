@@ -9,6 +9,20 @@ state = {
         })
     ]),
     parameters: Immutable.Map({
+        mappings: Map({
+            x: Map({
+                effectID: '',
+                paramName: ''
+            }),
+            y: Map({
+                effectID: '',
+                paramName: ''
+            }),
+            z: Map({
+                effectID: '',
+                paramName: ''
+            }),
+        }),
         reverb1: Map({
             Liveness: Map ({
                 paramValue: 0,

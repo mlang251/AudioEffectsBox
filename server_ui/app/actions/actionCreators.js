@@ -178,7 +178,7 @@ export const removeMappingAndEmit = (effectID, paramName, axis, options = {}) =>
 
 export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, options = {}) => {
     return (dispatch, getState) => {
-        const xyzMap = getState().get('xyzMap');
+        const xyzMap = getState().getIn(['parameters', 'mappings']);
         const axes = ['x', 'y', 'z'];
         if (xyzMap.get(axis).get('effectID')) {
             const thisAxis = xyzMap.get(axis);

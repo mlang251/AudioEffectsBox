@@ -14,27 +14,24 @@ import Parameter from './Parameter';
  * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-const ParameterScaffold = ({value, axis, isMapping, axisToMap, handleDrag, handleClick, removeMapping, paramName}) => {
-    console.log('mounting parameter')
-    return (
-        <div style = {styles.paramDiv}>
-            <div style = {styles.xyzMapDiv}>
-                <p style = {styles.xyzMap}>{axis}</p>
-                <button 
-                    type = 'button'
-                    style = {axis != '' ? styles.buttonBase : {display: 'none'}}
-                    onClick = {() => removeMapping(axis, paramName)}>X</button>
-            </div>
-            <p style = {styles.paramTitle}>{paramName}</p>
-            <Parameter
-                handleClick = {handleClick}
-                handleDrag = {handleDrag}
-                axisToMap = {axisToMap}
-                value = {value}
-                isMapping = {isMapping} />
+const ParameterScaffold = ({value, axis, isMapping, axisToMap, handleDrag, handleClick, removeMapping, paramName}) => (
+    <div style = {styles.paramDiv}>
+        <div style = {styles.xyzMapDiv}>
+            <p style = {styles.xyzMap}>{axis}</p>
+            <button 
+                type = 'button'
+                style = {axis != '' ? styles.buttonBase : {display: 'none'}}
+                onClick = {() => removeMapping(axis, paramName)}>X</button>
         </div>
-    );
-}
+        <p style = {styles.paramTitle}>{paramName}</p>
+        <Parameter
+            handleClick = {handleClick}
+            handleDrag = {handleDrag}
+            axisToMap = {axisToMap}
+            value = {value}
+            isMapping = {isMapping} />
+    </div>
+);
 
 /**
  * A style object whose members are passed to elements when rendering.
