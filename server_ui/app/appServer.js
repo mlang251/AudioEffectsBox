@@ -84,18 +84,20 @@ io.on('connection', socket => {
             case 'UPDATE_EFFECTS':
                 var data = createRoutes(action.payload.effectsList);
                 serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data));
-                var newEffectID = action.options.newEffect;
-                if (newEffectID) {
-                    const effectDefaults = defaults[newEffectID];
-                    Object.keys(effectDefaults).forEach(parameter => {
-                        var data = {
-                            effectID: newEffectID,
-                            paramName: parameter,
-                            paramValue: effectDefaults[parameter]
-                        };
-                        serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
-                    });
-                }
+                // TODO: this block conflicts with how effects are removed and added again, app state does not reflect default paramValues
+                // var newEffectID = action.options.newEffect;
+                // if (newEffectID) {
+                //     const effectDefaults = defaults[newEffectID];
+                //     Object.keys(effectDefaults).forEach(parameter => {
+                //         var data = {
+                //             effectID: newEffectID,
+                //             paramName: parameter,
+                //             paramValue: effectDefaults[parameter]
+                //         };
+                //         serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
+                //     });
+                // }
+                // ---------For Testing---------
                 // socket.emit('action', {
                 //     type: 'RECEIVE_LEAP_DATA',
                 //     options: {},

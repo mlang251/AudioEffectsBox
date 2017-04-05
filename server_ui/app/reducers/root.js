@@ -3,14 +3,14 @@ import effects from './effects';
 import interactionBox from './interactionBox';
 import mapping from './mapping';
 import message from './message';
-import parameterValues from './parameterValues';
+import parameters from './parameters';
 
 const root = combineReducers({
     effects,
     interactionBox,
     mapping,
     message,
-    parameterValues
+    parameters
 });
 
 export default root;

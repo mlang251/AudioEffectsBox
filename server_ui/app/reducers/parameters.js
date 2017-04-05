@@ -17,7 +17,7 @@ for (let i = 0; i < defaultsKeys.length; i++) {
 };
 const initialState = Map(defaultMaps)
 
-const parameterValues = (state = initialState, action) => {
+const parameters = (state = initialState, action) => {
     switch (action.type) {
         case RECEIVE_LEAP_DATA:
             return state;
@@ -38,4 +38,4 @@ const parameterValues = (state = initialState, action) => {
     }
 }
 
-export default parameterValues;
+export default parameters;

@@ -8,7 +8,14 @@ state = {
             isSoloing: false
         })
     ]),
-    parameterValues: Immutable.fromJS(defaults.json),
+    parameters: Immutable.Map({
+        reverb1: Map({
+            Liveness: Map ({
+                paramValue: 0,
+                axisName: 'x'
+            })
+        })
+    }),
     mapping: Immutable.Map({
         isMapping: false,
         currentAxis: ''

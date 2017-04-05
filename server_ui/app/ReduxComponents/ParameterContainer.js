@@ -14,8 +14,8 @@ const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        value: state.getIn(['parameterValues', ownProps.effectID, ownProps.paramName, 'paramValue']),
-        axis: state.getIn(['parameterValues', ownProps.effectID, ownProps.paramName, 'axisName']),
+        value: state.getIn(['parameters', ownProps.effectID, ownProps.paramName, 'paramValue']),
+        axis: state.getIn(['parameters', ownProps.effectID, ownProps.paramName, 'axisName']),
         isMapping: state.getIn(['mapping', 'isMapping']),
         axisToMap: state.getIn(['mapping', 'currentAxis'])
     };
