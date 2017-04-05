@@ -39,13 +39,25 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
-    //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
-    io.emit('leapData', data);
+    io.emit('action', {
+        type: 'RECEIVE_LEAP_DATA',
+        options: {},
+        payload: {
+            data
+        }
+    });
 });
 
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
-    //TODO: use redux-socket.io, import action creator receiveLeap... to facilitate this
-    io.emit('leapStatusUpdate', msg);
+    const {address, args} = msg;
+    io.emit('action', {
+        type: 'RECEIVE_LEAP_STATUS',
+        options: {},
+        payload: {
+            address,
+            args
+        }
+    });
     console.log(`received message from leap: ${msg.args}`);
 });
 
@@ -60,10 +72,15 @@ const maxToServerChannel = {
   portAudioInputOptions: new DgramUdpPort(11000)
 };
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
-    msg = msg.toString();
+    message = msg.toString();
     console.log(`received message from max: ${msg}`);
-    //TODO: use redux-socket.io, import action creator updateMessage to facilitate this
-    io.emit('message', msg);
+    io.emit('action', {
+        type: 'UPDATE_MESSAGE',
+        options: {},
+        payload: {
+            message
+        }
+    });
 });
 
 
@@ -97,14 +114,6 @@ io.on('connection', socket => {
                 //         serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
                 //     });
                 // }
-                // ---------For Testing---------
-                socket.emit('action', {
-                    type: 'RECEIVE_LEAP_DATA',
-                    options: {},
-                    payload: {
-                        data: [0.5, 0.5, 0.5]
-                    }
-                })
                 break;
             case 'UPDATE_MAPPING':
                 var {effectID, paramName, axis} = action.payload;
