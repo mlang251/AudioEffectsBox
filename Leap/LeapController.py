@@ -9,15 +9,18 @@ class LeapController(object):
     Leap Motion driver for the Audio Effects Box.
 
     """
-    def initialize(self):
+    def initialize(self, pinch_threshold):
         """
-        Creates a Leap.Controller object and sets frame policies
+        Creates a Leap.Controller object and sets frame policies.
+
+        pinch_threshold : threshold that determines if a user is pinching
 
         """
         print "Initializing Leap..."
 
         # Create a Leap.Controller object
         self.controller = Leap.Controller()
+        self.pinch_threshold = pinch_threshold
         time.sleep(0.1)
 
         # IDEA: Check the status of connection each loop and send when changing status
@@ -91,9 +94,10 @@ class LeapController(object):
                 # Set flag for in bounds
                 self.in_bounds = True
 
-                # Check if user pinches to start/stop hand tracking mode
-                # No coordinates are sent when a user is pinching
+                # Check for user gesture to start/stop hand tracking mode
+                # No coordinates are sent when gesture is performed
                 self.check_pinch()
+                #IDEA: make one check_gesture function with different options as input
 
                 # If in tracking mode
                 if self.tracking_hand:
@@ -133,29 +137,64 @@ class LeapController(object):
         """
         # Collect a new frame
         new_frame = self.controller.frame()
-        pinch_threshold = 0.5
+
+        print new_frame.hands[0].pinch_strength
+        print self.pinch_threshold
 
         # If user is pinching
-        if new_frame.hands[0].pinch_strength > pinch_threshold:
+        if new_frame.hands[0].pinch_strength > self.pinch_threshold:
             user_is_pinching = True
             start_pinch = time.time()
-            pinch_time = 0.0
-
+            
             # Collect new frames and wait for set time
-            while (pinch_time < 0.5) and (user_is_pinching):
+            while (time.time() - start_pinch < 0.75) and (user_is_pinching):
                 new_frame = self.controller.frame()
 
                 # If user stops pinching, break
-                if new_frame.hands[0].pinch_strength < pinch_threshold:
+                if new_frame.hands[0].pinch_strength < self.pinch_threshold:
                     user_is_pinching = False
-
-                # Keep track of pinch time/length
-                pinch_time = time.time() - start_pinch
         else:
             user_is_pinching = False
 
         # If user pinched for longer than the set time
         if user_is_pinching:
+            # Switch tracking mode
+            self.tracking_hand = not self.tracking_hand
+            self.send_status_update('tracking')
+            print "Tracking Hand: %s" % str(self.tracking_hand)
+
+    def check_grab(self):
+        """
+        Checks for user to make a gesture for a set time and adjusts
+        self.tracking_hand flag to manage switching between tracking
+        and not-tracking modes.
+
+        """
+        # Collect a new frame
+        new_frame = self.controller.frame()
+        grab_threshold = 0.98
+
+        # If user is pinching
+        if new_frame.hands[0].grab_strength > grab_threshold:
+            user_is_grabbing = True
+            start_grab = time.time()
+            grab_time = 0.0
+
+            # Collect new frames and wait for set time
+            while (grab_time < 0.75) and (user_is_grabbing):
+                new_frame = self.controller.frame()
+
+                # If user stops pinching, break
+                if new_frame.hands[0].grab_strength < grab_threshold:
+                    user_is_grabbing = False
+
+                # Keep track of pinch time/length
+                grab_time = time.time() - start_grab
+        else:
+            user_is_grabbing = False
+
+        # If user pinched for longer than the set time
+        if user_is_grabbing:
             # Switch tracking mode
             self.tracking_hand = not self.tracking_hand
             self.send_status_update('tracking')
