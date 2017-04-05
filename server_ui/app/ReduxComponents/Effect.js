@@ -15,8 +15,8 @@ import ParameterContainer from './ParameterContainer';
  * Class representing an effect in the signal chain.
  * @extends external:ReactPureComponent 
  */
-const Effect = ({xyzMapList, axisToMap, allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping,
-    effectID, effectName, parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+const Effect = ({allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping,effectID, effectName,
+    parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const isGainBlock = effectType == 'gain';
     const effectStyle = isGainBlock ?
         Object.assign({}, styles.effectDiv, styles.floatRight) :
@@ -46,49 +46,16 @@ const Effect = ({xyzMapList, axisToMap, allowBypass, removeEffect, reorderEffect
                 </div>
             </div>
             {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
-            {createParameters(parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping)}
+            {parameterList.map((paramName, index) => {
+                return <ParameterContainer
+                    key = {`${effectID}${paramName}`}
+                    effectID = {effectID}
+                    paramName = {paramName} />
+            })}
             {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
         </div>
     );
 }
-
-const createParameters = (parameterList, parameters, xyzMapList, axisToMap, effectID, removeMapping) => {
-    return parameterList.map((paramName, index) => {
-        const paramType = parameters.get(paramName);
-        const axes = ['x', 'y', 'z'];
-        let xyzMap = undefined;
-        xyzMapList.forEach((axis, index) => {
-            if (axis.get('paramName') == paramName) {
-                const axisName = axis.get('axisName');
-                xyzMap = [
-                    <p 
-                        key = {`${effectID}${axisName}`}
-                        style = {styles.xyzMap}>{axisName}</p>,
-                    <button 
-                        key = {`${effectID}Remove${axisName}`}
-                        type = 'button'
-                        style = {Object.assign({}, styles.buttonBase, styles.removeMappingButton)}
-                        onClick = {() => removeMapping(axisName, paramName)}>X</button>
-                ];
-            }
-        });
-        return (
-            <div
-                key = {index}
-                style = {styles.paramDiv}>
-                <div style = {styles.xyzMapDiv}>
-                    {xyzMap}
-                </div>
-                <p style = {styles.paramTitle}>{paramName}</p>
-                <ParameterContainer
-                    type = {paramType}
-                    effectID = {effectID}
-                    paramName = {paramName}
-                    axisToMap = {axisToMap} />
-            </div>
-        );
-    });
-};
 
 /**
  * Creates an Immutable Map containing the effect reordering buttons. If there are multiple effects in the signal chain,
@@ -178,24 +145,6 @@ const styles = {
     },
     isNotActive: {
         backgroundColor: '#999'
-    },
-    paramDiv: {
-        display: 'inline-block',
-        paddingRight: 5,
-        paddingLeft: 5
-    },
-    xyzMapDiv: {
-        height: 30,
-        width: '100%'
-    },
-    paramTitle: {
-        textAlign: 'center',
-        fontSize: '0.8em'
-    },
-    xyzMap: {
-        display: 'inline-block',
-        padding: 0,
-        margin: 0
     },
     reorderButton: {
         position: 'absolute',

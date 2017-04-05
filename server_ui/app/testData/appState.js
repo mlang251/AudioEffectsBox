@@ -13,23 +13,6 @@ state = {
         isMapping: false,
         currentAxis: ''
     }),
-    xyzMap: Immutable.Map({
-        x: Immutable.Map({
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'x'
-        }),
-        y: Immutable.Map({
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'y'
-        }),
-        z: Immutable.Map({
-            effectID: undefined,
-            paramName: undefined,
-            axisName: 'z'
-        })
-    }),
     interactionBox: Immutable.Map({
         coords: Immutable.List([0.456, 0.764, 0.897]),
         dimensions: Immutable.Map({

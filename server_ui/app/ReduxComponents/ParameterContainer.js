@@ -1,6 +1,6 @@
 import {connect} from 'react-redux';
-import {updateParameterValue, setMappingAndEmit} from '../actions/actionCreators';
-import Parameter from './Parameter';
+import {updateParameterValue, setMappingAndEmit, removeMappingAndEmit} from '../actions/actionCreators';
+import ParameterScaffold from './ParameterScaffold';
 
 const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
     let value = yValue < 0 ? 
@@ -14,8 +14,10 @@ const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => 
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        value: state.get('parameterValues').get(ownProps.effectID).get(ownProps.paramName),
-        isMapping: state.get('mapping').get('isMapping')
+        value: state.getIn(['parameterValues', ownProps.effectID, ownProps.paramName, 'paramValue']),
+        axis: state.getIn(['parameterValues', ownProps.effectID, ownProps.paramName, 'axisName']),
+        isMapping: state.getIn(['mapping', 'isMapping']),
+        axisToMap: state.getIn(['mapping', 'currentAxis'])
     };
 };
 
@@ -24,8 +26,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         handleDrag: (paramValue, maximum) => {
             normalizeParameterValue(paramValue, maximum, ownProps.effectID, ownProps.paramName, dispatch)
         }, 
-        handleClick: () => {
-            dispatch(setMappingAndEmit(true, ownProps.axisToMap, ownProps.effectID, ownProps.paramName));
+        handleClick: (axis) => {
+            dispatch(setMappingAndEmit(true, axis, ownProps.effectID, ownProps.paramName));
+        },
+        removeMapping: (axis, paramName) => {
+            dispatch(removeMappingAndEmit(ownProps.effectID, paramName, axis, {
+                io: true
+            }));
         }
     };
 };
@@ -33,6 +40,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const ParameterContainer = connect(
     mapStateToProps,
     mapDispatchToProps
-)(Parameter);
+)(ParameterScaffold);
 
 export default ParameterContainer;

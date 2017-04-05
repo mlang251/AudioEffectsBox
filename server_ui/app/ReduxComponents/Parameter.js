@@ -14,7 +14,7 @@ import Draggable from 'react-draggable';
  * Class responsible rendering Parameter components.
  * @extends external:ReactPureComponent 
  */
-const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
+const Parameter = ({value, isMapping, axisToMap, handleDrag, handleClick}) => {
     const divStyle = isMapping ?
         Object.assign({}, styles.faderContainerDiv, styles.isMapping) :
         Object.assign({}, styles.faderContainerDiv, styles.isNotMapping);
@@ -23,7 +23,7 @@ const Parameter = ({value, isMapping, handleDrag, handleClick}) => {
         <div style = {styles.div}>
             <div
                 style = {divStyle}
-                onClick = {() => isMapping ? handleClick() : null}>
+                onClick = {() => isMapping ? handleClick(axisToMap) : null}>
                 <div style = {styles.slotDiv}></div>
                 <Draggable
                     axis = 'y'
