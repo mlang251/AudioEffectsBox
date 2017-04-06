@@ -1,7 +1,6 @@
 import {connect} from 'react-redux';
 import {removeEffectAndEmit, reorderEffectsAndEmit, toggleBypassAndEmit, toggleSoloAndEmit} from '../actions/actionCreators';
 import Effect from './Effect';
-import {List, Map} from 'immutable';
 
 /**
  * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
@@ -53,6 +52,17 @@ const mapStateToProps = (state) => {
     };
 };
 
+/**
+ * Maps store dispatch methods to props to pass down to the Effect component
+ * @param {Function} dispatch - The store.dispatch method for dispatching actions
+ * @param {Object} ownProps - Props passed down from the SignalChain component
+ * @returns {Object} props - Props to pass down to the Effect component
+ * @property {Function} props.removeEffect - A function that dispatches removeEffectAndEmit with this effect's ID
+ * @property {Function} props.reorderEffects - A function that dispatches reorderEffectsAndEmit with this effect's ID and a direction
+ *     in which to push the effect. Direction is passed by the Effect component when this function is called
+ * @property {Function} props.toggleBypass - A function that dispatches toggleBypassAndEmit with this effect's ID
+ * @property {Function} props.toggleSolo - A function that dispatches toggleSoloAndEmit with this effect's ID
+ */
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
         removeEffect: () => {
