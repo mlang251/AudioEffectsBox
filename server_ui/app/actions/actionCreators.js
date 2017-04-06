@@ -12,7 +12,6 @@ export const updateMessage = (message, options = {}) => {
 };
 
 export const updateEffects = (effectsList, options = {}) => {
-    console.log('_________________--------------UPDATING EFFECTS')
     return {
         type: types.UPDATE_EFFECTS,
         options: options,
