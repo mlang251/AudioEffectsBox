@@ -5,22 +5,14 @@ import SignalChainContainer from './SignalChainContainer';
 import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';
 import AppBar from 'material-ui/AppBar';
-import {List} from 'immutable';
 
 /**
- * The App module. Responsible for rendering the App and child components. Appears as child component of AppContainer,
- *     child components are InteractionBoxContainer, SignalChainContainer, SidebarContainer.
- * @module App
- * @see module:AppContainer
- * @see module:InteractionBoxContainer
- * @see module:SignalChainContainer
- * @see module:SidebarContainer
- * @see {@link http://www.material-ui.com/#/components/app-bar}
- */
-
-/**
- * Class responsible for rendering the App and child components.
- * @extends external:ReactPureComponent
+ * The App component. Responsible for rendering the App and child components. Appears as child component of AppContainer,
+ *     child components are InteractionBoxContainer, InteractionBoxPlaceholder, SignalChainContainer, SidebarContainer.
+ * @param {Object} props - Passed down from AppContainer
+ * @property {String} props.message - The message to be displayed at the top of the app
+ * @property {Boolean} props.isConnected - Represents whether or not the Leap is connected to the computer. This property is
+ *     used to render either the InteractionBoxContainer, or the InteractionBoxPlaceholder
  */
 const App = ({message, isConnected}) => (
     <div>
@@ -52,10 +44,6 @@ const App = ({message, isConnected}) => (
     </div>
 );
 
-/**
- * A style object whose members are passed to components when rendering.
- * @type {Object}
- */
 const styles = {
     container: {
         height: '90vh'
@@ -79,5 +67,4 @@ const styles = {
     }
 }
 
-/** The App module */
 export default Radium(App);

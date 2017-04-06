@@ -4,19 +4,38 @@ import {List, Map} from 'immutable';
 import ParameterContainer from './ParameterContainer';
 
 /**
- * The Effect module. Represents an effect in the signal chain. Appears as a child component of EffectContainer, child
- *     component is ParameterContainer.
- * @module Effect
- * @see module:EffectContainer
- * @see module:ParameterContainer
+ * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
+ * @external List
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
  */
 
-/** 
- * Class representing an effect in the signal chain.
- * @extends external:ReactPureComponent 
+/**
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
  */
-const Effect = ({allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, removeMapping,effectID, effectName,
-    parameterList, parameters, effectType, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
+
+/**
+ * The Effect module. Represents an effect in the signal chain. Appears as a child component of EffectContainer, child
+ *     component is ParameterContainer.
+ * @param {Object} props - The props passed down from the EffectContainer component
+ * @property {Boolean} props.allowBypass - If this is false, clicking on the bypass button will not call toggleBypass
+ * @property {Function} props.removeEffect - Removes this effect from the signal chain
+ * @property {Function} props.reorderEffects - Reorders this effect in the signal chain
+ * @property {Function} props.toggleBypass - Toggles the bypass state of this effect
+ * @property {Function} props.toggleSolo - Toggles the solo state of this effect
+ * @property {String} props.effectID - The unique ID of this effect
+ * @property {String} props.effectName - The name of this effect
+ * @property {String} props.effectType - The type of this effect
+ * @property {external:List} props.parameterList - A list of the parameters this effect has
+ * @property {Boolean} props.isBypassed - Represents whether or not the effect is bypassed, for styling the bypass button
+ * @property {Boolean} props.isSoloing - Represents whether or not the effect is soloing, for styling the solo button
+ * @property {Boolean} props.reorderButtonLeft - Represents whether or not the effect should render a reorder button to the left
+ * @property {Boolean} props.reorderButtonRight - Represents whether or not the effect should render a reorder button to the right
+ */
+const Effect = ({allowBypass, removeEffect, reorderEffects, toggleBypass, toggleSolo, effectID, effectName, effectType,
+    parameterList, isBypassed, isSoloing, reorderButtonLeft, reorderButtonRight}) => {
     const isGainBlock = effectType == 'gain';
     const effectStyle = isGainBlock ?
         Object.assign({}, styles.effectDiv, styles.floatRight) :
@@ -45,52 +64,30 @@ const Effect = ({allowBypass, removeEffect, reorderEffects, toggleBypass, toggle
                         onClick = {removeEffect}>X</button>
                 </div>
             </div>
-            {reorderButtonLeft ? createReorderButtons('left', effectID, reorderEffects) : null}
+            {reorderButtonLeft ? 
+                <button
+                    type = 'button'
+                    key = {`${effectID}Left`}
+                    style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
+                    onClick = {() => reorderEffects('left')}>&lt;</button> 
+                : null}
             {parameterList.map((paramName, index) => {
                 return <ParameterContainer
                     key = {`${effectID}${paramName}`}
                     effectID = {effectID}
                     paramName = {paramName} />
             })}
-            {reorderButtonRight ? createReorderButtons('right', effectID, reorderEffects) : null}
+            {reorderButtonRight ? 
+                <button
+                    type = 'button'
+                    key = {`${effectID}Right`}
+                    style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
+                    onClick = {() => reorderEffects('right')}>&gt;</button> 
+                : null}
         </div>
     );
 }
 
-/**
- * Creates an Immutable Map containing the effect reordering buttons. If there are multiple effects in the signal chain,
- *     the props.reorderButtonLeft and props.reorderButtonRight values will be true or false, depending on whether or not
- *     an effect can be moved in the corresponding direction (e.g. the first effect in the chain cannot be moved to the left
- *     but it can be moved to the right. An effect in the middle of two other effects can be moved in both directions). 
- * @param {string} direction - Indicates the direction of the reordering button to create
- * @returns {external:List} An Immutable List containing html for the reordering button with the specified direction
- */
-const createReorderButtons = (direction, effectID, reorderEffects) => {
-    if (direction == 'left') {
-        return List([(
-            <button
-                type = 'button'
-                key = {`${effectID}Left`}
-                style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonLeft)}
-                onClick = {() => reorderEffects('left')}>&lt;</button>
-        )]);
-    } else if (direction == 'right') {
-        return List([(
-            <button
-                type = 'button'
-                key = {`${effectID}Right`}
-                style = {Object.assign({}, styles.buttonBase, styles.reorderButton, styles.reorderButtonRight)}
-                onClick = {() => reorderEffects('right')}>&gt;</button>
-        )]);
-    } else {
-        return null;
-    }
-};
-
-/**
- * A style object whose members are passed to components when rendering.
- * @type {Object}
- */
 const styles = {
     effectDiv: {
         display: 'inline-block',
@@ -159,5 +156,4 @@ const styles = {
     }
 }
 
-/** The Effect component */
 export default Radium(Effect);
