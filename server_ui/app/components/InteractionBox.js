@@ -12,32 +12,33 @@ import Radium from 'radium';
  * The InteractionBox module. Responsible for rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
  *     as well as the position of the user's hand and the state of the InteractionBox. Appears as a child component of the 
  *     InteractionBoxContainer component.
- * @param {external:Map.<String, external:Map>} propStyles - The styles passed down by the InteractionBoxContainer component
+ * @param {Object} props - The props passed down by the InteractionBoxContainer component
+ * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
 const InteractionBox = ({propStyles}) => (
-    <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
-        <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
-            <div style = {Object.assign({}, styles.pointer, propStyles.get('pointer').toJS())}>
-                <span style = {Object.assign({}, styles.shadow, propStyles.get('shadow').toJS())}></span>
+    <section style = {Object.assign(styles.container, propStyles.get('container').toJS())}>
+        <div style = {Object.assign(styles.cube, propStyles.get('cube').toJS())}>
+            <div style = {Object.assign(styles.pointer, propStyles.get('pointer').toJS())}>
+                <span style = {Object.assign(styles.shadow, propStyles.get('shadow').toJS())}></span>
             </div>
             <figure 
                 id = 'front'
-                style = {Object.assign({}, styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
             <figure 
                 id = 'back'
-                style = {Object.assign({}, styles.figure, styles.back, propStyles.get('back').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.back, propStyles.get('back').toJS())}></figure>
             <figure 
                 id = 'right'
-                style = {Object.assign({}, styles.figure, styles.right, propStyles.get('right').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.right, propStyles.get('right').toJS())}></figure>
             <figure 
                 id = 'left'
-                style = {Object.assign({}, styles.figure, styles.left, propStyles.get('left').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.left, propStyles.get('left').toJS())}></figure>
             <figure 
                 id = 'top'
-                style = {Object.assign({}, styles.figure, styles.top, propStyles.get('top').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.top, propStyles.get('top').toJS())}></figure>
             <figure 
                 id = 'bottom'
-                style = {Object.assign({}, styles.figure, styles.bottom, propStyles.get('bottom').toJS())}></figure>
+                style = {Object.assign(styles.figure, styles.bottom, propStyles.get('bottom').toJS())}></figure>
         </div>
     </section>
 );
