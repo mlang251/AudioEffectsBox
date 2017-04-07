@@ -2,15 +2,8 @@ import React from 'react';
 import Radium from 'radium';
 
 /**
- * The InteractionBoxPlaceholder module. Responsible rendering the InteractionBoxPlaceholder. Appears as a child component
- *     of the InteractionBoxContainer component.
- * @module InteractionBoxPlaceholder
- * @see module:InteractionBoxContainer
- */
-
-/** 
- * Class responsible rendering the InteractionBoxPlaceholder.
- * @extends external:ReactPureComponent 
+ * The InteractionBoxPlaceholder module. Renders a placeholder for the InteractionBox component when the Leap is not yet
+ *     plugged into the computer. Appears as a child component of the App component.
  */
 const InteractionBoxPlaceholder = () => (
     <section style = {styles.container}>
@@ -18,10 +11,6 @@ const InteractionBoxPlaceholder = () => (
     </section>
 );
 
-/**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
- */
 const styles = {
     container: {
         width: '40vh',
@@ -49,5 +38,4 @@ const styles = {
     }
 }
 
-/** The InteractionBoxPlaceholder component */
 export default Radium(InteractionBoxPlaceholder);

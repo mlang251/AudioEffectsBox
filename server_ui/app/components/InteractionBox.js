@@ -9,9 +9,8 @@ import Radium from 'radium';
  */
 
 /**
- * The InteractionBox module. Responsible for rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
- *     as well as the position of the user's hand and the state of the InteractionBox. Appears as a child component of the 
- *     InteractionBoxContainer component.
+ * The InteractionBox module. This renders the 3D representation of the Leap field of vision, as well as the position of the 
+ *     user's hand and the state of the InteractionBox. Appears as a child component of the InteractionBoxContainer component.
  * @param {Object} props - The props passed down by the InteractionBoxContainer component
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
