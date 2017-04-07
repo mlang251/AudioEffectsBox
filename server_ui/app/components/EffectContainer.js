@@ -56,6 +56,16 @@ const mapStateToProps = (state) => {
  * Maps store dispatch methods to props to pass down to the Effect component
  * @param {Function} dispatch - The store.dispatch method for dispatching actions
  * @param {Object} ownProps - Props passed down from the SignalChain component
+ * @property {String} ownProps.effectID - The ID of this effect
+ * @property {String} ownProps.effectName - The name of this effect
+ * @property {external:List.<String>} ownProps.parameterList - The list of parameters this effect contains
+ * @property {external:Map.<String, String>} ownProps.parameters - A map that contains the names of the parameters this effect contains,
+ *     and the types of parameter corresponding to each name. Currently the only option for type is fader
+ * @property {String} ownProps.effectType - The type of this effect
+ * @property {Boolean} ownProps.isBypassed - Represents whether or not this effect is bypassed
+ * @property {Boolean} ownProps.isSoloing - Represents whether or not this effect is soloing
+ * @property {Boolean} ownProps.reorderButtonLeft - Represents whetehr or not this effect should render a reorder button to the left
+ * @property {Boolean} ownProps.reorderButtonRight - Represents whetehr or not this effect should render a reorder button to the right
  * @returns {Object} props - Props to pass down to the Effect component
  * @property {Function} props.removeEffect - A function that dispatches removeEffectAndEmit with this effect's ID
  * @property {Function} props.reorderEffects - A function that dispatches reorderEffectsAndEmit with this effect's ID and a direction
