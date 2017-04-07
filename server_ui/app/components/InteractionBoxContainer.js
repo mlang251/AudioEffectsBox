@@ -2,11 +2,57 @@ import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import InteractionBox from './InteractionBox';
 
-const createStyles = (state) => {
-    const coords = state.get('coords');
-    const dimensions = state.get('dimensions');
-    const isInBounds = state.get('isInBounds');
-    const isTracking = state.get('isTracking');
+/**
+ * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
+ * @external List
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
+ */
+
+/**
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
+ */
+
+/**
+ * The state of the interaction box
+ * @typedef {external:Map} InteractionBox
+ * @property {external:List.<Number>} InteractionBox.coords - The current coordinates of the user's hand within the Leap's field of 
+ *     vision. This is represented by the pointer in the InteractionBox component.
+ * @property {external:Map} InteractionBox.dimensions - The dimensions of the Leap's field of vision, represented by the dimensions
+ *     of the InteractionBox component.
+ * @property {Number} InteractionBox.dimensions.Height - The height of the Leap's field of vision.
+ * @property {Number} InteractionBox.dimensions.Width - The width of the Leap's field of vision.
+ * @property {Number} InteractionBox.dimensions.Depth - The depth of the Leap's field of vision.
+ * @property {Boolean} InteractionBox.isConnected - Represents whether or not the Leap is connected to the computer
+ * @property {Boolean} InteractionBox.isInBounds - Represents whether or not user's hand is within the Leap's field of vision
+ * @property {Boolean} InteractionBox.isTracking - Represents whether or not the user has put the system into hand tracking mode
+ */
+
+/**
+ * Reads the coordinates and status of the interaction box to create styles for the InteractionBox component. If dimensions are 
+ *     provided, the method will read the height, width, and depth of the interaction box as seen by the Leap, and build a 3D
+ *     representation of this field of vision to scale in the browser. It detects what the maximum size of the box can be,
+ *     depending on the size of the browser window. It then computes which of the three dimensions can be at it's maximum 
+ *     value within the browser, without making either of the other two dimensions go outside of their respective maximum values.
+ *     This is done so that the interaction box is as large as possible without getting in the way of other components. It sets the 
+ *     values of height, width, and depth accordingly. If coordinates are provided, the method sets the values of x, y, and z
+ *     accordingly. It then chooses a color for the pointer (the ball that indicates where the user's hand is within the Leap's
+ *     field of vision) depending on the interaction box status. If the user's hand is out of bounds, the pointer is red. If the
+ *     user's hand is in bounds but tracking mode is off, the pointer is yellow. If the user's hand is in bounds and tracking mode
+ *     is on, the pointer is green. The minimum dimension of the interaction box is calculated so that it can be used to render
+ *     the pointer and it's shadow so that their sizees are 10 times less than the minimum dimension of the box.
+ * @param {InteractionBox} interactionBox - The current state of the interaction box
+ * @returns {external:Map.<String, external:Map>} propStyles - The fully computed styles. This includes the dimensions of the interaction
+ *     box, which is made using 3D CSS transforms, as well as the color and positioning of the pointer and it's shadow. The pointer and
+ *     shadow are translated within the interaction box using 3D CSS transforms.
+ */
+const createStyles = (interactionBox) => {
+    const coords = interactionBox.get('coords');
+    const dimensions = interactionBox.get('dimensions');
+    const isInBounds = interactionBox.get('isInBounds');
+    const isTracking = interactionBox.get('isTracking');
 
     let height = 0;
     let width = 0;
@@ -122,6 +168,12 @@ const createStyles = (state) => {
     });
 }
 
+/**
+ * Maps the state contained in the store to props to pass down to the InteractionBox component
+ * @param {external:Map} state - The state contained in the store
+ * @returns {Object} props - Props to pass down to the InteractionBox component
+ * @property {external:Map.<String, external:Map>} props.propStyles - The fully computed styles to pass down to the InteractionBox
+ */
 const mapStateToProps = (state) => {
     return {
         propStyles: createStyles(state.get('interactionBox'))
