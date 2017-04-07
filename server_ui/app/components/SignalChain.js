@@ -5,16 +5,33 @@ import EffectContainer from './EffectContainer';
 import {effects as effectDescriptions} from '../JSON/effects.json';
 
 /**
- * The SignalChain module. Responsible rendering a SignalChain component which is the location where effects modules
- *     are rendered. Appears as a child component of the SignalChainContainer component, child components are Effect components.
- * @module SignalChain
- * @see module:SignalChainContainer
- * @see module:Effect
+ * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
+ * @external List
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
  */
 
-/** 
- * Class responsible for rendering the SignalChain component.
- * @extends external:ReactPureComponent 
+/**
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
+ */
+
+/**
+ * An Immutable Map which represents an effect in the signal chain
+ * @typedef {external:Map} Effect
+ * @property {String} effectType - The type of effect
+ * @property {String} effectID - The unique ID of the effect
+ * @property {Boolean} isBypassed - Represents whether or not the effect is currently bypassed
+ * @property {Boolean} isSoloing - Represents whether or not the effect is currently soloing
+ */
+
+/**
+ * The SignalChain module. Renders a the location where effects modules are rendered. The majority of the signal chain area shows the
+ *     effects that have been added by the user. To the right of this area is where the final output gain stage is. Appears as a child 
+ *     component of the SignalChainContainer component, child components are Effect components.
+ * @param {Object} props - Props passed down by the SignalChainContainer
+ * @property {external:List.<Effect>} props.effects - A list of the effects the user has added to the signal chain
  */
 const SignalChain = ({effects}) => (
     <div style = {styles.div}>
@@ -34,6 +51,11 @@ const SignalChain = ({effects}) => (
     </div>
 );
 
+/**
+ * Iterates through a list of effects and creates EffectContainer components to render
+ * @param {external:List.<Effect>} effectsList - The list of effects
+ * @returns {external:List} - A list of EffectContainer components
+ */
 const createEffects = (effectsList) => {
     return effectsList.map((effect, index) => {
         const effectType = effect.get('effectType');
@@ -57,10 +79,6 @@ const createEffects = (effectsList) => {
     });
 };
 
-/**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
- */
 const styles = {
     div: {
         height: '100%',
@@ -90,5 +108,4 @@ const styles = {
     }
 }
 
-/** The SignalChain component */
 export default Radium(SignalChain);

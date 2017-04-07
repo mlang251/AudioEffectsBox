@@ -3,16 +3,21 @@ import Radium from 'radium';
 import Parameter from './Parameter';
 
 /**
- * The Parameter module. Responsible rendering a Parameter component. Appears as a child component of the 
- *     ParameterContainer component. 
- * @module Parameter
- * @see module:ParameterContainer
- * @see {@link https://github.com/mzabriskie/react-draggable#draggable}
- */
-
-/** 
- * Class responsible rendering Parameter components.
- * @extends external:ReactPureComponent 
+ * The ParameterScaffold module. Renders meta information for each parameter, including the name and the axis mapping. Appears as a 
+ *     child component of the ParameterContainer component. Child component is the Parameter component.
+ * @param {Object} props - Props passed down from the ParameterContainer component
+ * @property {Number} props.value - The current value of the parameter
+ * @property {String} props.axis - The axis that is mapped to this parameter. This is an empty string if the parameter is not mapped
+ * @property {Boolean} props.isMapping - Represents whether or not the app is in axis mapping mode. If it is, the parameter will render
+ *     with a blue outline to notify the user that this parameter can receive an axis mapping
+ * @property {String} props.axisToMap - The current axis that is being mapped. If this is an empty string, it means axis mapping mode is
+ *     not active. If axis mapping mode is active
+ * @property {Function} props.handleDrag - Sets this parameter's value to a new value when the fader is dragged
+ * @property {Function} props.handleClick - If the app is in axis mapping mode, clicking the parameter will map the axisToMap to this 
+ *     parameter
+ * @property {Function} props.removeMapping - Removes the axis mapping from this parameter if the remove mapping button is clicked. If the
+ *     parameter is not mapped, this button will not appear
+ * @property {String} props.paramName - The name of this parameter
  */
 const ParameterScaffold = ({value, axis, isMapping, axisToMap, handleDrag, handleClick, removeMapping, paramName}) => (
     <div style = {styles.paramDiv}>
@@ -33,10 +38,6 @@ const ParameterScaffold = ({value, axis, isMapping, axisToMap, handleDrag, handl
     </div>
 );
 
-/**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
- */
 const styles = {
     paramDiv: {
         display: 'inline-block',
@@ -70,5 +71,4 @@ const styles = {
     },
 }
 
-/** The Parameter component */
 export default Radium(ParameterScaffold);

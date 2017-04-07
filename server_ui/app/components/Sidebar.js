@@ -3,15 +3,11 @@ import Radium from 'radium';
 import {list as effectsList} from '../JSON/effects';
 
 /**
- * The Sidebar module. Responsible rendering a Sidebar component which is used for adding effects to the signal
- *     chain and for entering mapping mode. Appears as a child component of the SidebarContainer component. 
- * @module Sidebar
- * @see module:SidebarContainer
- */
-
-/** 
- * Class responsible for rendering the Sidebar component.
- * @extends external:ReactPureComponent 
+ * The Sidebar module. Render buttons for adding effects to the signal chain and for entering axis mapping mode. Appears as a 
+ *     child component of the SidebarContainer component. 
+ * @param {Object} props - Props passed down from the SidebarContainer component
+ * @property {Function} props.addEffect - Adds an effect to the signal chain
+ * @property {Function} props.updateMapping - Turns on axis mapping mode
  */
 const Sidebar = ({addEffect, updateMapping}) => (
     <div>
@@ -38,10 +34,6 @@ const Sidebar = ({addEffect, updateMapping}) => (
     </div>
 );
 
-/**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
- */
 const styles = {
     button: {
         display: 'block',
@@ -49,5 +41,4 @@ const styles = {
     }
 }
 
-/** The Sidebar component */
 export default Radium(Sidebar);

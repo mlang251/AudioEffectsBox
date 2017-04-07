@@ -3,7 +3,15 @@ import {updateMapping, checkUsedIDs} from '../actions/actionCreators';
 import Sidebar from './Sidebar';
 import {effects} from '../JSON/effects.json';
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+/**
+ * Maps store dispatch methods to props to pass down to the Sidebar component
+ * @param {Function} dispatch - The store.dispatch method for dispatching actions
+ * @returns {Object} props - Props to pass down to the Sidebar component
+ * @property {Function} props.updateMapping - Dispatches updateMapping with a value of false for mapToParameter, and passes the axis to map
+ * @property {Function} props.addEffect - Dispatches checkUsedIDs with the type of effect to check for, and a list of the usable IDs for
+ *     the specific effect type
+ */
+const mapDispatchToProps = (dispatch) => {
     return {
         updateMapping: axis => {
             dispatch(updateMapping(false, axis));
