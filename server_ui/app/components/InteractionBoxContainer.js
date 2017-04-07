@@ -124,7 +124,7 @@ const createStyles = (state) => {
 
 const mapStateToProps = (state) => {
     return {
-        applyStyles: createStyles(state.get('interactionBox'))
+        propStyles: createStyles(state.get('interactionBox'))
     };
 };
 
