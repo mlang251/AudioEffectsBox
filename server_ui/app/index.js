@@ -6,7 +6,7 @@ import createSocketIoMiddleware from 'redux-socket.io';
 import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 import root from './reducers/root';
-import AppContainer from './ReduxComponents/AppContainer';
+import AppContainer from './components/AppContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
