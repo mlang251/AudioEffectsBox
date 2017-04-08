@@ -2,7 +2,6 @@ const express = require('express');
 const io = require('socket.io')();
 const {OscUdpPort, DgramUdpPort} = require('./serverDependencies/ports');
 const {createRoutes, updateMapping, updateParameter} = require('./serverDependencies/ioHelpers');
-const defaults = require('./JSON/defaults.json');
 
 //Instantiate the server
 let app = express();
@@ -101,19 +100,6 @@ io.on('connection', socket => {
             case 'UPDATE_EFFECTS':
                 var data = createRoutes(action.payload.effectsList);
                 serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data));
-                // TODO: this block conflicts with how effects are removed and added again, app state does not reflect default paramValues
-                // var newEffectID = action.options.newEffect;
-                // if (newEffectID) {
-                //     const effectDefaults = defaults[newEffectID];
-                //     Object.keys(effectDefaults).forEach(parameter => {
-                //         var data = {
-                //             effectID: newEffectID,
-                //             paramName: parameter,
-                //             paramValue: effectDefaults[parameter]
-                //         };
-                //         serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
-                //     });
-                // }
                 break;
             case 'UPDATE_MAPPING':
                 var {effectID, paramName, axis} = action.payload;

@@ -7,8 +7,7 @@
     "prestart": "webpack",
     "start": "node app/appServer.js",
     "test": "jest",
-    "test:watch": "npm test -- --watch",
-    "doc": "jsdoc -d ./app/JSDoc_output/ ./app/components/"
+    "test:watch": "npm test -- --watch"
   },
   "keywords": [],
   "author": "",

@@ -1,5 +1,5 @@
 import {connect} from 'react-redux';
-import {updateParameterValue, setMappingAndEmit, removeMappingAndEmit} from '../actions/actionCreators';
+import {updateParameterValue, setMappingAndEmit, removeMapping} from '../actions/actionCreators';
 import ParameterScaffold from './ParameterScaffold';
 
 const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
@@ -27,10 +27,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             normalizeParameterValue(paramValue, maximum, ownProps.effectID, ownProps.paramName, dispatch)
         }, 
         handleClick: (axis) => {
-            dispatch(setMappingAndEmit(true, axis, ownProps.effectID, ownProps.paramName));
+            dispatch(setMappingAndEmit(axis, ownProps.effectID, ownProps.paramName));
         },
         removeMapping: (axis, paramName) => {
-            dispatch(removeMappingAndEmit(ownProps.effectID, paramName, axis, {
+            dispatch(removeMapping(ownProps.effectID, paramName, axis, {
                 io: true
             }));
         }
