@@ -1,16 +1,26 @@
 import * as types from './actionTypes';
 import {Map} from 'immutable';
 
-export const updateMessage = (message, options = {}) => {
+
+
+/**
+ * Creates an action to update the message
+ * @param {String} message  - A message to be displayed in the UI
+ */
+export const updateMessage = (message) => {
     return {
         type: types.UPDATE_MESSAGE,
-        options: options,
         payload: {
             message
         }
     };
 };
 
+/**
+ * 
+ * @param {} effectsList 
+ * @param {*} options 
+ */
 export const updateEffects = (effectsList, options = {}) => {
     return {
         type: types.UPDATE_EFFECTS,
@@ -40,7 +50,7 @@ export const checkUsedIDs = (effectType, usableIDs) => {
     }
 };
 
-export const addEffectAndEmit = (effectType, effectID, options = {}) => {
+export const addEffectAndEmit = (effectType, effectID) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects.push(Map({
@@ -56,7 +66,7 @@ export const addEffectAndEmit = (effectType, effectID, options = {}) => {
     };
 };
 
-export const removeEffectAndEmit = (effectID, options = {}) => {
+export const removeEffectAndEmit = (effectID) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         effects = effects.filter((effect) => effect.get('effectID') != effectID);
@@ -66,7 +76,7 @@ export const removeEffectAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
+export const reorderEffectsAndEmit = (effectID, direction) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects');
         let effectsList;
@@ -94,7 +104,7 @@ export const reorderEffectsAndEmit = (effectID, direction, options = {}) => {
     };
 };
 
-export const toggleBypassAndEmit = (effectID, options = {}) => {
+export const toggleBypassAndEmit = (effectID) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         const index = effects.findIndex(effect => {
@@ -107,7 +117,7 @@ export const toggleBypassAndEmit = (effectID, options = {}) => {
     };
 };
 
-export const toggleSoloAndEmit = (effectID, options = {}) => {
+export const toggleSoloAndEmit = (effectID) => {
     return (dispatch, getState) => {
         let effects = getState().get('effects').asMutable();
         let isSoloing;
@@ -176,7 +186,7 @@ export const removeMappingAndEmit = (effectID, paramName, axis, options = {}) =>
     };
 };
 
-export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName, options = {}) => {
+export const setMappingAndEmit = (mapToParameter, axis, effectID, paramName) => {
     return (dispatch, getState) => {
         const xyzMap = getState().getIn(['parameters', 'mappings']);
         const axes = ['x', 'y', 'z'];
