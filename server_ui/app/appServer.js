@@ -34,6 +34,10 @@ const leapToServerChannel = {
     portLeapStatusUpdates: new OscUdpPort({localPort: 8010})
 };
 
+/**
+ * Handles events when the server receives data from the Leap. Logs the data to the console, sends the data to the Max application,
+ *     and emits the data to the UI through the redux store
+ */
 leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
@@ -47,6 +51,10 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     });
 });
 
+/**
+ * Handles events when the server receives status updates from the Leap. Logs the data to the console, and emits the data to the UI 
+ *     through the redux store
+ */
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
     const {address, args} = msg;
     io.emit('action', {
@@ -70,6 +78,11 @@ leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
 const maxToServerChannel = {
   portAudioInputOptions: new DgramUdpPort(11000)
 };
+
+/**
+ * Handles events when the server receives messages from the Max application. Logs the data to the console, and emits the data to 
+ *     the UI through the redux store
+ */
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
     message = msg.toString();
     console.log(`received message from max: ${message}`);
@@ -95,6 +108,10 @@ io.on('connection', socket => {
     //Emit the initial route
     serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(createRoutes()));
 
+    /**
+     * Handles events when the server receives an action from the redux-socket.io middleware. Calls the proper function imported from
+     *     ./serverDependencies/ioHelpers.js and emits the results of these function calls to the Max application
+     */
     socket.on('action', (action) => {
         switch (action.type) {
             case 'UPDATE_EFFECTS':
