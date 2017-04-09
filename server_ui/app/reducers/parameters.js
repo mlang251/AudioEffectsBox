@@ -35,10 +35,10 @@ import defaults from '../JSON/defaults.json';
  * @property {AxisMapping} State.mappings.x - Contains information about the current mapping of the x axis
  * @property {AxisMapping} State.mappings.y - Contains information about the current mapping of the y axis
  * @property {AxisMapping} State.mappings.z - Contains information about the current mapping of the z axis
- * @property {external:Map.<String, Effect>} effects - Contains the current state of the parameters
+ * @property {external:Map.<String, Effect>} State.effects - Contains the current state of the parameters
  */
 export const createInitialState = () => {
-    let tempState = {
+    let tempState = Map({
         mappings: Map({
             x: Map({
                 effectID: '',
@@ -54,7 +54,7 @@ export const createInitialState = () => {
             }),
         }),
         effects: Map()
-    };
+    }).asMutable();
     const defaultsKeys = Object.keys(defaults);
     for (let i = 0; i < defaultsKeys.length; i++) {
         const thisKey = defaultsKeys[i];
@@ -65,9 +65,9 @@ export const createInitialState = () => {
                 axisName: ''
             });
         });
-        tempState.effects[thisKey] = Map(defaults[thisKey]);
+        tempState = tempState.setIn(['effects', thisKey], Map(defaults[thisKey]));
     };
-    return Map(tempState);
+    return tempState.asImmutable();
 }
 
 /**
