@@ -1,81 +1,89 @@
-import React from 'react';
-import Immutable from 'immutable';
-import Parameter from './Parameter';
+import {connect} from 'react-redux';
+import {updateParameterValue, setMappingAndEmit, removeMapping} from '../actions/actionCreators';
+import ParameterScaffold from './ParameterScaffold';
 
 /**
- * The ParameterContainer module. Responsible for rendering the parameter, maintaining it's value, and facilitating
- *     interaction with the parameter. Appears as child component of Effect, child components are Parameter.
- * @module ParameterContainer
- * @see module:ParameterContainer
- * @see module:Parameter
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
  */
 
-/** 
- * Class responsible for rendering the parameter, maintaining it's value, and facilitating interaction with the parameter.
- * @extends external:ReactPureComponent 
+/**
+ * Normalizes the received value from updating the parameter's value, normalizes it in the range of 0-1 inclusive, and rounds to 
+ *     three decimal places. Dispatches updateParameterValue with the effectID, the paramName, and the normalized value.
+ * @param {Number} yValue - The new value of the parameter, this number is received as the absolute y position of the fader with
+ *     respect to it's containing block in the Parameter component
+ * @param {Number} max - The maximum value the fader can reach with respect to it's containing block
+ * @param {String} effectID - The ID of the effect this parameter belongs to
+ * @param {String} paramName - The name of the parameter that is updating it's value
+ * @param {Function} dispatch - The store.dispatch method
  */
-class ParameterContainer extends React.PureComponent {
-    /** Creates the ParameterContainer instance. Binds methods to this instance. */
-    constructor() {
-        super();
-        this.handleMappingClick = this.handleMappingClick.bind(this);
-        this.handleDrag = this.handleDrag.bind(this);
-    }
-
-    /**
-     * Retrives the parameter's value and calls this.props.onParameterChange, which is used to update the app state 
-     *     of the parameters, and emit the initial value of the Parameter.
-     */
-    componentWillMount() {
-        const info = this.props.info.set('paramValue', this.props.value);
-        this.props.onParameterChange(Immutable.List([info]));
-    }
-
-    /**
-     * Handles the user interaction of dragging a fader. The value must be between 0 and 1, so it normalizes the yValue
-     *     on this range, rounds it to three decimal places, and calls this.props.onParameterChange to update the
-     *     app state of the parameter, and emit the value of the Parameter.
-     * @param {Number} yValue - The Y value the fader was dragged to
-     * @param {Number} max - Equal to the height of the fader's containing element
-     */
-    handleDrag(yValue, max) {
-        let value =
-            yValue < 0 ? 0
-            : yValue > max ? 1
-            : yValue/max
-        value = Math.round(value * 1000)/1000;
-        const updatedInfo = this.props.info.set('paramValue', value);
-        this.props.onParameterChange(Immutable.List([updatedInfo]));
-    }
-
-    /**
-     * Handles the user interaction of clicking on a Parameter. If the app is currently in mapping mode, clicking on a
-     *     parameter will call props.mapToParameter, which will map the current axis being mapped to the Parameter that
-     *     was clicked.
-     */
-    handleMappingClick() {
-        if (!this.props.isMapping) {
-            return false;
-        } else {
-            this.props.mapToParameter(this.props.info);
-        }
-    }
-
-    /**
-     * Renders a Parameter component.
-     * @see module:Parameter
-     */
-    render() {
-        return (
-            <Parameter
-                handleMappingClick = {this.handleMappingClick}
-                isMapping = {this.props.isMapping}
-                value = {this.props.value}
-                handleDrag = {this.handleDrag}
-                info = {this.props.info} />
-        );
-    }
+const normalizeParameterValue = (yValue, max, effectID, paramName, dispatch) => {
+    let value = yValue < 0 ? 
+        0 : yValue > max ? 
+        1 : yValue/max
+    const paramValue = Math.round(value * 1000)/1000;
+    dispatch(updateParameterValue(effectID, paramName, paramValue, {
+        io: true
+    }));
 }
 
-/** The ParameterContainer component */
+/**
+ * Maps the state contained in the store to props to pass down to the ParameterScaffold component
+ * @param {external:Map} state - The state contained in the store
+ * @param {Object} ownProps - Props passed down from the Effect component
+ * @property {String} ownProps.effectID - The ID of the effect that contains this parameter
+ * @property {String} ownProps.paramName - The name of this parameter
+ * @returns {Object} props - Props to pass down to the ParameterScaffold component
+ * @property {Number} props.value - The value of this parameter
+ * @property {String} props.axis - The axis this parameter is mapped to. This is an empty string if the parameter is not mapped
+ * @property {Boolean} props.isMapping - Represents whether or not the app is in axis mapping mode
+ * @property {String} props.axisToMap - The axis that is currently being mapped to a parameter. This is an empty string if the app
+ *     is not currently in axis mapping mode
+ */
+const mapStateToProps = (state, ownProps) => {
+    return {
+        value: state.getIn(['parameters', 'effects', ownProps.effectID, ownProps.paramName, 'paramValue']),
+        axis: state.getIn(['parameters', 'effects', ownProps.effectID, ownProps.paramName, 'axisName']),
+        isMapping: state.getIn(['mapping', 'isMapping']),
+        axisToMap: state.getIn(['mapping', 'currentAxis'])
+    };
+};
+
+/**
+ * Maps store dispatch methods to props to pass down to the ParameterScaffold component
+ * @param {Function} dispatch - The store.dispatch method for dispatching actions
+ * @param {Object} ownProps - Props passed down from the Effect component
+ * @property {String} ownProps.effectID - The ID of the effect that contains this parameter
+ * @property {String} ownProps.paramName - The name of this parameter
+ * @returns {Object} props - Props to pass down to the ParameterScaffold component
+ * @property {Function} props.handleDrag - Calls normalizeParameterValue with the received value, the received maximum, the ID of
+ *     the effect this parameter belongs to, the parameter name, and the store.dispatch method
+ * @property {Function} props.handleClick - Dispatches setMappingAndEmit with the axis to map to this parameter, the ID of the 
+ *     effect this parameter belongs to, and the parameter name
+ * @property {Function} props.removeMapping - Dispatches removeMapping with the ID of the effect this parameter belongs to, the name
+ *     of the parameter, and the axis that is currently mapped to this parameter
+ */
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        handleDrag: (paramValue, maximum) => {
+            normalizeParameterValue(paramValue, maximum, ownProps.effectID, ownProps.paramName, dispatch)
+        }, 
+        handleClick: (axis) => {
+            dispatch(setMappingAndEmit(axis, ownProps.effectID, ownProps.paramName));
+        },
+        removeMapping: (axis, paramName) => {
+            dispatch(removeMapping(ownProps.effectID, paramName, axis, {
+                io: true
+            }));
+        }
+    };
+};
+
+const ParameterContainer = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ParameterScaffold);
+
 export default ParameterContainer;

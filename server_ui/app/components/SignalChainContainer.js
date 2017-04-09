@@ -1,76 +1,43 @@
-import React from 'react';
-import Immutable from 'immutable';
+import {connect} from 'react-redux';
+import {List, Map} from 'immutable';
 import SignalChain from './SignalChain';
-import EffectContainer from './EffectContainer';
 
 /**
- * The SignalChainContainer module. Responsible for creating EffectContainer components and rendering it's 
- *     SignalChain child. Appears as a child component of App, child component is SignalChain.
- * @module SignalChainContainer
- * @see module:App
- * @see module:SignalChain
- * @see module:EffectContainer
+ * The Immutable.js List datatype. Lists are ordered indexed dense collections, much like a JavaScript Array.
+ * @external List
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/List}
  */
 
-/** 
- * Class responsible for creating EffectContainer components and rendering it's SignalChain child.
- * @extends external:ReactPureComponent 
+/**
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
  */
-class SignalChainContainer extends React.PureComponent {
-    /** Create the SignalChainContainer component instance */
-    constructor() {
-        super();
-    }
 
-    /**
-     * Creates an interable of EffectContainer components by iterating through props.effects and assigning props.
-     * @param {external:List.<Effect>} effects - An Immutable List containing effects to be created
-     * @returns {external:List} An Immutable List containing EffectContainer components
-     */
-    createEffects(effects) {
-        return effects.map((effect, index) => {
-            const {ID, type, isBypassed, isSoloing} = effect.toJS();
-            return (
-                <EffectContainer
-                    key = {ID}
-                    ID = {ID}
-                    type = {type}
-                    isBypassed = {isBypassed}
-                    isSoloing = {isSoloing}
-                    parameterValues = {this.props.parameterValues.get(ID)}
-                    onParameterChange = {this.props.onParameterChange}
-                    isMapping = {this.props.isMapping}
-                    mapToParameter = {this.props.mapToParameter}
-                    xyzMap = {this.props.xyzMap}
-                    handleCloseButtonClick = {this.props.removeEffect} 
-                    handleBypassButtonClick = {this.props.toggleBypass} 
-                    handleSoloButtonClick = {this.props.toggleSolo} 
-                    handleRemoveMappingClick = {this.props.removeMapping}
-                    reorderButtonLeft = {index != 0}
-                    reorderButtonRight = {index != effects.size - 1} 
-                    handleReorderButtonClick = {this.props.reorderEffects} />
-            );
-        });
-    }
+/**
+ * An Immutable Map which represents an effect in the signal chain
+ * @typedef {external:Map} Effect
+ * @property {String} effectType - The type of effect
+ * @property {String} effectID - The unique ID of the effect
+ * @property {Boolean} isBypassed - Represents whether or not the effect is currently bypassed
+ * @property {Boolean} isSoloing - Represents whether or not the effect is currently soloing
+ */
 
-    /**
-     * Renders the SignalChain and passes along the iterable of EffectContainer components
-     * @see module:SignalChain
-     */
-    render() {
-        const gainEffect = Immutable.List([Immutable.Map({
-            ID: 'gain',
-            type: 'gain',
-            isBypassed: false,
-            isSoloing: false
-        })]);
-        return (
-            <SignalChain 
-                effects = {this.createEffects(this.props.effects)}
-                gain = {this.createEffects(gainEffect)} />
-        );
-    }
-}
+/**
+ * Maps the state contained in the store to props to pass down to the SignalChain component
+ * @param {external:Map} state - The state contained in the store
+ * @returns {Object} props - The props to pass down to the SignalChain component
+ * @property {external:List.<Effect>} props.effects - A list of the effects the user has added to the signal chain
+ */
+const mapStateToProps = state => {
+    return {
+        effects: state.get('effects'),
+    };
+};
 
-/** The SignalChainContainer component */
+const SignalChainContainer = connect(
+    mapStateToProps
+)(SignalChain);
+
 export default SignalChainContainer;

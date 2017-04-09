@@ -1,5 +1,5 @@
 {
-    "list": ["Reverb", "Filter", "Delay", "Pitch Shift", "Overdrive"],
+    "list": ["Reverb", "Filter", "Delay", "Pitch Shift", "Overdrive","Modulator","Compressor"],
     "effects": {
         "reverb": {
             "type": "reverb",
@@ -66,6 +66,32 @@
             "parameters": {
                 "Level": "fader"
           }
+        },
+	"modulator": {
+            "type": "modulator",
+            "name": "Modulator",
+            "IDs": ["mod1", "mod2", "mod3"],
+            "parameterList": ["Wetness","Depth", "Rate", "Delay", "Gain","ForwardGain","BackGain"],
+            "parameters": {
+				"Wetness": "fader",
+                "Depth": "fader",
+                "Rate": "fader",
+                "Delay": "fader",
+                "Gain": "fader",
+				"ForwardGain": "fader",
+				"BackGain": "fader"
+            }
+        },
+	"compressor": {
+            "type": "compressor",
+            "name": "Compressor",
+            "IDs": ["comp1", "comp2", "comp3"],
+            "parameterList": ["Wetness","Threshold"],
+            "parameters": {
+                "Wetness": "fader",
+				"Threshold": "fader"
+            }
         }
+
     }
 }

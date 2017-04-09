@@ -40,7 +40,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out right",
 					"id" : "obj-11",
-					"index" : 0,
+					"index" : 6,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -53,11 +53,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in right",
 					"id" : "obj-12",
-					"index" : 0,
+					"index" : 6,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 869.0, 499.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -67,7 +67,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out left",
 					"id" : "obj-13",
-					"index" : 0,
+					"index" : 5,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -80,11 +80,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in left",
 					"id" : "obj-14",
-					"index" : 0,
+					"index" : 5,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 809.5, 499.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -398,7 +398,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 309.300049, 412.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -451,7 +451,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 253.0, 412.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -699,10 +699,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 0 ],
+									"destination" : [ "obj-29", 2 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 431.5, 627.0, 975.300049, 627.0 ],
+									"midpoints" : [ 431.5, 627.0, 993.300049, 627.0 ],
 									"source" : [ "obj-2", 0 ]
 								}
 
@@ -870,10 +870,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 1 ],
+									"destination" : [ "obj-29", 3 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 576.5, 627.0, 984.300049, 627.0 ],
+									"midpoints" : [ 576.5, 627.0, 1002.300049, 627.0 ],
 									"source" : [ "obj-5", 0 ]
 								}
 
@@ -1004,7 +1004,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out right",
 					"id" : "obj-5",
-					"index" : 0,
+					"index" : 4,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -1017,11 +1017,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in right",
 					"id" : "obj-6",
-					"index" : 0,
+					"index" : 4,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 732.0, 326.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1031,7 +1031,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out left",
 					"id" : "obj-7",
-					"index" : 0,
+					"index" : 3,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -1044,11 +1044,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in left",
 					"id" : "obj-8",
-					"index" : 0,
+					"index" : 3,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 673.5, 326.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1361,7 +1361,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 309.300049, 412.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1414,7 +1414,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 253.0, 412.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -1662,10 +1662,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 0 ],
+									"destination" : [ "obj-29", 2 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 431.5, 627.0, 975.300049, 627.0 ],
+									"midpoints" : [ 431.5, 627.0, 993.300049, 627.0 ],
 									"source" : [ "obj-2", 0 ]
 								}
 
@@ -1833,10 +1833,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 1 ],
+									"destination" : [ "obj-29", 3 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 576.5, 627.0, 984.300049, 627.0 ],
+									"midpoints" : [ 576.5, 627.0, 1002.300049, 627.0 ],
 									"source" : [ "obj-5", 0 ]
 								}
 
@@ -1967,7 +1967,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out right",
 					"id" : "obj-4",
-					"index" : 0,
+					"index" : 2,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -1980,11 +1980,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in right",
 					"id" : "obj-1",
-					"index" : 0,
+					"index" : 2,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 582.0, 145.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -1994,7 +1994,7 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig out left",
 					"id" : "obj-3",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -2007,11 +2007,11 @@
 				"box" : 				{
 					"comment" : "overdrive1 sig in left",
 					"id" : "obj-2",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "signal" ],
 					"patching_rect" : [ 523.5, 145.0, 30.0, 30.0 ],
 					"style" : ""
 				}
@@ -2324,7 +2324,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 324.300049, 427.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -2377,7 +2377,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "signal" ],
 									"patching_rect" : [ 268.0, 427.0, 30.0, 30.0 ],
 									"style" : ""
 								}
@@ -2625,10 +2625,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 0 ],
+									"destination" : [ "obj-29", 2 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 446.5, 642.0, 990.300049, 642.0 ],
+									"midpoints" : [ 446.5, 642.0, 1008.300049, 642.0 ],
 									"source" : [ "obj-2", 0 ]
 								}
 
@@ -2796,10 +2796,10 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-29", 1 ],
+									"destination" : [ "obj-29", 3 ],
 									"disabled" : 0,
 									"hidden" : 0,
-									"midpoints" : [ 591.5, 642.0, 999.300049, 642.0 ],
+									"midpoints" : [ 591.5, 642.0, 1017.300049, 642.0 ],
 									"source" : [ "obj-5", 0 ]
 								}
 
@@ -3035,27 +3035,7 @@
 				}
 
 			}
- ],
-		"dependency_cache" : [ 			{
-				"name" : "velocityDetector.maxpat",
-				"bootpath" : "~/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "dryWet~.maxpat",
-				"bootpath" : "~/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "overdriveHelper~.maxpat",
-				"bootpath" : "~/AudioEffectsBox/Max_MSP",
-				"type" : "JSON",
-				"implicit" : 1
-			}
- ],
-		"autosave" : 0
+ ]
 	}
 
 }

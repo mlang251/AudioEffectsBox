@@ -1,10 +1,7 @@
 const express = require('express');
 const io = require('socket.io')();
-const OscUdpPort = require('./serverDependencies/ports').OscUdpPort;
-const DgramUdpPort = require('./serverDependencies/ports').DgramUdpPort;
-
-let leapDataCounter = 0;
-let framerateThrottleFactor = 3;    // 3 is the lowest this should go. If your UI is lagging, try 6 or 8 or heigher
+const {OscUdpPort, DgramUdpPort} = require('./serverDependencies/ports');
+const {createRoutes, updateMapping, updateParameter} = require('./serverDependencies/ioHelpers');
 
 //Instantiate the server
 let app = express();
@@ -37,21 +34,38 @@ const leapToServerChannel = {
     portLeapStatusUpdates: new OscUdpPort({localPort: 8010})
 };
 
+/**
+ * Handles events when the server receives data from the Leap. Logs the data to the console, sends the data to the Max application,
+ *     and emits the data to the UI through the redux store
+ */
 leapToServerChannel.portLeapCoords.on("message", msg => {
     const data = msg.args;
     console.log(`received message from leap: ${data}`);
     serverToMaxChannel.portLeapCoords.sendData(data);
-    if (leapDataCounter % framerateThrottleFactor == 0) {
-        io.emit('leapData', data);
-        leapDataCounter = 1;
-    } else {
-        leapDataCounter++;
-    }
+    io.emit('action', {
+        type: 'RECEIVE_LEAP_DATA',
+        options: {},
+        payload: {
+            data
+        }
+    });
 });
 
+/**
+ * Handles events when the server receives status updates from the Leap. Logs the data to the console, and emits the data to the UI 
+ *     through the redux store
+ */
 leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
-    io.emit('leapStatusUpdate', msg);
-    console.log(`received message from leap: ${msg.args}`);
+    const {address, args} = msg;
+    io.emit('action', {
+        type: 'RECEIVE_LEAP_STATUS',
+        options: {},
+        payload: {
+            address,
+            args
+        }
+    });
+    console.log(`received message from leap: ${address} - ${args[0]}`);
 });
 
 
@@ -64,10 +78,21 @@ leapToServerChannel.portLeapStatusUpdates.on('message', msg => {
 const maxToServerChannel = {
   portAudioInputOptions: new DgramUdpPort(11000)
 };
+
+/**
+ * Handles events when the server receives messages from the Max application. Logs the data to the console, and emits the data to 
+ *     the UI through the redux store
+ */
 maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
-    msg = msg.toString();
-    console.log(`received message from max: ${msg}`);
-    io.emit('message', msg);
+    message = msg.toString();
+    console.log(`received message from max: ${message}`);
+    io.emit('action', {
+        type: 'UPDATE_MESSAGE',
+        options: {},
+        payload: {
+            message
+        }
+    });
 });
 
 
@@ -80,9 +105,39 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 io.on('connection', socket => {
     console.log('User connected');
 
-    socket.on('route', data => serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data)));
-    socket.on('xyzMap', data => serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data)));
-    socket.on('updateParam', data => serverToMaxChannel.portParameters.sendData(JSON.stringify(data)));
+    //Emit the initial route
+    serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(createRoutes()));
+
+    /**
+     * Handles events when the server receives an action from the redux-socket.io middleware. Calls the proper function imported from
+     *     ./serverDependencies/ioHelpers.js and emits the results of these function calls to the Max application
+     */
+    socket.on('action', (action) => {
+        switch (action.type) {
+            case 'UPDATE_EFFECTS':
+                var data = createRoutes(action.payload.effectsList);
+                serverToMaxChannel.portRouteEffects.sendData(JSON.stringify(data));
+                break;
+            case 'UPDATE_MAPPING':
+                var {effectID, paramName, axis} = action.payload;
+                var data = updateMapping('set', effectID, paramName, axis);
+                serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
+                break;
+            case 'REMOVE_MAPPING':
+                var {effectID, paramName} = action.payload;
+                var data = updateMapping('remove', effectID, paramName);
+                serverToMaxChannel.portXYZMap.sendData(JSON.stringify(data));
+                break;
+            case 'UPDATE_PARAMETER_VALUE':
+                var {effectID, paramName, paramValue} = action.payload;
+                var data = updateParameter(effectID, paramName, paramValue);
+                serverToMaxChannel.portParameters.sendData(JSON.stringify(data));
+                break;
+            default:
+                console.log('Unknown action type');
+                break;
+        }
+    });
 
     socket.on('disconnect', () => {
         console.log('User disconnected') ;

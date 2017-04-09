@@ -15,19 +15,24 @@ else:
 # Import LeapController class
 from LeapController import LeapController
 
-if __name__ == "__main__":
-    # Create LeapController object
-    controller = LeapController()
+# Get pinch threshold or default if none given
+if len(sys.argv) == 2:
+    pinch_threshold = float(sys.argv[1])
+else:
+    pinch_threshold = 0.7
 
-    # Initialize the Leap Motion controller
-    controller.initialize()
+# Create LeapController object
+controller = LeapController()
 
-    # Setup Leap-server communication
-    controller.connect()
+# Initialize the Leap Motion controller
+controller.initialize(pinch_threshold)
 
-    # Start Leap runloop
-    try:
-        print "Running..."
-        controller.runloop()
-    except KeyboardInterrupt:
-        sys.exit(1)
+# Setup Leap-server communication
+controller.connect()
+
+# Start Leap runloop
+try:
+    print "Running..."
+    controller.runloop()
+except KeyboardInterrupt:
+    sys.exit(1)

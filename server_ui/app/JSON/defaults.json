@@ -80,7 +80,46 @@
         "Gain": 0.5,
         "Tone": 1
     },
+    "mod1": {
+	      "Wetness": 0.25,
+        "Depth": 0.25,
+        "Rate": 0.25,
+        "Delay": 0.75,
+      	"Gain": 0.75,
+      	"ForwardGain": 0.5,
+      	"BackGain": 0.75
+    },
+    "mod2": {
+	      "Wetness": 0.25,
+        "Depth": 0.25,
+        "Rate": 0.25,
+        "Delay": 0.75,
+      	"Gain": 0.75,
+      	"ForwardGain": 0.5,
+      	"BackGain": 0.75
+    },
+    "mod3": {
+	      "Wetness": 0.25,
+        "Depth": 0.25,
+        "Rate": 0.25,
+        "Delay": 0.75,
+      	"Gain": 0.75,
+      	"ForwardGain": 0.5,
+      	"BackGain": 0.75
+    },
+    "comp1": {
+        "Wetness": 0.25,
+        "Threshold": 0.75
+    },
+    "comp2": {
+        "Wetness": 0.25,
+        "Threshold": 0.75
+    },
+    "comp3": {
+        "Wetness": 0.25,
+        "Threshold": 0.75
+    },
     "gain": {
-        "Level": 0.921
+        "Level": 0.8
     }
 }

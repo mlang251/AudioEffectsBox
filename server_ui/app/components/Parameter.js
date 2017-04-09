@@ -3,55 +3,42 @@ import Radium from 'radium';
 import Draggable from 'react-draggable';
 
 /**
- * The Parameter module. Responsible rendering a Parameter component. Appears as a child component of the 
- *     ParameterContainer component. 
- * @module Parameter
- * @see module:ParameterContainer
- * @see {@link https://github.com/mzabriskie/react-draggable#draggable}
+ * The Parameter module. Renders a draggable fader that represents the parameter's value. Appears as a child component of the 
+ *     ParameterScaffold component. 
+ * @param {Object} props - Props passed down from the ParameterScaffold component
+ * @property {Number} props.value - The current value of the parameter
+ * @property {Boolean} props.isMapping - Represents whether or not the app is in axis mapping mode. If it is, the parameter will render
+ *     with a blue outline to notify the user that this parameter can receive an axis mapping
+ * @property {String} props.axisToMap - The current axis that is being mapped. If this is an empty string, it means axis mapping mode is
+ *     not active. If axis mapping mode is active
+ * @property {Function} props.handleDrag - Sets this parameter's value to a new value when the fader is dragged
+ * @property {Function} props.handleClick - If the app is in axis mapping mode, clicking the parameter will map the axisToMap to this 
+ *     parameter
  */
-
-/** 
- * Class responsible rendering Parameter components.
- * @extends external:ReactPureComponent 
- */
-class Parameter extends React.PureComponent {
-    /** Create the Parameter instance */
-    constructor() {
-        super();
-    }
-
-    /**
-     * Renders the Parameter.
-     */
-    render() {
-        const divStyle =
-            this.props.isMapping ?
-            Object.assign(styles.faderContainerDiv, styles.isMapping) :
-            Object.assign(styles.faderContainerDiv, styles.isNotMapping);
-        return (
-            <div style = {styles.div}>
-                <div
-                    style = {divStyle}
-                    onClick = {this.props.handleMappingClick}>
-                    <div style = {styles.slotDiv}></div>
-                    <Draggable
-                        axis = 'y'
-                        bounds = 'parent'
-                        disabled = {this.props.isMapping}
-                        position = {{x: 0, y: (1 - this.props.value) * styles.slotDiv.height}}
-                        onDrag = {(e, data) => {this.props.handleDrag(styles.slotDiv.height - data.y, styles.slotDiv.height)}}>
-                        <div style = {styles.faderDiv}></div>
-                    </Draggable>
-                </div>
+const Parameter = ({value, isMapping, axisToMap, handleDrag, handleClick}) => {
+    const divStyle = isMapping ?
+        Object.assign({}, styles.faderContainerDiv, styles.isMapping) :
+        Object.assign({}, styles.faderContainerDiv, styles.isNotMapping);
+    const slotHeight = styles.slotDiv.height;
+    return (
+        <div style = {styles.div}>
+            <div
+                style = {divStyle}
+                onClick = {() => isMapping ? handleClick(axisToMap) : null}>
+                <div style = {styles.slotDiv}></div>
+                <Draggable
+                    axis = 'y'
+                    bounds = 'parent'
+                    disabled = {isMapping}
+                    position = {{x: 0, y: slotHeight - value * slotHeight}}
+                    onDrag = {(e, data) => {handleDrag(slotHeight - data.y, slotHeight)}}>
+                    <div style = {styles.faderDiv}></div>
+                </Draggable>
             </div>
-        );
-    }
+        </div>
+    );
 }
 
-/**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
- */
 const styles = {
     div: {
         height: 100,
@@ -97,5 +84,4 @@ const styles = {
     }
 }
 
-/** The Parameter component */
 export default Radium(Parameter);

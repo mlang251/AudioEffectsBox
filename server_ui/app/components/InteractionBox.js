@@ -2,64 +2,46 @@ import React from 'react';
 import Radium from 'radium';
 
 /**
- * The InteractionBox module. Responsible rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
- *     as well as the position of the user's hand and the state of the InteractionBox. Appears as a child component of the 
- *     InteractionBoxContainer component.
- * @module InteractionBox
- * @see module:InteractionBoxContainer
+ * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
+ *     O(log32 N) gets and O(log32 N) persistent sets.
+ * @external Map
+ * @see {@link https://facebook.github.io/immutable-js/docs/#/Map}
  */
-
-/** 
- * Class responsible rendering the InteractionBox. This includes the 3D representation of the Leap field of vision,
- *     as well as the position of the user's hand and the state of the InteractionBox
- * @extends external:ReactPureComponent 
- */
-class InteractionBox extends React.PureComponent {
-    /** Create the InteractionBox component */
-    constructor() {
-        super();
-    }
-    
-    /**
-     * Renders the 3D representation of the Leap field of vision as well as pointer representing the location of the user's hand.
-     *     The color of the pointer depends on the current state of the InteractionBox.
-     */
-    render() {
-        const propStyles = this.props.style.toJS();
-        return (
-            <section style = {Object.assign({}, styles.container, propStyles.container)}>
-                <div style = {Object.assign({}, styles.cube, propStyles.cube)}>
-                    <div style = {Object.assign({}, styles.pointer, propStyles.pointer)}>
-                        <span style = {Object.assign({}, styles.shadow, propStyles.shadow)}></span>
-                    </div>
-                    <figure 
-                        id = 'front'
-                        style = {Object.assign({}, styles.figure, styles.front, propStyles.front)}></figure>
-                    <figure 
-                        id = 'back'
-                        style = {Object.assign({}, styles.figure, styles.back, propStyles.back)}></figure>
-                    <figure 
-                        id = 'right'
-                        style = {Object.assign({}, styles.figure, styles.right, propStyles.right)}></figure>
-                    <figure 
-                        id = 'left'
-                        style = {Object.assign({}, styles.figure, styles.left, propStyles.left)}></figure>
-                    <figure 
-                        id = 'top'
-                        style = {Object.assign({}, styles.figure, styles.top, propStyles.top)}></figure>
-                    <figure 
-                        id = 'bottom'
-                        style = {Object.assign({}, styles.figure, styles.bottom, propStyles.bottom)}></figure>
-                </div>
-            </section>
-        );
-    }
-}
 
 /**
- * A style object whose members are passed to elements when rendering.
- * @type {Object}
+ * The InteractionBox module. This renders the 3D representation of the Leap field of vision, as well as the position of the 
+ *     user's hand and the state of the InteractionBox. Appears as a child component of the InteractionBoxContainer component.
+ * @param {Object} props - The props passed down by the InteractionBoxContainer component
+ * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
+const InteractionBox = ({propStyles}) => (
+    <section style = {Object.assign(styles.container, propStyles.get('container').toJS())}>
+        <div style = {Object.assign(styles.cube, propStyles.get('cube').toJS())}>
+            <div style = {Object.assign(styles.pointer, propStyles.get('pointer').toJS())}>
+                <span style = {Object.assign(styles.shadow, propStyles.get('shadow').toJS())}></span>
+            </div>
+            <figure 
+                id = 'front'
+                style = {Object.assign(styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
+            <figure 
+                id = 'back'
+                style = {Object.assign(styles.figure, styles.back, propStyles.get('back').toJS())}></figure>
+            <figure 
+                id = 'right'
+                style = {Object.assign(styles.figure, styles.right, propStyles.get('right').toJS())}></figure>
+            <figure 
+                id = 'left'
+                style = {Object.assign(styles.figure, styles.left, propStyles.get('left').toJS())}></figure>
+            <figure 
+                id = 'top'
+                style = {Object.assign(styles.figure, styles.top, propStyles.get('top').toJS())}></figure>
+            <figure 
+                id = 'bottom'
+                style = {Object.assign(styles.figure, styles.bottom, propStyles.get('bottom').toJS())}></figure>
+        </div>
+    </section>
+);
+
 const styles = {
     container: {
         position: 'relative',
@@ -129,5 +111,4 @@ const styles = {
     },
 }
 
-/** The InteractionBox component */
 export default Radium(InteractionBox);
