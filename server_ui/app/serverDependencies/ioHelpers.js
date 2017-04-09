@@ -38,7 +38,7 @@ const createRoutes = (effectsList = List()) => {
     const soloEffect = effectsList.filter(effect => {
         return effect.isSoloing;
     });
-    const effectsToRoute = !soloEffect.isEmpty() ? soloEffect : effectsList;
+    const effectsToRoute = soloEffect.length > 0 ? soloEffect : effectsList;
     let isFirstInChain = true;
     effectsToRoute.forEach((effect, index) => {
         if (!effect.isBypassed) {

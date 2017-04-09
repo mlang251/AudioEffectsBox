@@ -37,8 +37,8 @@ module.exports.OscUdpPort = class OscUdpPort extends osc.UDPPort {
 
     /** When this.open is called in the constructor, log a message to the terminal */
     onReady() {
-        console.log(`OSC UDP port ${this.options.localPort ? this.options.localPort : this.options.remotePort} opened for 
-            address: ${this.address}`);
+        const port = this.options.localPort ? this.options.localPort : this.options.remotePort;
+        console.log(`OSC UDP port ${port} opened for address: ${this.address}`);
     }
 
 }
