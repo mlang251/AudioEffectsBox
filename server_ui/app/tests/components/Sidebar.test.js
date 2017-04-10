@@ -1,6 +1,6 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import Sidebar from '../../ReduxComponents/Sidebar';
+import Sidebar from '../../components/Sidebar';
 import {list as effectsList} from '../../JSON/effects.json';
 import {List} from 'immutable';
 

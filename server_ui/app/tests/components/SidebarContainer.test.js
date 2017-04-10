@@ -1,14 +1,16 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {mount} from 'enzyme';
-import SidebarContainer from '../../ReduxComponents/SidebarContainer';
-import Sidebar from '../../ReduxComponents/Sidebar';
+import thunk from 'redux-thunk';
+import SidebarContainer from '../../components/SidebarContainer';
+import Sidebar from '../../components/Sidebar';
 import {list as effectsList, effects} from '../../JSON/effects';
 import configureMockStore from 'redux-mock-store';
-import {List} from 'immutable';
-import {UPDATE_MAPPING, ADD_EFFECT} from '../../actions/actionTypes';
+import {List, Map} from 'immutable';
+import {UPDATE_MAPPING, UPDATE_EFFECTS} from '../../actions/actionTypes';
+import {updateEffects} from '../../actions/actionCreators';
 
-const store = configureMockStore()({});
+const store = configureMockStore([thunk])({});
 
 const setup = () => {
     const props = {
@@ -71,18 +73,18 @@ describe('SidebarContainer', () => {
             button.simulate('click');
             const effectType = props.effectsList.get(index).toLowerCase();
             const effectID = effects[effectType].IDs[0];
-            expect(store.dispatch).toHaveBeenCalledWith(
-                {
-                    type: ADD_EFFECT,
-                    options: {
-                        io: true
-                    },
-                    payload: {
-                        effectType: effectType,
-                        effectID: effectID
-                    }
-                }
-            );
+            const signalChain = List([Map({
+                effectType,
+                effectID,
+                isBypassed: false,
+                isSoloing: false
+            })]);
+            const expectedActions = [
+                updateEffects(signalChain, {
+                    io: true
+                })
+            ]
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 });
