@@ -8,9 +8,8 @@ import {list as effectsList, effects} from '../../JSON/effects';
 import configureMockStore from 'redux-mock-store';
 import {List, Map} from 'immutable';
 import {UPDATE_MAPPING, UPDATE_EFFECTS} from '../../actions/actionTypes';
-import {updateEffects} from '../../actions/actionCreators';
+import {updateEffects, updateMapping} from '../../actions/actionCreators';
 
-const store = configureMockStore([thunk])({});
 
 const setup = () => {
     const props = {
@@ -18,7 +17,10 @@ const setup = () => {
         usedIDs: List()
     };
     
-    spyOn(store, 'dispatch');
+    const store = configureMockStore([thunk])(Map({
+        effects: List()
+    }));
+
     const enzymeWrapper = mount(
         <Provider store = {store}>
             <SidebarContainer {...props} />
@@ -26,7 +28,8 @@ const setup = () => {
     );
     return {
         props,
-        enzymeWrapper
+        enzymeWrapper,
+        store
     };
 };
 
@@ -40,7 +43,7 @@ describe('SidebarContainer', () => {
         expect(sidebarWrapper.props().effectsList).toBe(props.effectsList);
     });
     test('should dispatch updateMapping for each axis button clicked', () => {
-        const {props, enzymeWrapper} = setup();
+        const {props, enzymeWrapper, store} = setup();
         const axes = ['x', 'y', 'z'];
 
         const sidebarContainerWrapper = enzymeWrapper.find(SidebarContainer)
@@ -48,22 +51,13 @@ describe('SidebarContainer', () => {
         const axisButtons = sidebarWrapper.find('button').slice(0, 3);
         axisButtons.forEach((button, index) => {
             button.simulate('click');
-            expect(store.dispatch).toHaveBeenCalledWith(
-                {
-                    type: UPDATE_MAPPING,
-                    options: {},
-                    payload: {
-                        mapToParameter: false,
-                        axis: axes[index],
-                        effectID: undefined,
-                        paramName: undefined
-                    }
-                }
-            );
+            const expectedActions = [updateMapping(false, axes[index])];
+            expect(store.getActions()).toEqual(expectedActions);
+            store.clearActions();
         });
     });
     test('should dispatch addEffect for each effect button clicked', () => {
-        const {props, enzymeWrapper} = setup();
+        const {props, enzymeWrapper, store} = setup();
         const axes = ['x', 'y', 'z'];
 
         const sidebarContainerWrapper = enzymeWrapper.find(SidebarContainer)
@@ -79,12 +73,9 @@ describe('SidebarContainer', () => {
                 isBypassed: false,
                 isSoloing: false
             })]);
-            const expectedActions = [
-                updateEffects(signalChain, {
-                    io: true
-                })
-            ]
+            const expectedActions = [updateEffects(signalChain, {io: true})];
             expect(store.getActions()).toEqual(expectedActions);
+            store.clearActions();
         });
     });
 });
