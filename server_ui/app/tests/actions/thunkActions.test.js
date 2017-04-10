@@ -6,9 +6,88 @@ import thunk from 'redux-thunk';
 const createMockStore = configureMockStore([thunk]);
 
 describe('thunk actions', () => {
+    test('should create an action to check used IDs and add the first ID in usableIDs', () => {
+        const store = createMockStore(Map({
+            effects: List()
+        }));
+        const effectType = 'reverb';
+        const usableIDs = ['reverb1', 'reverb2'];
+        const effectsList = List([Map({
+            effectType: effectType,
+            effectID: usableIDs[0],
+            isBypassed: false,
+            isSoloing: false
+        })]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.checkUsedIDs(effectType, usableIDs));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to check used IDs and add the second ID in usableIDs', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectType = 'reverb';
+        const usableIDs = ['reverb1', 'reverb2'];
+        const effectsList = List([
+            Map({
+                effectType: effectType,
+                effectID: usableIDs[0],
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: effectType,
+                effectID: usableIDs[1],
+                isBypassed: false,
+                isSoloing: false
+            }),
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.checkUsedIDs(effectType, usableIDs));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to check used IDs and not add any IDs', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb2',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+            ])
+        }));
+        const effectType = 'reverb';
+        const usableIDs = ['reverb1', 'reverb2'];
+        const expectedActions = []
+        store.dispatch(actions.checkUsedIDs(effectType, usableIDs));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
     test('should create an action to add an effect and emit routes', () => {
-        const store = createMockStore();
-        spyOn(store, 'dispatch');
+        const store = createMockStore(Map({
+            effects: List()
+        }));
         const effectType = 'reverb';
         const effectID = 'reverb1';
         const effectsList = List([Map({
@@ -17,11 +96,13 @@ describe('thunk actions', () => {
             isBypassed: false,
             isSoloing: false
         })]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
         store.dispatch(actions.addEffectAndEmit(effectType, effectID));
-        // expect(store.dispatch).toHaveBeenCalledWith(actions.updateEffects(effectsList, {
-        //     io: true,
-        //     newEffect: effectID
-        // }));
+        expect(store.getActions()).toEqual(expectedActions);
     });
     // test('should create an action to remove an effect', () => {
     //     const effectID = 'reverb1';
