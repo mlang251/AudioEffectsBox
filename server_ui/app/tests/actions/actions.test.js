@@ -7,7 +7,6 @@ describe('actions', () => {
         const message = 'Hello World';
         const expectedAction = {
             type: types.UPDATE_MESSAGE,
-            options: {},
             payload: {
                 message
             }
@@ -23,12 +22,12 @@ describe('actions', () => {
         })]);
         const expectedAction = {
             type: types.UPDATE_EFFECTS,
-            options: {},
+            options: {io: true},
             payload: {
                 effectsList
             }
         };
-        expect(actions.updateEffects(effectsList)).toEqual(expectedAction);
+        expect(actions.updateEffects(effectsList, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to update a parameter value', () => {
         const effectID = 'reverb1';
@@ -36,14 +35,14 @@ describe('actions', () => {
         const paramValue = 0.874;
         const expectedAction = {
             type: types.UPDATE_PARAMETER_VALUE,
-            options: {},
+            options: {io: true},
             payload: {
                 effectID,
                 paramName,
                 paramValue
             }
         };
-        expect(actions.updateParameterValue(effectID, paramName, paramValue)).toEqual(expectedAction);
+        expect(actions.updateParameterValue(effectID, paramName, paramValue, {io: true})).toEqual(expectedAction);
     });
     test('should create an action to turn on axis mapping mode', () => {
         const mapToParameter = false;
@@ -57,5 +56,20 @@ describe('actions', () => {
             }
         };
         expect(actions.updateMapping(mapToParameter, axis)).toEqual(expectedAction);
+    });
+    test('should create an action to remove an axis mapping', () => {
+        const effectID = 'reverb1';
+        const paramName = 'Liveness';
+        const axis = 'x';
+        const expectedAction = {
+            type: types.REMOVE_MAPPING,
+            options: {io: true},
+            payload: {
+                effectID,
+                paramName,
+                axis
+            }
+        };
+        expect(actions.removeMapping(effectID, paramName, axis, {io: true})).toEqual(expectedAction);
     });
 });
