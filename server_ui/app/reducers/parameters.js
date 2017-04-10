@@ -51,21 +51,22 @@ export const createInitialState = () => {
             z: Map({
                 effectID: '',
                 paramName: ''
-            }),
+            })
         }),
         effects: Map()
     }).asMutable();
     const defaultsKeys = Object.keys(defaults);
     for (let i = 0; i < defaultsKeys.length; i++) {
         const thisKey = defaultsKeys[i];
+        let effect = Map({}).asMutable();
         Object.keys(defaults[thisKey]).forEach(parameter => {
             const paramValue = defaults[thisKey][parameter];
-            defaults[thisKey][parameter] = Map({
+            effect = effect.set(parameter, Map({
                 paramValue,
                 axisName: ''
-            });
+            }));
         });
-        tempState = tempState.setIn(['effects', thisKey], Map(defaults[thisKey]));
+        tempState = tempState.setIn(['effects', thisKey], effect.asImmutable());
     };
     return tempState.asImmutable();
 }
