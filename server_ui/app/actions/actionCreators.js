@@ -294,9 +294,9 @@ export const removeMapping = (effectID, paramName, axis, options = {}) => {
 /**
  * Maps an axis to a parameter, so that motion along the corresponding axis in the Leap's field of vision changes the parameter's value.
  *     Gets the current axis mappings from the parameters in the store. If the axis is already mapped to a parameter, it dispatches
- *     removeMappingAndEmit with the current effectID, paramName, and the axis. It also iterates through all three axes to see if any of
+ *     removeMapping with the current effectID, paramName, and the axis. It also iterates through all three axes to see if any of
  *     them are currently mapped to the specific parameter that is about to get mapped. If it finds that this condition is true, it calls
- *     removeMappingAndEmit with the effectID, the paramName, and the axis it is mapped to. After both of these checks it dispatches
+ *     removeMapping with the effectID, the paramName, and the axis it is mapped to. After both of these checks it dispatches
  *     updateMapping with mapToParameter set to true, along with the axis, effectID, and paramName. For all dispatches within this action
  *     creator, the io option is set to true. This causes the action to be routed to the server through socket.io, so that the server 
  *     can emit a new effects route to the DSP application. Relies on redux-thunk and redux-socket.io.
@@ -312,14 +312,14 @@ export const setMappingAndEmit = (axis, effectID, paramName) => {
         const axes = ['x', 'y', 'z'];
         if (xyzMap.get(axis).get('effectID')) {
             const thisAxis = xyzMap.get(axis);
-            dispatch(removeMappingAndEmit(thisAxis.get('effectID'), thisAxis.get('paramName'), axis, {
+            dispatch(removeMapping(thisAxis.get('effectID'), thisAxis.get('paramName'), axis, {
                 io: true
             }));
         }
         for (let i = 0; i < axes.length; i++) {
             const thisAxis = xyzMap.get(axes[i]);
             if (thisAxis.get('effectID') == effectID && thisAxis.get('paramName') == paramName) {
-                dispatch(removeMappingAndEmit(effectID, paramName, axes[i], {
+                dispatch(removeMapping(effectID, paramName, axes[i], {
                     io: true
                 }));
             }

@@ -3,6 +3,7 @@ import * as actions from '../../actions/actionCreators';
 import {List, Map} from 'immutable';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import {createInitialState as parameterInitialState} from '../../reducers/parameters';
 const createMockStore = configureMockStore([thunk]);
 
 describe('thunk actions', () => {
@@ -104,78 +105,347 @@ describe('thunk actions', () => {
         store.dispatch(actions.addEffectAndEmit(effectType, effectID));
         expect(store.getActions()).toEqual(expectedActions);
     });
-    // test('should create an action to remove an effect', () => {
-    //     const effectID = 'reverb1';
-    //     const expectedAction = {
-    //         type: types.REMOVE_EFFECT,
-    //         options: {},
-    //         payload: {
-    //             effectID
-    //         }
-    //     };
-    //     expect(actions.removeEffect(effectID)).toEqual(expectedAction);
-    // });
-    // test('should create an action to reorder effects', () => {
-    //     const effectID = 'reverb1';
-    //     const direction = 'left';
-    //     const expectedAction = {
-    //         type: types.REORDER_EFFECTS,
-    //         options: {},
-    //         payload: {
-    //             effectID,
-    //             direction
-    //         }
-    //     };
-    //     expect(actions.reorderEffects(effectID, direction)).toEqual(expectedAction);
-    // });
-    // test('should create an action to toggle an effect bypass', () => {
-    //     const effectID = 'reverb1';
-    //     const expectedAction = {
-    //         type: types.TOGGLE_BYPASS,
-    //         options: {},
-    //         payload: {
-    //             effectID
-    //         }
-    //     };
-    //     expect(actions.toggleBypass(effectID)).toEqual(expectedAction);
-    // });
-    // test('should create an action to toggle an effect solo', () => {
-    //     const effectID = 'reverb1';
-    //     const expectedAction = {
-    //         type: types.TOGGLE_SOLO,
-    //         options: {},
-    //         payload: {
-    //             effectID
-    //         }
-    //     };
-    //     expect(actions.toggleSolo(effectID)).toEqual(expectedAction);
-    // });
-    // test('should create an action to map an axis to a parameter', () => {
-    //     const mapToParameter = true;
-    //     const axis = 'x';
-    //     const effectID = 'reverb1';
-    //     const paramName = 'Liveness';
-    //     const expectedAction = {
-    //         type: types.UPDATE_MAPPING,
-    //         options: {},
-    //         payload: {
-    //             mapToParameter,
-    //             axis,
-    //             effectID,
-    //             paramName
-    //         }
-    //     };
-    //     expect(actions.updateMapping(mapToParameter, axis, effectID, paramName)).toEqual(expectedAction);
-    // });
-    // test('should create an action to remove an axis mapping', () => {
-    //     const axis = 'x';
-    //     const expectedAction = {
-    //         type: types.REMOVE_MAPPING,
-    //         options: {},
-    //         payload: {
-    //             axis
-    //         }
-    //     };
-    //     expect(actions.removeMapping(axis)).toEqual(expectedAction);
-    // });
+    test('should create an action to remove an effect and emit routes', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const expectedActions = [
+            actions.updateEffects(List(), {
+                io: true
+            })
+        ]
+        store.dispatch(actions.removeEffectAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to reorder effects - move effect to the left', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb2',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+            ])
+        }));
+        const effectID = 'reverb2';
+        const direction = 'left';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.reorderEffectsAndEmit(effectID, direction));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to reorder effects - move effect to the right', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb2',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+            ])
+        }));
+        const effectID = 'reverb1';
+        const direction = 'right';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            }),
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.reorderEffectsAndEmit(effectID, direction));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect bypass - turn on bypass', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID,
+                isBypassed: true,
+                isSoloing: false
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleBypassAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect bypass - turn off bypass', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: true,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleBypassAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect solo - turn on solo', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: true
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleSoloAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect solo - turn on solo and turn off bypass', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: true,
+                    isSoloing: false
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: true
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleSoloAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect solo - turn on solo and turn off other effect solo', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: false
+                }),
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb2',
+                    isBypassed: false,
+                    isSoloing: true
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: true
+            }),
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb2',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleSoloAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to toggle an effect solo - turn off solo', () => {
+        const store = createMockStore(Map({
+            effects: List([
+                Map({
+                    effectType: 'reverb',
+                    effectID: 'reverb1',
+                    isBypassed: false,
+                    isSoloing: true
+                })
+            ])
+        }));
+        const effectID = 'reverb1';
+        const effectsList = List([
+            Map({
+                effectType: 'reverb',
+                effectID: 'reverb1',
+                isBypassed: false,
+                isSoloing: false
+            })
+        ]);
+        const expectedActions = [
+            actions.updateEffects(effectsList, {
+                io: true
+            })
+        ]
+        store.dispatch(actions.toggleSoloAndEmit(effectID));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to set an axis mapping', () => {
+        const store = createMockStore(Map({
+            parameters: parameterInitialState()
+        }));
+        const axis = 'x';
+        const effectID = 'reverb1';
+        const paramName = 'Liveness';
+        const expectedActions = [
+            actions.updateMapping(true, axis, effectID, paramName, {
+                io: true
+            })
+        ];
+        store.dispatch(actions.setMappingAndEmit(axis, effectID, paramName));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to set an axis mapping - nullify the current axis mapping', () => {
+        const axis = 'x';
+        const effectID = 'reverb1';
+        const paramName1 = 'Liveness';
+        const paramName2 = 'Wetness';
+        const tempState = parameterInitialState();
+        const initialState = tempState.updateIn(['effects', effectID, paramName1, 'axisName'], value => axis)
+            .updateIn(['mappings', axis, 'effectID'], value => effectID)
+            .updateIn(['mappings', axis, 'paramName'], value => paramName1)
+        const store = createMockStore(Map({
+            parameters: initialState
+        }));
+        const expectedActions = [
+            actions.removeMapping(effectID, paramName1, axis, {
+                io: true
+            }),
+            actions.updateMapping(true, axis, effectID, paramName2, {
+                io: true
+            })
+        ];
+        store.dispatch(actions.setMappingAndEmit(axis, effectID, paramName2));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    test('should create an action to set an axis mapping - nullify another axis mapping', () => {
+        const axis1 = 'x';
+        const axis2 = 'y';
+        const effectID = 'reverb1';
+        const paramName = 'Liveness';
+        const tempState = parameterInitialState();
+        const initialState = tempState.updateIn(['effects', effectID, paramName, 'axisName'], value => axis1)
+            .updateIn(['mappings', axis1, 'effectID'], value => effectID)
+            .updateIn(['mappings', axis1, 'paramName'], value => paramName)
+        const store = createMockStore(Map({
+            parameters: initialState
+        }));
+        const expectedActions = [
+            actions.removeMapping(effectID, paramName, axis1, {
+                io: true
+            }),
+            actions.updateMapping(true, axis2, effectID, paramName, {
+                io: true
+            })
+        ];
+        store.dispatch(actions.setMappingAndEmit(axis2, effectID, paramName));
+        expect(store.getActions()).toEqual(expectedActions);
+    });
 });
