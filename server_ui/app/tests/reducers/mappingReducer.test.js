@@ -7,7 +7,10 @@ describe('mapping reducer', () => {
         expect(mappingReducer(undefined, {
             type: undefined,
             payload: {}
-        })).toEqual(Map());
+        })).toEqual(Map({
+            isMapping: false,
+            currentAxis: ''
+        }));
     });
     test('should handle UPDATE_MAPPING - turn on mapping mode', () => {
         expect(mappingReducer(Map({
