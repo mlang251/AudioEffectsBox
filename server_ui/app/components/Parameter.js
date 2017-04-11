@@ -23,6 +23,7 @@ const Parameter = ({value, isMapping, axisToMap, handleDrag, handleClick}) => {
     return (
         <div style = {styles.div}>
             <div
+                id = 'setParameter'
                 style = {divStyle}
                 onClick = {() => isMapping ? handleClick(axisToMap) : null}>
                 <div style = {styles.slotDiv}></div>
