@@ -60,6 +60,5 @@ describe('Sidebar', () => {
         // const fader = enzymeWrapper.find(Draggable);
         // fader.simulate('drag');
         // console.log(props.handleDrag.mock.calls)
-        // expect(props.handleDrag.mock.calls[0][0]).toBe();
     });
 });
