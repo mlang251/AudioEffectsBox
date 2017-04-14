@@ -36,7 +36,8 @@ const leapToServerChannel = {
 
 /**
  * Handles events when the server receives data from the Leap. Logs the data to the console, sends the data to the Max application,
- *     and emits the data to the UI through the redux store
+ *     and emits the data to the UI through the redux store. The Leap data comes in at 70Hz, so the framerate is throttled to be 
+ *     about 24Hz.
  */
 let counter = 0;
 leapToServerChannel.portLeapCoords.on("message", msg => {

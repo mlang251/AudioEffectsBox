@@ -138,8 +138,8 @@ class LeapController(object):
         # Collect a new frame
         new_frame = self.controller.frame()
 
-        print new_frame.hands[0].pinch_strength
-        print self.pinch_threshold
+        # print new_frame.hands[0].pinch_strength
+        # print self.pinch_threshold
 
         # If user is pinching
         if new_frame.hands[0].pinch_strength > self.pinch_threshold:
