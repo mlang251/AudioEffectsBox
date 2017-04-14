@@ -38,17 +38,25 @@ const leapToServerChannel = {
  * Handles events when the server receives data from the Leap. Logs the data to the console, sends the data to the Max application,
  *     and emits the data to the UI through the redux store
  */
+let counter = 0;
 leapToServerChannel.portLeapCoords.on("message", msg => {
-    const data = msg.args;
-    console.log(`received message from leap: ${data}`);
-    serverToMaxChannel.portLeapCoords.sendData(data);
-    io.emit('action', {
-        type: 'RECEIVE_LEAP_DATA',
-        options: {},
-        payload: {
-            data
-        }
-    });
+    if (counter % 3 ==0) {
+        let data = msg.args;
+        data = data.map((axisValue, index) => {
+            return index == 2 ? 1 - axisValue : axisValue;
+        });
+        console.log(`received message from leap: ${data}`);
+        serverToMaxChannel.portLeapCoords.sendData(data);
+        io.emit('action', {
+            type: 'RECEIVE_LEAP_DATA',
+            options: {},
+            payload: {
+                data
+            }
+        });
+        counter = 0;
+    }
+    counter ++;
 });
 
 /**

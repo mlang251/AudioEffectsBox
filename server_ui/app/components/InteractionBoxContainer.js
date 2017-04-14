@@ -121,7 +121,7 @@ const createStyles = (interactionBox) => {
             transform: `
                 translateX(${x * width - minDimension/20}px) 
                 translateY(${-y * height + minDimension/20}px) 
-                translateZ(${-depth/2 + z * depth}px)
+                translateZ(${depth/2 - z * depth}px)
             `
         }),
         shadow: Map({
