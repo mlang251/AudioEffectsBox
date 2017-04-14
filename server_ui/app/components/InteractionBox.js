@@ -15,29 +15,29 @@ import Radium from 'radium';
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
 const InteractionBox = ({propStyles}) => (
-    <section style = {Object.assign(styles.container, propStyles.get('container').toJS())}>
-        <div style = {Object.assign(styles.cube, propStyles.get('cube').toJS())}>
-            <div style = {Object.assign(styles.pointer, propStyles.get('pointer').toJS())}>
-                <span style = {Object.assign(styles.shadow, propStyles.get('shadow').toJS())}></span>
+    <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
+        <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
+            <div style = {Object.assign({}, styles.pointer, propStyles.get('pointer').toJS())}>
+                <span style = {Object.assign({}, styles.shadow, propStyles.get('shadow').toJS())}></span>
             </div>
             <figure 
                 id = 'front'
-                style = {Object.assign(styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
             <figure 
                 id = 'back'
-                style = {Object.assign(styles.figure, styles.back, propStyles.get('back').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.back, propStyles.get('back').toJS())}></figure>
             <figure 
                 id = 'right'
-                style = {Object.assign(styles.figure, styles.right, propStyles.get('right').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.right, propStyles.get('right').toJS())}></figure>
             <figure 
                 id = 'left'
-                style = {Object.assign(styles.figure, styles.left, propStyles.get('left').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.left, propStyles.get('left').toJS())}></figure>
             <figure 
                 id = 'top'
-                style = {Object.assign(styles.figure, styles.top, propStyles.get('top').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.top, propStyles.get('top').toJS())}></figure>
             <figure 
                 id = 'bottom'
-                style = {Object.assign(styles.figure, styles.bottom, propStyles.get('bottom').toJS())}></figure>
+                style = {Object.assign({}, styles.figure, styles.bottom, propStyles.get('bottom').toJS())}></figure>
         </div>
     </section>
 );
