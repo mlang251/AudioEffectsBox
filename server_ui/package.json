@@ -6,6 +6,7 @@
   "scripts": {
     "prestart": "webpack",
     "start": "node app/appServer.js",
+    "electron": "npm start && ./node_modules/.bin/electron app/main.js",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
