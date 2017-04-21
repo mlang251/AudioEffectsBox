@@ -4,11 +4,12 @@
   "description": "",
   "main": "./app/main.js",
   "scripts": {
+    "build-watch": "webpack --watch",
     "prestart": "webpack",
     "start": "node app/appServer.js",
     "electron": "./node_modules/.bin/electron .",
     "test": "jest",
-    "test:watch": "npm test -- --watch"
+    "test-watch": "npm test -- --watch"
   },
   "keywords": [],
   "author": "",
