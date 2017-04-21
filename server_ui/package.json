@@ -2,11 +2,11 @@
   "name": "server_ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./app/main.js",
   "scripts": {
     "prestart": "webpack",
     "start": "node app/appServer.js",
-    "electron": "npm start && ./node_modules/.bin/electron .",
+    "electron": "./node_modules/.bin/electron .",
     "test": "jest",
     "test:watch": "npm test -- --watch"
   },
