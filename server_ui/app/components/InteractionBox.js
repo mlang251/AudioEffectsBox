@@ -19,7 +19,9 @@ import PointerContainer from './PointerContainer';
 const InteractionBox = ({propStyles}) => (
     <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
         <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
-            <PointerContainer diameter = {propStyles.get('pointerDiameter')} />
+            <PointerContainer 
+                diameter = {propStyles.getIn(['pointer', 'diameter'])}
+                color = {propStyles.getIn(['pointer', 'color'])} />
             <figure 
                 id = 'front'
                 style = {Object.assign({}, styles.figure, styles.front, propStyles.get('front').toJS())}></figure>

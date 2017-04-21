@@ -37,16 +37,10 @@ import InteractionBox from './InteractionBox';
  *     depending on the size of the browser window. It then computes which of the three dimensions can be at it's maximum 
  *     value within the browser, without making either of the other two dimensions go outside of their respective maximum values.
  *     This is done so that the interaction box is as large as possible without getting in the way of other components. It sets the 
- *     values of height, width, and depth accordingly. If coordinates are provided, the method sets the values of x, y, and z
- *     accordingly. It then chooses a color for the pointer (the ball that indicates where the user's hand is within the Leap's
- *     field of vision) depending on the interaction box status. If the user's hand is out of bounds, the pointer is red. If the
- *     user's hand is in bounds but tracking mode is off, the pointer is yellow. If the user's hand is in bounds and tracking mode
- *     is on, the pointer is green. The minimum dimension of the interaction box is calculated so that it can be used to render
- *     the pointer and it's shadow so that their sizees are 10 times less than the minimum dimension of the box.
+ *     values of height, width, and depth accordingly.
  * @param {InteractionBox} interactionBox - The current state of the interaction box
  * @returns {external:Map.<String, external:Map>} propStyles - The fully computed styles. This includes the dimensions of the interaction
- *     box, which is made using 3D CSS transforms, as well as the color and positioning of the pointer and it's shadow. The pointer and
- *     shadow are translated within the interaction box using 3D CSS transforms.
+ *     box, which is made using 3D CSS transforms, as well as the color and diameter of the pointer.
  */
 const createStyles = (interactionBox) => {
     const dimensions = interactionBox.get('dimensions');
@@ -94,21 +88,17 @@ const createStyles = (interactionBox) => {
         }
     }
 
-    const pointerColor = !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0';
-    const minDimension = Math.min(height, width, depth);
     return Map({
-        pointerDiameter: minDimension,
+        pointer: Map({
+            diameter: Math.min(height, width, depth),
+            color: !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0'
+        }),
         container: Map({
             height: height,
             width: width
         }),
         cube: Map({
             transform: `translateZ(-${depth}px) rotateX(-20deg)`
-        }),
-        pointer: Map({
-            height: minDimension/10,
-            width: minDimension/10,
-            backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`
         }),
         front: Map({
             height: height,
