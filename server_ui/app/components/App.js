@@ -4,7 +4,6 @@ import InteractionBoxPlaceholder from './InteractionBoxPlaceholder';
 import SignalChainContainer from './SignalChainContainer';
 import SidebarContainer from './SidebarContainer';
 import Radium from 'radium';
-import AppBar from 'material-ui/AppBar';
 
 /**
  * The App component. Responsible for rendering the App and child components. Appears as child component of AppContainer,
@@ -16,9 +15,6 @@ import AppBar from 'material-ui/AppBar';
  */
 const App = ({message, isConnected}) => (
     <div>
-        <AppBar 
-            showMenuIconButton = {false}
-            title = "Audio Expression Box" />
         <div 
             className = 'container-fluid'
             style = {styles.container}>
