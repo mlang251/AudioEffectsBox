@@ -14,27 +14,24 @@ import Radium from 'radium';
  *     used to render either the InteractionBoxContainer, or the InteractionBoxPlaceholder
  */
 const App = ({message, isConnected}) => (
-    <div>
+    <div 
+        className = 'container-fluid'
+        style = {styles.container}>
         <div 
-            className = 'container-fluid'
-            style = {styles.container}>
+            className = 'row'
+            style = {styles.div}>
             <div 
-                className = 'row'
+                className = 'col-sm-10'
                 style = {styles.div}>
-                <div 
-                    className = 'col-sm-10'
-                    style = {styles.div}>
-                    <p>Received message on port 57120: {message}</p>
-                    <section style = {styles.interactionBoxContainer}>
-                        {isConnected ? <InteractionBoxContainer /> : <InteractionBoxPlaceholder />}
-                    </section>
-                    <section style = {styles.signalChainContainer}>
-                        <SignalChainContainer />
-                    </section>
-                </div>
-                <div className = 'col-sm-2'>
-                    <SidebarContainer />
-                </div>
+                <section style = {styles.interactionBoxContainer}>
+                    {isConnected ? <InteractionBoxContainer /> : <InteractionBoxPlaceholder />}
+                </section>
+                <section style = {styles.signalChainContainer}>
+                    <SignalChainContainer />
+                </section>
+            </div>
+            <div className = 'col-sm-2'>
+                <SidebarContainer />
             </div>
         </div>
     </div>
@@ -42,21 +39,21 @@ const App = ({message, isConnected}) => (
 
 const styles = {
     container: {
-        height: '90vh'
+        height: '100%'
     },
     div: {
         height: '100%'
     },
     interactionBoxContainer: {
-        height: '50vh',
-        paddingTop: '5vh',
-        paddingBottom: '5vh',
+        height: 450,
+        paddingTop: 25,
+        paddingBottom: 25,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
     },
     signalChainContainer: {
-        height: '30vh',
+        height: 250,
         width: '90%',
         marginLeft: 'auto',
         marginRight: 'auto'

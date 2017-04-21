@@ -34,8 +34,8 @@ state = {
         isMapping: false,
         currentAxis: ''
     }),
+    coords: Immutable.List([0.456, 0.764, 0.897]),
     interactionBox: Immutable.Map({
-        coords: Immutable.List([0.456, 0.764, 0.897]),
         dimensions: Immutable.Map({
             Height: 20,
             Width: 20,

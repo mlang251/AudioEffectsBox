@@ -31,7 +31,7 @@ import InteractionBox from './InteractionBox';
  */
 
 /**
- * Reads the coordinates and status of the interaction box to create styles for the InteractionBox component. If dimensions are 
+ * Reads the status of the interaction box to create styles for the InteractionBox component. If dimensions are 
  *     provided, the method will read the height, width, and depth of the interaction box as seen by the Leap, and build a 3D
  *     representation of this field of vision to scale in the browser. It detects what the maximum size of the box can be,
  *     depending on the size of the browser window. It then computes which of the three dimensions can be at it's maximum 
@@ -49,7 +49,6 @@ import InteractionBox from './InteractionBox';
  *     shadow are translated within the interaction box using 3D CSS transforms.
  */
 const createStyles = (interactionBox) => {
-    const coords = interactionBox.get('coords');
     const dimensions = interactionBox.get('dimensions');
     const isInBounds = interactionBox.get('isInBounds');
     const isTracking = interactionBox.get('isTracking');
@@ -57,9 +56,6 @@ const createStyles = (interactionBox) => {
     let height = 0;
     let width = 0;
     let depth = 0;
-    let x = 0;
-    let y = 0;
-    let z = 0;
 
     if (!dimensions.isEmpty()) {
         const Height = dimensions.get('Height');
@@ -98,15 +94,10 @@ const createStyles = (interactionBox) => {
         }
     }
 
-    if (!coords.isEmpty()) {
-        x = coords.get(0);
-        y = coords.get(1);
-        z = coords.get(2);
-    }
-
     const pointerColor = !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0';
     const minDimension = Math.min(height, width, depth);
     return Map({
+        pointerDiameter: minDimension,
         container: Map({
             height: height,
             width: width
@@ -117,15 +108,7 @@ const createStyles = (interactionBox) => {
         pointer: Map({
             height: minDimension/10,
             width: minDimension/10,
-            backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
-            transform: `
-                translateX(${x * width - minDimension/20}px) 
-                translateY(${-y * height + minDimension/20}px) 
-                translateZ(${depth/2 - z * depth}px)
-            `
-        }),
-        shadow: Map({
-            transform: `rotateX(90deg) translateZ(-${y * height}px)`,
+            backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`
         }),
         front: Map({
             height: height,
