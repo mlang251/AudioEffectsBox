@@ -1,6 +1,5 @@
 import React from 'react';
 import Radium from 'radium';
-import PointerContainer from './PointerContainer';
 
 /**
  * The Immutable.js Map datatype. Immutable Map is an unordered Collection.Keyed of (key, value) pairs with
@@ -11,8 +10,7 @@ import PointerContainer from './PointerContainer';
 
 /**
  * The InteractionBox module. This renders the 3D representation of the Leap field of vision, as well as the position of the 
- *     user's hand and the state of the InteractionBox. Appears as a child component of the InteractionBoxContainer component,
- *     child component is PointerContainer.
+ *     user's hand and the state of the InteractionBox. Appears as a child component of the InteractionBoxContainer component.
  * @param {Object} props - The props passed down by the InteractionBoxContainer component
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
@@ -21,9 +19,9 @@ const InteractionBox = ({propStyles}) => {
     return (
     <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
         <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
-            <PointerContainer 
-                dimensions = {propStyles.getIn(['pointer', 'dimensions'])}
-                color = {propStyles.getIn(['pointer', 'color'])} />
+            <div style = {Object.assign({}, styles.pointer, propStyles.get('pointer').toJS())}>
+                <span style = {Object.assign({}, styles.shadow, propStyles.get('shadow').toJS())}></span>
+            </div>
             <figure 
                 id = 'front'
                 style = {Object.assign({}, styles.figure, styles.front, propStyles.get('front').toJS())}></figure>
@@ -63,6 +61,23 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         transformStyle: 'preserve-3d',
+    },
+    pointer: {
+        display: 'block',
+        position: 'absolute',
+        borderRadius: '50%',
+        backgroundColor: 'black',
+        bottom: 0,
+        left: 0,
+        margin: 0,
+        transformStyle: 'preserve-3d'
+    },
+    shadow: {
+        position: 'absolute',
+        width: '100%',
+        height: '100%',
+        background: 'radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4) 40%, rgba(0, 0, 0, 0) 50%)',
+        zIndex: -1
     },
     figure: {
         margin: 0,
