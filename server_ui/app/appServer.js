@@ -1,20 +1,6 @@
-const express = require('express');
 const io = require('socket.io')();
 const {OscUdpPort, DgramUdpPort} = require('./serverDependencies/ports');
 const {createRoutes, updateMapping, updateParameter} = require('./serverDependencies/ioHelpers');
-
-//Instantiate the server
-let app = express();
-app.use(express.static(__dirname + '/public'));
-
-//Server will serve ./public/index.html on http://localhost:3000
-let server = app.listen(3000, () => {
-    console.log('Listening on port 3000');
-});
-
-
-//Create the Server <--> UI web socket
-io.attach(server);
 
 
 //Create the Server --> MaxMSP UDP sockets
@@ -58,6 +44,7 @@ leapToServerChannel.portLeapCoords.on("message", msg => {
     }
     counter ++;
 });
+
 
 /**
  * Handles events when the server receives status updates from the Leap. Logs the data to the console, and emits the data to the UI 
@@ -104,6 +91,10 @@ maxToServerChannel.portAudioInputOptions.socket.on("message", (msg, rinfo) => {
 });
 
 
+
+
+//Create the Server <--> UI web socket
+io.listen(3000);
 
 
 //Handle all Server <--> UI communication through socket.io events
