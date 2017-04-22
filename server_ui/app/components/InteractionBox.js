@@ -14,9 +14,7 @@ import Radium from 'radium';
  * @param {Object} props - The props passed down by the InteractionBoxContainer component
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
-const InteractionBox = ({propStyles}) => {
-    console.log('interaction box');
-    return (
+const InteractionBox = ({propStyles}) => (
     <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
         <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
             <div style = {Object.assign({}, styles.pointer, propStyles.get('pointer').toJS())}>
@@ -43,7 +41,6 @@ const InteractionBox = ({propStyles}) => {
         </div>
     </section>
 );
-}
 
 const styles = {
     container: {
