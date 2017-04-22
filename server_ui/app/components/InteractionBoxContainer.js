@@ -31,25 +31,18 @@ import InteractionBox from './InteractionBox';
  */
 
 /**
- * Reads the coordinates and status of the interaction box to create styles for the InteractionBox component. If dimensions are 
+ * Reads the status of the interaction box to create styles for the InteractionBox component. If dimensions are 
  *     provided, the method will read the height, width, and depth of the interaction box as seen by the Leap, and build a 3D
  *     representation of this field of vision to scale in the browser. It detects what the maximum size of the box can be,
  *     depending on the size of the browser window. It then computes which of the three dimensions can be at it's maximum 
  *     value within the browser, without making either of the other two dimensions go outside of their respective maximum values.
  *     This is done so that the interaction box is as large as possible without getting in the way of other components. It sets the 
- *     values of height, width, and depth accordingly. If coordinates are provided, the method sets the values of x, y, and z
- *     accordingly. It then chooses a color for the pointer (the ball that indicates where the user's hand is within the Leap's
- *     field of vision) depending on the interaction box status. If the user's hand is out of bounds, the pointer is red. If the
- *     user's hand is in bounds but tracking mode is off, the pointer is yellow. If the user's hand is in bounds and tracking mode
- *     is on, the pointer is green. The minimum dimension of the interaction box is calculated so that it can be used to render
- *     the pointer and it's shadow so that their sizees are 10 times less than the minimum dimension of the box.
+ *     values of height, width, and depth accordingly.
  * @param {InteractionBox} interactionBox - The current state of the interaction box
  * @returns {external:Map.<String, external:Map>} propStyles - The fully computed styles. This includes the dimensions of the interaction
- *     box, which is made using 3D CSS transforms, as well as the color and positioning of the pointer and it's shadow. The pointer and
- *     shadow are translated within the interaction box using 3D CSS transforms.
+ *     box, which is made using 3D CSS transforms, as well as the color and diameter of the pointer.
  */
 const createStyles = (interactionBox) => {
-    const coords = interactionBox.get('coords');
     const dimensions = interactionBox.get('dimensions');
     const isInBounds = interactionBox.get('isInBounds');
     const isTracking = interactionBox.get('isTracking');
@@ -57,9 +50,6 @@ const createStyles = (interactionBox) => {
     let height = 0;
     let width = 0;
     let depth = 0;
-    let x = 0;
-    let y = 0;
-    let z = 0;
 
     if (!dimensions.isEmpty()) {
         const Height = dimensions.get('Height');
@@ -98,34 +88,21 @@ const createStyles = (interactionBox) => {
         }
     }
 
-    if (!coords.isEmpty()) {
-        x = coords.get(0);
-        y = coords.get(1);
-        z = coords.get(2);
-    }
-
-    const pointerColor = !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0';
-    const minDimension = Math.min(height, width, depth);
     return Map({
+        pointer: Map({
+            dimensions: Map({
+                height,
+                width,
+                depth
+            }),
+            color: !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0'
+        }),
         container: Map({
             height: height,
             width: width
         }),
         cube: Map({
             transform: `translateZ(-${depth}px) rotateX(-20deg)`
-        }),
-        pointer: Map({
-            height: minDimension/10,
-            width: minDimension/10,
-            backgroundImage: `radial-gradient(circle at ${minDimension/40}px ${minDimension/40}px, ${pointerColor}, #222)`,
-            transform: `
-                translateX(${x * width - minDimension/20}px) 
-                translateY(${-y * height + minDimension/20}px) 
-                translateZ(${depth/2 - z * depth}px)
-            `
-        }),
-        shadow: Map({
-            transform: `rotateX(90deg) translateZ(-${y * height}px)`,
         }),
         front: Map({
             height: height,
@@ -175,6 +152,7 @@ const createStyles = (interactionBox) => {
  * @property {external:Map.<String, external:Map>} props.propStyles - The fully computed styles to pass down to the InteractionBox
  */
 const mapStateToProps = (state) => {
+    //TODO: need to cache propStyles so that createStyles does not get called if the Pointer re-renders with new coords
     return {
         propStyles: createStyles(state.get('interactionBox'))
     };
