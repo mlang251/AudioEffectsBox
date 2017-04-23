@@ -16,11 +16,13 @@ import PointerContainer from './PointerContainer';
  * @param {Object} props - The props passed down by the InteractionBoxContainer component
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the InteractionBoxContainer component
  */
-const InteractionBox = ({propStyles}) => (
+const InteractionBox = ({propStyles}) => {
+    console.log('interaction box');
+    return (
     <section style = {Object.assign({}, styles.container, propStyles.get('container').toJS())}>
         <div style = {Object.assign({}, styles.cube, propStyles.get('cube').toJS())}>
             <PointerContainer 
-                diameter = {propStyles.getIn(['pointer', 'diameter'])}
+                dimensions = {propStyles.getIn(['pointer', 'dimensions'])}
                 color = {propStyles.getIn(['pointer', 'color'])} />
             <figure 
                 id = 'front'
@@ -43,6 +45,7 @@ const InteractionBox = ({propStyles}) => (
         </div>
     </section>
 );
+}
 
 const styles = {
     container: {

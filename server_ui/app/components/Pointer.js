@@ -13,11 +13,14 @@ import Radium from 'radium';
  * @param {Object} props - The props passed down by the PointerContainer component
  * @property {external:Map.<String, external:Map>} props.propStyles - The styles computed by the PointerContainer component
  */
-const Pointer = (propStyles) => (
+const Pointer = ({propStyles}) => {
+    console.log('pointer')
+    return (
     <div style = {Object.assign({}, styles.pointer, propStyles.get('pointer').toJS())}>
         <span style = {Object.assign({}, styles.shadow, propStyles.get('shadow').toJS())}></span>
     </div>
 );
+}
 
 const styles = {
     pointer: {

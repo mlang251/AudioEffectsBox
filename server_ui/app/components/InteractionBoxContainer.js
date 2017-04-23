@@ -90,7 +90,11 @@ const createStyles = (interactionBox) => {
 
     return Map({
         pointer: Map({
-            diameter: Math.min(height, width, depth),
+            dimensions: Map({
+                height,
+                width,
+                depth
+            }),
             color: !isInBounds ? '#C00' : isTracking ? '#080' : '#EE0'
         }),
         container: Map({
@@ -148,6 +152,7 @@ const createStyles = (interactionBox) => {
  * @property {external:Map.<String, external:Map>} props.propStyles - The fully computed styles to pass down to the InteractionBox
  */
 const mapStateToProps = (state) => {
+    //TODO: need to cache propStyles so that createStyles does not get called if the Pointer re-renders with new coords
     return {
         propStyles: createStyles(state.get('interactionBox'))
     };

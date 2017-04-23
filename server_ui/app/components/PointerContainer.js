@@ -23,10 +23,15 @@ import Pointer from './Pointer';
  * @returns {external:Map.<String, external:Map>} propStyles - The fully computed styles. This includes the positioning of the pointer 
  *     and it's shadow. The pointer and shadow are translated within the interaction box using 3D CSS transforms.
  */
-const createStyles = (coords, diameter, color) => {
+const createStyles = (coords, dimensions, color) => {
     const x = coords.get(0);
     const y = coords.get(1);
     const z = coords.get(2);
+
+    const height = dimensions.get('height');
+    const width = dimensions.get('width');
+    const depth = dimensions.get('depth');
+    const diameter = Math.min(height, width, depth);
 
     return Map({
         pointer: Map({
@@ -56,7 +61,7 @@ const createStyles = (coords, diameter, color) => {
  */
 const mapStateToProps = (state, ownProps) => {
     return {
-        propStyles: createStyles(state.get('coords'), ownProps.diameter, ownProps.color)
+        propStyles: createStyles(state.get('coords'), ownProps.dimensions, ownProps.color)
     }
 }
 
